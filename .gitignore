@@ -21,7 +21,8 @@ dist/
 htmlcov/
 
 # IDE and operating system
-.vscode/
+.vscode/*
+!.vscode/tasks.json
 .idea/
 .DS_Store
 Thumbs.db

@@ -20,9 +20,16 @@ dist/
 .coverage
 htmlcov/
 
+# Logs
+*.log
+
 # IDE and operating system
 .vscode/*
 !.vscode/tasks.json
 .idea/
 .DS_Store
 Thumbs.db
+
+data/test
+AGENTS.md
+ai-handoff/

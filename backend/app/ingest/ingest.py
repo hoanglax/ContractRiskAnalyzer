@@ -19,6 +19,7 @@ import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from app.ingest import vlm
 from app.ingest.text import clean, implausible_words, readable_ratio
 
 MAX_BYTES = 50 * 1024 * 1024
@@ -418,6 +419,29 @@ def strip_running_lines(pages: list[list[str]]) -> tuple[list[list[str]], list[s
     return out, removed
 
 
+PDF_OCR_DPI = 150
+
+
+def _render_page(data: bytes, n: int) -> bytes:
+    """Page n (1-based) of a PDF as PNG bytes."""
+    exe = shutil.which("pdftoppm")
+    if exe is None:
+        raise vlm.VlmError("pdftoppm (poppler-utils) is required to OCR PDF pages")
+    with tempfile.TemporaryDirectory(prefix="ingest_") as d:
+        src = Path(d, "in.pdf")
+        src.write_bytes(data)
+        cmd = [exe, "-png", "-r", str(PDF_OCR_DPI), "-f", str(n), "-l", str(n),
+               "-singlefile", str(src), str(Path(d, "page"))]
+        try:
+            r = subprocess.run(cmd, capture_output=True, timeout=120)
+        except subprocess.TimeoutExpired:
+            raise vlm.VlmError(f"rendering page {n} timed out") from None
+        out = Path(d, "page.png")
+        if r.returncode != 0 or not out.exists():
+            raise vlm.VlmError(f"could not render page {n}")
+        return out.read_bytes()
+
+
 def _pdf_page_count(data: bytes) -> int | None:
     exe = shutil.which("pdfinfo")
     if exe is None:
@@ -448,10 +472,30 @@ def route_pdf(data: bytes, doc: Document) -> None:
         quality.append(round(q, 3) if text else None)
     routes = ["native"] * len(raw_pages)
 
-    # 2. OCR is not ported yet: flag the pages that need it
+    # 2. OCR the pages without a usable text layer, if an engine is configured
     ocr_info = {}
+    use_ocr = bool(bad) and vlm.engine() == "vlm"
+    ocr_done = []
     for n, why in bad:
-        doc.warnings.append(f"page {n}: {why}; it looks scanned and needs OCR (OCR is not available)")
+        if not use_ocr:
+            doc.warnings.append(f"page {n}: {why}; it looks scanned and needs OCR (OCR is not available)")
+            continue
+        try:
+            ocr_text, info = vlm.transcribe(_render_page(data, n), "image/png")
+        except vlm.VlmError as e:
+            doc.warnings.append(f"page {n}: {why}; OCR failed ({e})")
+            continue
+        ocr_text = clean(ocr_text)
+        if not ocr_text:
+            doc.warnings.append(f"page {n}: {why}; OCR found no text")
+            continue
+        texts[n - 1], routes[n - 1] = ocr_text, "vision"
+        quality[n - 1] = round(readable_ratio(ocr_text), 3)
+        ocr_done.append(n)
+        ocr_info = {"model": info["model"]}
+    if ocr_done:
+        doc.warnings.append(f"pages {', '.join(map(str, ocr_done))} were read by a vision model "
+                            f"({ocr_info['model']}); check them against the original")
 
     # 3. strip running headers/footers across all pages, native and OCR'd alike
     page_lines, removed = strip_running_lines([t.split("\n") for t in texts])
@@ -475,6 +519,28 @@ def route_pdf(data: bytes, doc: Document) -> None:
                "removed_lines": removed, "low_text_pages": [n for n, _ in bad], "ocr": ocr_info}
 
 
+# ---------------- images (vision model) ----------------
+
+IMAGE_MIME = {"png": "image/png", "jpeg": "image/jpeg", "webp": "image/webp"}
+
+
+def route_image(data: bytes, doc: Document) -> None:
+    kind = doc.source["detected_type"]
+    if vlm.engine() != "vlm":
+        raise IngestError("not_implemented",
+                          "image input needs OCR; set OCR_API_KEY and OCR_MODEL (see ingest/vlm.py)")
+    try:
+        raw, info = vlm.transcribe(data, IMAGE_MIME[kind])
+    except vlm.VlmError as e:
+        raise IngestError("conversion_failed", str(e)) from None
+    doc.text = clean(raw)
+    doc.blocks = line_blocks(doc.text, page=1)
+    doc.pages = [Page(1, "vision", len(doc.text), round(readable_ratio(doc.text), 3))]
+    doc.warnings.append(f"text was read from the image by a vision model ({info['model']}); "
+                        "check it against the original")
+    doc.raw = {"model": info["model"], "usage": info["usage"]}
+
+
 # ---------------- entry point ----------------
 
 ROUTES = {   # kind -> fn(data: bytes, doc: Document) -> None
@@ -482,6 +548,7 @@ ROUTES = {   # kind -> fn(data: bytes, doc: Document) -> None
     "docx": route_docx,
     "doc": route_doc,
     "pdf": route_pdf,
+    **dict.fromkeys(IMAGE_MIME, route_image),
 }
 
 

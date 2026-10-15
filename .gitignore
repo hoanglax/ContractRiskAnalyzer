@@ -31,5 +31,6 @@ htmlcov/
 Thumbs.db
 
 data/test
+docs/note/
 AGENTS.md
 ai-handoff/

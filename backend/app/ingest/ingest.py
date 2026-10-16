@@ -176,6 +176,7 @@ def sniff(data: bytes) -> str:
 MIN_CHARS = 300      # less than this after ingest = nothing to analyse
 MIN_READABLE = 0.5   # readable_ratio floor; real pages >= 0.935, byte garbage ~0.01
 MAX_IMPLAUSIBLE = 0.04   # implausible_words share; real texts <= 0.016, mis-encoded PDF 0.086
+MIN_STRUCTURE_CHARS = 1500   # below this, a missing clause map is not worth a warning
 MIN_MARKED_WORDS = 50    # too few Vietnamese words -> the ratio is noise
 
 
@@ -591,4 +592,29 @@ def ingest(src: str | Path | bytes, filename: str | None = None) -> Document:
             f"{len(bad)}/{marked} words ({len(bad) / marked:.0%}) are impossible as Vietnamese "
             f"(e.g. {', '.join(repr(w) for w in bad[:4])}); the text layer is probably mis-encoded "
             f"and quotes may not match the visible document")
+    add_structure(doc)
     return doc
+
+
+def structure_llm_enabled() -> bool:
+    return os.environ.get("STRUCTURE_LLM", "auto") != "off"
+
+
+def add_structure(doc: Document) -> None:
+    """Fill doc.structure (clause map). Never raises: a failure costs the clause map, not the document."""
+    try:
+        from app.ingest.structure import segment
+        from app.ingest.structure_llm import segment_auto
+        if structure_llm_enabled():
+            doc.structure, dg, warns = segment_auto(doc.text)
+        else:
+            doc.structure, dg = segment(doc.text)
+            warns = [f"structure: tier-1 not confident ({', '.join(dg.reasons)}); LLM fallback is off"] if dg.needs_fallback else []
+        if len(doc.text) >= MIN_STRUCTURE_CHARS:           # a short note or form is not expected to have a clause map
+            doc.warnings.extend(warns)
+        doc.raw["structure"] = {"layout": dg.layout, "n_headings": dg.n_headings, "numbers": dg.numbers,
+                                "dups": dg.dups, "gaps": dg.gaps, "resets": dg.resets, "reasons": dg.reasons,
+                                "tier": 2 if "tier2" in dg.reasons else 1}
+    except Exception as e:                                  # noqa: BLE001 - see docstring
+        doc.structure = Structure()
+        doc.warnings.append(f"structure: clause map failed ({type(e).__name__}: {e})")

@@ -34,3 +34,5 @@ data/test
 docs/note/
 AGENTS.md
 ai-handoff/
+backend/cache/
+backend/llm.toml

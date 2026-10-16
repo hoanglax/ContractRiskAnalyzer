@@ -1,0 +1,36 @@
+# LLM endpoints for the pipeline. To customise: copy this file to `llm.toml` (same folder as this file; it is git-ignored, so keys stay
+# out of the repo) or point PIPELINE_LLM_CONFIG at any file. With no file at all the built-in default below is used.
+#
+# Everything speaks the OpenAI-style /chat/completions API (llama-server, vLLM, OpenRouter, OpenAI, ...).
+# A task picks a profile; swapping model or provider is one line in [tasks].
+
+default_profile = "local27b"
+
+[tasks]                              # task name -> profile name (anything missing uses default_profile)
+structure_fallback = "local27b"      # tier-2 clause map (app/ingest/structure_llm.py)
+# detection = "local27b"             # later milestones
+
+[profiles.local27b]                  # the user's normal llama-server (27B, text only)
+base_url = "http://127.0.0.1:9876/v1"
+model = "local"                      # llama-server ignores this; hosted APIs need the real model id
+api_key = ""                         # literal key, or leave empty and use api_key_env
+api_key_env = ""                     # e.g. "OPENROUTER_API_KEY": read from the environment at call time
+timeout_s = 600
+allow_remote = false                 # contract text never leaves the machine unless a profile sets this to true
+
+[profiles.local27b.sampling]         # merged into the request body as-is
+temperature = 0
+max_tokens = 3000
+
+[profiles.local27b.extra_body]       # also merged as-is; server-specific switches go here
+chat_template_kwargs = { enable_thinking = false }     # llama-server / Qwen: thinking off
+
+# Example hosted profile (uncomment, then point a task at it). allow_remote = true is what lets contract text be sent.
+# [profiles.openrouter]
+# base_url = "https://openrouter.ai/api/v1"
+# model = "anthropic/claude-sonnet-4.5"
+# api_key_env = "OPENROUTER_API_KEY"
+# allow_remote = true
+# [profiles.openrouter.sampling]
+# temperature = 0
+# max_tokens = 3000

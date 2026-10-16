@@ -51,6 +51,8 @@ def main():
     ap.add_argument("--db", type=Path, default=DEFAULT_DB)
     ap.add_argument("--mode", choices=["lexical", "dense", "hybrid"], default="lexical")
     ap.add_argument("--tag", help="embedding index tag (dense / hybrid)")
+    ap.add_argument("--rerank", type=int, metavar="POOL", help="rerank the top POOL hits with the cross-encoder")
+    ap.add_argument("--reranker", choices=["local", "server"], default="local")
     ap.add_argument("--quiet", action="store_true", help="summary only")
     a = ap.parse_args()
     rows = [json.loads(l) for l in EVAL.read_text(encoding="utf-8").splitlines() if l.strip()]
@@ -63,7 +65,10 @@ def main():
         from app.legal.dense import DenseRetriever, HybridRetriever
         dense = DenseRetriever(a.tag, a.db)
         retriever = dense if a.mode == "dense" else HybridRetriever(lex, dense)
-    stats, detail = evaluate(retriever, rows, a.k)
+    if a.rerank:
+        from app.legal.rerank import RerankedRetriever, ServerReranker
+        retriever = RerankedRetriever(retriever, ServerReranker() if a.reranker == "server" else None, pool=a.rerank)
+    stats, detail = evaluate(retriever, rows, a.k, pool=a.k if a.rerank else 50)
     for g, s in stats.items():
         print(f"{g:12} n={s['n']:2}  recall@{a.k}={s[f'recall@{a.k}']:.3f}  mrr={s['mrr']:.3f}")
     if a.quiet:

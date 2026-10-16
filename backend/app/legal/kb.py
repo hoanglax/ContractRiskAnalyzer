@@ -14,6 +14,7 @@ as a verbatim slice of the source (`verify`).
     python -m app.legal.kb search "bên thuê cho thuê lại nhà ở" -k 5
 """
 import argparse
+import os
 import re
 import sqlite3
 import unicodedata
@@ -31,12 +32,31 @@ DEFAULT_CORPUS = [REPO / "data" / "legal_corpus", REPO / "data" / "test" / "kb"]
 SKIP = {"nd96_2024_ma_template"}            # superseded placeholder, by file stem
 
 
+def _pyvi():
+    try:
+        from pyvi import ViTokenizer
+        return ViTokenizer.tokenize
+    except ImportError:
+        return None
+
+
+TOKENIZER = os.environ.get("KB_TOKENIZER", "pairs")        # pairs | pyvi | both
+
+
 def tokenize(text: str) -> list[str]:
-    """Lowercase NFC syllables plus adjacent-syllable pairs ("cho_thuê"). Vietnamese words are mostly
-    two syllables, so pairs approximate word segmentation without a dependency; swap in pyvi here
-    if the retrieval eval says it is worth it."""
+    """FTS terms. "pairs": lowercase NFC syllables plus adjacent-syllable pairs ("cho_thuê"), no
+    dependency. "pyvi": syllables plus pyvi word tokens ("hợp_đồng"). "both": the union. The index and
+    the query must use the same setting, so changing it needs a rebuild."""
     syl = re.findall(r"\w+", unicodedata.normalize("NFC", text).lower())
-    return syl + [f"{a}_{b}" for a, b in zip(syl, syl[1:])]
+    out = list(syl)
+    if TOKENIZER in ("pairs", "both"):
+        out += [f"{a}_{b}" for a, b in zip(syl, syl[1:])]
+    if TOKENIZER in ("pyvi", "both"):
+        seg = _pyvi()
+        if seg is None:
+            raise RuntimeError("KB_TOKENIZER=pyvi needs `pip install pyvi`")
+        out += [w for w in re.findall(r"\w+", seg(unicodedata.normalize("NFC", text).lower())) if "_" in w]
+    return out
 
 
 SCHEMA = """
@@ -91,6 +111,16 @@ def build(corpus: list[Path] | None = None, db_path: Path = DEFAULT_DB) -> dict:
     con.commit()
     con.close()
     return {"articles": n_art, "chunks": n_chunk, "per_law": per_law, "db": str(db_path)}
+
+
+def hits_for(con: sqlite3.Connection, scored: list[tuple[int, float]]) -> list[Hit]:
+    """[(chunk_id, score)] -> Hits, in the given order."""
+    out = []
+    for cid, score in scored:
+        r = con.execute("SELECT c.article_id, a.law, a.dieu_no, c.ref, c.text FROM chunks c "
+                        "JOIN articles a ON a.id = c.article_id WHERE c.id = ?", (cid,)).fetchone()
+        out.append(Hit(cid, r[0], r[1], r[2], r[3], score, r[4]))
+    return out
 
 
 class LexicalRetriever:

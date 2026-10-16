@@ -49,13 +49,25 @@ def main():
     ap.add_argument("--split", choices=["dev", "test"])
     ap.add_argument("-k", type=int, default=5)
     ap.add_argument("--db", type=Path, default=DEFAULT_DB)
+    ap.add_argument("--mode", choices=["lexical", "dense", "hybrid"], default="lexical")
+    ap.add_argument("--tag", help="embedding index tag (dense / hybrid)")
+    ap.add_argument("--quiet", action="store_true", help="summary only")
     a = ap.parse_args()
     rows = [json.loads(l) for l in EVAL.read_text(encoding="utf-8").splitlines() if l.strip()]
     if a.split:
         rows = [r for r in rows if r["split"] == a.split]
-    stats, detail = evaluate(LexicalRetriever(a.db), rows, a.k)
+    lex = LexicalRetriever(a.db)
+    if a.mode == "lexical":
+        retriever = lex
+    else:
+        from app.legal.dense import DenseRetriever, HybridRetriever
+        dense = DenseRetriever(a.tag, a.db)
+        retriever = dense if a.mode == "dense" else HybridRetriever(lex, dense)
+    stats, detail = evaluate(retriever, rows, a.k)
     for g, s in stats.items():
         print(f"{g:12} n={s['n']:2}  recall@{a.k}={s[f'recall@{a.k}']:.3f}  mrr={s['mrr']:.3f}")
+    if a.quiet:
+        return
     print("\nper question (rank of gold; - = not in top 50; abstain rows are unscored):")
     for qid, rk, top in detail:
         t = f"{top.law} Điều {top.dieu_no}" if top else "no hit"

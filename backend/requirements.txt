@@ -1,3 +1,10 @@
 
 fastapi==0.143.0
 uvicorn[standard]==0.54.0
+
+# statute retrieval (app/legal)
+numpy==2.5.4
+pyvi==0.1.1
+transformers==5.20.0
+# CPU build: pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+torch==2.14.1

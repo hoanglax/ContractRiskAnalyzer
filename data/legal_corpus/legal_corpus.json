@@ -1,0 +1,21 @@
+{
+  "documents": [
+    {
+      "doc_id": "DEMO_VAN_BAN_001",
+      "name": "Văn bản mẫu phục vụ kiểm thử",
+      "document_number": null,
+      "status": "CHUA_XAC_MINH",
+      "source_url": null
+    }
+  ],
+  "legal_articles": [
+    {
+      "article_id": "DEMO_VAN_BAN_001_DIEU_001",
+      "doc_id": "DEMO_VAN_BAN_001",
+      "article_number": "Điều 1",
+      "title": "Điều khoản mẫu",
+      "full_text": "Nội dung mẫu dùng để kiểm tra luồng nhập dữ liệu và tìm kiếm.",
+      "source_url": null
+    }
+  ]
+}

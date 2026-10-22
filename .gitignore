@@ -20,6 +20,9 @@ dist/
 .coverage
 htmlcov/
 
+# Logs
+*.log
+
 # IDE and operating system
 .vscode/*
 !.vscode/tasks.json
@@ -27,6 +30,12 @@ htmlcov/
 .DS_Store
 Thumbs.db
 
+data/test
+docs/note/
+AGENTS.md
+ai-handoff/
+backend/cache/
+backend/llm.toml
 # SQLite runtime data
 backend/data/*.db
 backend/data/*.db-shm

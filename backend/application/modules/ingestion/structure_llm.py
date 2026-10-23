@@ -15,13 +15,13 @@ import re
 from pathlib import Path
 from typing import Callable
 
-from app import llm
-from app.ingest.ingest import Clause, Structure
-from app.ingest.structure import Diagnostics, candidates, segment
+from application.adapters import llm
+from application.modules.ingestion.ingest import Clause, Structure
+from application.modules.ingestion.structure import Diagnostics, candidates, segment
 
 TASK = "structure_fallback"
 PROMPT_VERSION = "1"
-CACHE = Path(__file__).resolve().parents[2] / "cache" / "structure"
+CACHE = Path(__file__).resolve().parents[3] / "cache" / "structure"
 LINE_CAP = 160                      # characters of each line shown to the model
 MIN_HEADINGS = 2
 

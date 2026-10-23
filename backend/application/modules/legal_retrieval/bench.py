@@ -1,6 +1,6 @@
 """Run every retrieval configuration against the eval set and print one comparison table.
 
-    python -m app.legal.bench [--k 5] [--json OUT]
+    python -m application.modules.legal_retrieval.bench [--k 5] [--json OUT]
 
 Configurations: lexical with each tokenizer (pairs | pyvi | both), dense per embedding index
 (backend/cache/vec_*.npy), and hybrid (RRF) of each dense index with each lexical index. Reports
@@ -15,8 +15,8 @@ import sys
 import time
 from pathlib import Path
 
-from app.legal import eval as leval
-from app.legal.kb import DEFAULT_DB, LexicalRetriever
+from application.modules.legal_retrieval import eval as leval
+from application.modules.legal_retrieval.kb import DEFAULT_DB, LexicalRetriever
 
 CACHE = DEFAULT_DB.parent
 TOKENIZERS = ("pairs", "pyvi", "both")
@@ -26,7 +26,7 @@ def lexical_db(tok: str) -> Path:
     path = CACHE / f"legal_kb_{tok}.db"
     if not path.exists():                                   # tokenizer is read at import, so build in a child
         env = {**os.environ, "KB_TOKENIZER": tok}
-        subprocess.run([sys.executable, "-m", "app.legal.kb", "build", "--db", str(path)], env=env,
+        subprocess.run([sys.executable, "-m", "application.modules.legal_retrieval.kb", "build", "--db", str(path)], env=env,
                        check=True, capture_output=True)
     return path
 
@@ -42,7 +42,7 @@ def main():
     ap.add_argument("--k", type=int, default=5)
     ap.add_argument("--json", type=Path)
     a = ap.parse_args()
-    from app.legal.dense import DenseRetriever, HybridRetriever
+    from application.modules.legal_retrieval.dense import DenseRetriever, HybridRetriever
     rows = [json.loads(l) for l in leval.EVAL.read_text(encoding="utf-8").splitlines() if l.strip()]
     key = f"recall@{a.k}"
     results = []
@@ -60,7 +60,7 @@ def main():
         env = {**os.environ, "KB_TOKENIZER": tok}
         db = lexical_db(tok)
         out = subprocess.run([sys.executable, "-c", (
-            "import json,sys;from app.legal import eval as e;from app.legal.kb import LexicalRetriever;"
+            "import json,sys;from application.modules.legal_retrieval import eval as e;from application.modules.legal_retrieval.kb import LexicalRetriever;"
             f"rows=[json.loads(l) for l in e.EVAL.read_text(encoding='utf-8').splitlines() if l.strip()];"
             f"s,_=e.evaluate(LexicalRetriever(r'{db}'),rows,{a.k});print(json.dumps(s))")],
             env=env, check=True, capture_output=True, text=True).stdout

@@ -3,8 +3,8 @@ import unittest
 from pathlib import Path
 
 from tests.data_paths import TEMPLATES
-from app.ingest.ingest import IngestError, decode_text, ingest, legacy_encoding_warning
-from app.ingest.text import clean, find_span
+from application.modules.ingestion.ingest import IngestError, decode_text, ingest, legacy_encoding_warning
+from application.modules.ingestion.text import clean, find_span
 
 REPO = Path(__file__).resolve().parents[2]
 VI = ("Điều 3. Đặt cọc\n3.1 Bên thuê phải đặt cọc cho Bên cho thuê số tiền tương đương "

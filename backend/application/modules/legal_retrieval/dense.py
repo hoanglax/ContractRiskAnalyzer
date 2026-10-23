@@ -8,8 +8,8 @@ Embedders: the F2LLM-v2 family (codefuse-ai/F2LLM-v2-{80M,160M,330M,0.6B,1.7B,..
 L2-normalised, queries get an instruction prefix and documents get none. Its vectors are Matryoshka
 trained, so `dim` may truncate them (re-normalised) to shrink the index.
 
-    python -m app.legal.dense embed --model codefuse-ai/F2LLM-v2-330M [--dim 256] [--tag 330m]
-    python -m app.legal.dense search "cho thuê lại nhà ở" --tag 330m
+    python -m application.modules.legal_retrieval.dense embed --model codefuse-ai/F2LLM-v2-330M [--dim 256] [--tag 330m]
+    python -m application.modules.legal_retrieval.dense search "cho thuê lại nhà ở" --tag 330m
 """
 import argparse
 import json
@@ -19,8 +19,8 @@ from pathlib import Path
 
 import numpy as np
 
-from app.legal.kb import DEFAULT_DB, LexicalRetriever, hits_for
-from app.legal.retriever import Hit
+from application.modules.legal_retrieval.kb import DEFAULT_DB, LexicalRetriever, hits_for
+from application.modules.legal_retrieval.retriever import Hit
 
 CACHE = DEFAULT_DB.parent
 QUERY_PROMPT = "Instruct: Given a question, retrieve passages that can help answer the question.\nQuery: "

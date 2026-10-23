@@ -4,10 +4,10 @@ from pathlib import Path
 from unittest import mock
 
 from tests.data_paths import TEMPLATES
-from app.ingest import ingest as ing
-from app.ingest.ingest import IngestError, convert_with_soffice, ingest
+from application.modules.ingestion import ingest as ing
+from application.modules.ingestion.ingest import IngestError, convert_with_soffice, ingest
 from tests.docx_fixtures import numbered_twin
-from app.ingest.text import clean
+from application.modules.ingestion.text import clean
 
 REPO = Path(__file__).resolve().parents[2]
 HAS_SOFFICE = ing._soffice() is not None

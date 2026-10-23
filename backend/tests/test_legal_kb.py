@@ -2,9 +2,9 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from app.legal import eval as leval
-from app.legal import kb
-from app.legal.chunk import khoan_split
+from application.modules.legal_retrieval import eval as leval
+from application.modules.legal_retrieval import kb
+from application.modules.legal_retrieval.chunk import khoan_split
 from tests.data_paths import DATA
 
 LAW = """LUẬT THỬ NGHIỆM

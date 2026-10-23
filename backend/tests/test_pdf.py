@@ -5,10 +5,10 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-from app.ingest import ingest as ing
-from app.ingest.ingest import IngestError, ingest, strip_running_lines
+from application.modules.ingestion import ingest as ing
+from application.modules.ingestion.ingest import IngestError, ingest, strip_running_lines
 from tests.docx_fixtures import RUNNING_FOOTER, RUNNING_HEADER, make_docx, p
-from app.ingest.text import clean, find_span
+from application.modules.ingestion.text import clean, find_span
 
 REPO = Path(__file__).resolve().parents[2]
 HAS_TOOLS = bool(shutil.which("pdftotext") and ing._soffice())

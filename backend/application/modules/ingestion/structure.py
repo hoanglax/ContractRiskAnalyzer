@@ -20,7 +20,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 
-from app.ingest.ingest import Clause, Structure
+from application.modules.ingestion.ingest import Clause, Structure
 
 _LETTER = r"(?![^\W\d_])"                      # next char must not be a letter ("Điều lệ" is not roman L)
 _DIEU = re.compile(rf"^điều\s*(\d{{1,3}}|[ivxl]{{1,6}}\d?){_LETTER}\s*([.:;)\-–—])?\s*(.*)$", re.I)

@@ -4,8 +4,8 @@ import zipfile
 from pathlib import Path
 
 from tests.data_paths import TEMPLATES
-from app.ingest import ingest as ing
-from app.ingest.ingest import IngestError, ingest, sniff
+from application.modules.ingestion import ingest as ing
+from application.modules.ingestion.ingest import IngestError, ingest, sniff
 
 REPO = Path(__file__).resolve().parents[2]
 

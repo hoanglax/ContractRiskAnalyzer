@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 
 from tests.data_paths import TEMPLATES
-from app.ingest.text import clean, find_span, norm
+from application.modules.ingestion.text import clean, find_span, norm
 
 REPO = Path(__file__).resolve().parents[2]
 

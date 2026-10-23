@@ -19,8 +19,8 @@ import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from app.ingest import vlm
-from app.ingest.text import clean, implausible_words, readable_ratio
+from application.modules.ingestion import vlm
+from application.modules.ingestion.text import clean, implausible_words, readable_ratio
 
 MAX_BYTES = 50 * 1024 * 1024
 
@@ -278,7 +278,7 @@ def route_txt(data: bytes, doc: Document) -> None:
 # ---------------- docx ----------------
 
 def route_docx(data: bytes, doc: Document) -> None:
-    from app.ingest import docx_text
+    from application.modules.ingestion import docx_text
     try:
         lines, warnings, raw = docx_text.extract(data)
     except (zipfile.BadZipFile, KeyError, ET.ParseError) as e:
@@ -603,8 +603,8 @@ def structure_llm_enabled() -> bool:
 def add_structure(doc: Document) -> None:
     """Fill doc.structure (clause map). Never raises: a failure costs the clause map, not the document."""
     try:
-        from app.ingest.structure import segment
-        from app.ingest.structure_llm import segment_auto
+        from application.modules.ingestion.structure import segment
+        from application.modules.ingestion.structure_llm import segment_auto
         if structure_llm_enabled():
             doc.structure, dg, warns = segment_auto(doc.text)
         else:

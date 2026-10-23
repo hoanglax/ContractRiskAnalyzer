@@ -1,6 +1,6 @@
 """Retrieval eval: recall@k and MRR on the gold article, by split / style / tier.
 
-    python -m app.legal.eval [--split dev|test] [-k 5]
+    python -m application.modules.legal_retrieval.eval [--split dev|test] [-k 5]
 
 `abstain` rows have no gold (the question is about a law that was not in the KB when the set was
 written); they are listed with their top hit instead of being scored.
@@ -11,7 +11,7 @@ import json
 from collections import defaultdict
 from pathlib import Path
 
-from app.legal.kb import DEFAULT_DB, REPO, LexicalRetriever
+from application.modules.legal_retrieval.kb import DEFAULT_DB, REPO, LexicalRetriever
 
 EVAL = REPO / "data" / "legal_eval" / "retrieval_v2.jsonl"
 
@@ -62,11 +62,11 @@ def main():
     if a.mode == "lexical":
         retriever = lex
     else:
-        from app.legal.dense import DenseRetriever, HybridRetriever
+        from application.modules.legal_retrieval.dense import DenseRetriever, HybridRetriever
         dense = DenseRetriever(a.tag, a.db)
         retriever = dense if a.mode == "dense" else HybridRetriever(lex, dense)
     if a.rerank:
-        from app.legal.rerank import RerankedRetriever, ServerReranker
+        from application.modules.legal_retrieval.rerank import RerankedRetriever, ServerReranker
         retriever = RerankedRetriever(retriever, ServerReranker() if a.reranker == "server" else None, pool=a.rerank)
     stats, detail = evaluate(retriever, rows, a.k, pool=a.k if a.rerank else 50)
     for g, s in stats.items():

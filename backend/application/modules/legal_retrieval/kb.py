@@ -9,9 +9,9 @@ Qdrant or Postgres implementation can replace this one without touching callers.
 Offsets: `articles.char_start/char_end` index into `clean(file text)`, so a citation can be checked
 as a verbatim slice of the source (`verify`).
 
-    python -m app.legal.kb build [--corpus DIR ...] [--db PATH]
-    python -m app.legal.kb stats
-    python -m app.legal.kb search "bên thuê cho thuê lại nhà ở" -k 5
+    python -m application.modules.legal_retrieval.kb build [--corpus DIR ...] [--db PATH]
+    python -m application.modules.legal_retrieval.kb stats
+    python -m application.modules.legal_retrieval.kb search "bên thuê cho thuê lại nhà ở" -k 5
 """
 import argparse
 import os
@@ -20,12 +20,12 @@ import sqlite3
 import unicodedata
 from pathlib import Path
 
-from app.ingest.structure import segment
-from app.ingest.text import clean
-from app.legal.chunk import khoan_split
-from app.legal.retriever import Hit
+from application.modules.ingestion.structure import segment
+from application.modules.ingestion.text import clean
+from application.modules.legal_retrieval.chunk import khoan_split
+from application.modules.legal_retrieval.retriever import Hit
 
-BACKEND = Path(__file__).resolve().parents[2]
+BACKEND = Path(__file__).resolve().parents[3]
 REPO = BACKEND.parent
 DEFAULT_DB = BACKEND / "cache" / "legal_kb.db"
 DEFAULT_CORPUS = [REPO / "data" / "legal_corpus", REPO / "data" / "test" / "kb"]
@@ -233,7 +233,7 @@ def main():
         print("verbatim check:", "ok" if not bad else f"{len(bad)} mismatches, first {bad[:3]}")
         return
     if not a.db.exists():
-        raise SystemExit("no index; run: python -m app.legal.kb build")
+        raise SystemExit("no index; run: python -m application.modules.legal_retrieval.kb build")
     if a.cmd == "stats":
         con = sqlite3.connect(a.db)
         for law, n_art, n_ch in con.execute(

@@ -1,7 +1,7 @@
 import unittest
 
-from app.ingest.structure import segment
-from app.ingest.text import clean
+from application.modules.ingestion.structure import segment
+from application.modules.ingestion.text import clean
 
 
 def seg(text):

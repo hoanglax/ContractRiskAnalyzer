@@ -11,7 +11,7 @@ from pathlib import Path
 
 from tests.data_paths import TEMPLATES
 from tests.docx_fixtures import plain_docx
-from app.ingest.text import clean
+from application.modules.ingestion.text import clean
 
 REPO = Path(__file__).resolve().parents[2]
 CACHE = Path(tempfile.gettempdir()) / "pipeline_pdf_fixtures"

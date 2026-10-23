@@ -1,0 +1,41 @@
+warning: in the working copy of 'backend/tests/test_structure_llm.py', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/backend/tests/test_structure_llm.py b/backend/tests/test_structure_llm.py[m
+[1mindex c3d0dd0..b2ca655 100644[m
+[1m--- a/backend/tests/test_structure_llm.py[m
+[1m+++ b/backend/tests/test_structure_llm.py[m
+[36m@@ -1,16 +1,16 @@[m
+[31m-import json[m
+[32m+[m[32m﻿import json[m
+ import tempfile[m
+ import unittest[m
+ from pathlib import Path[m
+ from unittest import mock[m
+ [m
+[31m-from app import llm[m
+[31m-from app.ingest import structure_llm as sl[m
+[31m-from app.llm import LLMError, LLMResult[m
+[31m-from app.ingest.text import clean[m
+[32m+[m[32mfrom application.adapters import llm[m
+[32m+[m[32mfrom application.modules.ingestion import structure_llm as sl[m
+[32m+[m[32mfrom application.adapters.llm import LLMError, LLMResult[m
+[32m+[m[32mfrom application.modules.ingestion.text import clean[m
+ [m
+[31m-TITLED = clean("HỢP ĐỒNG THUÊ PHÒNG\nBên A cho thuê.\nTRÁCH NHIỆM CỦA CÁC BÊN\nBên A lo điện.\nTRÁCH NHIỆM CHUNG\nHai bên thực hiện.")[m
+[31m-NUMBERED = clean("\n".join(f"Điều {n}. Mục {n}\nnội dung" for n in (1, 2, 3, 4)))[m
+[32m+[m[32mTITLED = clean("Há»¢P Äá»’NG THUÃŠ PHÃ’NG\nBÃªn A cho thuÃª.\nTRÃCH NHIá»†M Cá»¦A CÃC BÃŠN\nBÃªn A lo Ä‘iá»‡n.\nTRÃCH NHIá»†M CHUNG\nHai bÃªn thá»±c hiá»‡n.")[m
+[32m+[m[32mNUMBERED = clean("\n".join(f"Äiá»u {n}. Má»¥c {n}\nná»™i dung" for n in (1, 2, 3, 4)))[m
+ [m
+ [m
+ def fake(text, finish="stop"):[m
+[36m@@ -49,9 +49,9 @@[m [mclass Tier2(unittest.TestCase):[m
+ [m
+     def test_titled_document_gets_clauses_with_offsets(self):[m
+         st, warns = sl.segment_llm(TITLED, fake('{"headings": [{"lines": [2]}, {"lines": [4]}]}'))[m
+[31m-        self.assertEqual([c.heading for c in st.clauses], ["TRÁCH NHIỆM CỦA CÁC BÊN", "TRÁCH NHIỆM CHUNG"])[m
+[32m+[m[32m        self.assertEqual([c.heading for c in st.clauses], ["TRÃCH NHIá»†M Cá»¦A CÃC BÃŠN", "TRÃCH NHIá»†M CHUNG"])[m
+         self.assertEqual(st.layout, "titled")[m
+[31m-        self.assertTrue(TITLED[st.clauses[1].char_start:].startswith("TRÁCH NHIỆM CHUNG"))[m
+[32m+[m[32m        self.assertTrue(TITLED[st.clauses[1].char_start:].startswith("TRÃCH NHIá»†M CHUNG"))[m
+         self.assertEqual(st.clauses[-1].char_end, len(TITLED))[m
+ [m
+     def test_bad_answers_fall_back_to_nothing(self):[m

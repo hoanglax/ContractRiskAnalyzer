@@ -1,7 +1,7 @@
 """One place that talks to a chat-completions API. Settings come from backend/llm.toml (see llm.example.toml),
 PIPELINE_LLM_CONFIG, or the built-in default (the local 27B on :9876). Stdlib only.
 
-    from app.llm import chat
+    from application.adapters.llm import chat
     r = chat("structure_fallback", [{"role": "user", "content": "..."}])
     r.text, r.finish_reason, r.usage, r.profile, r.model
 
@@ -17,7 +17,7 @@ import urllib.request
 from dataclasses import dataclass, field
 from pathlib import Path
 
-CONFIG_DIR = Path(__file__).resolve().parents[1]
+CONFIG_DIR = Path(__file__).resolve().parents[2]
 DEFAULT = {
     "default_profile": "local27b",
     "tasks": {},

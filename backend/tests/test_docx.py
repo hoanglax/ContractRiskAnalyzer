@@ -5,8 +5,8 @@ import unittest
 from pathlib import Path
 
 from tests.data_paths import SAMPLES, TEMPLATES
-from app.ingest.ingest import IngestError, ingest
-from app.ingest.text import clean, norm
+from application.modules.ingestion.ingest import IngestError, ingest
+from application.modules.ingestion.text import clean, norm
 from tests.docx_fixtures import (lvl, make_docx, numbered_twin, numbering, p, styles, t)
 
 REPO = Path(__file__).resolve().parents[2]

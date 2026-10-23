@@ -2,9 +2,9 @@ import os
 import unittest
 from unittest import mock
 
-from app.ingest import structure_llm as sl
-from app.ingest.ingest import ingest
-from app.llm import LLMResult
+from application.modules.ingestion import structure_llm as sl
+from application.modules.ingestion.ingest import ingest
+from application.adapters.llm import LLMResult
 
 NUMBERED = ("HỢP ĐỒNG THUÊ NHÀ\nBên A cho Bên B thuê nhà theo các điều khoản sau đây, hai bên cùng thống nhất.\n"
             + "\n".join(f"Điều {n}. Mục số {n}\nNội dung của điều khoản số {n} được hai bên thỏa thuận cụ thể." for n in (1, 2, 3, 4)))
@@ -38,7 +38,7 @@ class IngestStructure(unittest.TestCase):
         self.assertEqual(doc.raw["structure"]["tier"], 2)
 
     def test_a_crashing_segmenter_does_not_break_ingest(self):
-        with mock.patch("app.ingest.structure.segment", side_effect=RuntimeError("boom")):
+        with mock.patch("application.modules.ingestion.structure.segment", side_effect=RuntimeError("boom")):
             doc = ingest(NUMBERED.encode(), "a.txt")
         self.assertEqual(doc.structure.clauses, [])
         self.assertTrue(any("clause map failed" in w for w in doc.warnings))

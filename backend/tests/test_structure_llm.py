@@ -1,13 +1,13 @@
-import json
+﻿import json
 import tempfile
 import unittest
 from pathlib import Path
 from unittest import mock
 
-from app import llm
-from app.ingest import structure_llm as sl
-from app.llm import LLMError, LLMResult
-from app.ingest.text import clean
+from application.adapters import llm
+from application.modules.ingestion import structure_llm as sl
+from application.adapters.llm import LLMError, LLMResult
+from application.modules.ingestion.text import clean
 
 TITLED = clean("HỢP ĐỒNG THUÊ PHÒNG\nBên A cho thuê.\nTRÁCH NHIỆM CỦA CÁC BÊN\nBên A lo điện.\nTRÁCH NHIỆM CHUNG\nHai bên thực hiện.")
 NUMBERED = clean("\n".join(f"Điều {n}. Mục {n}\nnội dung" for n in (1, 2, 3, 4)))

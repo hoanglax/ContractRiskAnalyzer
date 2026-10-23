@@ -3,9 +3,9 @@ import unittest
 import urllib.error
 from unittest import mock
 
-from app.ingest import ingest as ing
-from app.ingest import vlm
-from app.ingest.ingest import IngestError, ingest
+from application.modules.ingestion import ingest as ing
+from application.modules.ingestion import vlm
+from application.modules.ingestion.ingest import IngestError, ingest
 
 BODY = ("Điều 1. Bên A cho Bên B thuê căn hộ theo các điều khoản dưới đây. "
         "Bên B có trách nhiệm thanh toán tiền thuê đúng hạn vào ngày mùng năm hằng tháng.\n") * 4

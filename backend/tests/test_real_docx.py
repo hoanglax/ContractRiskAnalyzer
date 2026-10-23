@@ -7,9 +7,9 @@ import unittest
 from pathlib import Path
 
 from tests.data_paths import REAL_DOCX
-from app.ingest import ingest as ing
-from app.ingest.ingest import IngestError, ingest
-from app.ingest.text import clean, norm
+from application.modules.ingestion import ingest as ing
+from application.modules.ingestion.ingest import IngestError, ingest
+from application.modules.ingestion.text import clean, norm
 
 REAL = REAL_DOCX
 FILES = sorted(REAL.glob("*.doc*")) if REAL.exists() else []

@@ -9,7 +9,7 @@ import os
 import urllib.request
 from pathlib import Path
 
-from app.legal.retriever import Hit
+from application.modules.legal_retrieval.retriever import Hit
 
 MODEL = Path(os.environ.get("RERANK_MODEL", Path.home() / "models" / "qwen3-reranker-0.6b"))
 INSTRUCT = "Given a question about a Vietnamese contract, retrieve the statute passage that answers it"

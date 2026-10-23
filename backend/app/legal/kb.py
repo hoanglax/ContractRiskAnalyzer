@@ -86,31 +86,54 @@ def build(corpus: list[Path] | None = None, db_path: Path = DEFAULT_DB) -> dict:
                 files.setdefault(f.stem, f)
     db_path.parent.mkdir(parents=True, exist_ok=True)
     db_path.unlink(missing_ok=True)
+    
     con = sqlite3.connect(db_path)
-    con.executescript(SCHEMA)
-    n_art = n_chunk = 0
-    per_law = {}
-    for law, f in files.items():
-        text = clean(f.read_text(encoding="utf-8", errors="replace"))
-        st, dg = segment(text)
-        if not st.clauses:
-            raise ValueError(f"{f.name}: no Điều found ({', '.join(dg.reasons)})")
-        for c in st.clauses:
-            m = re.match(r"Điều\s+(\d+)\s*$", c.label)
-            art_text = text[c.char_start:c.char_end]
-            heading, body = _split_article(art_text, c.heading)
-            con.execute("INSERT INTO articles VALUES (?,?,?,?,?,?,?)",
-                        (n_art, law, int(m.group(1)) if m else None, heading, art_text, c.char_start, c.char_end))
-            for ref, chunk in khoan_split(heading, body):
-                con.execute("INSERT INTO chunks VALUES (?,?,?,?)", (n_chunk, n_art, ref, chunk))
-                con.execute("INSERT INTO chunks_fts(rowid, fts_text) VALUES (?,?)",
-                            (n_chunk, " ".join(tokenize(chunk))))
-                n_chunk += 1
-            n_art += 1
-        per_law[law] = len(st.clauses)
-    con.commit()
-    con.close()
-    return {"articles": n_art, "chunks": n_chunk, "per_law": per_law, "db": str(db_path)}
+    try:
+        con.executescript(SCHEMA)
+        n_art = n_chunk = 0
+        per_law = {}
+
+        for law, f in files.items():
+            text = clean(f.read_text(encoding="utf-8", errors="replace"))
+            st, dg = segment(text)
+            if not st.clauses:
+                raise ValueError(f"{f.name}: no Điều found ({', '.join(dg.reasons)})")
+
+            for c in st.clauses:
+                m = re.match(r"Điều\s+(\d+)\s*$", c.label)
+                art_text = text[c.char_start:c.char_end]
+                heading, body = _split_article(art_text, c.heading)
+                con.execute(
+                    "INSERT INTO articles VALUES (?,?,?,?,?,?,?)",
+                    (n_art, law, int(m.group(1)) if m else None,
+                     heading, art_text, c.char_start, c.char_end),
+                )
+
+                for ref, chunk in khoan_split(heading, body):
+                    con.execute(
+                        "INSERT INTO chunks VALUES (?,?,?,?)",
+                        (n_chunk, n_art, ref, chunk),
+                    )
+                    con.execute(
+                        "INSERT INTO chunks_fts(rowid, fts_text) VALUES (?,?)",
+                        (n_chunk, " ".join(tokenize(chunk))),
+                    )
+                    n_chunk += 1
+
+                n_art += 1
+
+            per_law[law] = len(st.clauses)
+
+        con.commit()
+        return {
+            "articles": n_art,
+            "chunks": n_chunk,
+            "per_law": per_law,
+            "db": str(db_path),
+        }
+    finally:
+        con.close()
+
 
 
 def hits_for(con: sqlite3.Connection, scored: list[tuple[int, float]]) -> list[Hit]:
@@ -123,8 +146,9 @@ def hits_for(con: sqlite3.Connection, scored: list[tuple[int, float]]) -> list[H
     return out
 
 
+
 class LexicalRetriever:
-    """BM25 over khoản chunks."""
+    """BM25 over khoan chunks."""
 
     def __init__(self, db_path: Path = DEFAULT_DB):
         self.con = sqlite3.connect(db_path)
@@ -133,29 +157,62 @@ class LexicalRetriever:
         terms = tokenize(query)
         if not terms:
             return []
+
         match = " OR ".join(f'"{t}"' for t in dict.fromkeys(terms))
         rows = self.con.execute(
             """SELECT c.id, c.article_id, a.law, a.dieu_no, c.ref, -bm25(chunks_fts), c.text
                FROM chunks_fts JOIN chunks c ON c.id = chunks_fts.rowid
                JOIN articles a ON a.id = c.article_id
                WHERE chunks_fts MATCH ? AND (? IS NULL OR a.law = ?)
-               ORDER BY rank LIMIT ?""", (match, law, law, k)).fetchall()
+               ORDER BY rank LIMIT ?""",
+            (match, law, law, k),
+        ).fetchall()
         return [Hit(*r) for r in rows]
 
+    def close(self):
+        self.con.close()
 
-def verify(db_path: Path = DEFAULT_DB, corpus: list[Path] | None = None) -> list[str]:
-    """Every article must equal its slice of the cleaned source file. Returns the problems found."""
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close()
+        return False
+
+
+def verify(
+    db_path: Path = DEFAULT_DB,
+    corpus: list[Path] | None = None,
+) -> list[str]:
+    """Every article must equal its slice of the cleaned source file.
+    Returns the problems found.
+    """
     files = {}
     for d in corpus or DEFAULT_CORPUS:
         for f in sorted(Path(d).glob("*.txt")):
             files.setdefault(f.stem, f)
+
     texts, bad = {}, []
+
     con = sqlite3.connect(db_path)
-    for law, s, e, t in con.execute("SELECT law, char_start, char_end, text FROM articles"):
-        if law not in texts:
-            texts[law] = clean(files[law].read_text(encoding="utf-8", errors="replace"))
-        if texts[law][s:e] != t:
-            bad.append(f"{law}[{s}:{e}]")
+    try:
+        rows = con.execute(
+            "SELECT law, char_start, char_end, text FROM articles"
+        ).fetchall()
+
+        for law, s, e, t in rows:
+            if law not in texts:
+                texts[law] = clean(
+                    files[law].read_text(
+                        encoding="utf-8",
+                        errors="replace",
+                    )
+                )
+            if texts[law][s:e] != t:
+                bad.append(f"{law}[{s}:{e}]")
+    finally:
+        con.close()
+
     return bad
 
 

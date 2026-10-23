@@ -64,16 +64,30 @@ class Kb(unittest.TestCase):
         self.assertEqual(kb.verify(self.db, self.corpus), [])
 
     def test_search_finds_the_khoan(self):
-        hit = kb.LexicalRetriever(self.db).search("cho thuê lại cần bên cho thuê đồng ý", 3)[0]
-        self.assertEqual((hit.law, hit.dieu_no, hit.ref), ("luat_thu", 2, "2"))
+        with kb.LexicalRetriever(self.db) as retriever:
+            hit = retriever.search(
+                "cho thuê lại cần bên cho thuê đồng ý", 3
+            )[0]
+
+        self.assertEqual(
+            (hit.law, hit.dieu_no, hit.ref),
+            ("luat_thu", 2, "2"),
+        )
+
 
     def test_law_filter_and_diacritics_are_folded(self):
-        r = kb.LexicalRetriever(self.db)
-        self.assertTrue(r.search("cham dut hop dong", 3, law="luat_thu"))
-        self.assertEqual(r.search("cham dut hop dong", 3, law="khac"), [])
+        with kb.LexicalRetriever(self.db) as retriever:
+            self.assertTrue(
+                retriever.search("cham dut hop dong", 3, law="luat_thu")
+            )
+            self.assertEqual(
+                retriever.search("cham dut hop dong", 3, law="khac"),
+                [],
+            )
 
     def test_empty_query(self):
-        self.assertEqual(kb.LexicalRetriever(self.db).search("   ", 3), [])
+        with kb.LexicalRetriever(self.db) as retriever:
+            self.assertEqual(retriever.search("   ", 3), [])
 
     def test_no_dieu_is_an_error(self):
         with tempfile.TemporaryDirectory() as d:
@@ -98,12 +112,32 @@ class RealCorpus(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             db = Path(d) / "kb.db"
             kb.build([DATA.parent / "legal_corpus"], db)
+            
             import sqlite3
+
             con = sqlite3.connect(db)
-            for law, n in (("luat_cu_tru_68_2020", 27), ("luat_cu_tru_68_2020", 28), ("luat_cu_tru_68_2020", 30),
-                           ("luat_quan_ly_thue_108_2025", 26)):
-                self.assertTrue(con.execute("SELECT 1 FROM articles WHERE law=? AND dieu_no=?", (law, n)).fetchone(), (law, n))
-            self.assertEqual(kb.verify(db, [DATA.parent / "legal_corpus"]), [])
+            try:
+                for law, n in (
+                    ("luat_cu_tru_68_2020", 27),
+                    ("luat_cu_tru_68_2020", 28),
+                    ("luat_cu_tru_68_2020", 30),
+                    ("luat_quan_ly_thue_108_2025", 26),
+                ):
+                    self.assertTrue(
+                        con.execute(
+                            "SELECT 1 FROM articles WHERE law=? AND dieu_no=?",
+                            (law, n),
+                        ).fetchone(),
+                        (law, n),
+                    )
+
+                self.assertEqual(
+                    kb.verify(db, [DATA.parent / "legal_corpus"]),
+                    [],
+                )
+            finally:
+                con.close()
+
 
 
 if __name__ == "__main__":

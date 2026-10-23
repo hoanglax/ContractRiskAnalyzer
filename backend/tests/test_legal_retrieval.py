@@ -69,7 +69,12 @@ def test_search_returns_sqlite_source_in_qdrant_order():
 
         def execute(self, sql, params):
             assert params == ["ARTICLE_2", "ARTICLE_1"]
-            return fake_rows
+
+            class FakeCursor:
+                def fetchall(self):
+                    return fake_rows
+
+            return FakeCursor()
 
     with (
         patch(

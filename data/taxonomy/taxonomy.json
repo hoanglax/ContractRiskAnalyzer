@@ -1,0 +1,2294 @@
+{
+ "severity_scale": {
+  "LOW": "Thiếu sót thủ tục hành chính, quy trình chưa rõ ràng",
+  "MEDIUM": "Quy trình vận hành mập mờ, dễ phát sinh tranh chấp (chi phí, bảo trì)",
+  "HIGH": "Gây thiệt hại đáng kể về tài chính, mất lợi thế khi tranh chấp, bị áp đặt các nghĩa vụ vô lý",
+  "CRITICAL": "Gây tổn thất về tài chính ngay lập tức, bất ngờ mất quyền sử dụng, hoặc vi phạm pháp luật nghiêm trọng"
+ },
+ "parties": {
+  "A": "Bên cho thuê",
+  "B": "Bên thuê"
+ },
+ "groups": [
+  {
+   "n": 1,
+   "name": "CHỦ THỂ & THẨM QUYỀN",
+   "name_en": "ENTITY & AUTHORITY",
+   "code": "AUT"
+  },
+  {
+   "n": 2,
+   "name": "ĐẶT CỌC & THỎA THUẬN TIỀN THUÊ",
+   "name_en": "DEPOSIT & PAYMENT",
+   "code": "DEP"
+  },
+  {
+   "n": 3,
+   "name": "SỬ DỤNG, BẢO TRÌ & SỬA CHỮA",
+   "name_en": "MAINTENANCE & REPAIRING",
+   "code": "MNT"
+  },
+  {
+   "n": 4,
+   "name": "THỜI GIAN, GIA HẠN, CHẤM DỨT & HOÀN TRẢ TÀI SẢN",
+   "name_en": "EXTENSION & TERMINATION",
+   "code": "TRM"
+  },
+  {
+   "n": 5,
+   "name": "VI PHẠM, PHẠT & BỒI THƯỜNG",
+   "name_en": "VIOLENCE & PENALTY",
+   "code": "PEN"
+  },
+  {
+   "n": 6,
+   "name": "ĐĂNG KÝ, CƯ TRÚ & THỦ TỤC HÀNH CHÍNH",
+   "name_en": "RESIDENCE & PROCEDURES",
+   "code": "RES"
+  },
+  {
+   "n": 7,
+   "name": "THUẾ, HÓA ĐƠN & NGHĨA VỤ TÀI CHÍNH PHÁP ĐỊNH",
+   "name_en": "TAX & OBLIGATION",
+   "code": "TAX"
+  }
+ ],
+ "risks": [
+  {
+   "code": "A-AUT-01",
+   "party": "A",
+   "group": "AUT",
+   "name": "Cho thuê nhà khi không có quyền/thẩm quyền",
+   "severity": "CRITICAL",
+   "signs": "Bên A không phải chủ sở hữu và không có căn cứ chứng minh quyền cho thuê",
+   "legal_basis": "Điều 117, 141, 142 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      117,
+      141,
+      142
+     ],
+     "text": "Điều 117, 141, 142 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Hợp đồng không ràng buộc được chủ sở hữu",
+    "Hợp đồng vô hiệu",
+    "Phát sinh tranh chấp và yêu cầu chấm dứt/hoàn trả"
+   ],
+   "labels": [
+    "LEGAL_AUTHORITY",
+    "OWNERSHIP",
+    "PROOF"
+   ]
+  },
+  {
+   "code": "A-AUT-02",
+   "party": "A",
+   "group": "AUT",
+   "name": "Cho thuê tải sản chung nhưng thiếu ủy quyền cần thiết",
+   "severity": "HIGH",
+   "signs": "Bên A không có quyền đại diện tất cả đồng sở hữu của nhà cho thuê",
+   "legal_basis": "Điều 212, 213 BLDS 2015\nĐiều 11 Luật Nhà ở 2023",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      212,
+      213
+     ],
+     "text": "Điều 212, 213 BLDS 2015"
+    },
+    {
+     "law": "luat_nha_o_2023",
+     "dieu": [
+      11
+     ],
+     "text": "Điều 11 Luật Nhà ở 2023"
+    }
+   ],
+   "consequences": [
+    "Tranh chấp với đồng sở hữu",
+    "Hợp đồng không ràng buộc được đầy đủ các chủ thể có thẩm quyền"
+   ],
+   "labels": [
+    "AUTHORIZATION",
+    "REPRESENTATION",
+    "JOINT_OWNERSHIP"
+   ]
+  },
+  {
+   "code": "A-AUT-03",
+   "party": "A",
+   "group": "AUT",
+   "name": "Người cho thuê không đủ năng lực chủ thể để xác lập giao dịch",
+   "severity": "HIGH",
+   "signs": "Bên A (dù có quyền/thẩm quyền) là người chưa thành niên/người mất năng lực nhưng không có đại diện phù hợp",
+   "legal_basis": "Điều 117, 122, 125 BLDS 2015\nĐiều 161 Luật Nhà ở 2023",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      117,
+      122,
+      125
+     ],
+     "text": "Điều 117, 122, 125 BLDS 2015"
+    },
+    {
+     "law": "luat_nha_o_2023",
+     "dieu": [
+      161
+     ],
+     "text": "Điều 161 Luật Nhà ở 2023"
+    }
+   ],
+   "consequences": [
+    "Hợp đồng bị vô hiệu",
+    "Phát sinh hoàn trả và bồi thường"
+   ],
+   "labels": [
+    "LEGAL_CAPACITY",
+    "MINOR",
+    "REPRESENTATION"
+   ]
+  },
+  {
+   "code": "A-AUT-04",
+   "party": "A",
+   "group": "AUT",
+   "name": "Nhà không đáp ứng đủ điều kiện pháp luật để cho thuê",
+   "severity": "MEDIUM",
+   "signs": "Nhà đang trong thời hạn sở hữu không còn phù hợp, thuộc diện bị thu hồi hoặc không đảm bảo điều kiện tối thiểu khi cho thuê",
+   "legal_basis": "Điều 160 Luật Nhà ở 2023",
+   "citations": [
+    {
+     "law": "luat_nha_o_2023",
+     "dieu": [
+      160
+     ],
+     "text": "Điều 160 Luật Nhà ở 2023"
+    }
+   ],
+   "consequences": [
+    "Hợp đồng có nguy cơ xảy ra tranh chấp",
+    "Phải chấm dứt, hoàn trả và bồi thường thiệt hại nếu có"
+   ],
+   "labels": [
+    "ELIGIBILITY",
+    "RECALL",
+    "REQUIREMENT"
+   ]
+  },
+  {
+   "code": "A-AUT-05",
+   "party": "A",
+   "group": "AUT",
+   "name": "Thông tin chủ thể/quyền cho thuê/ủy quyền ghi nhận không đầy đủ",
+   "severity": "LOW",
+   "signs": "Bên A không cung cấp đầy đủ thông tin chủ thể ký hợp đồng, quyền hoặc ủy quyền cho thuê từ chủ sở hữu",
+   "legal_basis": "Điều 14 Luật KDBĐS 2023",
+   "citations": [
+    {
+     "law": "luat_kdbds_2023",
+     "dieu": [
+      14
+     ],
+     "text": "Điều 14 Luật KDBĐS 2023"
+    }
+   ],
+   "consequences": [
+    "Khó xác minh tư cách chủ thể/quyền cho thuê trong trường hợp phát sinh tranh chấp"
+   ],
+   "labels": [
+    "INFORMATION",
+    "AUTHORITY",
+    "AUTHORIZATION",
+    "REPRESENTATION"
+   ]
+  },
+  {
+   "code": "B-AUT-01",
+   "party": "B",
+   "group": "AUT",
+   "name": "Thuê từ người không có quyền/thẩm quyền",
+   "severity": "CRITICAL",
+   "signs": "Bên A không phải chủ sở hữu và không có căn cứ chứng minh quyền cho thuê",
+   "legal_basis": "Điều 117, 141, 142 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      117,
+      141,
+      142
+     ],
+     "text": "Điều 117, 141, 142 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Hợp đồng không được chủ sở hữu công nhận",
+    "Nguy cơ phải trả lại nhà"
+   ],
+   "labels": [
+    "LEGAL_AUTHORITY",
+    "OWNERSHIP",
+    "PROOF"
+   ]
+  },
+  {
+   "code": "B-AUT-02",
+   "party": "B",
+   "group": "AUT",
+   "name": "Thuê tài sản chung mà không đầy đủ ủy quyền",
+   "severity": "HIGH",
+   "signs": "Bên A không có quyền đại diện tất cả đồng sở hữu của nhà cho thuê",
+   "legal_basis": "Điều 212, 213 BLDS 2015\nĐiều 11 Luật Nhà ở 2023",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      212,
+      213
+     ],
+     "text": "Điều 212, 213 BLDS 2015"
+    },
+    {
+     "law": "luat_nha_o_2023",
+     "dieu": [
+      11
+     ],
+     "text": "Điều 11 Luật Nhà ở 2023"
+    }
+   ],
+   "consequences": [
+    "Tranh chấp với đồng sở hữu",
+    "Hợp đồng không được thực hiện ổn định"
+   ],
+   "labels": [
+    "AUTHORIZATION",
+    "REPRESENTATION",
+    "JOINT_OWNERSHIP"
+   ]
+  },
+  {
+   "code": "B-AUT-03",
+   "party": "B",
+   "group": "AUT",
+   "name": "Thuê nhà từ người không đủ năng lực chủ thể để xác lập giao dịch",
+   "severity": "HIGH",
+   "signs": "Bên A (dù có quyền/thẩm quyền) là người chưa thành niên/người mất năng lực nhưng không có đại diện phù hợp",
+   "legal_basis": "Điều 117, 122, 125 BLDS 2015\nĐiều 161 Luật Nhà ở 2013",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      117,
+      122,
+      125
+     ],
+     "text": "Điều 117, 122, 125 BLDS 2015"
+    },
+    {
+     "law": null,
+     "dieu": [
+      161
+     ],
+     "text": "Điều 161 Luật Nhà ở 2013"
+    }
+   ],
+   "consequences": [
+    "Hợp đồng bị vô hiệu",
+    "Nguy cơ phải trả lại nhà"
+   ],
+   "labels": [
+    "LEGAL_CAPACITY",
+    "MINOR",
+    "REPRESENTATION"
+   ]
+  },
+  {
+   "code": "B-AUT-04",
+   "party": "B",
+   "group": "AUT",
+   "name": "Nhà không đáp ứng đủ điều kiện pháp luật để cho thuê",
+   "severity": "MEDIUM",
+   "signs": "Nhà đang trong thời hạn sở hữu không còn phù hợp, thuộc diện bị thu hồi hoặc không đảm bảo điều kiện tối thiểu để thuê",
+   "legal_basis": "Điều 160 Luật Nhà ở 2023",
+   "citations": [
+    {
+     "law": "luat_nha_o_2023",
+     "dieu": [
+      160
+     ],
+     "text": "Điều 160 Luật Nhà ở 2023"
+    }
+   ],
+   "consequences": [
+    "Gián đoạn quyền sử dụng nhà",
+    "Nguy cơ phải chấm dứt hợp đồng"
+   ],
+   "labels": [
+    "ELIGIBILITY",
+    "RECALL",
+    "REQUIREMENT"
+   ]
+  },
+  {
+   "code": "B-AUT-05",
+   "party": "B",
+   "group": "AUT",
+   "name": "Thông tin chủ thể/quyền cho thuê/ủy quyền ghi nhận không đầy đủ",
+   "severity": "HIGH",
+   "signs": "Bên A không cung cấp đầy đủ thông tin chủ thể ký hợp đồng, quyền hoặc ủy quyền cho thuê từ chủ sở hữu",
+   "legal_basis": "Điều 14 Luật KDBĐS 2023",
+   "citations": [
+    {
+     "law": "luat_kdbds_2023",
+     "dieu": [
+      14
+     ],
+     "text": "Điều 14 Luật KDBĐS 2023"
+    }
+   ],
+   "consequences": [
+    "Khó xác minh tư cách chủ thể/quyền cho thuê trong trường hợp phát sinh tranh chấp"
+   ],
+   "labels": [
+    "INFORMATION",
+    "AUTHORITY",
+    "AUTHORIZATION",
+    "REPRESENTATION"
+   ]
+  },
+  {
+   "code": "A-DEP-01",
+   "party": "A",
+   "group": "DEP",
+   "name": "Tiền đặt cọc được gắn với nghĩa vụ trái pháp luật",
+   "severity": "CRITICAL",
+   "signs": "Cọc dùng để bảo đảm một nghĩa vụ hoặc mục đích mà pháp luật không công nhận",
+   "legal_basis": "Điều 117, 123, 328 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      117,
+      123,
+      328
+     ],
+     "text": "Điều 117, 123, 328 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Thỏa thuận có nguy cơ bị vô hiệu, gây mất hoặc khó thu hồi tiền"
+   ],
+   "labels": [
+    "DEPOSIT",
+    "ILLEGAL",
+    "OBLIGATION"
+   ]
+  },
+  {
+   "code": "A-DEP-02",
+   "party": "A",
+   "group": "DEP",
+   "name": "Giữ/Khấu trừ tiền cọc không có căn cứ",
+   "severity": "HIGH",
+   "signs": "Cho phép giữ/khấu trừ tiền cọc trong những trường hợp không có căn cứ",
+   "legal_basis": "Điều 328 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      328
+     ],
+     "text": "Điều 328 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Phái hoàn trả tiền cọc cho bên B, phát sinh tranh chấp"
+   ],
+   "labels": [
+    "DEPOSIT",
+    "DEDUCTION",
+    "FOUNDATION",
+    "BASED"
+   ]
+  },
+  {
+   "code": "A-DEP-03",
+   "party": "A",
+   "group": "DEP",
+   "name": "Xử lý tiền cọc không phù hợp khi bên thuê vi phạm",
+   "severity": "HIGH",
+   "signs": "Tự động giữ toàn bộ cọc cho mọi trường hợp bên B vi phạm",
+   "legal_basis": "Điều 328 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      328
+     ],
+     "text": "Điều 328 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Có thể không được công nhận toàn bộ quyền giữ tiền cọc"
+   ],
+   "labels": [
+    "DEPOSIT",
+    "HANDLING",
+    "VIOLATION"
+   ]
+  },
+  {
+   "code": "A-DEP-04",
+   "party": "A",
+   "group": "DEP",
+   "name": "Không hoàn trả cọc khi nghĩa vụ hoàn trả đã phát sinh",
+   "severity": "HIGH",
+   "signs": "Nghĩa vụ bảo đảm đã hoàn thành nhưng vẫn giữ cọc",
+   "legal_basis": "Điều 328 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      328
+     ],
+     "text": "Điều 328 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Vẫn phải hoàn trả cọc, có thể phát sinh trách nhiệm do chậm trả"
+   ],
+   "labels": [
+    "REFUND",
+    "OBLIGATION"
+   ]
+  },
+  {
+   "code": "A-DEP-05",
+   "party": "A",
+   "group": "DEP",
+   "name": "Quyền thay đổi tiền thuê không có căn cứ",
+   "severity": "HIGH",
+   "signs": "Cho phép tự ý tăng giá không theo thỏa thuận/căn cứ pháp luật",
+   "legal_basis": "Điều 68, 72 Luật Kinh doanh bất động sản 2023",
+   "citations": [
+    {
+     "law": "luat_kdbds_2023",
+     "dieu": [
+      68,
+      72
+     ],
+     "text": "Điều 68, 72 Luật Kinh doanh bất động sản 2023"
+    }
+   ],
+   "consequences": [
+    "Tranh chấp về giá thuê, khó thực thi mức giá mới"
+   ],
+   "labels": [
+    "PAYMENT",
+    "FOUNDATION",
+    "BASED"
+   ]
+  },
+  {
+   "code": "A-DEP-06",
+   "party": "A",
+   "group": "DEP",
+   "name": "Lãi/Phạt chậm thanh toán không phù hợp",
+   "severity": "HIGH",
+   "signs": "Mức hoặc cách tính không phù hợp với pháp luật",
+   "legal_basis": "Điều 357, 418, 468 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      357,
+      418,
+      468
+     ],
+     "text": "Điều 357, 418, 468 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Khoản lãi/phạt có thể không được công nhận"
+   ],
+   "labels": [
+    "PAYMENT",
+    "PENALTY"
+   ]
+  },
+  {
+   "code": "A-DEP-07",
+   "party": "A",
+   "group": "DEP",
+   "name": "Yêu cầu khoản thanh toán không có căn cứ",
+   "severity": "HIGH",
+   "signs": "Thu khoản tiền không xác định rõ nghĩa vụ/căn cứ",
+   "legal_basis": "Điều 3, 4, 385, 398 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      3,
+      4,
+      385,
+      398
+     ],
+     "text": "Điều 3, 4, 385, 398 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Không thu được khoản tiền, phát sinh tranh chấp"
+   ],
+   "labels": [
+    "PAYMENT",
+    "REQUEST",
+    "OBLIGATION",
+    "FOUNDATION"
+   ]
+  },
+  {
+   "code": "A-DEP-08",
+   "party": "A",
+   "group": "DEP",
+   "name": "Quy định tiền thuê không đủ rõ để yêu cầu thanh toán",
+   "severity": "MEDIUM",
+   "signs": "Không xác định rõ giá thuê/kỳ/phương thức thanh toán",
+   "legal_basis": "Điều 398 BLDS 2015, Điều 14 Bộ luật Kinh doanh bất động sản 2023",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      398
+     ],
+     "text": "Điều 398 BLDS 2015"
+    },
+    {
+     "law": "luat_kdbds_2023",
+     "dieu": [
+      14
+     ],
+     "text": "Điều 14 Bộ luật Kinh doanh bất động sản 2023"
+    }
+   ],
+   "consequences": [
+    "Khó chứng minh và yêu cầu thanh toán"
+   ],
+   "labels": [
+    "INFORMATION",
+    "PAYMENT",
+    "CLARITY"
+   ]
+  },
+  {
+   "code": "B-DEP-01",
+   "party": "B",
+   "group": "DEP",
+   "name": "Tiền đặt cọc được dùng để bảo đảm nghĩa vụ trái pháp luật",
+   "severity": "CRITICAL",
+   "signs": "Cọc dùng để bảo đảm một nghĩa vụ hoặc mục đích mà pháp luật không công nhận",
+   "legal_basis": "Điều 117, 123, 328 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      117,
+      123,
+      328
+     ],
+     "text": "Điều 117, 123, 328 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Thỏa thuận có nguy cơ bị vô hiệu, gây mất hoặc khó thu hồi tiền"
+   ],
+   "labels": [
+    "DEPOSIT",
+    "ILLEGAL",
+    "OBLIGATION"
+   ]
+  },
+  {
+   "code": "B-DEP-02",
+   "party": "B",
+   "group": "DEP",
+   "name": "Nguy cơ mất/khấu trừ tiền cọc không có căn cứ",
+   "severity": "HIGH",
+   "signs": "Cho phép bên A giũ/trừ cọc quá rộng",
+   "legal_basis": "Điều 328 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      328
+     ],
+     "text": "Điều 328 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Mất một phần/toàn bộ tiền cọc"
+   ],
+   "labels": [
+    "DEPOSIT",
+    "DEDUCTION",
+    "FOUNDATION"
+   ]
+  },
+  {
+   "code": "B-DEP-03",
+   "party": "B",
+   "group": "DEP",
+   "name": "Điều kiện mất cọc không phù hợp với trường hợp vi phạm",
+   "severity": "HIGH",
+   "signs": "Mất cọc dù chưa đủ căn cứ phát sinh hậu quả",
+   "legal_basis": "Điều 328 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      328
+     ],
+     "text": "Điều 328 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Mất cọc hoặc phải tranh chấp để đòi lại"
+   ],
+   "labels": [
+    "DEPOSIT",
+    "HANDLING",
+    "VIOLATION",
+    "BASED"
+   ]
+  },
+  {
+   "code": "B-DEP-04",
+   "party": "B",
+   "group": "DEP",
+   "name": "Không có cơ chế rõ ràng để hoàn trả tiền cọc",
+   "severity": "HIGH",
+   "signs": "Không xác định rõ thời điểm/điều kiện hoàn cọc",
+   "legal_basis": "Điều 328 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      328
+     ],
+     "text": "Điều 328 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Khó thu hồi cọc, dễ phát sinh tranh chấp"
+   ],
+   "labels": [
+    "REFUND",
+    "OBLIGATION"
+   ]
+  },
+  {
+   "code": "B-DEP-05",
+   "party": "B",
+   "group": "DEP",
+   "name": "Quyền tăng tiền thuê đơn phương",
+   "severity": "HIGH",
+   "signs": "Bên A được tự quyêt định tăng giá",
+   "legal_basis": "Điều 68, 72 Luật Kinh doanh bất động sản 2023",
+   "citations": [
+    {
+     "law": "luat_kdbds_2023",
+     "dieu": [
+      68,
+      72
+     ],
+     "text": "Điều 68, 72 Luật Kinh doanh bất động sản 2023"
+    }
+   ],
+   "consequences": [
+    "Phải đối mặt với yêu cầu tăng giá hoặc tranh chấp"
+   ],
+   "labels": [
+    "PAYMENT",
+    "FOUNDATION"
+   ]
+  },
+  {
+   "code": "B-DEP-06",
+   "party": "B",
+   "group": "DEP",
+   "name": "Lãi/Phạt chậm thanh toán không phù hợp",
+   "severity": "HIGH",
+   "signs": "Mức lãi/phạt quá mức hoặc chồng nhiều chế tài",
+   "legal_basis": "Điều 357, 418, 468 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      357,
+      418,
+      468
+     ],
+     "text": "Điều 357, 418, 468 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Có nguy cơ phải chịu khoản tiền không được pháp luật công nhận"
+   ],
+   "labels": [
+    "PAYMENT",
+    "PENALTY"
+   ]
+  },
+  {
+   "code": "B-DEP-07",
+   "party": "B",
+   "group": "DEP",
+   "name": "Nghĩa vụ thanh toán các khoản không có căn cứ",
+   "severity": "HIGH",
+   "signs": "Phải trả khoản tiền không xác định rõ nghĩa vụ/căn cứ",
+   "legal_basis": "Điều 3, 4, 385, 398 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      3,
+      4,
+      385,
+      398
+     ],
+     "text": "Điều 3, 4, 385, 398 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Phát sinh nghĩa vụ thanh toán và tranh chấp"
+   ],
+   "labels": [
+    "PAYMENT",
+    "REQUEST",
+    "OBLIGATION",
+    "FOUNDATION"
+   ]
+  },
+  {
+   "code": "B-DEP-08",
+   "party": "B",
+   "group": "DEP",
+   "name": "Tiền thuê/phương thức thanh toán không được xác định rõ",
+   "severity": "MEDIUM",
+   "signs": "Không rõ giá thuê, kỳ hạn hoặc phương thức thanh toán",
+   "legal_basis": "Điều 398 BLDS 2015, Điều 14 Bộ luật Kinh doanh bất động sản 2023",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      398
+     ],
+     "text": "Điều 398 BLDS 2015"
+    },
+    {
+     "law": "luat_kdbds_2023",
+     "dieu": [
+      14
+     ],
+     "text": "Điều 14 Bộ luật Kinh doanh bất động sản 2023"
+    }
+   ],
+   "consequences": [
+    "Không rõ nghĩa vụ phải trả, dễ phát sinh tranh chấp"
+   ],
+   "labels": [
+    "INFORMATION",
+    "PAYMENT",
+    "CLARITY"
+   ]
+  },
+  {
+   "code": "A-MNT-01",
+   "party": "A",
+   "group": "MNT",
+   "name": "Phân bổ cho bên thuê trách nhiệm sửa chữa không thuộc phạm vi của họ",
+   "severity": "HIGH",
+   "signs": "Đẩy toàn bộ hư hỏng, khuyết tật sang trách nhiệm của bên B",
+   "legal_basis": "Điều 477, 479 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      477,
+      479
+     ],
+     "text": "Điều 477, 479 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Bên B có thể yêu cầu sửa chữa, giảm giá thuê hoạc chấm dữt và đòi bồi thường trong trường hợp luật định"
+   ],
+   "labels": [
+    "REPAIR",
+    "RESPONSIBILITY",
+    "DAMAGE",
+    "DEFECTS"
+   ]
+  },
+  {
+   "code": "A-MNT-02",
+   "party": "A",
+   "group": "MNT",
+   "name": "Tự ý bảo trì, cải tạo nhà đang cho thuê",
+   "severity": "HIGH",
+   "signs": "Cho phép cải tạo mà không cần sự đồng ý của bên B, trừ trường hợp ngoại lệ",
+   "legal_basis": "Điều 132, 72 Luật KDBĐS 2023",
+   "citations": [
+    {
+     "law": "luat_kdbds_2023",
+     "dieu": [
+      132,
+      72
+     ],
+     "text": "Điều 132, 72 Luật KDBĐS 2023"
+    }
+   ],
+   "consequences": [
+    "Phát sinh tranh chấp, bên A có thể phải chịu trách nhiệm đối với thiệt hại/quyền của bên B"
+   ],
+   "labels": [
+    "MAINTENANCE",
+    "REPAIR",
+    "AGREEMENT"
+   ]
+  },
+  {
+   "code": "A-MNT-03",
+   "party": "A",
+   "group": "MNT",
+   "name": "Không thanh toán chi phí bảo trì, sửa chữa hợp lý cho bên thuê",
+   "severity": "HIGH",
+   "signs": "Loại trừ nghĩa vụ hoàn trả chi phí dù bên thuê sửa chữa đúng điều kiện",
+   "legal_basis": "Điều 477 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      477
+     ],
+     "text": "Điều 477 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Phải thanh toán chi phí hợp lý, phát sinh tranh chấp"
+   ],
+   "labels": [
+    "PAYMENT",
+    "MAINTENANCE",
+    "OBLIGATION"
+   ]
+  },
+  {
+   "code": "A-MNT-04",
+   "party": "A",
+   "group": "MNT",
+   "name": "Điều chỉnh giá thuê sau cải tạo không đúng điều kiện",
+   "severity": "HIGH",
+   "signs": "Cho phép tăng giá bất kỳ lúc nào sau cải tạo",
+   "legal_basis": "Điều 132 Luật Nhà ở 2023",
+   "citations": [
+    {
+     "law": "luat_nha_o_2023",
+     "dieu": [
+      132
+     ],
+     "text": "Điều 132 Luật Nhà ở 2023"
+    }
+   ],
+   "consequences": [
+    "Việc tăng giá có thể bị tranh chấp, bên B có quyền chấm dứt trong trường hợp luật định"
+   ],
+   "labels": [
+    "PAYMENT",
+    "ADJUSTMENT"
+   ]
+  },
+  {
+   "code": "A-MNT-05",
+   "party": "A",
+   "group": "MNT",
+   "name": "Không duy trì tài sản đúng tình trạng và mục đích thuê",
+   "severity": "MEDIUM",
+   "signs": "Không bảo đảm tài sản tiếp tục phù hợp với thỏa thuận/mục đích thuê",
+   "legal_basis": "Điều 477 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      477
+     ],
+     "text": "Điều 477 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Bên B có thể yêu cầu sửa chữa, giảm giá thuê hoặc áp dụng quyền chấm dứt theo luật"
+   ],
+   "labels": [
+    "PURPOSE",
+    "MAINTENANCE"
+   ]
+  },
+  {
+   "code": "B-MNT-01",
+   "party": "B",
+   "group": "MNT",
+   "name": "Phải chịu trách nhiệm sửa chữa hư hỏng không do mình gây ra/hao mòn tự nhiên",
+   "severity": "HIGH",
+   "signs": "Bên B phải sửa chữa mọi hư hỏng, kể cả khuyêt tật/hư hỏng lớn",
+   "legal_basis": "Điều 477, 479 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      477,
+      479
+     ],
+     "text": "Điều 477, 479 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Phải chịu chi phí không thuộc trách nhiệm của mình, khó yêu cầu chủ nhà sửa chữa"
+   ],
+   "labels": [
+    "REPAIR",
+    "RESPONSIBILITY",
+    "DAMAGE",
+    "DEFECTS",
+    "NATURAL_DAMAGE"
+   ]
+  },
+  {
+   "code": "B-MNT-02",
+   "party": "B",
+   "group": "MNT",
+   "name": "Tự ý sửa chữa , cải tạo hoặc thay đổi nhà không đúng điều kiện",
+   "severity": "HIGH",
+   "signs": "Cho phép bên B tự ý cải tạo",
+   "legal_basis": "Điều 479 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      479
+     ],
+     "text": "Điều 479 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Có thể phải bồi thường và bị bên A chấm dứt hợp đồng"
+   ],
+   "labels": [
+    "MAINTENANCE",
+    "REPAIR",
+    "AGREEMENT"
+   ]
+  },
+  {
+   "code": "B-MNT-03",
+   "party": "B",
+   "group": "MNT",
+   "name": "Phải chịu tiền thuê trong thời gian nhà được bảo trì/cải tạo làm gián đoạn sử dụng",
+   "severity": "HIGH",
+   "signs": "Không hoàn tiền hoặc vẫn tính thời gian bảo trì vào thời hạn thuê",
+   "legal_basis": "Điều 477 BLDS 2015\nĐiều 132 Luật Nhà ở 2023",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      477
+     ],
+     "text": "Điều 477 BLDS 2015"
+    },
+    {
+     "law": "luat_nha_o_2023",
+     "dieu": [
+      132
+     ],
+     "text": "Điều 132 Luật Nhà ở 2023"
+    }
+   ],
+   "consequences": [
+    "Mất quyền sử dụng tương ứng nhưng vẫn phải chịu chi phí thuê, tranh chấp hờn tiền/gia hạn"
+   ],
+   "labels": [
+    "PAYMENT",
+    "PERIOD",
+    "INTERRUPTION"
+   ]
+  },
+  {
+   "code": "B-MNT-04",
+   "party": "B",
+   "group": "MNT",
+   "name": "Bị hạn chế quyền yêu cầu sửa chữa hoặc hoàn trả chi phí hợp lý",
+   "severity": "MEDIUM",
+   "signs": "Hợp đồng cấm yêu cầu chủ nhà sửa chữa hoặc cấm tự sửa chữa trong trường hợp luật cho phép",
+   "legal_basis": "Điều 477 BLDS 2015\nĐiều 132 Luật Nhà ở 2023",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      477
+     ],
+     "text": "Điều 477 BLDS 2015"
+    },
+    {
+     "law": "luat_nha_o_2023",
+     "dieu": [
+      132
+     ],
+     "text": "Điều 132 Luật Nhà ở 2023"
+    }
+   ],
+   "consequences": [
+    "Khó bảo vệ quyền sửa chữa, yêu cầu giảm giá thuê hoặc hoàn chi phí"
+   ],
+   "labels": [
+    "REPAIR",
+    "REQUEST",
+    "REFUND"
+   ]
+  },
+  {
+   "code": "A-TRM-01",
+   "party": "A",
+   "group": "TRM",
+   "name": "Đơn phương chấm dứt/thu hồi nhà trước thời hạn không có căn cứ",
+   "severity": "HIGH",
+   "signs": "Cho phép bên A chấm dứt hợp đồng bất kỳ lúc nào",
+   "legal_basis": "Điều 428 BLDS 2015\nĐiều 172 Luật Nhà ở 2023",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      428
+     ],
+     "text": "Điều 428 BLDS 2015"
+    },
+    {
+     "law": "luat_nha_o_2023",
+     "dieu": [
+      172
+     ],
+     "text": "Điều 172 Luật Nhà ở 2023"
+    }
+   ],
+   "consequences": [
+    "Tranh chấp về quyền chấm dứt",
+    "Phải bồi thường thiệt hại nếu có"
+   ],
+   "labels": [
+    "UNILATERAL",
+    "TERMINATION",
+    "EVICTION",
+    "BASED"
+   ]
+  },
+  {
+   "code": "A-TRM-02",
+   "party": "A",
+   "group": "TRM",
+   "name": "Không bảo đảm quyền tiếp tục thuê khi đổi chủ nhà",
+   "severity": "HIGH",
+   "signs": "Yêu cầu bên B trả nhà trước thời hạn nếu chuyển quyền sở hữu",
+   "legal_basis": "Điều 173 Luật Nhà ở 2023",
+   "citations": [
+    {
+     "law": "luat_nha_o_2023",
+     "dieu": [
+      173
+     ],
+     "text": "Điều 173 Luật Nhà ở 2023"
+    }
+   ],
+   "consequences": [
+    "Tranh chấp với người thuê",
+    "Không thu hồi được nhà như dự kiến"
+   ],
+   "labels": [
+    "CONTINUITY",
+    "OWNERSHIP",
+    "EVICTION"
+   ]
+  },
+  {
+   "code": "A-TRM-03",
+   "party": "A",
+   "group": "TRM",
+   "name": "Thời hạn thuê/điều kiện gia hạn không rõ ràng",
+   "severity": "MEDIUM",
+   "signs": "Thời gian kết thúc, điều kiện gia hạn hoặc thời điểm yêu cầu trả nhà mâu thuẫn/không xác định rõ ràng",
+   "legal_basis": "Điều 163, 170, 171 Luật nhà ở 2023",
+   "citations": [
+    {
+     "law": "luat_nha_o_2023",
+     "dieu": [
+      163,
+      170,
+      171
+     ],
+     "text": "Điều 163, 170, 171 Luật nhà ở 2023"
+    }
+   ],
+   "consequences": [
+    "Tranh chấp về thời điểm chấm dứt và quyền yêu cầu trả nhà"
+   ],
+   "labels": [
+    "INFORMATION",
+    "CLARITY",
+    "EVICTION",
+    "CONTINUITY"
+   ]
+  },
+  {
+   "code": "A-TRM-04",
+   "party": "A",
+   "group": "TRM",
+   "name": "Yêu cầu bồi thường cả hao mòn do tự nhiên khi hoàn trả nhà",
+   "severity": "MEDIUM",
+   "signs": "Yêu cầu bên B hoàn trả nhà như mới, không loại trừ hao mòn tự nhiên",
+   "legal_basis": "Điều 482 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      482
+     ],
+     "text": "Điều 482 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Yêu cầu bồi thường có thể không được chấp nhận"
+   ],
+   "labels": [
+    "COMPENSATION",
+    "NATURAL_DAMAGE"
+   ]
+  },
+  {
+   "code": "A-TRM-05",
+   "party": "A",
+   "group": "TRM",
+   "name": "Không xác định rõ hiện trạng và tiêu chí khi hoàn trả nhà",
+   "severity": "LOW",
+   "signs": "Không mô tả rõ hiện trạng, thiết bị hoặc tình trạng tài sản khi giao nhận",
+   "legal_basis": "Điều 398, 482 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      398,
+      482
+     ],
+     "text": "Điều 398, 482 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Khó chứng minh hư hỏng phát sinh trong thời gian thuê để yêu cầu bồi thường"
+   ],
+   "labels": [
+    "STATUS",
+    "INFORMATION",
+    "CLARITY"
+   ]
+  },
+  {
+   "code": "B-TRM-01",
+   "party": "B",
+   "group": "TRM",
+   "name": "Bị chấm dứt hợp đồng/thu hồi nhà trước thời hạn không có căn cứ",
+   "severity": "HIGH",
+   "signs": "Hợp đồng cho phép bên A lấy lại nhà bất cứ lúc nào",
+   "legal_basis": "Điều 428 BLDS 2015\nĐiều 172 Luật Nhà ở 2023",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      428
+     ],
+     "text": "Điều 428 BLDS 2015"
+    },
+    {
+     "law": "luat_nha_o_2023",
+     "dieu": [
+      172
+     ],
+     "text": "Điều 172 Luật Nhà ở 2023"
+    }
+   ],
+   "consequences": [
+    "Mất nhà trước thời hạn dự kiến",
+    "Phát sinh tranh chấp và phải yêu cầu bồi thường"
+   ],
+   "labels": [
+    "TERMINATION",
+    "EVICTION",
+    "BASED"
+   ]
+  },
+  {
+   "code": "B-TRM-02",
+   "party": "B",
+   "group": "TRM",
+   "name": "Không được tiếp tục thuê khi đổi chủ nhà",
+   "severity": "HIGH",
+   "signs": "Yêu cầu bên B trả nhà trước thời hạn nếu chuyển quyền sở hữu",
+   "legal_basis": "Điều 173 Luật Nhà ở 2023",
+   "citations": [
+    {
+     "law": "luat_nha_o_2023",
+     "dieu": [
+      173
+     ],
+     "text": "Điều 173 Luật Nhà ở 2023"
+    }
+   ],
+   "consequences": [
+    "Mất quyền tiếp tục thuê dù chưa hết hạn hợp đồng"
+   ],
+   "labels": [
+    "CONTINUITY",
+    "OWNERSHIP",
+    "EVICTION"
+   ]
+  },
+  {
+   "code": "B-TRM-03",
+   "party": "B",
+   "group": "TRM",
+   "name": "Quyền đơn phương chấm dứt bị hạn chế",
+   "severity": "HIGH",
+   "signs": "Phủ nhận quyền đơn phương chấm dứt trong trường hợp pháp luật cho phép",
+   "legal_basis": "Điều 428 BLDS 2015\nĐiều 172 Luật Nhà ở 2023",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      428
+     ],
+     "text": "Điều 428 BLDS 2015"
+    },
+    {
+     "law": "luat_nha_o_2023",
+     "dieu": [
+      172
+     ],
+     "text": "Điều 172 Luật Nhà ở 2023"
+    }
+   ],
+   "consequences": [
+    "Phát sinh tranh chấp về quyền chấm dứt",
+    "Chịu trách nhiệm khi chấm dứt hợp đồng"
+   ],
+   "labels": [
+    "UNILATERAL",
+    "TERMINATION",
+    "RESTRICTION"
+   ]
+  },
+  {
+   "code": "B-TRM-04",
+   "party": "B",
+   "group": "TRM",
+   "name": "Thời hạn thuê/điều kiện gia hạn không rõ ràng",
+   "severity": "MEDIUM",
+   "signs": "Thời gian kết thúc, điều kiện gia hạn hoặc thời điểm yêu cầu trả nhà mâu thuẫn/không xác định rõ ràng",
+   "legal_basis": "Điều 163, 170, 171 Luật nhà ở 2023",
+   "citations": [
+    {
+     "law": "luat_nha_o_2023",
+     "dieu": [
+      163,
+      170,
+      171
+     ],
+     "text": "Điều 163, 170, 171 Luật nhà ở 2023"
+    }
+   ],
+   "consequences": [
+    "Tranh chấp về việc hợp đồng còn hiệu lực hay đã chấm dứt"
+   ],
+   "labels": [
+    "INFORMATION",
+    "CLARITY",
+    "EVICTION",
+    "CONTINUITY"
+   ]
+  },
+  {
+   "code": "B-TRM-05",
+   "party": "B",
+   "group": "TRM",
+   "name": "Phải bồi thường cả hao mòn tự nhiên khi hoàn trả nhà",
+   "severity": "MEDIUM",
+   "signs": "Bên B phải sửa chữa/bồi thường hao mòn tự nhiên",
+   "legal_basis": "Điều 482 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      482
+     ],
+     "text": "Điều 482 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Có thể bị yêu cầu thanh toán chi phí không thuộc trách nhiệm pháp lý của mình"
+   ],
+   "labels": [
+    "COMPENSATION",
+    "NATURAL_DAMAGE"
+   ]
+  },
+  {
+   "code": "B-TRM-06",
+   "party": "B",
+   "group": "TRM",
+   "name": "Không xác định rõ hiện trạng và nghĩa vụ hoàn trả tài sản",
+   "severity": "LOW",
+   "signs": "Không mô tả rõ hiện trạng, thiết bị hoặc tình trạng tài sản khi giao nhận",
+   "legal_basis": "Điều 398, 482 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      398,
+      482
+     ],
+     "text": "Điều 398, 482 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Không xác định được hư hỏng phát sinh trong thời gian thuê",
+    "Dễ phát sinh tranh chấp/đòi bồi thường"
+   ],
+   "labels": [
+    "STATUS",
+    "INFORMATION",
+    "CLARITY"
+   ]
+  },
+  {
+   "code": "A-PEN-01",
+   "party": "A",
+   "group": "PEN",
+   "name": "Bên thuê chậm thanh toán tiền thuê",
+   "severity": "MEDIUM",
+   "signs": "Hợp đồng không quy định rõ thời hạn thanh toán, thời gian gia hạn hoặc cách xử lý khi chậm trả",
+   "legal_basis": "Điều 357, 468 BLDS 2015\nĐiều 481 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      357,
+      468
+     ],
+     "text": "Điều 357, 468 BLDS 2015"
+    },
+    {
+     "law": "blds_2015",
+     "dieu": [
+      481
+     ],
+     "text": "Điều 481 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Khó xác định khoản tiền chậm trả",
+    "Phát sinh tranh chấp về nghĩa vụ thanh toán"
+   ],
+   "labels": [
+    "LATE",
+    "PAYMENT",
+    "HANDLING"
+   ]
+  },
+  {
+   "code": "A-PEN-02",
+   "party": "A",
+   "group": "PEN",
+   "name": "Không quy định rõ điều khoản phạt vi phạm",
+   "severity": "MEDIUM",
+   "signs": "Hợp đồng không có thỏa thuận phạt vi phạm rõ ràng",
+   "legal_basis": "Điều 418 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      418
+     ],
+     "text": "Điều 418 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Bên A chậm trả tiền hoặc vi phạm nội quy",
+    "Phát sinh tranh chấp với bên B do khoản phạt quá thấp"
+   ],
+   "labels": [
+    "VIOLATION",
+    "PENALTY",
+    "CLARITY"
+   ]
+  },
+  {
+   "code": "A-PEN-03",
+   "party": "A",
+   "group": "PEN",
+   "name": "Không rõ cách xác định thiệt hại",
+   "severity": "HIGH",
+   "signs": "Hợp đồng không nêu cách ghi nhận, chứng minh hoặc xác định giá trị thiệt hại khi xảy ra vi phạm.",
+   "legal_basis": "Điều 360, 361, 419 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      360,
+      361,
+      419
+     ],
+     "text": "Điều 360, 361, 419 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Bên A yêu cầu bồi thường chi phí sửa chữa",
+    "Khó chứng minh hư hại để yêu cầu bên A bồi thường"
+   ],
+   "labels": [
+    "DAMAGE",
+    "PROOF",
+    "DETERMINATION",
+    "VIOLENCE"
+   ]
+  },
+  {
+   "code": "A-PEN-04",
+   "party": "A",
+   "group": "PEN",
+   "name": "Tranh chấp trách nhiệm khi tài sản bị hư hỏng",
+   "severity": "HIGH",
+   "signs": "Hợp đồng không phân định rõ trách nhiệm đối với hư hỏng, sửa chữa nhỏ và hao mòn tự nhiên.",
+   "legal_basis": "Điều 479, 482 BLDC 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      479,
+      482
+     ],
+     "text": "Điều 479, 482 BLDC 2015"
+    }
+   ],
+   "consequences": [
+    "Khi trả nhà, chủ nhà yêu cầu người thuê trả tiền thay mới thiết bị đã cũ hoặc sửa chữa hư hỏng có trước khi nhận nhà."
+   ],
+   "labels": [
+    "DAMAGE",
+    "RESPONSIBILITY",
+    "NATURAL_DAMAGE"
+   ]
+  },
+  {
+   "code": "A-PEN-05",
+   "party": "A",
+   "group": "PEN",
+   "name": "Không rõ điều kiện chấm dứt hợp đồng do vi phạm",
+   "severity": "HIGH",
+   "signs": "Hợp đồng không xác định rõ hành vi vi phạm, căn cứ chấm dứt và thủ tục thông báo.",
+   "legal_basis": "Điều 428, 172 BDLS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      428,
+      172
+     ],
+     "text": "Điều 428, 172 BDLS 2015"
+    }
+   ],
+   "consequences": [
+    "Người thuê bị yêu cầu rời khỏi nhà vì vi phạm nhỏ hoặc chủ nhà chấm dứt hợp đồng khi chưa đáp ứng điều kiện áp dụng."
+   ],
+   "labels": [
+    "CONDITION",
+    "VIOLENCE",
+    "TERMINATION",
+    "NOTIFICATION"
+   ]
+  },
+  {
+   "code": "A-PEN-06",
+   "party": "A",
+   "group": "PEN",
+   "name": "Thiếu quy trình ghi nhận và thông báo vi phạm",
+   "severity": "HIGH",
+   "signs": "Hợp đồng không nêu cách gửi thông báo, thời điểm nhận thông báo hoặc cách lưu bằng chứng.",
+   "legal_basis": "Điều 428 BLDS 2015\nĐiều 172 Luật nhà ở 2023",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      428
+     ],
+     "text": "Điều 428 BLDS 2015"
+    },
+    {
+     "law": "luat_nha_o_2023",
+     "dieu": [
+      172
+     ],
+     "text": "Điều 172 Luật nhà ở 2023"
+    }
+   ],
+   "consequences": [
+    "Chủ nhà cho rằng đã thông báo yêu cầu khắc phục nhưng người thuê phủ nhận",
+    "Hai bên không thống nhất được thời điểm bắt đầu tính thời hạn xử lý vi phạm."
+   ],
+   "labels": [
+    "NOTIFICATION",
+    "PROOF",
+    "VIOLENCE"
+   ]
+  },
+  {
+   "code": "B-PEN-01",
+   "party": "B",
+   "group": "PEN",
+   "name": "Chậm trả tiền thuê và phát sinh hậu quả tài chính",
+   "severity": "HIGH",
+   "signs": "Hợp đồng không làm rõ thời hạn trả tiền, cách tính khoản tiền phát sinh",
+   "legal_basis": "Điều 481 BLDS 2015\nĐiều 170 Luật Nhà ở 2023",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      481
+     ],
+     "text": "Điều 481 BLDS 2015"
+    },
+    {
+     "law": "luat_nha_o_2023",
+     "dieu": [
+      170
+     ],
+     "text": "Điều 170 Luật Nhà ở 2023"
+    }
+   ],
+   "consequences": [
+    "Người thuê chậm trả tiền chậm.",
+    "Chủ nhà yêu cầu thêm một khoản phạt nhưng hợp đồng không ghi mức phạt hoặc cách tính"
+   ],
+   "labels": [
+    "LATE",
+    "PAYMENT",
+    "DAMAGE"
+   ]
+  },
+  {
+   "code": "B-PEN-02",
+   "party": "B",
+   "group": "PEN",
+   "name": "Bị yêu cầu bồi thường cả hao mòn tự nhiên",
+   "severity": "HIGH",
+   "signs": "Điều khoản yêu cầu bồi thường mọi hư hỏng nhưng không phân biệt hao mòn tự nhiên với hư hỏng do lỗi của người thuê.",
+   "legal_basis": "Điều 479, 482 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      479,
+      482
+     ],
+     "text": "Điều 479, 482 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Người thuê có thể phải gánh chi phí sửa chữa hoặc thay mới tài sản không tương xứng với phần thiệt hại do mình gây ra."
+   ],
+   "labels": [
+    "NATURAL_DAMAGE",
+    "COMPSENTATION"
+   ]
+  },
+  {
+   "code": "B-PEN-03",
+   "party": "B",
+   "group": "PEN",
+   "name": "Bị áp dụng mức phạt vi phạm không rõ ràng",
+   "severity": "HIGH",
+   "signs": "Hợp đồng không ghi rõ mức phạt hoặc cách tính tiền phạt khi bên B vi phạm nghĩa vụ",
+   "legal_basis": "Điều 418 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      418
+     ],
+     "text": "Điều 418 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Chủ nhà tự đưa ra mức phạt sau khi xảy ra vi phạm, dẫn đến tranh chấp số tiền phải trả"
+   ],
+   "labels": []
+  },
+  {
+   "code": "B-PEN-04",
+   "party": "B",
+   "group": "PEN",
+   "name": "Bị yêu cầu sửa chữa và thay mới tài sản vượt quá thiệt hại thực tế",
+   "severity": "HIGH",
+   "signs": "Hợp đồng yêu cầu bên B sửa chữa hoặc thay mới tài sản mà không phân biệt mức độ hư hỏng và giá trị thiệt hại thực tế",
+   "legal_basis": "Điều 360, 361, 419 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      360,
+      361,
+      419
+     ],
+     "text": "Điều 360, 361, 419 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Người thuê phải chịu chi phí thay mới toàn bộ thiết bị dù chỉ hư hỏng một phần hoặc tài sản đã hao mòn"
+   ],
+   "labels": []
+  },
+  {
+   "code": "B-PEN-05",
+   "party": "B",
+   "group": "PEN",
+   "name": "Bị phạt do chậm bàn giao nhà không rõ cách tính",
+   "severity": "MEDIUM",
+   "signs": "Khi bàn giao nhà chậm nhưng không xác định rõ thời điểm bàn giao hoặc cách tính số ngày chậm",
+   "legal_basis": "Điều 418 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      418
+     ],
+     "text": "Điều 418 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Chủ nhà yêu cầu tiền phạt cho khoảng thời gian hai bên không thống nhất"
+   ],
+   "labels": []
+  },
+  {
+   "code": "A-RES-01",
+   "party": "A",
+   "group": "RES",
+   "name": "Cho phép người thuê không đăng ký cư trú",
+   "severity": "HIGH",
+   "signs": "Bên B không cần đăng ký cư trú",
+   "legal_basis": "Điều 27, 30 Luật Cư trú 2020",
+   "citations": [
+    {
+     "law": "luat_cu_tru_68_2020",
+     "dieu": [
+      27,
+      30
+     ],
+     "text": "Điều 27, 30 Luật Cư trú 2020"
+    }
+   ],
+   "consequences": [
+    "Không lập được hóa đơn cho thuê",
+    "Bị chính quyền xử phạt"
+   ],
+   "labels": [
+    "RESIDENCE",
+    "REGISTRATION",
+    "OBLIGATION",
+    "COMPLIANCE",
+    "INVOICE",
+    "PENALTY"
+   ]
+  },
+  {
+   "code": "A-RES-02",
+   "party": "A",
+   "group": "RES",
+   "name": "Không thực hiện thông báo lưu trú khi thuộc trách nhiệm",
+   "severity": "MEDIUM",
+   "signs": "Chủ nhà không xác định ai chịu trách nhiệm thông báo lưu trú",
+   "legal_basis": "Điều 30 Luật Cư trú 2020",
+   "citations": [
+    {
+     "law": "luat_cu_tru_68_2020",
+     "dieu": [
+      30
+     ],
+     "text": "Điều 30 Luật Cư trú 2020"
+    }
+   ],
+   "consequences": [
+    "Việc thông báo lưu trú có thể bị bỏ sót",
+    "Phát sinh nguy cơ bị xử lý theo quy định áp dụng"
+   ],
+   "labels": [
+    "RESIDENCE",
+    "NOTIFICATION",
+    "OBLIGATION",
+    "RESPONSIBILITY",
+    "COMPLIANCE"
+   ]
+  },
+  {
+   "code": "A-RES-03",
+   "party": "A",
+   "group": "RES",
+   "name": "Thông tin nhà thuê không thống nhất",
+   "severity": "HIGH",
+   "signs": "Thông tin nơi cho thuê trong hợp đồng khác với giấy tờ dùng để đăng ký cư trú",
+   "legal_basis": "Điều 28 Luật Cư trú 2020",
+   "citations": [
+    {
+     "law": "luat_cu_tru_68_2020",
+     "dieu": [
+      28
+     ],
+     "text": "Điều 28 Luật Cư trú 2020"
+    }
+   ],
+   "consequences": [
+    "Hồ sơ có thể phải xác minh, bổ sung hoặc không được giải quyết nếu không đáp ứng điều kiện"
+   ],
+   "labels": [
+    "RESIDENCE",
+    "INFORMATION",
+    "CONSISTENCY",
+    "DOCUMENTATION",
+    "VERIFICATION"
+   ]
+  },
+  {
+   "code": "A-RES-04",
+   "party": "A",
+   "group": "RES",
+   "name": "Không quy định cách xử lý khi thông tin cư trú thay đổi",
+   "severity": "MEDIUM",
+   "signs": "Hợp đồng không đề cập việc thông báo khi thay đổi người ở, chấm dứt thuê hoặc thay đổi thông tin liên quan",
+   "legal_basis": "Điều 27, 30 Luật Cư trú 2020",
+   "citations": [
+    {
+     "law": "luat_cu_tru_68_2020",
+     "dieu": [
+      27,
+      30
+     ],
+     "text": "Điều 27, 30 Luật Cư trú 2020"
+    }
+   ],
+   "consequences": [
+    "Thông tin cư trú có thể không được cập nhật kịp thời",
+    "Các bên khó xác định ai phải phối hợp xử lý khi phát sinh thủ tục"
+   ],
+   "labels": [
+    "RESIDENCE",
+    "INFORMATION",
+    "UPDATE",
+    "NOTIFICATION",
+    "RESPONSIBILITY",
+    "OBLIGATION"
+   ]
+  },
+  {
+   "code": "B-RES-01",
+   "party": "B",
+   "group": "RES",
+   "name": "Thông tin chỗ ở cung cấp cho thủ tục cư trú không chính xác",
+   "severity": "HIGH",
+   "signs": "Thông tin về chỗ ở trong hợp đồng không khớp với thực tế hoặc hồ sơ liên quan.",
+   "legal_basis": "Điều 28 Luật Cư trú 2020",
+   "citations": [
+    {
+     "law": "luat_cu_tru_68_2020",
+     "dieu": [
+      28
+     ],
+     "text": "Điều 28 Luật Cư trú 2020"
+    }
+   ],
+   "consequences": [
+    "Các vấn đề liên quan tới cư trú có thể không được giải quyết"
+   ],
+   "labels": [
+    "RESIDENCE",
+    "INFORMATION",
+    "ACCURACY",
+    "MISMATCH",
+    "COMPLIANCE"
+   ]
+  },
+  {
+   "code": "B-RES-02",
+   "party": "B",
+   "group": "RES",
+   "name": "Không có đủ giấy tờ chứng minh chỗ ở hợp pháp",
+   "severity": "HIGH",
+   "signs": "Hồ sơ không có giấy tờ phù hợp để chứng minh chỗ ở hợp pháp hoặc thông tin giấy tờ không khớp",
+   "legal_basis": "Điều 28 Luật Cư trú 2020",
+   "citations": [
+    {
+     "law": "luat_cu_tru_68_2020",
+     "dieu": [
+      28
+     ],
+     "text": "Điều 28 Luật Cư trú 2020"
+    }
+   ],
+   "consequences": [
+    "Hồ sơ có thể phải xác minh, bổ sung hoặc không được giải quyết nếu không đáp ứng điều kiện"
+   ],
+   "labels": [
+    "RESIDENCE",
+    "DOCUMENTATION",
+    "LEGALITY",
+    "VERIFICATION",
+    "COMPLIANCE"
+   ]
+  },
+  {
+   "code": "B-RES-03",
+   "party": "B",
+   "group": "RES",
+   "name": "Không thực hiện thông báo lưu trú đúng thời hạn",
+   "severity": "MEDIUM",
+   "signs": "Thuộc trường hợp phải thông báo nhưng không thông báo, hoặc thông báo sau thời hạn luật định",
+   "legal_basis": "Điều 30 Luật Cư trú 2020",
+   "citations": [
+    {
+     "law": "luat_cu_tru_68_2020",
+     "dieu": [
+      30
+     ],
+     "text": "Điều 30 Luật Cư trú 2020"
+    }
+   ],
+   "consequences": [
+    "Có thể bị xử lý vi phạm hành chính",
+    "Việc quản lý thông tin lưu trú không đáp ứng yêu cầu pháp luật"
+   ],
+   "labels": [
+    "RESIDENCE",
+    "NOTIFICATION",
+    "DEADLINE",
+    "OBLIGATION",
+    "COMPLIANCE",
+    "PENALTY"
+   ]
+  },
+  {
+   "code": "B-RES-04",
+   "party": "B",
+   "group": "RES",
+   "name": "Nhầm lẫn giữa đăng ký tạm trú và thông báo lưu trú",
+   "severity": "MEDIUM",
+   "signs": "Cho rằng hai thủ tục là một hoặc chỉ thực hiện một thủ tục trong mọi trường hợp",
+   "legal_basis": "Điều 27, 30 Luật Cư trú 2020",
+   "citations": [
+    {
+     "law": "luat_cu_tru_68_2020",
+     "dieu": [
+      27,
+      30
+     ],
+     "text": "Điều 27, 30 Luật Cư trú 2020"
+    }
+   ],
+   "consequences": [
+    "Có thể thực hiện sai hoặc bỏ sót thủ tục cần thiết",
+    "Nguy cơ bị xử lý theo quy định áp dụng"
+   ],
+   "labels": [
+    "RESIDENCE",
+    "REGISTRATION",
+    "NOTIFICATION",
+    "PROCEDURE",
+    "COMPLIANCE",
+    "OBLIGATION"
+   ]
+  },
+  {
+   "code": "A-TAX-01",
+   "party": "A",
+   "group": "TAX",
+   "name": "Che giấu tiền thuê nhà nhằm giảm nghĩa vụ thuế",
+   "severity": "CRITICAL",
+   "signs": "Thỏa thuận để một phần tiền thuê ngoài hợp đồng nhằm tránh kê khai thuế",
+   "legal_basis": "Điều 17 Luật Quản lý thuế 108/2025/QH15\nNghị định 68/2026/NĐ-CP",
+   "citations": [
+    {
+     "law": "luat_quan_ly_thue_108_2025",
+     "dieu": [
+      17
+     ],
+     "text": "Điều 17 Luật Quản lý thuế 108/2025/QH15"
+    },
+    {
+     "law": "nd68_2026",
+     "dieu": [],
+     "text": "Nghị định 68/2026/NĐ-CP"
+    }
+   ],
+   "consequences": [
+    "Có nguy cơ bị xác định là trốn thuế"
+   ],
+   "labels": []
+  },
+  {
+   "code": "A-TAX-02",
+   "party": "A",
+   "group": "TAX",
+   "name": "Loại trừ hoặc phân giao sai nghĩa vụ thuế của người cho thuê",
+   "severity": "HIGH",
+   "signs": "Bên A không phải thực hiện nghĩa vụ thuế hoặc giao nghĩa vụ khai thuế thay trái quy định áp dụng",
+   "legal_basis": "Điều 2, 5, 17 Luật Quản lý thuế 108/2025/QH15\nĐiều 4, 8 Nghị định 68/2026/NĐ-CP",
+   "citations": [
+    {
+     "law": "luat_quan_ly_thue_108_2025",
+     "dieu": [
+      2,
+      5,
+      17
+     ],
+     "text": "Điều 2, 5, 17 Luật Quản lý thuế 108/2025/QH15"
+    },
+    {
+     "law": "nd68_2026",
+     "dieu": [
+      4,
+      8
+     ],
+     "text": "Điều 4, 8 Nghị định 68/2026/NĐ-CP"
+    }
+   ],
+   "consequences": [
+    "Điều khoản không có tác dụng loại bỏ nghĩa vụ pháp định",
+    "Phát sinh trách nhiệm thuế và tranh chấp"
+   ],
+   "labels": []
+  },
+  {
+   "code": "A-TAX-03",
+   "party": "A",
+   "group": "TAX",
+   "name": "Từ chối lập hóa đơn trong trường hợp luật pháp bắt buộc",
+   "severity": "HIGH",
+   "signs": "Từ chối hóa đơn bất kể nghĩa vụ pháp luật áp dụng cho bên A",
+   "legal_basis": "Điều 26 Luật Quản lý thuế 108/2025/QH15\nNghị định 254/2026/NĐ-CP",
+   "citations": [
+    {
+     "law": "luat_quan_ly_thue_108_2025",
+     "dieu": [
+      26
+     ],
+     "text": "Điều 26 Luật Quản lý thuế 108/2025/QH15"
+    },
+    {
+     "law": "nd254_2026",
+     "dieu": [],
+     "text": "Nghị định 254/2026/NĐ-CP"
+    }
+   ],
+   "consequences": [
+    "Phát sinh vi phạm về hóa đơn",
+    "Tranh chấp với bên A"
+   ],
+   "labels": []
+  },
+  {
+   "code": "A-TAX-04",
+   "party": "A",
+   "group": "TAX",
+   "name": "Phân bổ chi phí thuế, tiền phạt hoặc khoản tài chính không rõ ràng",
+   "severity": "MEDIUM",
+   "signs": "Không xác định rõ loại khoản thuế, phần chi phí mỗi bên chịu khi khoản tiền phát sinh do lỗi của 1 bên",
+   "legal_basis": "Điều 398, 404 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      398,
+      404
+     ],
+     "text": "Điều 398, 404 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Tranh chấp về trách nhiệm tài chính",
+    "Điều khoản không được áp dụng theo ý muốn của bên A"
+   ],
+   "labels": []
+  },
+  {
+   "code": "A-TAX-05",
+   "party": "A",
+   "group": "TAX",
+   "name": "Giá thuê và khoản thuế mâu thuẫn",
+   "severity": "MEDIUM",
+   "signs": "Giá thuê, khoản thuế hoặc giá thanh toán không thống nhất giữa hợp đồng và phụ lục",
+   "legal_basis": "Điều 398, 403, 404 BLDS 2015",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      398,
+      403,
+      404
+     ],
+     "text": "Điều 398, 403, 404 BLDS 2015"
+    }
+   ],
+   "consequences": [
+    "Khó xác định số tiền phải thu và căn cứ xác định doanh thu"
+   ],
+   "labels": []
+  },
+  {
+   "code": "A-TAX-06",
+   "party": "A",
+   "group": "TAX",
+   "name": "Thiếu quy định về phối hợp khai thuế, nộp thuế thay khi có áp dụng",
+   "severity": "LOW",
+   "signs": "Hợp đồng có thỏa thuận khai, nộp thuế thay, nhưng chưa làm rõ phạm vi/thông tin cần thiết theo quy định áp dụng",
+   "legal_basis": "Điều 8 Nghị định 68/2026/NĐ-CP",
+   "citations": [
+    {
+     "law": "nd68_2026",
+     "dieu": [
+      8
+     ],
+     "text": "Điều 8 Nghị định 68/2026/NĐ-CP"
+    }
+   ],
+   "consequences": [
+    "Khó thực hiện thủ tục, xác định trách nhiệm và đối chiếu khoản thuế"
+   ],
+   "labels": []
+  },
+  {
+   "code": "B-TAX-01",
+   "party": "B",
+   "group": "TAX",
+   "name": "Không được cam kết xuất hóa đơn hợp lệ",
+   "severity": "CRITICAL",
+   "signs": "Bên B có nghĩa vụ thanh toán nhưng bên A không có nghĩa vụ xuất hóa đơn\nKhông gắn điều kiện thanh toán với việc nhận hóa đơn",
+   "legal_basis": "Điều 9, 16, 18 Nghị định 123/2020/NĐ-CP,\nĐiều 4 Thông tư 96/2015/TT-BTC",
+   "citations": [
+    {
+     "law": null,
+     "dieu": [
+      9,
+      16,
+      18
+     ],
+     "text": "Điều 9, 16, 18 Nghị định 123/2020/NĐ-CP"
+    },
+    {
+     "law": null,
+     "dieu": [
+      4
+     ],
+     "text": "Điều 4 Thông tư 96/2015/TT-BTC"
+    }
+   ],
+   "consequences": [
+    "Thanh toán nhưng không được nhận hóa đơn hợp lệ/đúng thời điểm",
+    "Không được trừ chi phí thu nhập doanh nghiệp khi tính thuế",
+    "Không được khấu trừ thuế GTGT"
+   ],
+   "labels": []
+  },
+  {
+   "code": "B-TAX-02",
+   "party": "B",
+   "group": "TAX",
+   "name": "Loại trừ hoặc phân giao sai nghĩa vụ thuế của người cho thuê",
+   "severity": "HIGH",
+   "signs": "Bên A không phải thực hiện nghĩa vụ thuế hoặc giao nghĩa vụ khai thuế thay trái quy định áp dụng",
+   "legal_basis": "Điều 2, 5, 17 Luật Quản lý thuế 108/2025/QH15\nĐiều 4, 8 Nghị định 68/2026/NĐ-CP",
+   "citations": [
+    {
+     "law": "luat_quan_ly_thue_108_2025",
+     "dieu": [
+      2,
+      5,
+      17
+     ],
+     "text": "Điều 2, 5, 17 Luật Quản lý thuế 108/2025/QH15"
+    },
+    {
+     "law": "nd68_2026",
+     "dieu": [
+      4,
+      8
+     ],
+     "text": "Điều 4, 8 Nghị định 68/2026/NĐ-CP"
+    }
+   ],
+   "consequences": [
+    "Phải thực hiện nghĩa vụ thuế thay bên A",
+    "Tranh chấp với bên A"
+   ],
+   "labels": []
+  },
+  {
+   "code": "B-TAX-03",
+   "party": "B",
+   "group": "TAX",
+   "name": "Nộp thuế thay nhưng thiếu nghĩa vụ về hồ sơ/phối hợp của người cho thuê",
+   "severity": "HIGH",
+   "signs": "Bên B thực hiện nghĩa vụ đóng thuế thay bên A nhưng bên A không có nghĩa vụ cung cấp hồ sơ thuế",
+   "legal_basis": "Điều 37 Luật Quản lý Thuế 2025,\nĐiều 8 Nghị định 68/2026/NĐ-CP",
+   "citations": [
+    {
+     "law": "luat_quan_ly_thue_108_2025",
+     "dieu": [
+      37
+     ],
+     "text": "Điều 37 Luật Quản lý Thuế 2025"
+    },
+    {
+     "law": "nd68_2026",
+     "dieu": [
+      8
+     ],
+     "text": "Điều 8 Nghị định 68/2026/NĐ-CP"
+    }
+   ],
+   "consequences": [
+    "Không kê khai/nộp thuế thay đúng hạn do thiếu hồ sơ",
+    "Chịu phạt chậm nộp/vi phạm hành chính về thuế"
+   ],
+   "labels": []
+  },
+  {
+   "code": "B-TAX-04",
+   "party": "B",
+   "group": "TAX",
+   "name": "Thanh toán vào một tài khoản cá nhân không chính chủ/thanh toán tiền mặt",
+   "severity": "MEDIUM",
+   "signs": "Chỉ định bên B thanh toán vào một tài khoản không phải đại diện/chủ sở hữu bên A\nCho phép thanh toán tiền mặt với khoản tiền lớn",
+   "legal_basis": "Điều 4 Thông tư 96/2015/TT-BTC,\nĐiều 280/283 BLDS 2015,\nĐiều 26 Nghị định 181/2025/NĐ-CP",
+   "citations": [
+    {
+     "law": null,
+     "dieu": [
+      4
+     ],
+     "text": "Điều 4 Thông tư 96/2015/TT-BTC"
+    },
+    {
+     "law": "blds_2015",
+     "dieu": [
+      280,
+      283
+     ],
+     "text": "Điều 280/283 BLDS 2015"
+    },
+    {
+     "law": "nd181_2025",
+     "dieu": [
+      26
+     ],
+     "text": "Điều 26 Nghị định 181/2025/NĐ-CP"
+    }
+   ],
+   "consequences": [
+    "Vi phạm quy định chứng từ thanh toán không dùng tiền mặt",
+    "Không được trừ chi phí thu nhập doanh nghiệp khi tính thuế"
+   ],
+   "labels": []
+  },
+  {
+   "code": "B-TAX-05",
+   "party": "B",
+   "group": "TAX",
+   "name": "Thời điểm xuất hóa đơn lệch so với kỳ thanh toán",
+   "severity": "MEDIUM",
+   "signs": "Bên A chỉ xuất hóa đơn sau khi kết thúc toàn bộ thời hạn thuê\nBên B phải thanh toán trước theo kỳ",
+   "legal_basis": "Điều 9 Nghị định 123/2020/NĐ-CP,\nĐiều 7 Nghị định 70/2025/NĐ-CP",
+   "citations": [
+    {
+     "law": null,
+     "dieu": [
+      9
+     ],
+     "text": "Điều 9 Nghị định 123/2020/NĐ-CP"
+    },
+    {
+     "law": null,
+     "dieu": [
+      7
+     ],
+     "text": "Điều 7 Nghị định 70/2025/NĐ-CP"
+    }
+   ],
+   "consequences": [
+    "Hạch toán xong nhưng vẫn chưa có hóa đơn để kê khai thuê GTGT đúng kỳ",
+    "Trễ hạn kê khai thuế"
+   ],
+   "labels": []
+  },
+  {
+   "code": "B-TAX-06",
+   "party": "B",
+   "group": "TAX",
+   "name": "Dồn nghĩa vụ nộp phạt hành chính về thuế cho bên thuê",
+   "severity": "LOW",
+   "signs": "Bên B chịu trách nhiệm thanh toán tiền phạt, tiền chậm nộp thuế phát sinh bất kể vi phạm do bên nào gây ra",
+   "legal_basis": "Điều 398, 404 BLDS 2015,\nĐiều 3 Nghị định 125/2020/NĐ-CP",
+   "citations": [
+    {
+     "law": "blds_2015",
+     "dieu": [
+      398,
+      404
+     ],
+     "text": "Điều 398, 404 BLDS 2015"
+    },
+    {
+     "law": "nd125_2020",
+     "dieu": [
+      3
+     ],
+     "text": "Điều 3 Nghị định 125/2020/NĐ-CP"
+    }
+   ],
+   "consequences": [
+    "Phải chịu cả trách nhiệm hành chính do vi phạm của bên A"
+   ],
+   "labels": []
+  }
+ ],
+ "issues": [
+  "B-AUT-03: cites 'Luật Nhà ở 2013', which is not in the KB",
+  "A-DEP-08: statute written 'Bộ luật Kinh doanh bất động sản 2023', read as luat_kdbds_2023",
+  "B-DEP-08: statute written 'Bộ luật Kinh doanh bất động sản 2023', read as luat_kdbds_2023",
+  "B-TRM-04: severity 'MEDUIUM' read as MEDIUM",
+  "A-PEN-02: severity 'MEIDUM' read as MEDIUM",
+  "A-PEN-04: statute written 'BLDC 2015', read as blds_2015",
+  "A-PEN-05: statute written 'BDLS 2015', read as blds_2015",
+  "B-TAX-01: cites 'Nghị định 123/2020/NĐ-CP', which is not in the KB",
+  "B-TAX-01: cites 'Thông tư 96/2015/TT-BTC', which is not in the KB",
+  "B-TAX-04: cites 'Thông tư 96/2015/TT-BTC', which is not in the KB",
+  "B-TAX-05: cites 'Nghị định 123/2020/NĐ-CP', which is not in the KB",
+  "B-TAX-05: cites 'Nghị định 70/2025/NĐ-CP', which is not in the KB"
+ ]
+}

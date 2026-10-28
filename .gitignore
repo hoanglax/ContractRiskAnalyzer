@@ -52,3 +52,6 @@ __pycache__/
 
 # Local model cache
 .cache/
+
+# statute PDFs: provenance (URL, sha256) lives in data/legal_corpus/SOURCES.md
+data/legal_corpus/*.pdf

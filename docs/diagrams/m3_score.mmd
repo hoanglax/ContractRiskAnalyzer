@@ -1,6 +1,6 @@
 graph TB
     IN["gold file + kept Findings of one run"] --> SPLIT{"kind"}
-    SPLIT -->|present| PAIRS["all gold x pred pairs, span jaccard,<br/>sorted best first"]
+    SPLIT -->|present| PAIRS["all gold x pred pairs, sorted by<br/>right code first, then span jaccard"]
     SPLIT -->|missing| MIS["no span to compare: missing_gold and missing_pred<br/>listed side by side for a human or judge"]
     PAIRS --> ST["strict: greedy one-to-one, jaccard >= 0.5 (CUAD)"]
     PAIRS --> LO["loose: greedy one-to-one, any overlap"]
@@ -9,8 +9,11 @@ graph TB
     CODE --> REC["recall per origin: planted / natural / all,<br/>span-only and span+code,<br/>found[gold id] = strict | loose | -"]
     PRED["present predictions"] --> DEC{"overlaps a decoy span?"}
     DEC -->|yes| DH["decoy_hits: false alarm on a lawful clause"]
-    DEC -->|"no, and not loose-matched"| EX["extra: false positive if gold exhaustive,<br/>else worth reading"]
-    REC --> OUT["score dict: strict, loose, found, decoy_hits,<br/>extra, missing_gold, missing_pred, n_pred"]
+    DEC -->|"no, and not loose-matched"| DUPQ{"overlaps a matched gold span?"}
+    DUPQ -->|yes| DUP["dup: same finding under another code<br/>(A-/B- pair, neighbouring rows)"]
+    DUPQ -->|no| EX["extra: false positive if gold exhaustive,<br/>else worth reading"]
+    REC --> OUT["score dict: strict, loose (+ _code), found, code_ok,<br/>uncoded, decoy_hits, extra, dup, missing_gold, missing_pred, n_pred"]
+    DUP --> OUT
     DH --> OUT
     EX --> OUT
     MIS --> OUT

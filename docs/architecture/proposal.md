@@ -78,8 +78,8 @@ Mỗi rủi ro hệ thống báo ra là **một mã trong taxonomy**.
 |---|---|---|
 | `Document` | M1 | `text` (văn bản sạch, mọi vị trí ký tự đều tính trên đó), `source` (tên tệp, sha256, loại), `pages` (chất lượng từng trang), `warnings` |
 | `Structure`, `Clause` | M2 | `layout`; mỗi `Clause` có `label` ("Điều 5"), `heading`, `char_start`, `char_end` |
-| `LookFor` | taxonomy (qua `detection/lens.py`) | một mã taxonomy được đưa cho mô hình: `id` (`taxonomy:<mã>`), `title`, `signs`, `affects` |
-| `Finding` | M3, sau cổng kiểm tra | `code` (mã taxonomy, cần bổ sung), `kind` (`present`/`missing`), `issue`, `quote`, `char_start`/`char_end`, `clause`; các thông tin còn lại lấy từ dòng taxonomy (mục 3.2) |
+| `LookFor` | taxonomy (qua `detection/lens.py`) | một mã taxonomy được đưa cho mô hình: `id` (chính là mã, ví dụ `B-DEP-04`), `title`, `signs`, `affects` |
+| `Finding` | M3, sau cổng kiểm tra | `code` (mã taxonomy), `kind` (`present`/`missing`), `issue`, `quote`, `char_start`/`char_end`, `clause`; các thông tin còn lại lấy từ dòng taxonomy (mục 3.2) |
 | `Hit` | M5 | `law`, `dieu_no`, `ref` (khoản/điểm), `text`, `score` |
 | `LegalBasis` (mới) | M4 | `law`, `dieu`, khoản/điểm, `text` (lấy từ kho, không do mô hình viết), `why` (một dòng lý do do mô hình chọn) |
 | `Explanation` (mới) | M6 | `summary`, `recommendation` |

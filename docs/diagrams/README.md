@@ -36,23 +36,23 @@ Diagrams marked *(planned)* describe code that does not match yet.
   (`ingestion/structure.py`)
 - `m2_tier2` - LLM fallback: numbered-line prompt, cache, strict answer
   gate, build from line indices only. (`ingestion/structure_llm.py`)
-- `m3_top` *(planned)* - whole_doc detector: taxonomy as a closed set of
+- `m3_top` - whole_doc detector: taxonomy as a closed set of
   codes, full-contract prompt (one call or one per group, to be measured),
   parse, ground, retry up to 2 times with the rejected items and why,
   result dict with every attempt. (`detection/whole_doc.py`)
-- `m3_ground` *(planned)* - the gate: unknown taxonomy code rejected first,
+- `m3_ground` - the gate: unknown taxonomy code rejected first,
   then verbatim-first quote locate with elision fallback; offsets, clause,
   severity and party set by code and the taxonomy row, never by the model.
   (`detection/finding.py`)
 - `m3_eval` - eval harness: manifest hashes, predictions-per-file runs,
   rescore without model calls. (`detection/eval.py`)
-- `m3_plant` *(planned)* - building the eval set: spec edits applied once
+- `m3_plant` - building the eval set: spec edits applied once
   each, re-ingest stability check, risk/decoy/scaffold roles, taxonomy code
   per planted risk, verbatim spans, validate, write text + gold.
   (`tools/plant_risks.py`, `detection/evalset.py`)
-- `m3_score` *(planned)* - scoring one run: greedy one-to-one span matching
-  (strict jaccard >= 0.5 / loose overlap), code check on matched pairs, decoy
-  hits, extras, missing listed for a human. (`detection/score.py`)
+- `m3_score` - scoring one run: greedy one-to-one span matching, right code
+  first (strict jaccard >= 0.5 / loose overlap), code check on matched pairs,
+  same finding under another code counted as dup, decoy hits, extras, missing listed for a human. (`detection/score.py`)
 - `m4_legal` *(planned)* - legal basis per finding: taxonomy citations plus
   retrieval as candidates, model picks passage ids only, ids gated, text from
   the KB, "no basis found" instead of inventing one.

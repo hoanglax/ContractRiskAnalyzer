@@ -14,4 +14,4 @@ graph TB
     REJ -->|"yes, retries left (max 2)"| RETRY["retry prompt: only the rejected items + why<br/>(quote not verbatim, unknown code) or ask for valid JSON;<br/>kept findings stay kept"]
     RETRY --> LLM
     REJ -->|"yes, no retries left"| WARN["still-rejected items -> warnings;<br/>unparseable after retries -> out.error"]
-    WARN --> OUT["out: kept, rejected(why), attempts (raw, finish, usage each), error"]
+    WARN --> OUT["out: kept, rejected(why), warnings, attempts (raw, finish, usage each), error<br/>per group: merged; a broken group is a warning, error only if all broke"]

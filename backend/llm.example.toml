@@ -41,12 +41,18 @@ chat_template_kwargs = { enable_thinking = false }     # llama-server / Qwen: th
 # max_tokens = 8000
 # reasoning_effort = "low"
 
-# Example hosted profile (uncomment, then point a task at it). allow_remote = true is what lets contract text be sent.
+# OpenRouter (uncomment, put OPENROUTER_API_KEY in the project's .env, point the tasks at it). allow_remote = true is
+# what lets contract text be sent. Measured 2026-10-29 with z-ai/glm-5.3 on a 12k-character contract: 185 s, $0.047
+# with reasoning effort low; at the default (max) effort 356 s, $0.12, and replies cut off at max_tokens.
 # [profiles.openrouter]
 # base_url = "https://openrouter.ai/api/v1"
-# model = "anthropic/claude-sonnet-4.5"
+# model = "z-ai/glm-5.3"
 # api_key_env = "OPENROUTER_API_KEY"
+# timeout_s = 600
 # allow_remote = true
 # [profiles.openrouter.sampling]
 # temperature = 0
-# max_tokens = 3000
+# max_tokens = 6000
+# [profiles.openrouter.extra_body]
+# usage = { include = true }         # each call's cost (USD) in usage.cost; the run record sums it
+# reasoning = { effort = "low" }     # GLM-5.3 always reasons and defaults to max

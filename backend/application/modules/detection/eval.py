@@ -22,7 +22,7 @@ import time
 import urllib.request
 from pathlib import Path
 
-from application import logs
+from application import env, logs
 from application.adapters import llm
 from application.modules.detection import evalset, pipeline, whole_doc
 from application.modules.detection.finding import Finding
@@ -196,6 +196,7 @@ def main():
     ap.add_argument("--split", choices=evalset.SPLITS)
     ap.add_argument("--temperature", type=float, help="default: the LLM profile's (0); repeated runs only differ above 0")
     a = ap.parse_args()
+    env.load()
     logs.setup()
     if a.cmd == "list":
         for g in evalset.load_all():

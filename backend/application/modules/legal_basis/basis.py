@@ -184,6 +184,22 @@ def _label(h: Hit) -> str:
     return f"{h.law}, Điều {h.dieu_no}" + (f", {h.ref}" if h.ref else "")
 
 
+def parse_ids(text: str) -> list | None:
+    """The picked ids from {"basis": [...]} or, as some models answer, a bare ["C1", ...] list; None if neither."""
+    for pattern in (r"\{.*\}", r"\[.*\]"):
+        m = re.search(pattern, text, re.S)
+        if not m:
+            continue
+        try:
+            d = json.loads(m.group(0))
+        except json.JSONDecodeError:
+            continue
+        items = d.get("basis") if isinstance(d, dict) else d
+        if isinstance(items, list):
+            return items
+    return None
+
+
 def pick(f: Finding, risk: taxonomy.Risk, cands: list[Candidate], *, task: str = "legal_pick") -> dict:
     """-> {"basis": [LegalBasis], "warnings": [str], "attempt": {"raw", "finish", "usage", "model"} | None}"""
     if not cands:
@@ -194,11 +210,7 @@ def pick(f: Finding, risk: taxonomy.Risk, cands: list[Candidate], *, task: str =
         candidates="\n\n".join(f"[{c.id}] {_label(c.hit)}\n{c.hit.text[:MAX_CHARS]}" for c in cands))
     r = llm.chat(task, [{"role": "user", "content": prompt}])
     attempt = {"raw": r.text, "finish": r.finish_reason, "usage": r.usage, "model": r.model}
-    m = re.search(r"\{.*\}", r.text, re.S)
-    try:
-        items = json.loads(m.group(0)).get("basis", []) if m else None
-    except json.JSONDecodeError:
-        items = None
+    items = parse_ids(r.text)
     if not isinstance(items, list):
         return {"basis": [], "warnings": [f"{f.code}: unparseable legal_pick reply; finish={r.finish_reason}"],
                 "attempt": attempt}

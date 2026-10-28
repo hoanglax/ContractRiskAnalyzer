@@ -102,6 +102,26 @@ def versions() -> dict:
             "models": models}
 
 
+def usage(calls: dict) -> dict:
+    """Tokens and cost per stage and in total, from the usage each provider returned. "cost" (USD) is there only
+    when the provider reports it (OpenRouter with usage.include); local servers report tokens only."""
+    out, total = {}, {"calls": 0, "prompt_tokens": 0, "completion_tokens": 0, "cost": None}
+    for stage, cs in calls.items():
+        s = {"calls": len(cs), "prompt_tokens": 0, "completion_tokens": 0, "cost": None}
+        for c in cs:
+            u = c.get("usage") or {}
+            s["prompt_tokens"] += u.get("prompt_tokens") or 0
+            s["completion_tokens"] += u.get("completion_tokens") or 0
+            if isinstance(u.get("cost"), (int, float)):
+                s["cost"] = (s["cost"] or 0) + u["cost"]
+        out[stage] = s
+        for k in ("calls", "prompt_tokens", "completion_tokens"):
+            total[k] += s[k]
+        if s["cost"] is not None:
+            total["cost"] = (total["cost"] or 0) + s["cost"]
+    return {**out, "total": total}
+
+
 def _document(doc) -> dict:
     d = dataclasses.asdict(doc)
     d.pop("raw", None)                        # per-page OCR provenance: large, and only for debugging ingest
@@ -118,6 +138,7 @@ def analyze(rid: str) -> dict:
 
         def stage(name):
             rec["stage"] = name
+            rec["usage"] = usage(rec["calls"])
             _save(rec)
             log.info("run %s: %s", rid, name)
 
@@ -125,7 +146,7 @@ def analyze(rid: str) -> dict:
             rec["warnings"] += [{"stage": stage_name, "message": m} for m in messages]
 
         def fail(code, message):
-            rec.update(status="failed", error={"code": code, "message": message})
+            rec.update(status="failed", error={"code": code, "message": message}, usage=usage(rec["calls"]))
             _save(rec)
             log.warning("run %s failed at %s: %s %s", rid, rec["stage"], code, message)
             return rec
@@ -170,10 +191,12 @@ def analyze(rid: str) -> dict:
             rec["calls"]["explain"] = ex["attempts"]
             warn("explain", ex["warnings"] + [w for it in ex["items"] for w in it.warnings])
 
-            rec.update(status="done", stage=None, seconds=round(time.monotonic() - t0))
+            rec.update(status="done", stage=None, seconds=round(time.monotonic() - t0), usage=usage(rec["calls"]))
             _save(rec)
-            log.info("run %s: done, %d items, %d warnings, %ds", rid, len(rec["items"]), len(rec["warnings"]),
-                     rec["seconds"])
+            cost = rec["usage"]["total"]["cost"]
+            log.info("run %s: done, %d items, %d warnings, %ds, %d calls%s", rid, len(rec["items"]),
+                     len(rec["warnings"]), rec["seconds"], rec["usage"]["total"]["calls"],
+                     f", cost ${cost:.4f}" if cost is not None else "")
             return rec
         except Exception as e:              # a bug must still end the run, or the poller waits forever
             log.error("run %s: unexpected error\n%s", rid, traceback.format_exc())

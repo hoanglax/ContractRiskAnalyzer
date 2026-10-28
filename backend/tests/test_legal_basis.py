@@ -113,6 +113,10 @@ class Pick(unittest.TestCase):
         self.assertEqual([(b.dieu, b.ref, b.why) for b in out["basis"]], [(172, "khoản 4", "")])
         self.assertIn("C7", out["warnings"][0])
 
+    def test_a_bare_list_is_read_too(self):
+        out, _ = self.run_pick('["C2", "C1"]')
+        self.assertEqual([b.ref for b in out["basis"]], ["khoản 4", "khoản 1"])
+
     def test_none_fit_is_an_empty_basis_and_garbage_is_a_warning(self):
         out, _ = self.run_pick({"basis": []})
         self.assertEqual((out["basis"], out["warnings"]), ([], []))

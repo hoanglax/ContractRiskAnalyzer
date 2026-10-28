@@ -114,6 +114,7 @@ def chat(task: str, messages: list[dict], *, sampling: dict | None = None, cfg: 
         log.warning("%s -> %s %s: unexpected response shape", task, name, body["model"])
         raise LLMError(f"{name}: unexpected response shape") from e
     u = res.usage or {}
-    log.info("%s -> %s %s: %.1fs, finish=%s, tokens in=%s out=%s", task, name, res.model, time.monotonic() - t,
-             res.finish_reason, u.get("prompt_tokens", "?"), u.get("completion_tokens", "?"))
+    log.info("%s -> %s %s: %.1fs, finish=%s, tokens in=%s out=%s%s", task, name, res.model, time.monotonic() - t,
+             res.finish_reason, u.get("prompt_tokens", "?"), u.get("completion_tokens", "?"),
+             f", cost ${u['cost']:.5f}" if isinstance(u.get("cost"), (int, float)) else "")
     return res

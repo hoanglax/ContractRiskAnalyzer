@@ -164,7 +164,10 @@ function render(rec) {
   $("stats").innerHTML = `<span class="stat"><b>${present.length}</b>điều khoản rủi ro</span>` +
     `<span class="stat"><b>${missing.length}</b>nội dung thiếu</span>` +
     SEV.filter(count).map(s => `<span class="stat"><b>${count(s)}</b>${SEV_VI[s].toLowerCase()}</span>`).join("") +
-    (rec.seconds ? `<span class="stat"><b>${rec.seconds}</b>giây</span>` : "");
+    (rec.seconds ? `<span class="stat"><b>${rec.seconds}</b>giây</span>` : "") +
+    (rec.usage?.total?.cost != null ? `<span class="stat" title="${rec.usage.total.calls} lời gọi mô hình, ` +
+      `${rec.usage.total.prompt_tokens.toLocaleString()} + ${rec.usage.total.completion_tokens.toLocaleString()} token">` +
+      `<b>$${rec.usage.total.cost.toFixed(4)}</b>chi phí mô hình</span>` : "");
 
   // contract text with every clause item highlighted (items never overlap: overlapping findings were grouped)
   const text = rec.document.text, spans = present.slice().sort((a, b) => a.char_start - b.char_start);

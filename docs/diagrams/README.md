@@ -61,8 +61,9 @@ Diagrams marked *(planned)* describe code that does not match yet.
   clause; plain-Vietnamese explanation and recommendation per Item, citing law
   only as [Lk] from its LegalBasis list (checked, then resolved to names).
   (`explain/explain.py`)
-- `orch_api` *(planned)* - POST /analyses, background run M1 -> M6, status
-  and result in runs/<id>.json, GET /analyses/{id} polling.
+- `orch_api` - POST /analyses, background run M1 -> M6 one at a time, status
+  and result in runs/<id>.json rewritten per stage, GET /analyses/{id} polling.
+  (`analysis/run.py`, `api/analyses.py`)
 - `llm_chat` *(planned)* - the one chat-completions client: OpenAI-compatible
   API configured in llm.toml, task -> profile, sampling merge, LLMError
   paths; no local-only guard. (`adapters/llm.py`)

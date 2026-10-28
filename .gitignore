@@ -37,6 +37,7 @@ AGENTS.md
 ai-handoff/
 backend/cache/
 backend/llm.toml
+backend/runs/
 # SQLite runtime data
 backend/data/*.db
 backend/data/*.db-shm

@@ -211,7 +211,10 @@ def attach(findings: list[Finding], *, retriever: Retriever | None = None, tax: 
         for f in findings:
             risk = tax.by_code[f.code]
             cands, warnings = candidates(f, risk, retriever, con)
-            res = pick(f, risk, cands)
+            try:
+                res = pick(f, risk, cands)
+            except llm.LLMError as e:     # one failed call costs this finding its basis, not the run
+                res = {"basis": [], "warnings": [f"{f.code}: legal_pick failed ({e})"], "attempt": None}
             log.debug("%s: %d candidates -> %s", f.code, len(cands),
                       ", ".join(f"{b.law} Đ{b.dieu} {b.ref}".strip() for b in res["basis"]) or "none")
             for w in warnings + res["warnings"]:

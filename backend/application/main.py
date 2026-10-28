@@ -1,8 +1,9 @@
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from application import logs
-from fastapi.middleware.cors import CORSMiddleware
+from application.api import analyses
 
 logs.setup()
 
@@ -19,6 +20,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(analyses.router)
 
 
 @app.get("/health")

@@ -420,6 +420,27 @@ def strip_running_lines(pages: list[list[str]]) -> tuple[list[list[str]], list[s
     return out, removed
 
 
+def join_pages(doc: Document, texts: list[str], routes: list[str], quality: list[float | None]) -> list[str]:
+    """Fill doc.text, doc.blocks and doc.pages from per-page clean texts, after stripping running
+    headers/footers across the pages. Returns the removed lines."""
+    page_lines, removed = strip_running_lines([t.split("\n") for t in texts])
+    pos, parts = 0, []
+    for n, lines in enumerate(page_lines, 1):
+        text = "\n".join(l for l in lines if l)
+        doc.pages.append(Page(n, routes[n - 1], len(text), quality[n - 1]))
+        if not text:
+            continue
+        doc.blocks.extend(line_blocks(text, page=n, offset=pos))
+        parts.append(text)
+        pos += len(text) + 1
+    doc.text = "\n".join(parts)
+    if removed:
+        uniq = sorted({_edge_key(l) for l in removed})
+        doc.warnings.append(f"removed {len(removed)} running header/footer/page-number lines: "
+                            + "; ".join(repr(u) for u in uniq[:8]) + (" …" if len(uniq) > 8 else ""))
+    return removed
+
+
 PDF_OCR_DPI = 150
 
 
@@ -499,23 +520,7 @@ def route_pdf(data: bytes, doc: Document) -> None:
                             f"({ocr_info['model']}); check them against the original")
 
     # 3. strip running headers/footers across all pages, native and OCR'd alike
-    page_lines, removed = strip_running_lines([t.split("\n") for t in texts])
-
-    pos, parts = 0, []
-    for n, lines in enumerate(page_lines, 1):
-        text = "\n".join(l for l in lines if l)
-        doc.pages.append(Page(n, routes[n - 1], len(text), quality[n - 1]))
-        if not text:
-            continue
-        doc.blocks.extend(line_blocks(text, page=n, offset=pos))
-        parts.append(text)
-        pos += len(text) + 1
-    doc.text = "\n".join(parts)
-
-    if removed:
-        uniq = sorted({_edge_key(l) for l in removed})
-        doc.warnings.append(f"removed {len(removed)} running header/footer/page-number lines: "
-                            + "; ".join(repr(u) for u in uniq[:8]) + (" …" if len(uniq) > 8 else ""))
+    removed = join_pages(doc, texts, routes, quality)
     doc.raw = {"pdf_pages": len(raw_pages), "layout_mode": PDF_LAYOUT,
                "removed_lines": removed, "low_text_pages": [n for n, _ in bad], "ocr": ocr_info}
 
@@ -553,8 +558,7 @@ ROUTES = {   # kind -> fn(data: bytes, doc: Document) -> None
 }
 
 
-def ingest(src: str | Path | bytes, filename: str | None = None) -> Document:
-    """Turn a file (path or bytes) into a Document. Raises IngestError."""
+def _load(src: str | Path | bytes, filename: str | None) -> tuple[bytes, str | None]:
     if isinstance(src, (str, Path)):
         path = Path(src)
         filename = filename or path.name
@@ -565,20 +569,111 @@ def ingest(src: str | Path | bytes, filename: str | None = None) -> Document:
         data = bytes(src)
     if len(data) > MAX_BYTES:
         raise IngestError("too_large", f"file is over {MAX_BYTES // 2**20} MB")
+    return data, filename
 
-    kind = sniff(data)
-    doc = Document(text="", source={"filename": filename, "sha256": hashlib.sha256(data).hexdigest(),
-                                    "size": len(data), "detected_type": kind})
+
+def _source(data: bytes, filename: str | None, kind: str, warnings: list[str]) -> dict:
     if filename:
         ext = Path(filename).suffix.lower()
         if ext not in EXTENSIONS[kind]:
-            doc.warnings.append(f"file is named '{filename}' but its content is {kind}")
+            warnings.append(f"file is named '{filename}' but its content is {kind}")
+    return {"filename": filename, "sha256": hashlib.sha256(data).hexdigest(),
+            "size": len(data), "detected_type": kind}
+
+
+def _no_route(kind: str) -> IngestError:
+    hint = "; convert the photo to JPEG or PNG" if kind == "heic" else ""
+    return IngestError("not_implemented", f"{kind} input is not supported yet{hint}")
+
+
+def ingest(src: str | Path | bytes, filename: str | None = None) -> Document:
+    """Turn a file (path or bytes) into a Document. Raises IngestError."""
+    data, filename = _load(src, filename)
+    kind = sniff(data)
+    doc = Document(text="", source={})
+    doc.source = _source(data, filename, kind, doc.warnings)
 
     route = ROUTES.get(kind)
     if route is None:
-        hint = "; convert the photo to JPEG or PNG" if kind == "heic" else ""
-        raise IngestError("not_implemented", f"{kind} input is not supported yet{hint}")
+        raise _no_route(kind)
     route(data, doc)
+    _finish(doc)
+    return doc
+
+
+MAX_IMAGES = 40
+
+
+def ingest_images(srcs: list[str | Path | bytes], filenames: list[str | None] | None = None) -> Document:
+    """Photos or scans of one document, in page order -> one Document. Raises IngestError.
+
+    A contract photographed page by page has to be segmented as one text: ingested one photo at a
+    time, each page holds a few clause headings at most and a clause that runs over a page break is
+    cut in two. Every file must be an image. A page whose OCR fails costs that page (warned), as for
+    scanned PDF pages; only a failure on every page is an error."""
+    if not srcs:
+        raise IngestError("empty", "no files given")
+    if len(srcs) > MAX_IMAGES:
+        raise IngestError("too_large", f"{len(srcs)} images; at most {MAX_IMAGES} pages per document")
+    filenames = list(filenames) if filenames is not None else [None] * len(srcs)
+    if len(filenames) != len(srcs):
+        raise ValueError("filenames must match srcs one to one")
+
+    # check every file before any model call
+    doc = Document(text="", source={})
+    files = []
+    for n, (src, name) in enumerate(zip(srcs, filenames), 1):
+        try:
+            data, name = _load(src, name)
+            kind = sniff(data)
+        except IngestError as e:
+            raise IngestError(e.reason, f"page {n} ({name or 'unnamed'}): {e.message}") from None
+        if kind not in IMAGE_KINDS:
+            raise IngestError("unsupported_type", f"page {n} ({name or 'unnamed'}) is {kind}, not an image; "
+                                                  "only photos or scans can be combined into one document")
+        if kind not in IMAGE_MIME:
+            raise _no_route(kind)
+        files.append((data, kind, _source(data, name, kind, doc.warnings)))
+    if vlm.engine() != "vlm":
+        raise IngestError("not_implemented",
+                          "image input needs OCR; set OCR_API_KEY and OCR_MODEL (see ingest/vlm.py)")
+    # identity of the whole set: the page hashes in order
+    doc.source = {"filename": files[0][2]["filename"], "size": sum(f[2]["size"] for f in files),
+                  "sha256": hashlib.sha256("".join(f[2]["sha256"] for f in files).encode()).hexdigest(),
+                  "detected_type": "images", "files": [f[2] for f in files]}
+
+    texts, quality, usage, failed, model = [], [], [], [], None
+    for n, (data, kind, src) in enumerate(files, 1):
+        label = f"page {n} ({src['filename']})" if src["filename"] else f"page {n}"
+        try:
+            raw, info = vlm.transcribe(data, IMAGE_MIME[kind])
+        except vlm.VlmError as e:
+            doc.warnings.append(f"{label}: OCR failed ({e}); the page is missing from the text")
+            failed.append((n, str(e)))
+            texts.append("")
+            quality.append(None)
+            usage.append(None)
+            continue
+        text = clean(raw)
+        if not text:
+            doc.warnings.append(f"{label}: OCR found no text")
+        texts.append(text)
+        quality.append(round(readable_ratio(text), 3) if text else None)
+        usage.append(info["usage"])
+        model = info["model"]
+    if len(failed) == len(files):
+        raise IngestError("conversion_failed", f"OCR failed on every page ({failed[0][1]})")
+
+    removed = join_pages(doc, texts, ["vision"] * len(files), quality)
+    doc.warnings.append(f"text was read from {len(files) - len(failed)} images by a vision model ({model}); "
+                        "check it against the original")
+    doc.raw = {"model": model, "usage": usage, "failed_pages": [n for n, _ in failed], "removed_lines": removed}
+    _finish(doc)
+    return doc
+
+
+def _finish(doc: Document) -> None:
+    """Checks every route's output must pass, then the clause map."""
     if len(doc.text) < MIN_CHARS:
         raise IngestError("no_text", f"only {len(doc.text)} characters of text after ingest "
                                      f"(minimum {MIN_CHARS})")
@@ -593,7 +688,6 @@ def ingest(src: str | Path | bytes, filename: str | None = None) -> Document:
             f"(e.g. {', '.join(repr(w) for w in bad[:4])}); the text layer is probably mis-encoded "
             f"and quotes may not match the visible document")
     add_structure(doc)
-    return doc
 
 
 def structure_llm_enabled() -> bool:

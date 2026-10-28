@@ -127,6 +127,83 @@ class TestImageRoute(unittest.TestCase):
         self.assertEqual(cm.exception.reason, "conversion_failed")
 
 
+PROSE = BODY.replace("Điều 1. ", "")
+PAGE_TEXT = [
+    "HỢP ĐỒNG THUÊ NHÀ\nTrang 1/3\nĐiều 1. Đối tượng\n" + PROSE + "Điều 2. Giá thuê\nBên B trả tiền thuê",
+    "Trang 2/3\nhằng tháng vào ngày mùng năm.\n" + PROSE + "Điều 3. Thời hạn\n" + PROSE,
+    "Trang 3/3\nĐiều 4. Chấm dứt\n" + PROSE,
+]
+
+
+class TestImageSet(unittest.TestCase):
+    def run_set(self, transcribe, srcs=None, env=None):
+        srcs = srcs or [PNG, PNG, PNG]
+        with mock.patch.dict(ing.os.environ, env or {**ENV, "STRUCTURE_LLM": "off"}, clear=True), \
+             mock.patch.object(vlm, "transcribe", side_effect=transcribe) as t:
+            doc = ing.ingest_images(srcs, [f"img{i}.png" for i in range(1, len(srcs) + 1)])
+        return doc, t
+
+    @staticmethod
+    def pages(texts):
+        it = iter(texts)
+        return lambda img, mime: (next(it), {"model": "vendor/vlm", "usage": {"n": 1}})
+
+    def test_pages_joined_into_one_document(self):
+        doc, t = self.run_set(self.pages(PAGE_TEXT))
+        self.assertEqual(t.call_count, 3)
+        self.assertEqual([p.n for p in doc.pages], [1, 2, 3])
+        self.assertEqual({p.route for p in doc.pages}, {"vision"})
+        self.assertEqual(doc.source["detected_type"], "images")
+        self.assertEqual([f["filename"] for f in doc.source["files"]], ["img1.png", "img2.png", "img3.png"])
+        self.assertEqual({b.page for b in doc.blocks}, {1, 2, 3})
+        for b in doc.blocks:
+            self.assertEqual(doc.text[b.char_start:b.char_end], b.text)
+        self.assertNotIn("Trang 2/3", doc.text)                  # page numbers stripped as in PDFs
+        self.assertEqual([c.label for c in doc.structure.clauses], ["Điều 1", "Điều 2", "Điều 3", "Điều 4"])
+        self.assertFalse(any("no_marker_chain" in w or "not confident" in w for w in doc.warnings))
+
+    def test_clause_runs_over_the_page_break(self):
+        doc, _ = self.run_set(self.pages(PAGE_TEXT))
+        d2 = doc.structure.clauses[1]
+        self.assertIn("Bên B trả tiền thuê\nhằng tháng", doc.text[d2.char_start:d2.char_end])
+
+    def test_one_failed_page_is_a_warning(self):
+        texts = iter(PAGE_TEXT)
+
+        def fake(img, mime):
+            text = next(texts)
+            if text.startswith("Trang 2/3"):
+                raise vlm.VlmError("boom")
+            return text, {"model": "vendor/vlm", "usage": None}
+
+        doc, _ = self.run_set(fake)
+        self.assertEqual(doc.pages[1].chars, 0)
+        self.assertEqual(doc.raw["failed_pages"], [2])
+        self.assertTrue(any(w.startswith("page 2 (img2.png): OCR failed") for w in doc.warnings))
+
+    def test_every_page_failed_is_an_error(self):
+        with self.assertRaises(IngestError) as cm:
+            self.run_set(vlm.VlmError("boom"))
+        self.assertEqual(cm.exception.reason, "conversion_failed")
+
+    def test_non_image_rejected_before_any_model_call(self):
+        with self.assertRaises(IngestError) as cm:
+            self.run_set(self.pages(PAGE_TEXT), srcs=[PNG, b"%PDF-1.7 fake", PNG])
+        self.assertEqual(cm.exception.reason, "unsupported_type")
+        self.assertIn("page 2 (img2.png)", cm.exception.message)
+
+    def test_without_engine_is_not_implemented(self):
+        with self.assertRaises(IngestError) as cm:
+            self.run_set(self.pages(PAGE_TEXT), env={"OCR_ENGINE": "off"})
+        self.assertEqual(cm.exception.reason, "not_implemented")
+
+    def test_identity_depends_on_page_order(self):
+        jpeg = b"\xff\xd8\xff" + b"1" * 64
+        a, _ = self.run_set(self.pages(PAGE_TEXT), srcs=[PNG, jpeg, PNG])
+        b, _ = self.run_set(self.pages(PAGE_TEXT), srcs=[jpeg, PNG, PNG])
+        self.assertNotEqual(a.source["sha256"], b.source["sha256"])
+
+
 class TestScannedPdf(unittest.TestCase):
     def run_pages(self, pages, transcribe):
         with mock.patch.dict(ing.os.environ, ENV, clear=True), \

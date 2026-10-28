@@ -29,6 +29,7 @@ htmlcov/
 .idea/
 .DS_Store
 Thumbs.db
+.kilo/
 
 data/test
 docs/note/

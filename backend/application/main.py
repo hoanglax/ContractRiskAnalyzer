@@ -1,13 +1,26 @@
 
+import threading
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from application import logs
 from application.api import analyses
+from application.modules.legal_basis import basis
 
 logs.setup()
 
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    # in a thread: the server answers at once, and the first analysis does not pay for loading the embedder
+    threading.Thread(target=basis.warm, daemon=True).start()
+    yield
+
+
 app = FastAPI(
+    lifespan=lifespan,
     title="Contract Risk Analyzer API",
     version="0.1.0",
     description="API for analyzing risks in contracts.",

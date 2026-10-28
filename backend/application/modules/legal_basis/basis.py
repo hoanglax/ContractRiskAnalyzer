@@ -8,12 +8,13 @@ Candidates (each a khoản-level chunk of the KB, given an id C1, C2 ...):
      law but no article is searched within that law; one whose law is not in the KB is skipped with a warning;
   2. retrieval over the whole KB with a query built from the finding (issue + quote, or issue + risk name for a
      missing term). Taxonomy candidates come first; a passage found both ways is listed once.
-The model (task "legal_pick") answers with candidate ids and one line why. An id that is not a candidate is
+The model (task "legal_pick") answers with candidate ids only (M6 explains them; a "why" here cost ~3 s a call). An id that is not a candidate is
 dropped with a warning; the text of a LegalBasis always comes from the KB. An empty list means no basis was
 found, and is shown as such: an article number is never written by the model.
 """
 from __future__ import annotations
 
+import functools
 import json
 import logging
 import re
@@ -45,8 +46,8 @@ Vấn đề: {issue}
 CÁC ĐOẠN ỨNG VIÊN:
 {candidates}
 
-Chỉ trả lời bằng JSON:
-{{"basis": [{{"id": "C1", "why": "một câu tiếng Việt: đoạn này áp dụng thế nào cho rủi ro"}}]}}"""
+Chỉ trả lời bằng JSON, chỉ gồm mã đoạn, không giải thích:
+{{"basis": ["C1", "C4"]}}"""
 
 
 # KB law id -> how a reader names it; an id missing here is shown as is
@@ -86,7 +87,7 @@ class LegalBasis:
     dieu: int | None
     ref: str                   # khoản / điểm within the Điều ("" = whole article)
     text: str                  # from the KB, never from the model
-    why: str                   # the model's one line
+    why: str                   # "" now: legal_pick returns ids only
     source: str                # taxonomy | retrieval: how the passage became a candidate
     chunk_id: int
 
@@ -103,13 +104,36 @@ class Candidate:
     source: str
 
 
+@functools.lru_cache(maxsize=None)
+def _embedder(tag: str = DENSE_TAG):
+    """The dense query encoder, loaded once per process (5-6 s); the per-run retriever objects stay cheap."""
+    from application.modules.legal_retrieval.dense import CACHE, Embedder
+    meta = json.loads((CACHE / f"vec_{tag}.json").read_text(encoding="utf-8"))
+    return Embedder(meta["model"], meta["dim"], bf16=meta.get("bf16", False))
+
+
+def warm() -> None:
+    """Load the embedder and open the vector store ahead of the first analysis (the API calls this at startup)."""
+    t = time.monotonic()
+    try:
+        retriever, warnings = default_retriever()
+        log.info("retriever warmed in %.1fs%s", time.monotonic() - t, f" ({warnings[0]})" if warnings else "")
+    except Exception as e:      # warming is an optimisation; the first run will report the real problem
+        log.warning("retriever warm-up failed: %s", e)
+
+
 def default_retriever(db_path=DEFAULT_DB) -> tuple[Retriever, list[str]]:
     """Hybrid BM25 + dense (embedded Qdrant); BM25 alone, with a warning, if the dense side cannot load."""
     lex = LexicalRetriever(db_path)
     try:
+        t = time.monotonic()
         from application.modules.legal_retrieval.dense import HybridRetriever
         from application.modules.legal_retrieval.qdrant_store import QdrantRetriever
-        return HybridRetriever(lex, QdrantRetriever(DENSE_TAG, db_path)), []
+        log.info("retriever: imports %.1fs", time.monotonic() - t)
+        t = time.monotonic()
+        dense = QdrantRetriever(DENSE_TAG, db_path, embedder=_embedder())
+        log.info("retriever: dense side (Qdrant + %s embedder) %.1fs", DENSE_TAG, time.monotonic() - t)
+        return HybridRetriever(lex, dense), []
     except Exception as e:     # missing torch/qdrant, no index: still usable, just weaker
         log.warning("dense retrieval unavailable (%s); using BM25 only", e)
         return lex, [f"dense retrieval unavailable ({e}); legal basis uses BM25 only"]
@@ -181,7 +205,8 @@ def pick(f: Finding, risk: taxonomy.Risk, cands: list[Candidate], *, task: str =
     by_id = {c.id: c for c in cands}
     basis, warnings, used = [], [], set()
     for i in items[:MAX_PICKS]:
-        cid = str(i.get("id", "")).strip() if isinstance(i, dict) else ""
+        # ids only (the explanation step says why); an older {"id", "why"} reply shape still reads
+        cid = str(i.get("id", "") if isinstance(i, dict) else i).strip()
         c = by_id.get(cid)
         if c is None:
             warnings.append(f"{f.code}: picked {cid or i!r}, which is not a candidate; dropped")
@@ -189,8 +214,8 @@ def pick(f: Finding, risk: taxonomy.Risk, cands: list[Candidate], *, task: str =
         if cid in used:
             continue
         used.add(cid)
-        basis.append(LegalBasis(c.hit.law, c.hit.dieu_no, c.hit.ref, c.hit.text, str(i.get("why") or "").strip(),
-                                c.source, c.hit.chunk_id))
+        why = str(i.get("why") or "").strip() if isinstance(i, dict) else ""
+        basis.append(LegalBasis(c.hit.law, c.hit.dieu_no, c.hit.ref, c.hit.text, why, c.source, c.hit.chunk_id))
     return {"basis": basis, "warnings": warnings, "attempt": attempt}
 
 

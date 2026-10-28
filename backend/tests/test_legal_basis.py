@@ -108,6 +108,11 @@ class Pick(unittest.TestCase):
         self.assertIn("[C1] luat_nha_o_2023, Điều 172, khoản 1", prompt)
         self.assertEqual(chat.call_args.args[0], "legal_pick")
 
+    def test_plain_id_list_is_the_reply_shape(self):
+        out, _ = self.run_pick({"basis": ["C2", "C7"]})
+        self.assertEqual([(b.dieu, b.ref, b.why) for b in out["basis"]], [(172, "khoản 4", "")])
+        self.assertIn("C7", out["warnings"][0])
+
     def test_none_fit_is_an_empty_basis_and_garbage_is_a_warning(self):
         out, _ = self.run_pick({"basis": []})
         self.assertEqual((out["basis"], out["warnings"]), ([], []))

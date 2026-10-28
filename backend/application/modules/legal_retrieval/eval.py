@@ -51,6 +51,7 @@ def main():
     ap.add_argument("--db", type=Path, default=DEFAULT_DB)
     ap.add_argument("--mode", choices=["lexical", "dense", "hybrid"], default="lexical")
     ap.add_argument("--tag", help="embedding index tag (dense / hybrid)")
+    ap.add_argument("--store", choices=["numpy", "qdrant"], default="numpy", help="where the dense vectors live")
     ap.add_argument("--rerank", type=int, metavar="POOL", help="rerank the top POOL hits with the cross-encoder")
     ap.add_argument("--reranker", choices=["local", "server"], default="local")
     ap.add_argument("--quiet", action="store_true", help="summary only")
@@ -63,7 +64,11 @@ def main():
         retriever = lex
     else:
         from application.modules.legal_retrieval.dense import DenseRetriever, HybridRetriever
-        dense = DenseRetriever(a.tag, a.db)
+        if a.store == "qdrant":
+            from application.modules.legal_retrieval.qdrant_store import QdrantRetriever
+            dense = QdrantRetriever(a.tag, a.db)
+        else:
+            dense = DenseRetriever(a.tag, a.db)
         retriever = dense if a.mode == "dense" else HybridRetriever(lex, dense)
     if a.rerank:
         from application.modules.legal_retrieval.rerank import RerankedRetriever, ServerReranker

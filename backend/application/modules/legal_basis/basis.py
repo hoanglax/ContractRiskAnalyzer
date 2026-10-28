@@ -49,6 +49,37 @@ Chỉ trả lời bằng JSON:
 {{"basis": [{{"id": "C1", "why": "một câu tiếng Việt: đoạn này áp dụng thế nào cho rủi ro"}}]}}"""
 
 
+# KB law id -> how a reader names it; an id missing here is shown as is
+LAW_NAMES = {
+    "blds_2015": "Bộ luật Dân sự 2015",
+    "luat_nha_o_2023": "Luật Nhà ở 2023",
+    "luat_kdbds_2023": "Luật Kinh doanh bất động sản 2023",
+    "luat_cu_tru_68_2020": "Luật Cư trú 2020",
+    "luat_quan_ly_thue_108_2025": "Luật Quản lý thuế 2025",
+    "nd125_2020": "Nghị định 125/2020/NĐ-CP",
+    "nd141_2026": "Nghị định 141/2026/NĐ-CP",
+    "nd181_2025": "Nghị định 181/2025/NĐ-CP",
+    "nd254_2026": "Nghị định 254/2026/NĐ-CP",
+    "nd310_2025": "Nghị định 310/2025/NĐ-CP",
+    "nd68_2026": "Nghị định 68/2026/NĐ-CP",
+    "nd96_2024": "Nghị định 96/2024/NĐ-CP",
+    "tt18_2026_btc": "Thông tư 18/2026/TT-BTC",
+    "tt20_2026_btc": "Thông tư 20/2026/TT-BTC",
+}
+
+
+def law_name(law: str) -> str:
+    return LAW_NAMES.get(law, law)
+
+
+def ref_name(ref: str) -> str:
+    """The KB's khoản/điểm ref as a reader writes it: "2" -> "khoản 2", "2.a" -> "khoản 2, điểm a"."""
+    m = re.fullmatch(r"(\d+)(?:\.(\w+))?", ref)
+    if m:
+        return f"khoản {m.group(1)}" + (f", điểm {m.group(2)}" if m.group(2) else "")
+    return f"điểm {ref}" if re.fullmatch(r"[a-zđ]", ref) else ref
+
+
 @dataclass
 class LegalBasis:
     law: str                   # KB law id, e.g. "luat_nha_o_2023"
@@ -58,6 +89,11 @@ class LegalBasis:
     why: str                   # the model's one line
     source: str                # taxonomy | retrieval: how the passage became a candidate
     chunk_id: int
+
+    @property
+    def label(self) -> str:
+        """"Bộ luật Dân sự 2015, Điều 468, khoản 1": how a citation is shown."""
+        return f"{law_name(self.law)}, Điều {self.dieu}" + (f", {ref_name(self.ref)}" if self.ref else "")
 
 
 @dataclass

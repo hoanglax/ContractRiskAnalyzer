@@ -1,8 +1,10 @@
 graph TB
-    IN["Finding + taxonomy row + LegalBasis list"] --> P["explain prompt, Vietnamese, plain language:<br/>what the clause means, why it is risky for this party,<br/>what to ask or change before signing"]
+    IN["M3 findings (one per code) + M4 LegalBasis per finding"] --> GRP["group: present findings with overlapping quotes -> one Item<br/>(all codes, highest severity, both parties, bases merged);<br/>each missing finding -> its own Item"]
+    GRP --> P["explain prompt per Item, Vietnamese, plain language:<br/>what the clause means, why it is risky for these parties,<br/>what to ask or change before signing;<br/>law cited only as [L1], [L2] from the Item's bases"]
     P --> LLM["llm.chat(task explain)"]
-    LLM --> CHK{"cites only Dieu numbers<br/>present in the LegalBasis list?"}
-    CHK -->|no| WARN["explanation dropped, warning:<br/>finding still shown with taxonomy text"]
-    CHK -->|yes| EXP["Explanation: summary, recommendation"]
-    EXP --> OUT["result item: finding, severity, party, quote + clause,<br/>legal basis, explanation"]
+    LLM -->|"LLMError"| WARN
+    LLM --> CHK{"JSON with summary + recommendation,<br/>every [Lk] in the list,<br/>no law article written out that is not in the list?"}
+    CHK -->|no| WARN["explanation dropped, warning:<br/>Item still shown with taxonomy name, severity, consequences"]
+    CHK -->|yes| EXP["Explanation: summary, recommendation,<br/>[Lk] replaced by 'Bộ luật Dân sự 2015, Điều 468, khoản 1'"]
+    EXP --> OUT["Item: codes, severity, parties, quote + clause,<br/>legal basis, explanation, warnings"]
     WARN --> OUT

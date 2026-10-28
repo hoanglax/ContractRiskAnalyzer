@@ -57,8 +57,10 @@ Diagrams marked *(planned)* describe code that does not match yet.
   retrieval as candidates, model picks passage ids only, ids gated, text from
   the KB, "no basis found" instead of inventing one.
   (`legal_basis/basis.py`)
-- `m6_explain` *(planned)* - plain-Vietnamese explanation and recommendation
-  per finding; may cite only articles in its LegalBasis list.
+- `m6_explain` - findings on overlapping quotes grouped into one Item per
+  clause; plain-Vietnamese explanation and recommendation per Item, citing law
+  only as [Lk] from its LegalBasis list (checked, then resolved to names).
+  (`explain/explain.py`)
 - `orch_api` *(planned)* - POST /analyses, background run M1 -> M6, status
   and result in runs/<id>.json, GET /analyses/{id} polling.
 - `llm_chat` *(planned)* - the one chat-completions client: OpenAI-compatible

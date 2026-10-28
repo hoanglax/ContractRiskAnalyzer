@@ -4,7 +4,7 @@ import os
 import unittest
 from unittest import mock
 
-from application.modules.detection import evalset, whole_doc
+from application.modules.detection import evalset, pipeline, whole_doc
 from application.modules.detection.finding import Finding, LookFor
 from application.modules.detection.score import jaccard, score
 from application.modules.ingestion.ingest import ingest
@@ -181,6 +181,36 @@ class WholeDoc(unittest.TestCase):
         self.assertIsNone(out["error"])                                  # one broken group is a warning
         self.assertTrue(any("group TRM" in w for w in out["warnings"]))
         self.assertEqual([a["group"] for a in out["attempts"]], ["DEP", "TRM", "TRM", "TRM"])
+
+
+
+class Pipeline(unittest.TestCase):
+    def setUp(self):
+        with mock.patch.dict(os.environ, {"STRUCTURE_LLM": "off"}):
+            self.doc = ingest(TEXT.encode(), "c.txt")
+        self.tax = mock.Mock(risks=[])
+        self.lens = mock.patch.object(pipeline, "from_taxonomy", return_value=LENS)
+        self.lens.start()
+        self.addCleanup(self.lens.stop)
+
+    def test_mode_picks_the_detector_and_findings_come_in_contract_order(self):
+        replies = [reply({"code": "B-DEP-05", "kind": "present", "quote": RAISE, "issue": "tăng giá"},
+                         {"code": "B-TRM-06", "kind": "missing", "quote": None, "issue": "thiếu"},
+                         {"code": "B-DEP-02", "kind": "present", "quote": DEPOSIT, "issue": "mất cọc"})]
+        with mock.patch.object(whole_doc.llm, "chat", side_effect=replies) as chat:
+            out = pipeline.run(self.doc, mode="all", tax=self.tax)
+        self.assertEqual((out["mode"], chat.call_count), ("all", 1))
+        self.assertEqual([f.code for f in out["findings"]], ["B-DEP-02", "B-DEP-05", "B-TRM-06"])
+
+    def test_default_is_per_group_and_the_env_overrides_it(self):
+        with mock.patch.object(whole_doc.llm, "chat", side_effect=[reply(), reply()]) as chat:
+            self.assertEqual(pipeline.run(self.doc, tax=self.tax)["mode"], "group")
+        self.assertEqual(chat.call_count, 2)                             # DEP and TRM
+        with mock.patch.dict(os.environ, {"DETECTION_MODE": "all"}), \
+                mock.patch.object(whole_doc.llm, "chat", side_effect=[reply()]):
+            self.assertEqual(pipeline.run(self.doc, tax=self.tax)["mode"], "all")
+        with self.assertRaises(ValueError):
+            pipeline.run(self.doc, mode="per_clause", tax=self.tax)
 
 
 if __name__ == "__main__":

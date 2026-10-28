@@ -23,7 +23,7 @@ import urllib.request
 from pathlib import Path
 
 from application.adapters import llm
-from application.modules.detection import evalset, whole_doc
+from application.modules.detection import evalset, pipeline, whole_doc
 from application.modules.detection.finding import Finding
 from application.modules.detection.lens import from_taxonomy
 from application.modules.detection.score import score
@@ -33,9 +33,8 @@ from application.modules.taxonomy import taxonomy
 REPO = Path(__file__).resolve().parents[4]
 FIELDS = {f.name for f in dataclasses.fields(Finding)}
 RUNS = evalset.EVAL_DIR / "runs"
-# config -> fn(doc, lens, temperature=) -> dict; every config sees the whole taxonomy, the closed set of risks
-CONFIGS = {"whole_doc/all": whole_doc.detect,              # all codes in one call
-           "whole_doc/group": whole_doc.detect_by_group}   # one call per taxonomy group
+# config -> fn(doc, lens, temperature=) -> dict; the pipeline's modes, each seeing the whole taxonomy
+CONFIGS = {f"whole_doc/{m}": fn for m, fn in pipeline.MODES.items()}
 PROMPTS = {"whole_doc": whole_doc.PROMPT, "whole_doc_fix": whole_doc.FIX}
 
 

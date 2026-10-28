@@ -7,8 +7,8 @@
 default_profile = "local27b"
 
 [tasks]                              # task name -> profile name (anything missing uses default_profile)
-structure_fallback = "local27b"      # tier-2 clause map (app/ingest/structure_llm.py)
-# detection = "local27b"             # later milestones
+structure_fallback = "local27b"      # tier-2 clause map (application/modules/ingestion/structure_llm.py)
+detect = "local27b"                  # risk detection (application/modules/detection); e.g. "gemini_free" for the demo
 
 [profiles.local27b]                  # the user's normal llama-server (27B, text only)
 base_url = "http://127.0.0.1:9876/v1"
@@ -24,6 +24,20 @@ max_tokens = 3000
 
 [profiles.local27b.extra_body]       # also merged as-is; server-specific switches go here
 chat_template_kwargs = { enable_thinking = false }     # llama-server / Qwen: thinking off
+
+# Google AI Studio free tier (uncomment, export GEMINI_API_KEY, point a task at it). Free-tier input may be used by
+# Google to improve its products and read by human reviewers: sample/template contracts only, never real ones.
+# Gemini 3 models cannot switch reasoning off here; "minimal" is the lowest. Rate limits: see AI Studio.
+# [profiles.gemini_free]
+# base_url = "https://generativelanguage.googleapis.com/v1beta/openai"
+# model = "gemini-3.8-flash"
+# api_key_env = "GEMINI_API_KEY"
+# timeout_s = 600
+# allow_remote = true
+# [profiles.gemini_free.sampling]
+# temperature = 0
+# max_tokens = 8000
+# reasoning_effort = "minimal"
 
 # Example hosted profile (uncomment, then point a task at it). allow_remote = true is what lets contract text be sent.
 # [profiles.openrouter]

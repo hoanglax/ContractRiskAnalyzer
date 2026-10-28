@@ -26,8 +26,11 @@ def doc():
         return ingest(CONTRACT.encode(), "c.txt")
 
 
-def present(quote, **kw):
-    return Finding(kind="present", issue="x", quote=quote, **kw)
+LIST = [LookFor(id="B-DEP-02", title="Mất cọc", affects="lessee"), LookFor(id="A-TRM-05", title="x", affects="lessor")]
+
+
+def present(quote, code="B-DEP-02", **kw):
+    return Finding(kind="present", issue="x", quote=quote, code=code, **kw)
 
 
 class Locate(unittest.TestCase):
@@ -57,39 +60,43 @@ class Locate(unittest.TestCase):
         self.assertIsNone(locate(self.text, "khoá cửa"))    # contract has "khóa"
 
 
+DEPOSIT = "Bên B không được nhận lại tiền cọc trong mọi trường hợp."
+
+
 class Ground(unittest.TestCase):
     def setUp(self):
         self.doc = doc()
 
     def test_present_finding_gets_offsets_and_clause(self):
-        kept, rejected = ground([present("Bên B không được nhận lại tiền cọc trong mọi trường hợp.", affects="lessee")],
-                                self.doc)
+        kept, rejected = ground([present("Bên B không được nhận lại tiền cọc trong mọi trường hợp.")], self.doc, LIST)
         self.assertEqual(rejected, [])
         f = kept[0]
-        self.assertEqual(f.clause, "Điều 1")
+        self.assertEqual((f.clause, f.affects), ("Điều 1", "lessee"))     # party from the list, not the model
         self.assertEqual(self.doc.text[f.char_start:f.char_end],
                          "Bên B không được nhận lại tiền cọc trong mọi trường hợp.")
 
     def test_quote_before_the_first_clause_has_no_clause(self):
-        kept, _ = ground([present("HỢP ĐỒNG THUÊ PHÒNG TRỌ")], self.doc)
+        kept, _ = ground([present("HỢP ĐỒNG THUÊ PHÒNG TRỌ")], self.doc, LIST)
         self.assertIsNone(kept[0].clause)
 
     def test_missing_finding_needs_no_quote(self):
-        kept, rejected = ground([Finding(kind="missing", issue="Không có điều khoản bàn giao hiện trạng phòng")], self.doc)
+        kept, rejected = ground([Finding(kind="missing", issue="Không có điều khoản bàn giao hiện trạng phòng",
+                                         code="A-TRM-05")], self.doc, LIST)
         self.assertEqual((len(kept), rejected), (1, []))
-        self.assertIsNone(kept[0].char_start)
+        self.assertEqual((kept[0].char_start, kept[0].affects), (None, "lessor"))
 
     def test_rejections(self):
         bad = [present("Bên A được tăng giá bất cứ lúc nào"),            # not in the contract
                present(""),                                             # no quote
-               Finding(kind="present", issue=" ", quote="Điều 3. Điều khoản chung"),
-               Finding(kind="risky", issue="x"),
-               present("Điều 3. Điều khoản chung", affects="Bên B")]    # party as written, not a role
-        kept, rejected = ground(bad, self.doc)
+               Finding(kind="present", issue=" ", quote="Điều 3. Điều khoản chung", code="B-DEP-02"),
+               Finding(kind="risky", issue="x", code="B-DEP-02"),
+               present(DEPOSIT, code="B-DEP-99"),                       # not on the list, even with a good quote
+               present(DEPOSIT, code=None)]
+        kept, rejected = ground(bad, self.doc, LIST)
         self.assertEqual(kept, [])
         self.assertEqual([why for _, why in rejected],
                          ["quote not found verbatim in the contract", "no quote", "no issue given",
-                          "unknown kind 'risky'", "unknown party 'Bên B'"])
+                          "unknown kind 'risky'", "unknown code 'B-DEP-99'", "no code"])
 
 
 @unittest.skipUnless(tx.DEFAULT_JSON.exists(), "data/taxonomy/taxonomy.json not present")
@@ -100,7 +107,7 @@ class TaxonomyLens(unittest.TestCase):
         self.assertEqual(len(lens), len(t.risks))
         self.assertEqual(len({l.id for l in lens}), len(lens))
         self.assertTrue(all(isinstance(l, LookFor) and l.affects in ("lessor", "lessee") for l in lens))
-        b = next(l for l in lens if l.id == "taxonomy:B-DEP-04")
+        b = next(l for l in lens if l.id == "B-DEP-04")
         self.assertEqual((b.affects, b.meta["group"]), ("lessee", "DEP"))
 
 

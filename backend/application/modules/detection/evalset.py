@@ -6,9 +6,14 @@ One gold file per contract, `<name>.gold.json`, next to the contract text `<name
    "text_sha256": "<sha256 of the contract text>",
    "findings": [{"id", "origin": "planted" | "natural", "kind": "present" | "missing",
                  "quote", "char_start", "char_end", "clause",   # present only; null for missing
-                 "issue", "affects": "lessor" | "lessee" | "both", ...}],
+                 "issue", "affects": "lessor" | "lessee" | "both",
+                 "codes": ["B-DEP-04", ...]}],                  # taxonomy codes that count as the right risk
+
    "decoys":   [{"id", "quote", "char_start", "char_end", "clause", "why_fair"}]}
-No taxonomy codes and no severity: gold describes the contract, not a catalogue. Extra keys are kept and ignored.
+"codes" lists every taxonomy code a correct finding may carry (a clause can fit more than one row, and a risk to
+both parties has an A- and a B- code). An empty list means no row fits: detection, which only reports taxonomy codes,
+cannot find it, and the gap is reported so the workbook can get a row. No severity: that comes from the row.
+Extra keys are kept and ignored.
 Gold is written by tools/plant_risks.py (planted contracts) or by hand-labelling (natural contracts).
 """
 from __future__ import annotations
@@ -19,6 +24,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from application.modules.detection.finding import KINDS, ROLES
+from application.modules.taxonomy import taxonomy
 
 EVAL_DIR = Path(__file__).resolve().parents[4] / "data" / "test" / "eval"
 ORIGINS = ("planted", "natural")
@@ -36,8 +42,9 @@ class GoldContract:
         return self.path.name.removesuffix(".gold.json")
 
 
-def validate(gold: dict, text: str) -> list[str]:
-    """Problems with a gold file against its contract text; [] if it is usable."""
+def validate(gold: dict, text: str, codes: set[str] | None = None) -> list[str]:
+    """Problems with a gold file against its contract text; [] if it is usable. `codes`: the taxonomy's codes,
+    which every gold code must be one of (None skips that check)."""
     errs = []
     if gold.get("text_sha256") != hashlib.sha256(text.encode()).hexdigest():
         errs.append("text_sha256 does not match the contract text (the text changed after labelling)")
@@ -66,6 +73,11 @@ def validate(gold: dict, text: str) -> list[str]:
             errs.append(f"{label}: affects must be one of {ROLES}")
         if not (f.get("issue") or "").strip():
             errs.append(f"{label}: no issue")
+        fc = f.get("codes")
+        if not (isinstance(fc, list) and all(isinstance(c, str) for c in fc)):
+            errs.append(f"{label}: codes must be a list of taxonomy codes ([] if none fits)")
+        elif codes is not None and set(fc) - codes:
+            errs.append(f"{label}: codes not in the taxonomy: {sorted(set(fc) - codes)}")
         if f.get("kind") == "present":
             check_span(f, label)
         elif f.get("char_start") is not None or f.get("quote"):
@@ -77,16 +89,21 @@ def validate(gold: dict, text: str) -> list[str]:
     return errs
 
 
-def load(path: Path) -> GoldContract:
+def taxonomy_codes() -> set[str]:
+    return set(taxonomy.load().by_code)
+
+
+def load(path: Path, codes: set[str] | None = None) -> GoldContract:
     gold = json.loads(path.read_text(encoding="utf-8"))
     text_path = path.parent / gold["contract"]
     text = text_path.read_text(encoding="utf-8").rstrip("\n")
-    errs = validate(gold, text)
+    errs = validate(gold, text, codes)
     if errs:
         raise ValueError(f"{path.name}: " + "; ".join(errs))
     return GoldContract(path, text, gold)
 
 
 def load_all(root: Path = EVAL_DIR, split: str | None = None) -> list[GoldContract]:
-    out = [load(p) for p in sorted(root.rglob("*.gold.json")) if "runs" not in p.relative_to(root).parts]
+    codes = taxonomy_codes()
+    out = [load(p, codes) for p in sorted(root.rglob("*.gold.json")) if "runs" not in p.relative_to(root).parts]
     return [g for g in out if split in (None, g.gold["split"])]

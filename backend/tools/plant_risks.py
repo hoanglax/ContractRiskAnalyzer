@@ -12,10 +12,13 @@ Spec:
   {"base": "templates/24_hop-dong.txt", "variant": "p1", "split": "dev", "exhaustive": true,
    "edits": [{"id": "P1", "role": "risk" | "decoy" | "scaffold", "old": "...", "new": "...",
               "finding": {"kind": "present" | "missing", "quote": "...", "issue": "...", "affects": "lessee",
-                          "subtlety": "blatant" | "subtle", "basis": "..."},        # finding: risk only
+                          "subtlety": "blatant" | "subtle", "basis": "...",
+                          "codes": ["B-DEP-02", ...]},                              # finding: risk only
               "quote": "...", "why_fair": "..."}],                                   # decoy only
-   "natural": [{"id": "N1", "kind": ..., "quote": ..., "issue": ..., "affects": ..., "confidence": "clear" | "debatable"}]}
+   "natural": [{"id": "N1", "kind": ..., "quote": ..., "issue": ..., "affects": ..., "confidence": "clear" | "debatable",
+               "codes": [...]}]}
 For a risk, the quote must be (part of) the edit's new text; a "missing" risk deletes text and has no quote.
+"codes" are the taxonomy codes a correct finding may carry ([] if no row fits; see detection/evalset.py).
 Paths in the spec are relative to data/test/.
 """
 from __future__ import annotations
@@ -30,7 +33,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 os.environ["STRUCTURE_LLM"] = "off"
 
-from application.modules.detection.evalset import validate  # noqa: E402
+from application.modules.detection.evalset import taxonomy_codes, validate  # noqa: E402
 from application.modules.detection.finding import locate  # noqa: E402
 from application.modules.ingestion.ingest import ingest  # noqa: E402
 from application.modules.ingestion.text import clean  # noqa: E402
@@ -87,7 +90,7 @@ def main():
     a = ap.parse_args()
     spec = json.loads(a.spec.read_text(encoding="utf-8"))
     text, gold = apply(spec)
-    errs = validate(gold, text)
+    errs = validate(gold, text, taxonomy_codes())
     if errs:
         raise SystemExit("gold does not validate: " + "; ".join(errs))
     a.out_dir.mkdir(parents=True, exist_ok=True)

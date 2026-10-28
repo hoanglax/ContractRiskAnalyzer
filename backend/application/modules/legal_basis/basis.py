@@ -245,13 +245,18 @@ def attach(findings: list[Finding], *, retriever: Retriever | None = None, tax: 
         out = []
         t = time.monotonic()
         log.info("legal basis start: %d findings, retriever %s", len(findings), type(retriever).__name__)
-        for f in findings:
-            risk = tax.by_code[f.code]
-            cands, warnings = candidates(f, risk, retriever, con)
+        # candidates use this thread's SQLite and vector-store handles, so they are built here, one by one (fast);
+        # only the model calls run side by side
+        prepared = [(f, tax.by_code[f.code], *candidates(f, tax.by_code[f.code], retriever, con)) for f in findings]
+
+        def one(p):
+            f, risk, cands, _ = p
             try:
-                res = pick(f, risk, cands)
+                return pick(f, risk, cands)
             except llm.LLMError as e:     # one failed call costs this finding its basis, not the run
-                res = {"basis": [], "warnings": [f"{f.code}: legal_pick failed ({e})"], "attempt": None}
+                return {"basis": [], "warnings": [f"{f.code}: legal_pick failed ({e})"], "attempt": None}
+
+        for (f, risk, cands, warnings), res in zip(prepared, llm.map_calls("legal_pick", one, prepared)):
             log.debug("%s: %d candidates -> %s", f.code, len(cands),
                       ", ".join(f"{b.law} Đ{b.dieu} {b.ref}".strip() for b in res["basis"]) or "none")
             for w in warnings + res["warnings"]:

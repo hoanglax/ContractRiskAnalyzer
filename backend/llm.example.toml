@@ -50,6 +50,8 @@ chat_template_kwargs = { enable_thinking = false }     # llama-server / Qwen: th
 # api_key_env = "OPENROUTER_API_KEY"
 # timeout_s = 600
 # allow_remote = true
+# max_concurrency = 6                # calls in flight at once; keep 1 for a one-slot local server
+# retries = 3                        # per call, on 429 / 5xx / timeouts, with backoff (the default)
 # [profiles.openrouter.sampling]
 # temperature = 0
 # max_tokens = 6000

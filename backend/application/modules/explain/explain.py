@@ -156,12 +156,17 @@ def explain(doc: Document, findings: list[Finding], bases: list[dict], *, tax: t
     t = time.monotonic()
     log.info("explain start: %d findings -> %d items", len(findings), len(items))
     attempts, warnings = [], []
-    for it in items:
+
+    def one(it):
         try:
-            r = llm.chat(task, [{"role": "user", "content": prompt_for(it, tax)}])
+            return llm.chat(task, [{"role": "user", "content": prompt_for(it, tax)}])
         except llm.LLMError as e:
-            it.warnings.append(f"no explanation: {e}")
-            log.warning("%s: no explanation (%s)", "+".join(it.codes), e)
+            return e
+
+    for it, r in zip(items, llm.map_calls(task, one, items)):
+        if isinstance(r, llm.LLMError):
+            it.warnings.append(f"no explanation: {r}")
+            log.warning("%s: no explanation (%s)", "+".join(it.codes), r)
             continue
         attempts.append({"codes": it.codes, "raw": r.text, "finish": r.finish_reason, "usage": r.usage, "model": r.model})
         it.explanation, why = check(r.text, it)

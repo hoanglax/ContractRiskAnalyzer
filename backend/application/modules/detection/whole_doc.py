@@ -142,9 +142,14 @@ def detect_by_group(doc: Document, lens: list[LookFor], **kw) -> dict:
         groups.setdefault(l.meta.get("group", ""), []).append(l)
     out = {"kept": [], "rejected": [], "warnings": [], "error": None, "attempts": []}
     errors = []
-    for g, ls in groups.items():
+
+    def one(group):
+        g, ls = group
         log.info("group %s: %d codes", g, len(ls))
-        r = detect(doc, ls, **kw)
+        return detect(doc, ls, **kw)
+
+    # groups are independent calls: run them side by side when the profile allows (results stay in group order)
+    for (g, ls), r in zip(groups.items(), llm.map_calls(kw.get("task", "detect"), one, list(groups.items()))):
         out["kept"] += r["kept"]
         out["rejected"] += r["rejected"]
         out["warnings"] += r["warnings"]

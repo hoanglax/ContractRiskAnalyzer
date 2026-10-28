@@ -5,7 +5,9 @@ PIPELINE_LLM_CONFIG, or the built-in default (the local 27B on :9876). Stdlib on
     r = chat("structure_fallback", [{"role": "user", "content": "..."}])
     r.text, r.finish_reason, r.usage, r.profile, r.model
 
-Contract text is private: a profile whose host is not this machine is refused unless it sets allow_remote = true."""
+Contract text is private: a profile whose host is not this machine is refused unless it sets allow_remote = true.
+Transient failures (429, 5xx, timeouts) are retried with backoff (`retries` per profile). `max_concurrency` per
+profile says how many calls the pipeline may have in flight at once (1 for a one-slot local server)."""
 from __future__ import annotations
 
 import json
@@ -16,6 +18,7 @@ import tomllib
 import urllib.error
 import urllib.parse
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -31,6 +34,21 @@ DEFAULT = {
         "extra_body": {"chat_template_kwargs": {"enable_thinking": False}}}},
 }
 _LOCAL_HOSTS = {"127.0.0.1", "localhost", "::1", "0.0.0.0"}
+
+
+RETRIES = 3                                  # per call, for the transient failures below; a profile can set "retries"
+RETRY_STATUS = {429, 500, 502, 503, 504}     # rate limit, overload, gateway: worth waiting for; other 4xx are not
+BACKOFF = (2, 6, 15)                         # seconds before retry 1, 2, 3 (then the last value)
+
+
+def _backoff(attempt: int, retry_after: str | None) -> float:
+    """The server's Retry-After (seconds, capped at 60) when it gives one, else the fixed schedule."""
+    try:
+        if retry_after is not None:
+            return min(60.0, max(0.0, float(retry_after)))
+    except ValueError:
+        pass
+    return float(BACKOFF[min(attempt, len(BACKOFF) - 1)])
 
 
 class LLMError(Exception):
@@ -79,6 +97,23 @@ def profile_for(task: str, cfg: dict | None = None) -> tuple[str, dict]:
     return name, prof
 
 
+def concurrency(task: str) -> int:
+    """How many calls for `task` may run at once: the profile's max_concurrency, default 1."""
+    try:
+        return max(1, int(profile_for(task)[1].get("max_concurrency", 1)))
+    except (LLMError, ValueError):
+        return 1
+
+
+def map_calls(task: str, fn, items: list) -> list:
+    """fn over items, up to concurrency(task) at a time, results in input order. fn does the model call(s)."""
+    n = concurrency(task)
+    if n == 1 or len(items) < 2:
+        return [fn(x) for x in items]
+    with ThreadPoolExecutor(max_workers=min(n, len(items)), thread_name_prefix=task) as pool:
+        return list(pool.map(fn, items))
+
+
 def is_local(base_url: str) -> bool:
     return (urllib.parse.urlparse(base_url).hostname or "") in _LOCAL_HOSTS
 
@@ -97,16 +132,25 @@ def chat(task: str, messages: list[dict], *, sampling: dict | None = None, cfg: 
     t = time.monotonic()
     log.debug("%s -> %s %s: %d messages, %d chars", task, name, body["model"], len(messages),
               sum(len(m.get("content") or "") for m in messages))
-    try:
-        with urllib.request.urlopen(req, timeout=prof.get("timeout_s", 600)) as r:
-            out = json.load(r)
-    except urllib.error.HTTPError as e:
-        err = LLMError(f"{name}: HTTP {e.code} {e.read()[:200]!r}")
-        log.warning("%s -> %s %s: HTTP %s after %.1fs", task, name, body["model"], e.code, time.monotonic() - t)
-        raise err from e
-    except (urllib.error.URLError, OSError, TimeoutError, json.JSONDecodeError) as e:
-        log.warning("%s -> %s %s: %s after %.1fs", task, name, body["model"], type(e).__name__, time.monotonic() - t)
-        raise LLMError(f"{name}: {e}") from e
+    retries = int(prof.get("retries", RETRIES))
+    for attempt in range(retries + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=prof.get("timeout_s", 600)) as r:
+                out = json.load(r)
+            break
+        except urllib.error.HTTPError as e:
+            err, transient = LLMError(f"{name}: HTTP {e.code} {e.read()[:200]!r}"), e.code in RETRY_STATUS
+            wait_hint = e.headers.get("Retry-After") if e.headers else None
+            what = f"HTTP {e.code}"
+        except (urllib.error.URLError, OSError, TimeoutError, json.JSONDecodeError) as e:
+            err, transient, wait_hint, what = LLMError(f"{name}: {e}"), True, None, type(e).__name__
+        if not transient or attempt == retries:
+            log.warning("%s -> %s %s: %s after %.1fs%s", task, name, body["model"], what, time.monotonic() - t,
+                        f", gave up after {attempt + 1} tries" if transient else "")
+            raise err
+        wait = _backoff(attempt, wait_hint)
+        log.warning("%s -> %s %s: %s, retry %d/%d in %.0fs", task, name, body["model"], what, attempt + 1, retries, wait)
+        time.sleep(wait)
     try:
         ch = out["choices"][0]
         res = LLMResult(ch["message"]["content"] or "", ch.get("finish_reason"), out.get("usage", {}), name, body["model"], out)

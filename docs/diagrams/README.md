@@ -53,9 +53,10 @@ Diagrams marked *(planned)* describe code that does not match yet.
 - `m3_score` - scoring one run: greedy one-to-one span matching, right code
   first (strict jaccard >= 0.5 / loose overlap), code check on matched pairs,
   same finding under another code counted as dup, decoy hits, extras, missing listed for a human. (`detection/score.py`)
-- `m4_legal` *(planned)* - legal basis per finding: taxonomy citations plus
+- `m4_legal` - legal basis per finding: taxonomy citations plus
   retrieval as candidates, model picks passage ids only, ids gated, text from
   the KB, "no basis found" instead of inventing one.
+  (`legal_basis/basis.py`)
 - `m6_explain` *(planned)* - plain-Vietnamese explanation and recommendation
   per finding; may cite only articles in its LegalBasis list.
 - `orch_api` *(planned)* - POST /analyses, background run M1 -> M6, status

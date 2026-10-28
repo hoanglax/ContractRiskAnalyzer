@@ -9,6 +9,7 @@ default_profile = "local27b"
 [tasks]                              # task name -> profile name (anything missing uses default_profile)
 structure_fallback = "local27b"      # tier-2 clause map (application/modules/ingestion/structure_llm.py)
 detect = "local27b"                  # risk detection (application/modules/detection); e.g. "gemini_free" for the demo
+legal_pick = "local27b"              # legal basis: pick statute passages per finding (application/modules/legal_basis)
 
 [profiles.local27b]                  # the user's normal llama-server (27B, text only)
 base_url = "http://127.0.0.1:9876/v1"

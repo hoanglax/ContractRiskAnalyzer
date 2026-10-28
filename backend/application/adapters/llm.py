@@ -9,13 +9,17 @@ Contract text is private: a profile whose host is not this machine is refused un
 from __future__ import annotations
 
 import json
+import logging
 import os
+import time
 import tomllib
 import urllib.error
 import urllib.parse
 import urllib.request
 from dataclasses import dataclass, field
 from pathlib import Path
+
+log = logging.getLogger(__name__)
 
 CONFIG_DIR = Path(__file__).resolve().parents[2]
 DEFAULT = {
@@ -90,15 +94,26 @@ def chat(task: str, messages: list[dict], *, sampling: dict | None = None, cfg: 
             **prof.get("sampling", {}), **prof.get("extra_body", {}), **(sampling or {})}
     headers = {"Content-Type": "application/json", **({"Authorization": f"Bearer {key}"} if key else {})}
     req = urllib.request.Request(base + "/chat/completions", json.dumps(body).encode(), headers)
+    t = time.monotonic()
+    log.debug("%s -> %s %s: %d messages, %d chars", task, name, body["model"], len(messages),
+              sum(len(m.get("content") or "") for m in messages))
     try:
         with urllib.request.urlopen(req, timeout=prof.get("timeout_s", 600)) as r:
             out = json.load(r)
     except urllib.error.HTTPError as e:
-        raise LLMError(f"{name}: HTTP {e.code} {e.read()[:200]!r}") from e
+        err = LLMError(f"{name}: HTTP {e.code} {e.read()[:200]!r}")
+        log.warning("%s -> %s %s: HTTP %s after %.1fs", task, name, body["model"], e.code, time.monotonic() - t)
+        raise err from e
     except (urllib.error.URLError, OSError, TimeoutError, json.JSONDecodeError) as e:
+        log.warning("%s -> %s %s: %s after %.1fs", task, name, body["model"], type(e).__name__, time.monotonic() - t)
         raise LLMError(f"{name}: {e}") from e
     try:
         ch = out["choices"][0]
-        return LLMResult(ch["message"]["content"] or "", ch.get("finish_reason"), out.get("usage", {}), name, body["model"], out)
+        res = LLMResult(ch["message"]["content"] or "", ch.get("finish_reason"), out.get("usage", {}), name, body["model"], out)
     except (KeyError, IndexError, TypeError) as e:
+        log.warning("%s -> %s %s: unexpected response shape", task, name, body["model"])
         raise LLMError(f"{name}: unexpected response shape") from e
+    u = res.usage or {}
+    log.info("%s -> %s %s: %.1fs, finish=%s, tokens in=%s out=%s", task, name, res.model, time.monotonic() - t,
+             res.finish_reason, u.get("prompt_tokens", "?"), u.get("completion_tokens", "?"))
+    return res

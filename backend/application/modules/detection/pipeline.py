@@ -9,13 +9,16 @@ Which model answers is the LLM config's "detect" task (llm.example.toml), not a 
 """
 from __future__ import annotations
 
+import logging
 import os
+import time
 
 from application.modules.detection import whole_doc
 from application.modules.detection.lens import from_taxonomy
 from application.modules.ingestion.ingest import Document
 from application.modules.taxonomy import taxonomy
 
+log = logging.getLogger(__name__)
 MODES = {"group": whole_doc.detect_by_group, "all": whole_doc.detect}
 DEFAULT_MODE = "group"
 
@@ -26,7 +29,11 @@ def run(doc: Document, *, mode: str | None = None, tax: taxonomy.Taxonomy | None
     mode = mode or os.environ.get("DETECTION_MODE") or DEFAULT_MODE
     if mode not in MODES:
         raise ValueError(f"unknown detection mode {mode!r}; one of {sorted(MODES)}")
+    t = time.monotonic()
+    log.info("detection start: mode=%s, %d chars", mode, len(doc.text))
     res = MODES[mode](doc, from_taxonomy(tax or taxonomy.load()))
+    log.info("detection done: %d findings, %d calls, %d warnings, %.0fs%s", len(res["kept"]), len(res["attempts"]),
+             len(res["warnings"]), time.monotonic() - t, f", error: {res['error']}" if res["error"] else "")
     findings = sorted(res["kept"], key=lambda f: (f.kind != "present", f.char_start or 0, f.code))
     return {"mode": mode, "findings": findings, "warnings": res["warnings"], "error": res["error"],
             "attempts": res["attempts"]}

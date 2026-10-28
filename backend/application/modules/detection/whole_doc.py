@@ -11,12 +11,14 @@ shorter list. Which works better is measured on the eval set (proposal D1).
 from __future__ import annotations
 
 import json
+import logging
 import re
 
 from application.adapters import llm
 from application.modules.detection.finding import Finding, LookFor, ground
 from application.modules.ingestion.ingest import Document
 
+log = logging.getLogger(__name__)
 RETRIES = 2
 
 PROMPT = """Bạn là luật sư rà soát hợp đồng thuê nhà ở theo pháp luật Việt Nam. Hãy đọc hợp đồng và tìm những rủi ro trong DANH SÁCH RỦI RO bên dưới: điều khoản có rủi ro đó, hoặc nội dung cần thiết mà hợp đồng thiếu.
@@ -102,6 +104,8 @@ def detect(doc: Document, lens: list[LookFor], *, task: str = "detect", max_toke
             items = parse(r.text)
         except (ValueError, json.JSONDecodeError) as e:
             rec["error"] = f"unparseable reply ({e}); finish={r.finish_reason}"
+            log.warning("attempt %d: unparseable reply (finish=%s)%s", attempt + 1, r.finish_reason,
+                        ", asking again" if attempt < retries else "")
             # a broken retry keeps the earlier findings and their rejections; only a broken first reply is fatal
             if attempt == 0:
                 out["error"] = rec["error"]
@@ -116,10 +120,16 @@ def detect(doc: Document, lens: list[LookFor], *, task: str = "detect", max_toke
         out["rejected"] = rejected
         out["error"] = None
         rec["kept"], rec["rejected"] = len(kept), [{"code": f.code, "quote": f.quote, "why": w} for f, w in rejected]
+        log.info("attempt %d: %d kept, %d rejected%s", attempt + 1, len(kept), len(rejected),
+                 f" ({', '.join(sorted({w for _, w in rejected}))})" if rejected else "")
         if not rejected:
             break
         messages.append({"role": "user", "content": fix_prompt(rejected)})
+    if out["error"]:
+        log.warning("no findings: %s", out["error"])
     if out["error"] is None:
+        if out["rejected"]:
+            log.warning("%d findings still rejected after %d attempts", len(out["rejected"]), len(out["attempts"]))
         out["warnings"] += [f"dropped after {len(out['attempts'])} attempts: {f.code} {f.kind} "
                             f"«{(f.quote or '')[:80]}»: {why}" for f, why in out["rejected"]]
     return out
@@ -133,6 +143,7 @@ def detect_by_group(doc: Document, lens: list[LookFor], **kw) -> dict:
     out = {"kept": [], "rejected": [], "warnings": [], "error": None, "attempts": []}
     errors = []
     for g, ls in groups.items():
+        log.info("group %s: %d codes", g, len(ls))
         r = detect(doc, ls, **kw)
         out["kept"] += r["kept"]
         out["rejected"] += r["rejected"]

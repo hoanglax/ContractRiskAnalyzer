@@ -15,8 +15,10 @@ found, and is shown as such: an article number is never written by the model.
 from __future__ import annotations
 
 import json
+import logging
 import re
 import sqlite3
+import time
 from dataclasses import dataclass
 
 from application.adapters import llm
@@ -25,6 +27,7 @@ from application.modules.legal_retrieval.kb import DEFAULT_DB, LexicalRetriever
 from application.modules.legal_retrieval.retriever import Hit, Retriever
 from application.modules.taxonomy import taxonomy
 
+log = logging.getLogger(__name__)
 RETRIEVED = 6           # passages from whole-KB retrieval per finding
 PER_ARTICLE = 4         # passages kept from one cited article (its khoản best matching the finding first)
 PER_LAW = 3             # passages for a citation that names a law but no article
@@ -72,6 +75,7 @@ def default_retriever(db_path=DEFAULT_DB) -> tuple[Retriever, list[str]]:
         from application.modules.legal_retrieval.qdrant_store import QdrantRetriever
         return HybridRetriever(lex, QdrantRetriever(DENSE_TAG, db_path)), []
     except Exception as e:     # missing torch/qdrant, no index: still usable, just weaker
+        log.warning("dense retrieval unavailable (%s); using BM25 only", e)
         return lex, [f"dense retrieval unavailable ({e}); legal basis uses BM25 only"]
 
 
@@ -166,13 +170,21 @@ def attach(findings: list[Finding], *, retriever: Retriever | None = None, tax: 
     con = sqlite3.connect(db_path)
     try:
         out = []
+        t = time.monotonic()
+        log.info("legal basis start: %d findings, retriever %s", len(findings), type(retriever).__name__)
         for f in findings:
             risk = tax.by_code[f.code]
             cands, warnings = candidates(f, risk, retriever, con)
             res = pick(f, risk, cands)
+            log.debug("%s: %d candidates -> %s", f.code, len(cands),
+                      ", ".join(f"{b.law} Đ{b.dieu} {b.ref}".strip() for b in res["basis"]) or "none")
+            for w in warnings + res["warnings"]:
+                log.warning(w)
             out.append({"code": f.code, "basis": res["basis"], "candidates": [_label(c.hit) for c in cands],
                         "warnings": warnings + res["warnings"],
                         "attempt": res["attempt"]})
+        log.info("legal basis done: %d findings, %d with no basis, %.0fs", len(out),
+                 sum(not i["basis"] for i in out), time.monotonic() - t)
         return {"items": out, "warnings": run_warnings}
     finally:
         con.close()

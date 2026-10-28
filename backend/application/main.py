@@ -1,6 +1,10 @@
 
 from fastapi import FastAPI
+
+from application import logs
 from fastapi.middleware.cors import CORSMiddleware
+
+logs.setup()
 
 app = FastAPI(
     title="Contract Risk Analyzer API",

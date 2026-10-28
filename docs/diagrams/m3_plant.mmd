@@ -1,0 +1,18 @@
+graph TB
+    SPEC["spec.json: base template, variant, split, exhaustive,<br/>edits (risk / decoy / scaffold), natural findings"] --> BASE["ingest(base) -> Document.text"]
+    BASE --> ED["apply each edit in order:<br/>old must occur exactly once, replace with new"]
+    ED -->|"0 or 2+ hits"| FAIL["SystemExit"]
+    ED --> CL["clean(text), re-ingest as planted.txt"]
+    CL -->|"text changed by ingest"| FAIL
+    CL --> ROLE{"edit role"}
+    ROLE -->|risk| RK["finding: taxonomy code required,<br/>quote must come from edit new text"]
+    ROLE -->|decoy| DC["decoy: quote from new text + why_fair"]
+    ROLE -->|scaffold| NO["no gold entry (renumbering etc.)"]
+    NAT["spec natural: findings the template already had"] --> SPAN
+    RK --> SPAN["span: locate(quote) verbatim, no elision<br/>clause from Structure; missing kind -> no span"]
+    DC --> SPAN
+    SPAN -->|"not found"| FAIL
+    SPAN --> GOLD["gold: findings (origin planted/natural), decoys,<br/>text_sha256, edits"]
+    GOLD --> VAL["evalset.validate: sha, split, ids unique,<br/>spans slice to quote, kinds/origins,<br/>every code exists in the taxonomy"]
+    VAL -->|errors| FAIL
+    VAL --> OUT["data/test/eval/planted/<br/>name_variant.txt + name_variant.gold.json"]

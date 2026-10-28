@@ -1,0 +1,12 @@
+graph TB
+    CALL["chat(task, messages, sampling)<br/>tasks: structure_fallback, vision, detect, legal_pick, explain"] --> CFG{"config source"}
+    CFG -->|"PIPELINE_LLM_CONFIG set"| TOML["read that TOML"]
+    CFG -->|"backend/llm.toml exists"| TOML
+    CFG -->|neither| ERR0["LLMError: no LLM configured,<br/>copy llm.example.toml to llm.toml"]
+    TOML -->|"unreadable / no profiles"| ERR["LLMError"]
+    TOML --> PF["profile_for: tasks[task] or default_profile<br/>(any OpenAI-compatible endpoint; swap provider here)"]
+    PF -->|"undefined / no base_url"| ERR
+    PF --> BODY["body = model + messages + profile sampling<br/>+ extra_body + call sampling (last wins)<br/>bearer key from api_key / api_key_env"]
+    BODY --> POST["POST base_url/chat/completions, timeout_s"]
+    POST -->|"HTTP / network / bad JSON / bad shape"| ERR
+    POST --> RES["LLMResult: text, finish_reason, usage, profile, model, raw"]

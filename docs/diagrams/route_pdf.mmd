@@ -1,0 +1,25 @@
+graph TB
+    PT["pdftotext per page"]
+    Q{"per-page quality: cid present OR ratio < 0.5 OR too few chars"}
+    BAD["page marked BAD"]
+    NAT["route = native"]
+    ENG{"vlm.engine()"}
+    WARN1["warning: looks scanned, OCR unavailable, page kept empty"]
+    RENDER["render page to PNG, vlm.transcribe"]
+    WARN2["OCR fail or empty: warning, page kept"]
+    VISION["route = vision, quality = readable_ratio(ocr)"]
+    JOIN["strip running headers and footers across ALL pages alike"]
+    OUT["join_pages to doc.text. raw: per-page routes + quality, removed_lines, ocr model"]
+    PT --> Q
+    Q -->|usable| NAT
+    Q -->|bad| BAD
+    BAD --> ENG
+    ENG -->|no OCR| WARN1
+    ENG -->|vlm| RENDER
+    RENDER -->|fail or empty| WARN2
+    RENDER -->|ok| VISION
+    NAT --> JOIN
+    WARN1 --> JOIN
+    WARN2 --> JOIN
+    VISION --> JOIN
+    JOIN --> OUT

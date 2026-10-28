@@ -1,0 +1,16 @@
+graph TB
+    IN["kept Finding: code, kind, quote, issue, clause<br/>+ its taxonomy row"] --> CIT["taxonomy citations: law id + dieu numbers<br/>(already resolved to KB ids)"]
+    IN --> Q["query = issue + quote (or risk name for missing)"]
+    CIT --> ART["fetch those articles from the KB by id<br/>citation law = None -> skipped, warning"]
+    Q --> RET["Retriever.search(query, k) -> Hits"]
+    ART --> CAND["candidate passages, each with a passage id<br/>(taxonomy ones first, duplicates merged)"]
+    RET --> CAND
+    CAND --> LLM["llm.chat(task legal_pick): finding + candidates<br/>answer: passage ids that support it + one line why"]
+    LLM --> GATE{"every id among the candidates?"}
+    GATE -->|"unknown id"| DROP["that pick dropped, warning"]
+    GATE -->|ok| BASIS["LegalBasis list: law, dieu, khoan/diem, text, why<br/>text from the KB, never from the model"]
+    DROP --> BASIS
+    BASIS --> EMPTY{"any basis left?"}
+    EMPTY -->|no| NONE["basis = none, shown as<br/>no legal basis found (never invented)"]
+    EMPTY -->|yes| OUT["Finding + LegalBasis"]
+    NONE --> OUT

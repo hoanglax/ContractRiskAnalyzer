@@ -1,0 +1,9 @@
+graph TB
+    CLI["python -m application.modules.detection.eval run --config whole_doc/none|whole_doc/taxonomy --runs N --split dev"]
+    CLI --> MAN["manifest.json: git commit, LLM profile + server model,<br/>prompt hashes, gold hashes"]
+    MAN --> LOOP["for each config x gold contract x run"]
+    LOOP --> ING["ingest(gold text) -> Document"]
+    ING --> DET["detector -> kept / rejected"]
+    DET --> PRED["predictions file per config__contract__rN:<br/>kept, rejected+why, raw, usage, finish, seconds"]
+    PRED --> SC["score(): span jaccard vs gold spans,<br/>recall/precision by kind and origin"]
+    PRED --> RES["rescore <run dir>: after gold changes,<br/>NO model calls; predictions whose text_sha changed skipped"]

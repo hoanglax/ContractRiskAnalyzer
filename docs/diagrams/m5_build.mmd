@@ -1,0 +1,7 @@
+graph TB
+    C["data/legal_corpus: NDL texts"] --> CH["chunk: khoan_split by heading,<br/>_by_diem points, max chars per chunk"]
+    CH --> BUILD["kb build: SQLite<br/>articles + chunks + chunks_fts (fts5)"]
+    BUILD --> TOK["tokenize: pairs + pyvi (KB_TOKENIZER)"]
+    BUILD --> VER["kb verify: every chunk is a verbatim slice<br/>of its article, else build fails"]
+    BUILD --> EMB["dense embed_index: Embedder (F2LLM)<br/>vectors -> vec_tag.npy + .json per model tag"]
+    EMB --> QD["qdrant_store index: embedded Qdrant (cache/qdrant, no server)<br/>collection chunks_tag, point id = chunk id, payload law"]

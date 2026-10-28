@@ -1,0 +1,5 @@
+{
+  "executablePath": "/usr/sbin/brave",
+  "headless": true,
+  "args": ["--no-sandbox", "--user-data-dir=/tmp/mmdc-brave"]
+}

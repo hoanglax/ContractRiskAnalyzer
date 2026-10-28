@@ -1,0 +1,8 @@
+graph TB
+    IN["Finding + taxonomy row + LegalBasis list"] --> P["explain prompt, Vietnamese, plain language:<br/>what the clause means, why it is risky for this party,<br/>what to ask or change before signing"]
+    P --> LLM["llm.chat(task explain)"]
+    LLM --> CHK{"cites only Dieu numbers<br/>present in the LegalBasis list?"}
+    CHK -->|no| WARN["explanation dropped, warning:<br/>finding still shown with taxonomy text"]
+    CHK -->|yes| EXP["Explanation: summary, recommendation"]
+    EXP --> OUT["result item: finding, severity, party, quote + clause,<br/>legal basis, explanation"]
+    WARN --> OUT

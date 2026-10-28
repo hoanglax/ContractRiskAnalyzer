@@ -1,0 +1,24 @@
+graph TB
+    C["candidates(text): shape-match every line"] --> F["marker families, priority order"]
+    F --> F1["dieu: Dieu N arabic"]
+    F --> F2["dieu_r: Dieu II roman"]
+    F --> F3["roman: I. Title, needs chain"]
+    F --> F4["num: 1. Title, needs chain"]
+    F1 --> CH["dieu: bigger of arabic/roman wins, >=3 candidates<br/>roman/num: best_chain DP, longest 1,2,3 chain, >=3 / >=4"]
+    F2 --> CH
+    F3 --> CH
+    F4 --> CH
+    CH -->|no chain found| FF["Structure(layout=freeform, clauses empty)<br/>reason: no_marker_chain"] --> OUTD["Structure + Diagnostics"]
+    CH -->|chain chosen| HL["build headings: marker + rest on same line,<br/>or title on next line if standalone marker"]
+    HL --> CL["Clause(char_start=marker line, char_end=next marker or EOF)"] --> OUTD
+    CL --> CONF["confidence checks -> Diagnostics.reasons"]
+    CONF --> R1["many_unfit_candidates: >25% rejected, >=3"]
+    CONF --> R2["gap_filled_by_rejected_line: a rejected Dieu line<br/>carries the number missing in a gap"]
+    CONF --> R3["very_irregular_numbering: dups+gaps+resets > 50% of headings"]
+    CONF --> R4["does_not_start_at_1: first number > 2"]
+    CONF --> R5["headings_start_late: >50% of text before first heading"]
+    R1 --> OUTD
+    R2 --> OUTD
+    R3 --> OUTD
+    R4 --> OUTD
+    R5 --> OUTD

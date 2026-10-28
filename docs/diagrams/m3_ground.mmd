@@ -1,0 +1,20 @@
+graph TB
+    IN["Finding from any detector"] --> C0{"code in taxonomy.by_code?"}
+    C0 -->|no| REJ0["rejected: unknown code<br/>(risks outside the taxonomy are never reported)"]
+    C0 -->|yes| C1{"kind in present|missing?"}
+    C1 -->|no| REJ["rejected: unknown kind"]
+    C1 -->|yes| C2{"issue non-empty?"}
+    C2 -->|no| REJ2["rejected: no issue given"]
+    C2 -->|yes| C4{"kind present?"}
+    C4 -->|missing| KEEP2["kept: no quote needed"]
+    C4 -->|present| LOC["locate(text, quote)"]
+    LOC --> L1["try whole quote verbatim first<br/>(dots are usually the contract own blanks)"]
+    L1 -->|hit| SP["span found, elided=false"]
+    L1 -->|miss| L2["split on elision, each piece found in order,<br/>each piece >=8 chars; span first piece to last"]
+    L2 -->|hit| SP2["span found, elided=true"]
+    L2 -->|miss| REJ4["rejected: quote not found verbatim"]
+    SP --> CLA["clause_at: clause whose span covers char_start,<br/>None = preamble"]
+    SP2 --> CLA
+    CLA --> KEEP["kept: char_start, char_end, elided, clause set by gate"]
+    KEEP --> ROW["from the taxonomy row, never the model:<br/>name, severity, affects (A=lessor, B=lessee),<br/>consequences, citations"]
+    KEEP2 --> ROW

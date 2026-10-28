@@ -1,0 +1,10 @@
+graph TB
+    Q["query text, k, optional law filter"] --> R{"which Retriever<br/>(same Hit protocol, interchangeable)"}
+    R --> LEX["LexicalRetriever: FTS5 bm25,<br/>tokenized query"]
+    R --> DEN["dense: embed query, cosine search<br/>QdrantRetriever (embedded Qdrant, law filter in Qdrant)<br/>or DenseRetriever (numpy matrix)"]
+    R --> HYB["HybridRetriever: lexical pool 50 + dense pool 50<br/>-> RRF fusion (rrf_k 60) -> top k"]
+    R --> RR["RerankedRetriever: base pool 30<br/>-> Reranker (local model) or ServerReranker (:8081) -> top k"]
+    LEX --> HIT["Hit: chunk id, ref (dieu/khoan), text, score<br/>text always from the SQLite KB"]
+    DEN --> HIT
+    HYB --> HIT
+    RR --> HIT

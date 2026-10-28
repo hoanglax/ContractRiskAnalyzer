@@ -1,0 +1,28 @@
+graph TB
+    IN["ingest(file) / ingest_images(photos)"]
+    LOAD["_load + guards: empty, >50MB, >40 images"]
+    SNIFF["sniff(data): type from MAGIC BYTES<br/>zip->docx, OLE->doc, heuristic->txt<br/>extension only warns on mismatch"]
+    ROUTE{"ROUTES[kind]"}
+    ERR["IngestError: empty, too_large, unsupported_type,<br/>encrypted, not_implemented, no_text, conversion_failed"]
+    FIN["_finish: clean text, readable_ratio and implausible_words check"]
+    DOC["Document: text, source{sha256,type}, blocks,<br/>pages[quality], warnings, raw"]
+    R1["route_txt: decode + legacy-encoding warn"]
+    R2["route_docx: docx_text.py XML paras, tables, QR"]
+    R3["route_doc: soffice convert to docx"]
+    R4["route_pdf: see route_pdf diagram"]
+    R5["route_image: vision OCR whole page"]
+    IN --> LOAD --> SNIFF --> ROUTE
+    ROUTE -.->|kind unknown| ERR
+    LOAD -.->|fail| ERR
+    ROUTE --> R1
+    ROUTE --> R2
+    ROUTE --> R3
+    ROUTE --> R4
+    ROUTE --> R5
+    FIN -.->|text implausible| ERR
+    R1 --> FIN
+    R2 --> FIN
+    R3 --> FIN
+    R4 --> FIN
+    R5 --> FIN
+    FIN --> DOC

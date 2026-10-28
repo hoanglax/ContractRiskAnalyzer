@@ -1,0 +1,4 @@
+graph TB
+    E["data/legal_eval retrieval_v2.jsonl: 29 questions, gold refs"] --> EV["eval.evaluate: rank_of gold in top k,<br/>recall@k, pool 50"]
+    B["bench: each tokenizer x each retriever,<br/>fresh DB per tokenizer via subprocess"] --> EV
+    EV --> T["comparison table: lexical / dense sizes / hybrid / rerank<br/>recall@5, latency"]

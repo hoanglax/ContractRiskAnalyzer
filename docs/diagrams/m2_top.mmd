@@ -1,0 +1,7 @@
+graph TB
+    T["Document.text (already clean)"] --> S1["segment() tier 1: deterministic"]
+    S1 --> D{"Diagnostics.needs_fallback?"}
+    D -->|confident| OUT["Structure + Diagnostics + warnings"]
+    D -->|not confident| S2["segment_llm() tier 2"]
+    S2 -->|accepted| R2["tier-2 Structure + Diagnostics (reasons: tier2)"] --> OUT
+    S2 -->|"rejected / model unreachable"| KEEP["keep tier-1 result + warning: tier-1 not confident (reasons)"] --> OUT

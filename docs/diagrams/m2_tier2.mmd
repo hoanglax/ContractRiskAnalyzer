@@ -1,0 +1,22 @@
+graph TB
+    A["text as numbered lines: index | line, 160-char cap per line"] --> CACHE{"cache hit?<br/>key = sha256(prompt_version + model + text)"}
+    CACHE -->|hit| B
+    CACHE -->|"miss: llm.toml task structure_fallback"| P["LLM prompt: headings are LINE NUMBERS only"]
+    P -->|"LLMError / llm.toml broken"| N1["None + warning: fallback unavailable,<br/>caller keeps tier 1"]
+    P --> ANS["parse_answer: strict gate"]
+    ANS --> G1["usable JSON with headings list"]
+    ANS --> G2["line numbers in range, non-blank"]
+    ANS --> G3["two-line headings consecutive"]
+    ANS --> G4["headings strictly increasing"]
+    ANS --> G5["count >= 2, finish_reason = stop"]
+    G1 -->|all pass| B["build(): Clause spans from line indices<br/>layout = family covering >=80% of picks, else titled"]
+    G2 --> B
+    G3 --> B
+    G4 --> B
+    G5 --> B
+    G1 -->|any fail| N2["None + warning: answer rejected (reason)"]
+    G2 --> N2
+    G3 --> N2
+    G4 --> N2
+    G5 --> N2
+    B --> W["warning: tier-2 (profile) found N headings,<br/>cache written"]

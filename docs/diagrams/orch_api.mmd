@@ -1,0 +1,18 @@
+graph TB
+    FE["Frontend"] -->|"POST /analyses (file)"| UP["save upload, new analysis id,<br/>status = queued"]
+    UP -->|"201: id"| FE
+    UP --> BG["background task (same process, no queue)"]
+    BG --> S1["M1 ingest -> Document"]
+    S1 -->|"IngestError (code)"| FAIL["status = failed, error code + message"]
+    S1 --> S2["M2 segment_auto -> Structure"]
+    S2 --> S3["M3 detect -> kept Findings (taxonomy codes)"]
+    S3 -->|"LLMError / unparseable"| FAIL
+    S3 --> S4["M4 legal basis per finding"]
+    S4 --> S6["M6 explanation per finding"]
+    S6 --> DONE["status = done"]
+    BG -.->|"after each stage"| ST["runs/id.json: status, stage, warnings,<br/>document, findings, basis, explanations,<br/>prompt + model versions"]
+    DONE --> ST
+    FAIL --> ST
+    FE -->|"GET /analyses/{id} (poll)"| GET["read runs/id.json"]
+    ST --> GET
+    GET -->|"queued | running(stage) | done(result) | failed(error)"| FE

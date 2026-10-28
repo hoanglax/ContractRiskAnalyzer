@@ -1,0 +1,17 @@
+graph TB
+    DOC["Document (ingested, with Structure)"] --> TAX["taxonomy.load() -> from_taxonomy -> LookFor list<br/>(closed set: the only risks that can be reported)"]
+    TAX --> SPLIT{"one call or per group?<br/>(open: measure both)"}
+    SPLIT -->|"all 77 codes"| P
+    SPLIT -->|"7 calls, one group each"| P
+    P["detect prompt: full contract text + LookFor codes, titles, signs<br/>rules: verbatim quotes only, missing quote=null,<br/>every finding names exactly one code from the list, JSON only"]
+    P --> LLM["llm.chat(task detect)"]
+    LLM --> PARSE["parse: extract JSON object, findings list"]
+    PARSE -->|ok| F["items -> Finding(code, kind, quote, issue)<br/>detector tag: whole_doc:model"]
+    F --> G["ground(): code gate + quote gate, see m3_ground"]
+    G --> REJ{"anything rejected<br/>or reply unparseable?"}
+    PARSE -->|"no JSON / bad JSON"| REJ
+    REJ -->|"no"| OUT
+    REJ -->|"yes, retries left (max 2)"| RETRY["retry prompt: only the rejected items + why<br/>(quote not verbatim, unknown code) or ask for valid JSON;<br/>kept findings stay kept"]
+    RETRY --> LLM
+    REJ -->|"yes, no retries left"| WARN["still-rejected items -> warnings;<br/>unparseable after retries -> out.error"]
+    WARN --> OUT["out: kept, rejected(why), attempts (raw, finish, usage each), error"]

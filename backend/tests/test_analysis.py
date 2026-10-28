@@ -65,6 +65,7 @@ class Analysis(unittest.TestCase):
         item = rec["items"][0]
         self.assertEqual((item["codes"], item["clause"]), (["B-DEP-04"], "Điều 1"))
         self.assertIn("Bạn có thể mất cọc", item["explanation"]["summary"])
+        self.assertEqual(item["risks"][0]["severity"], "HIGH")       # the row, for the UI
         self.assertEqual(len(rec["calls"]["detect"]), 7)       # one per taxonomy group
         self.assertIn("detect", rec["versions"]["models"])
         self.assertIn("text", rec["document"])

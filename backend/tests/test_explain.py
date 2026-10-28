@@ -73,6 +73,11 @@ class Check(unittest.TestCase):
         self.assertEqual(e.summary, "Lãi 2%/ngày vượt mức trần (Bộ luật Dân sự 2015, Điều 468, khoản 1).")
         self.assertEqual(e.cited, ["Bộ luật Dân sự 2015, Điều 468, khoản 1"])
 
+    def test_adjacent_refs_share_one_parenthesis(self):
+        it = ex.Item(kind="present", codes=["x"], severity="HIGH", parties=[], issues={}, basis=[B468, B328])
+        e, _ = ex.check(self.reply("Trái luật [L1][L2]."), it)
+        self.assertEqual(e.summary, "Trái luật (Bộ luật Dân sự 2015, Điều 468, khoản 1; Bộ luật Dân sự 2015, Điều 328, khoản 2).")
+
     def test_unknown_ref_or_self_written_article_drops_it(self):
         self.assertIsNone(ex.check(self.reply("Trái [L2]."), self.it)[0])
         e, why = ex.check(self.reply("Trái Điều 357 Bộ luật Dân sự."), self.it)

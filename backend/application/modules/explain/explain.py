@@ -142,7 +142,8 @@ def check(reply: str, it: Item) -> tuple[Explanation | None, str | None]:
     cited = sorted({int(n) for n in _LREF.findall(text)})
 
     def resolve(s: str) -> str:
-        return _LREF.sub(lambda m: f"({it.basis[int(m.group(1)) - 1].label})", s).strip()
+        s = _LREF.sub(lambda m: f"({it.basis[int(m.group(1)) - 1].label})", s)
+        return re.sub(r"\)[\s,]*\(", "; ", s).strip()      # "[L1][L2]" -> one parenthesis
 
     return Explanation(resolve(d["summary"]), resolve(d["recommendation"]), [it.basis[n - 1].label for n in cited]), None
 

@@ -4,11 +4,22 @@ The analysis runs in the background in this process (application.analysis.run); 
 """
 from __future__ import annotations
 
+from pathlib import Path
+
 from fastapi import APIRouter, BackgroundTasks, HTTPException, UploadFile
+from fastapi.responses import FileResponse
 
 from application.analysis import run
 
 router = APIRouter(prefix="/analyses", tags=["analyses"])
+demo = APIRouter()
+DEMO_PAGE = Path(__file__).with_name("demo.html")
+
+
+@demo.get("/demo", include_in_schema=False)
+def demo_page() -> FileResponse:
+    """A one-file demo UI (upload, progress, result) until the real frontend exists; /demo?id=<run> reopens a run."""
+    return FileResponse(DEMO_PAGE)
 
 
 @router.post("", status_code=201)

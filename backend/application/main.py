@@ -22,6 +22,7 @@ app.add_middleware(
 )
 
 app.include_router(analyses.router)
+app.include_router(analyses.demo)
 
 
 @app.get("/health")

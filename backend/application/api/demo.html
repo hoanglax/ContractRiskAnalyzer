@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rà soát hợp đồng thuê nhà</title>
+<style>
+:root {
+  --bg: #f7f6f2; --fg: #1d1d1b; --muted: #6b6a64; --line: #e2e0d8; --card: #ffffff; --accent: #2f5fd0;
+  --crit: #b42318; --crit-bg: rgba(180, 35, 24, .14);
+  --high: #c2410c; --high-bg: rgba(194, 65, 12, .14);
+  --med: #a16207; --med-bg: rgba(161, 98, 7, .14);
+  --low: #4b5563; --low-bg: rgba(75, 85, 99, .12);
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #151514; --fg: #ecebe6; --muted: #a19f97; --line: #33322e; --card: #1e1e1c; --accent: #7aa2ff;
+    --crit: #f87171; --crit-bg: rgba(248, 113, 113, .2); --high: #fb923c; --high-bg: rgba(251, 146, 60, .2);
+    --med: #facc15; --med-bg: rgba(250, 204, 21, .16); --low: #9ca3af; --low-bg: rgba(156, 163, 175, .16); }
+}
+* { box-sizing: border-box }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif }
+main { max-width: 1400px; margin: 0 auto; padding: 24px 16px 64px }
+h1 { font-size: 22px; margin: 0 0 4px } h2 { font-size: 17px; margin: 0 0 12px }
+.sub { color: var(--muted); font-size: 13px }
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin: 16px 0 }
+button { font: inherit; border: 0; border-radius: 8px; padding: 8px 16px; background: var(--accent); color: #fff; cursor: pointer }
+button:disabled { opacity: .5; cursor: default }
+button.link { background: none; color: var(--accent); padding: 0; text-decoration: underline }
+.upload { display: flex; gap: 12px; flex-wrap: wrap; align-items: center }
+.steps { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px }
+.step { font-size: 13px; padding: 4px 10px; border-radius: 99px; border: 1px solid var(--line); color: var(--muted) }
+.step.now { border-color: var(--accent); color: var(--accent); font-weight: 600 }
+.step.done { color: var(--fg) } .step.done::before { content: "✓ " }
+.error { border-color: var(--crit); color: var(--crit) }
+.stats { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px }
+.stat { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: var(--muted) }
+.stat b { color: var(--fg); font-size: 18px; margin-right: 4px }
+.cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; align-items: start }
+@media (max-width: 900px) { .cols { grid-template-columns: 1fr } .contract { position: static !important; max-height: 60vh !important } }
+.contract { position: sticky; top: 12px; max-height: 88vh; overflow: auto; white-space: pre-wrap; font-size: 14px; line-height: 1.65 }
+mark { color: inherit; border-radius: 3px; padding: 0 1px; cursor: pointer }
+mark.CRITICAL { background: var(--crit-bg); box-shadow: inset 0 -2px 0 var(--crit) }
+mark.HIGH { background: var(--high-bg); box-shadow: inset 0 -2px 0 var(--high) }
+mark.MEDIUM { background: var(--med-bg); box-shadow: inset 0 -2px 0 var(--med) }
+mark.LOW { background: var(--low-bg); box-shadow: inset 0 -2px 0 var(--low) }
+mark.flash, .card.flash { outline: 2px solid var(--accent); outline-offset: 2px }
+.card { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--low); border-radius: 10px; padding: 12px 14px; margin-bottom: 10px }
+.card.CRITICAL { border-left-color: var(--crit) } .card.HIGH { border-left-color: var(--high) } .card.MEDIUM { border-left-color: var(--med) }
+.head { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 6px }
+.sev { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 99px }
+.sev.CRITICAL { background: var(--crit-bg); color: var(--crit) } .sev.HIGH { background: var(--high-bg); color: var(--high) }
+.sev.MEDIUM { background: var(--med-bg); color: var(--med) } .sev.LOW { background: var(--low-bg); color: var(--low) }
+.pill { font-size: 12px; padding: 1px 8px; border-radius: 99px; border: 1px solid var(--line); color: var(--muted) }
+.names { font-weight: 600 } .names div + div { margin-top: 2px }
+.quote { color: var(--muted); font-style: italic; margin: 6px 0; cursor: pointer }
+.label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; margin-top: 10px }
+.note { font-size: 13px; color: var(--muted); border: 1px dashed var(--line); border-radius: 6px; padding: 6px 8px; margin-top: 8px }
+details { margin-top: 4px } summary { cursor: pointer; font-size: 14px }
+.law { white-space: pre-wrap; font-size: 13px; color: var(--muted); margin: 4px 0 8px; padding-left: 10px; border-left: 2px solid var(--line) }
+.hidden { display: none }
+</style>
+</head>
+<body>
+<main>
+  <h1>Rà soát hợp đồng thuê nhà ở</h1>
+  <div class="sub">Bản demo: phát hiện điều khoản rủi ro, căn cứ pháp luật và khuyến nghị. Kết quả do mô hình tạo ra, chỉ mang tính tham khảo, không thay thế tư vấn pháp lý.</div>
+
+  <section class="panel">
+    <form id="form" class="upload">
+      <input id="file" type="file" accept=".pdf,.docx,.doc,.txt,.png,.jpg,.jpeg" required>
+      <button id="go" type="submit">Phân tích</button>
+      <span id="elapsed" class="sub"></span>
+    </form>
+    <div id="steps" class="steps hidden"></div>
+    <div id="err" class="note error hidden"></div>
+  </section>
+
+  <section id="result" class="hidden">
+    <div id="stats" class="stats"></div>
+    <details id="warnbox" class="panel hidden"><summary id="warnsum"></summary><ul id="warnings" class="sub"></ul></details>
+    <div class="cols">
+      <div class="panel contract" id="contract"></div>
+      <div>
+        <h2>Điều khoản có rủi ro</h2><div id="present"></div>
+        <h2 style="margin-top:24px">Nội dung hợp đồng còn thiếu</h2><div id="missing"></div>
+      </div>
+    </div>
+  </section>
+</main>
+<script>
+const STAGES = [["ingest", "Đọc tệp"], ["detect", "Tìm rủi ro"], ["legal_basis", "Tìm căn cứ pháp luật"], ["explain", "Viết giải thích"]];
+const SEV = ["CRITICAL", "HIGH", "MEDIUM", "LOW"];
+const SEV_VI = {CRITICAL: "Nghiêm trọng", HIGH: "Cao", MEDIUM: "Trung bình", LOW: "Thấp"};
+const PARTY_VI = {A: "Bên cho thuê", B: "Bên thuê"};
+const ERR_VI = {
+  empty: "Tệp rỗng.", too_large: "Tệp quá lớn.", unsupported_type: "Định dạng tệp chưa được hỗ trợ.",
+  encrypted: "Tệp được đặt mật khẩu.", no_text: "Không đọc được nội dung chữ trong tệp.",
+  conversion_failed: "Không chuyển đổi được tệp.", not_implemented: "Định dạng này chưa được hỗ trợ.",
+  llm_error: "Không kết nối được mô hình ngôn ngữ.", detection_failed: "Mô hình trả lời không đúng định dạng.",
+  internal: "Lỗi hệ thống."
+};
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+let timer = null, started = 0;
+
+$("form").addEventListener("submit", async e => {
+  e.preventDefault();
+  const f = $("file").files[0];
+  if (!f) return;
+  const body = new FormData();
+  body.append("file", f);
+  reset();
+  $("go").disabled = true;
+  try {
+    const r = await fetch("analyses", {method: "POST", body});
+    if (!r.ok) throw new Error((await r.json()).detail || `HTTP ${r.status}`);
+    const {id} = await r.json();
+    history.replaceState(null, "", `?id=${id}`);
+    poll(id);
+  } catch (err) { showError(`Không gửi được tệp: ${err.message}`); $("go").disabled = false; }
+});
+
+function reset() {
+  $("result").classList.add("hidden"); $("err").classList.add("hidden");
+  started = Date.now();
+  clearInterval(timer);
+  timer = setInterval(() => $("elapsed").textContent = `${Math.round((Date.now() - started) / 1000)} giây`, 1000);
+}
+
+async function poll(id) {
+  let rec;
+  try {
+    const r = await fetch(`analyses/${id}`);
+    if (r.status === 404) { showError("Không tìm thấy lượt phân tích này."); return finish(); }
+    rec = await r.json();
+  } catch (err) { setTimeout(() => poll(id), 3000); return; }
+  showSteps(rec);
+  if (rec.status === "done") { render(rec); return finish(); }
+  if (rec.status === "failed") {
+    showError(`${ERR_VI[rec.error.code] || "Phân tích thất bại."} (${rec.error.code}: ${rec.error.message})`);
+    return finish();
+  }
+  setTimeout(() => poll(id), 2500);
+}
+
+function finish() { clearInterval(timer); $("go").disabled = false; }
+function showError(msg) { $("err").textContent = msg; $("err").classList.remove("hidden"); }
+
+function showSteps(rec) {
+  const at = STAGES.findIndex(([k]) => k === rec.stage);
+  $("steps").classList.remove("hidden");
+  $("steps").innerHTML = (rec.status === "queued" ? '<span class="step now">Đang chờ lượt trước</span>' : "") +
+    STAGES.map(([k, label], i) => {
+      const cls = rec.status === "done" || (at >= 0 && i < at) ? "done" : i === at && rec.status === "running" ? "now" : "";
+      return `<span class="step ${cls}">${label}</span>`;
+    }).join("");
+}
+
+function render(rec) {
+  const items = rec.items.map((it, i) => ({...it, n: i}));
+  const present = items.filter(it => it.kind === "present").sort((a, b) => SEV.indexOf(a.severity) - SEV.indexOf(b.severity) || a.char_start - b.char_start);
+  const missing = items.filter(it => it.kind !== "present").sort((a, b) => SEV.indexOf(a.severity) - SEV.indexOf(b.severity));
+  const count = s => items.filter(it => it.severity === s).length;
+  $("stats").innerHTML = `<span class="stat"><b>${present.length}</b>điều khoản rủi ro</span>` +
+    `<span class="stat"><b>${missing.length}</b>nội dung thiếu</span>` +
+    SEV.filter(count).map(s => `<span class="stat"><b>${count(s)}</b>${SEV_VI[s].toLowerCase()}</span>`).join("") +
+    (rec.seconds ? `<span class="stat"><b>${rec.seconds}</b>giây</span>` : "");
+
+  // contract text with every clause item highlighted (items never overlap: overlapping findings were grouped)
+  const text = rec.document.text, spans = present.slice().sort((a, b) => a.char_start - b.char_start);
+  let html = "", pos = 0;
+  for (const it of spans) {
+    html += esc(text.slice(pos, it.char_start)) +
+      `<mark id="m${it.n}" class="${it.severity}" data-n="${it.n}">${esc(text.slice(it.char_start, it.char_end))}</mark>`;
+    pos = it.char_end;
+  }
+  $("contract").innerHTML = html + esc(text.slice(pos));
+
+  $("present").innerHTML = present.map(card).join("") || '<div class="sub">Không phát hiện điều khoản rủi ro nào.</div>';
+  $("missing").innerHTML = missing.map(card).join("") || '<div class="sub">Không có.</div>';
+
+  const w = rec.warnings || [];
+  $("warnbox").classList.toggle("hidden", !w.length);
+  $("warnsum").textContent = `${w.length} cảnh báo kỹ thuật`;
+  $("warnings").innerHTML = w.map(x => `<li>[${esc(x.stage)}] ${esc(x.message)}</li>`).join("");
+  $("result").classList.remove("hidden");
+}
+
+function card(it) {
+  const parties = [...new Set(it.risks.map(r => PARTY_VI[r.party]))].join(", ");
+  const ex = it.explanation;
+  const cons = [...new Set(it.risks.flatMap(r => r.consequences))];
+  return `<div class="card ${it.severity}" id="c${it.n}">
+    <div class="head"><span class="sev ${it.severity}">${SEV_VI[it.severity]}</span>
+      ${it.clause ? `<span class="pill">${esc(it.clause)}</span>` : ""}
+      <span class="pill">Rủi ro cho: ${esc(parties)}</span>
+      <span class="pill" title="Mã trong danh mục rủi ro">${it.codes.map(esc).join(", ")}</span></div>
+    <div class="names">${it.risks.map(r => `<div>${esc(r.name)}</div>`).join("")}</div>
+    ${it.quote ? `<div class="quote" data-n="${it.n}">«${esc(it.quote)}»</div>` : ""}
+    ${ex ? `<div class="label">Giải thích</div><div>${esc(ex.summary)}</div>
+            <div class="label">Khuyến nghị</div><div>${esc(ex.recommendation)}</div>`
+         : `<div class="label">Hậu quả thường gặp</div><div>${cons.map(esc).join("; ") || "—"}</div>
+            <div class="note">Chưa có giải thích tự động cho mục này.</div>`}
+    ${it.kind !== "present" ? '<div class="note">Mục "còn thiếu" có thể sai nếu nội dung nằm ở phụ lục hoặc diễn đạt khác; hãy tự kiểm tra lại hợp đồng.</div>' : ""}
+    <div class="label">Căn cứ pháp luật</div>
+    ${it.basis.length ? it.basis.map(b => `<details><summary>${esc(b.label)}</summary><div class="law">${esc(b.text)}</div></details>`).join("")
+                      : '<div class="sub">Chưa tìm thấy căn cứ phù hợp trong cơ sở dữ liệu.</div>'}
+  </div>`;
+}
+
+document.addEventListener("click", e => {
+  const el = e.target.closest("mark[data-n], .quote[data-n]");
+  if (!el) return;
+  const target = $(el.tagName === "MARK" ? `c${el.dataset.n}` : `m${el.dataset.n}`);
+  target.scrollIntoView({behavior: "smooth", block: "center"});
+  target.classList.add("flash");
+  setTimeout(() => target.classList.remove("flash"), 1400);
+});
+
+const id = new URLSearchParams(location.search).get("id");
+if (id) { reset(); poll(id); }
+</script>
+</body>
+</html>

@@ -160,8 +160,13 @@ def analyze(rid: str) -> dict:
 
             stage("explain")
             ex = m6.explain(doc, det["findings"], bases["items"])
-            rec["items"] = [{**dataclasses.asdict(it), "basis": [{**dataclasses.asdict(b), "label": b.label}
-                                                                 for b in it.basis]} for it in ex["items"]]
+            tax = taxonomy.load()
+            rec["items"] = [{**dataclasses.asdict(it),
+                             "risks": [{"code": c, "name": tax.by_code[c].name, "severity": tax.by_code[c].severity,
+                                        "party": tax.by_code[c].party, "consequences": tax.by_code[c].consequences}
+                                       for c in it.codes],
+                             "basis": [{**dataclasses.asdict(b), "label": b.label} for b in it.basis]}
+                            for it in ex["items"]]
             rec["calls"]["explain"] = ex["attempts"]
             warn("explain", ex["warnings"] + [w for it in ex["items"] for w in it.warnings])
 

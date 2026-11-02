@@ -1,0 +1,20 @@
+{
+  "error": {
+    "code": "UNSUPPORTED_FILE_TYPE",
+    "message": "The uploaded file type is not supported.",
+    "details": {
+      "field": "file",
+      "received_filename": "contract.heic",
+      "allowed_extensions": [
+        ".txt",
+        ".doc",
+        ".docx",
+        ".pdf",
+        ".png",
+        ".jpg",
+        ".jpeg",
+        ".webp"
+      ]
+    }
+  }
+}

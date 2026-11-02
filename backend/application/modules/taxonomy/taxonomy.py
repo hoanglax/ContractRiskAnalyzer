@@ -11,6 +11,7 @@ be fixed in the workbook. Stdlib only.
 from __future__ import annotations
 
 import argparse
+import csv
 import difflib
 import json
 import re
@@ -203,6 +204,9 @@ class Risk:
     citations: list[dict] = field(default_factory=list)   # {law: KB id | None, dieu: [int], text}
     consequences: list[str] = field(default_factory=list)
     labels: list[str] = field(default_factory=list)
+    definition: str = ""
+    applicability_conditions: list[str] = field(default_factory=list)
+    examples: list[dict] = field(default_factory=list)
 
 
 @dataclass
@@ -225,8 +229,50 @@ def load(path: Path = DEFAULT_JSON) -> Taxonomy:
     return Taxonomy(d["severity_scale"], d["parties"], d["groups"], [Risk(**r) for r in d["risks"]], d["issues"])
 
 
+def enrich(tax: dict) -> dict:
+    """Add v1 explanatory fields without inventing contract quotations or legal conclusions."""
+    for r in tax["risks"]:
+        name, signs = r["name"].strip(), r["signs"].strip()
+        r["definition"] = (f"Rủi ro liên quan đến trường hợp {name[0].lower()+name[1:] if name else 'nêu trong tên nhãn'}; "
+                           "cần đánh giá trong bối cảnh toàn bộ hợp đồng và hồ sơ liên quan.")
+        r["applicability_conditions"] = [signs] if signs else []
+        if signs:
+            if re.match(r"^(Hợp đồng không|Không |Không có|Không xác định|Không quy định|Không cung cấp|Không thực hiện|Không bảo đảm|Không được|Không phân định|Không đề cập|Không làm rõ)", signs, re.I):
+                example = f"Tình huống giả định: {signs[0].upper()+signs[1:]}. Đây là dấu hiệu cần kiểm tra, không tự động kết luận có vi phạm."
+            else:
+                example = f"Tình huống giả định: Điều khoản hoặc hồ sơ thể hiện rằng {signs[0].lower()+signs[1:]}. Đây là dấu hiệu cần kiểm tra, không tự động kết luận có vi phạm."
+        else:
+            example = "Chưa có ví dụ đủ căn cứ từ dữ liệu nguồn; cần Team B bổ sung trước khi dùng làm mẫu gán nhãn."
+        r["examples"] = [{"type": "illustrative_scenario", "text": example}]
+    tax["taxonomy_version"] = "1.0.0"
+    tax["status"] = "draft_pending_team_review"
+    tax["effective_date"] = None
+    tax["source"] = "data/Risk Taxonomy.xlsx"
+    tax["code_convention"] = {"pattern": "[AB]-[GROUP]-[NN]", "party": PARTIES,
+                              "group_codes": [g["code"] for g in tax["groups"]]}
+    tax["data_quality_issues"] = tax.get("issues", [])
+    tax["notes"] = [
+        "Ví dụ là tình huống giả định diễn giải từ tên nhãn/dấu hiệu trong workbook; không phải trích dẫn hợp đồng thật.",
+        "Severity đã chuẩn hóa về LOW, MEDIUM, HIGH, CRITICAL; việc chuẩn hóa chính tả không thay thế đánh giá chuyên môn mức độ.",
+        "Căn cứ pháp lý chưa được xác minh độc lập; các tham chiếu không có trong legal KB được liệt kê tại data_quality_issues.",
+        "Mã nhóm hiện dùng AUT, DEP, MNT, TRM, PEN, RES, TAX. Cần cập nhật ví dụ mã cũ trong PRD/SRS sau khi Product/Team B xác nhận mapping."
+    ]
+    return tax
+
+
 def dumps(tax: dict) -> str:
-    return json.dumps(tax, ensure_ascii=False, indent=1) + "\n"
+    return json.dumps(tax, ensure_ascii=False, indent=2) + "\n"
+
+
+def write_csv(tax: dict, path: Path) -> None:
+    fields = ["code", "party", "group", "name", "definition", "severity", "applicability_conditions",
+              "examples", "signs", "legal_basis", "citations", "consequences", "labels"]
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8-sig", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fields)
+        writer.writeheader()
+        for r in tax["risks"]:
+            writer.writerow({k: json.dumps(r.get(k), ensure_ascii=False) if isinstance(r.get(k), (list, dict)) else r.get(k, "") for k in fields})
 
 
 def main():
@@ -235,9 +281,17 @@ def main():
     ap.add_argument("--xlsx", type=Path, default=DEFAULT_XLSX)
     ap.add_argument("--out", type=Path, default=DEFAULT_JSON)
     a = ap.parse_args()
-    tax = build(read_xlsx(a.xlsx))
+    tax = enrich(build(read_xlsx(a.xlsx)))
+    codes = [r["code"] for r in tax["risks"]]
+    if len(codes) != len(set(codes)):
+        raise ValueError("duplicate risk code")
+    if any(r["severity"] not in SEVERITIES for r in tax["risks"]):
+        raise ValueError("invalid severity value")
+    if any(not r["definition"] or not r["applicability_conditions"] or not r["examples"] for r in tax["risks"]):
+        raise ValueError("every risk must have definition, applicability condition and example")
     a.out.parent.mkdir(parents=True, exist_ok=True)
     a.out.write_text(dumps(tax), encoding="utf-8")
+    write_csv(tax, a.out.with_name("taxonomy.csv"))
     print(f"{len(tax['risks'])} risks in {len(tax['groups'])} groups -> {a.out}")
     for g in tax["groups"]:
         print(f"  {g['n']} {g['code']} {len([r for r in tax['risks'] if r['group'] == g['code']]):3}  {g['name']}")

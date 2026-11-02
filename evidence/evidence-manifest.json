@@ -1,0 +1,26 @@
+{
+  "snapshot_date": "2026-11-02",
+  "tasks": [
+    {
+      "id": "TASK-API-01",
+      "status": "draft_pending_team_review",
+      "evidence": [
+        "evidence/upload-api-draft/docs/api/api-contract.md",
+        "evidence/upload-api-draft/docs/api/examples/"
+      ],
+      "caveat": "The README mentions a Pydantic schema file, but that file is absent from the inspected draft archive."
+    },
+    {
+      "id": "TASK-DATA-01",
+      "status": "draft_pending_team_review",
+      "evidence": [
+        "evidence/taxonomy-v1/data/Risk Taxonomy.xlsx",
+        "evidence/taxonomy-v1/data/taxonomy/taxonomy.json",
+        "evidence/taxonomy-v1/data/taxonomy/taxonomy.csv",
+        "evidence/taxonomy-v1/backend/application/modules/taxonomy/taxonomy.py",
+        "evidence/taxonomy-v1/backend/tests/test_taxonomy.py"
+      ],
+      "test_result": "9 discovered, 8 passed, 1 skipped because data/test/kb is absent"
+    }
+  ]
+}

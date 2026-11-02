@@ -1,0 +1,9 @@
+{
+  "error": {
+    "code": "EMPTY_FILE",
+    "message": "The uploaded file is empty.",
+    "details": {
+      "field": "file"
+    }
+  }
+}

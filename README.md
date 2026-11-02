@@ -2,6 +2,9 @@
 
 Hệ thống phân tích rủi ro hợp đồng.
 
+> **Chạy pipeline phân tích (Docker, kèm giao diện demo):** xem [docs/setup.md](docs/setup.md). Các mục bên dưới là
+> hướng dẫn môi trường phát triển chung; backend hiện chạy bằng `application.main:app` (không còn `app.main:app`).
+
 ## 1. Yêu cầu môi trường
 
 - Git

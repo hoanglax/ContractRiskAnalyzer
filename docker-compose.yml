@@ -1,4 +1,21 @@
 services:
+  # API + pipeline + demo UI (http://localhost:${PORT:-8000}/demo). Needs OPENROUTER_API_KEY in .env.
+  # The legal vector store is embedded inside this image; it does not use the qdrant service below.
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    image: contract-risk-backend
+    container_name: contract-risk-backend
+    restart: unless-stopped
+    env_file:
+      - path: .env
+        required: true
+    ports:
+      - "${PORT:-8000}:8000"
+    volumes:
+      - runs:/app/runs                   # analysis records and uploads survive restarts and rebuilds
+
   qdrant:
     image: qdrant/qdrant:latest
     container_name: contract-risk-qdrant
@@ -11,3 +28,4 @@ services:
 
 volumes:
   qdrant_data:
+  runs:

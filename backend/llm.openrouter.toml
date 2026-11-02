@@ -1,0 +1,23 @@
+# Every pipeline task on OpenRouter. The Docker image uses this file (PIPELINE_LLM_CONFIG); outside Docker, copy it to
+# llm.toml or point PIPELINE_LLM_CONFIG at it. Needs OPENROUTER_API_KEY in the project's .env.
+# Full option list and other providers: llm.example.toml.
+
+default_profile = "openrouter"      # structure_fallback, detect, legal_pick, explain all use it
+
+[profiles.openrouter]
+base_url = "https://openrouter.ai/api/v1"
+model = "z-ai/glm-5.3-flash:nitro"
+api_key_env = "OPENROUTER_API_KEY"
+timeout_s = 600
+allow_remote = true                  # contract text is sent to OpenRouter and its upstream provider
+max_concurrency = 16                 # calls in flight at once
+retries = 3                          # per call, on 429 / 5xx / timeouts, with backoff
+
+[profiles.openrouter.sampling]
+temperature = 0
+max_tokens = 6000
+
+[profiles.openrouter.extra_body]
+usage = { include = true }           # each call's cost (USD) in usage.cost; the run record sums it
+reasoning = { effort = "low" }       # GLM-5.3 always reasons and defaults to max: slow, costly, cut-off replies
+provider = { sort = "throughput" }   # fastest upstreams first

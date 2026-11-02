@@ -1,0 +1,8 @@
+# Build context is the repo root, but the backend image needs only these
+*
+!backend/requirements.txt
+!backend/application
+!backend/llm.openrouter.toml
+!data/legal_corpus/*.txt
+!data/taxonomy
+**/__pycache__

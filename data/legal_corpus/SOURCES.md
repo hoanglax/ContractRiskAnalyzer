@@ -66,3 +66,14 @@ no Điều headings), which had become 30 chunks cited as "Điều 45, khoản 1
 ("Danh mục mẫu biểu")**. Both are dropped, like the other appendices; the invoice-content rules they repeat are in
 the body of NĐ 254 (Điều 10). Chunks: 5,779 -> 5,749. `kb build` now refuses an article that contains such text
 (`NOT_ARTICLE` in `backend/application/modules/legal_retrieval/kb.py`).
+
+## To add
+
+- **Luật Thương mại 2005 (36/2005/QH11).** The detector (GLM-5.3 flash) keeps claiming a rental penalty over 8% of
+  the breached obligation is void "under BLDS 2015", citing a different article each run (300, 301, 304). The 8% cap
+  is Điều 301 Luật Thương mại and applies to commercial contracts; BLDS Điều 418 lets parties to a civil lease agree
+  the penalty freely. With the law in the KB the legal-basis step can show the cap does not apply. Seen 2026-11-03 on
+  data/test/contract_image/01/fixed-contract.txt.
+- **NĐ 123/2020/NĐ-CP (hóa đơn) and TT 96/2015/TT-BTC.** Cited by taxonomy rows B-TAX-01, B-TAX-04 and B-TAX-05
+  (listed in taxonomy.json "issues"); every B-TAX-01 finding currently comes with "cited law not in the KB" and no
+  legal basis.

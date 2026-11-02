@@ -41,3 +41,17 @@ page 1, returned as one line, split back into lines; TT 20 Điều 1 heading spl
 Replaced statutes still cited by the taxonomy (fix in the workbook, do not fetch): NĐ 123/2020 and NĐ 70/2025
 (invoices) → NĐ 254/2026 from 2026-07-01; TT 96/2015 → TT 20/2026 from 2026-03-12. Article numbers do not carry
 over between a statute and its replacement.
+
+## Rental-contract core (moved from the git-ignored data/test/kb, 2026-11-02)
+
+These were the KB's main rental-law files but lived only in a local, git-ignored folder, so a fresh clone built a
+KB without them (2001 chunks instead of 5779). **Source not recorded**; check every quote against the official
+publication (vbpl.vn / congbao.chinhphu.vn) before showing it to a user.
+
+| File | Document | Điều | Notes |
+|---|---|---|---|
+| blds_2015.txt | Bộ luật Dân sự 91/2015/QH13 | 689 | Lease of property: Điều 472–482. |
+| luat_nha_o_2023.txt | Luật Nhà ở 27/2023/QH15 | 178 | In force 2024-08-01. |
+| luat_kdbds_2023.txt | Luật Kinh doanh bất động sản 29/2023/QH15 | 83 | In force 2024-08-01. |
+| nd96_2024.txt | NĐ 96/2024/NĐ-CP (guides Luật KDBĐS 2023) | 40 | Appendices are in a separate file. |
+| nd96_2024_fuluc2_hop_dong_thue_nha_o.txt | NĐ 96/2024 appendix: model house-rental contract | 12 | A model contract, not a statute; do not cite it as law. |

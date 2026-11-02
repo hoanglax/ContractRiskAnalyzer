@@ -6,12 +6,14 @@ for DenseRetriever (also inside HybridRetriever); texts and offsets still come f
 vectors. Embedded Qdrant locks its folder, so one process at a time; clients are shared within a process.
 
     python -m application.modules.legal_retrieval.qdrant_store index --tag 80m
+    python -m application.modules.legal_retrieval.qdrant_store index --tag 80m --committed   # data/legal_vectors
     python -m application.modules.legal_retrieval.qdrant_store search "cho thuê lại nhà ở" --tag 80m
 """
 import argparse
 import atexit
 import json
 import re
+import shutil
 import sqlite3
 from functools import lru_cache
 from pathlib import Path
@@ -19,7 +21,7 @@ from pathlib import Path
 import numpy as np
 from qdrant_client import QdrantClient, models
 
-from application.modules.legal_retrieval.dense import CACHE, Embedder
+from application.modules.legal_retrieval.dense import CACHE, COMMITTED, Embedder, check_kb
 from application.modules.legal_retrieval.kb import DEFAULT_DB, hits_for
 from application.modules.legal_retrieval.retriever import Hit
 
@@ -44,11 +46,12 @@ def _chunk_count(con: sqlite3.Connection) -> int:
 def index(tag: str, db_path: Path = DEFAULT_DB, path: Path = QDRANT_DIR, cache: Path = CACHE) -> dict:
     """(Re)build collection chunks_<tag> from vec_<tag>.npy; run again after the KB or the vectors change."""
     mat = np.load(cache / f"vec_{tag}.npy")
+    meta_file = cache / f"vec_{tag}.json"
+    meta = json.loads(meta_file.read_text(encoding="utf-8")) if meta_file.exists() else {}
     con = sqlite3.connect(db_path)
+    check_kb(tag, meta, con, len(mat))
     laws = [r[0] for r in con.execute(
         "SELECT a.law FROM chunks c JOIN articles a ON a.id = c.article_id ORDER BY c.id")]
-    if len(laws) != len(mat):
-        raise RuntimeError(f"vec_{tag} has {len(mat)} rows but the KB has {len(laws)} chunks; re-run dense embed")
     cl, name = client(path), collection(tag)
     if cl.collection_exists(name):
         cl.delete_collection(name)
@@ -68,6 +71,7 @@ class QdrantRetriever:
         n, have = _chunk_count(self.con), self.client.count(self.name, exact=True).count
         if n != have:
             raise RuntimeError(f"{self.name} has {have} points but the KB has {n} chunks; re-run qdrant_store index")
+        check_kb(tag, self.meta, self.con, have)
         self.emb = embedder or Embedder(self.meta["model"], self.meta["dim"], bf16=self.meta.get("bf16", False))
 
     def search(self, query: str, k: int = 5, law: str | None = None) -> list[Hit]:
@@ -83,10 +87,17 @@ def main():
     ap.add_argument("query", nargs="?")
     ap.add_argument("--tag", required=True)
     ap.add_argument("--law")
+    ap.add_argument("--committed", action="store_true", help="index the committed vectors in data/legal_vectors")
+    ap.add_argument("--store", type=Path, default=QDRANT_DIR,
+                    help="Qdrant folder to write (default backend/cache/qdrant); the Docker build uses a RAM disk, "
+                         "because embedded Qdrant commits every point and that is ~20 ms each on overlayfs")
     ap.add_argument("-k", type=int, default=5)
     a = ap.parse_args()
     if a.cmd == "index":
-        print(index(a.tag))
+        print(index(a.tag, path=a.store, cache=COMMITTED if a.committed else CACHE))
+        if a.committed:     # QdrantRetriever reads the model and dimension from backend/cache/vec_<tag>.json
+            CACHE.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(COMMITTED / f"vec_{a.tag}.json", CACHE / f"vec_{a.tag}.json")
         return
     for h in QdrantRetriever(a.tag).search(a.query, a.k, a.law):
         print(f"  {h.score:6.3f}  {h.law} Điều {h.dieu_no} [{h.ref or '-'}]  {h.text.splitlines()[-1][:90]}")

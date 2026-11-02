@@ -30,8 +30,9 @@ Mở `.env` và điền `OPENROUTER_API_KEY=...`. Nếu cổng 8000 trên máy �
 docker compose up -d --build backend
 ```
 
-Lần build đầu mất khoảng 5–10 phút (tải PyTorch bản CPU, LibreOffice, và dựng sẵn cơ sở dữ liệu văn bản pháp luật +
-chỉ mục vector bên trong image). Các lần sau chỉ build lại phần code đã đổi.
+Lần build đầu mất khoảng 5–10 phút, chủ yếu để tải PyTorch bản CPU, LibreOffice và mô hình embedding. Cơ sở dữ
+liệu văn bản pháp luật và chỉ mục vector được dựng trong vài giây từ vector đã tính sẵn (`data/legal_vectors`). Các
+lần sau chỉ build lại phần code đã đổi.
 
 Kiểm tra:
 
@@ -87,8 +88,16 @@ Bản ghi các lần chạy được lưu trong volume Docker `runs`, nên vẫn
   Các tùy chọn khác và nhà cung cấp khác: `backend/llm.example.toml`.
 - **Bỏ LibreOffice** (image nhỏ hơn ~370 MB, nhưng `.doc` sẽ báo lỗi):
   `docker compose build --build-arg WITH_LIBREOFFICE=0 backend`.
-- **Thêm văn bản pháp luật:** thêm file `.txt` vào `data/legal_corpus/` (ghi nguồn vào `SOURCES.md`) rồi build lại;
-  cơ sở dữ liệu và chỉ mục vector được dựng lại trong lúc build.
+- **Thêm/sửa văn bản pháp luật:** thêm file `.txt` vào `data/legal_corpus/` (ghi nguồn vào `SOURCES.md`), rồi tính
+  lại vector và commit cả `data/legal_vectors/` (khoảng 1–2 phút trên CPU, cần môi trường Python ở mục cuối):
+
+  ```bash
+  cd backend
+  .venv/bin/python -m application.modules.legal_retrieval.kb build
+  .venv/bin/python -m application.modules.legal_retrieval.dense embed --model codefuse-ai/F2LLM-v2-80M --tag 80m --out ../data/legal_vectors
+  ```
+
+  Nếu quên bước này, `docker compose build` sẽ dừng với lỗi `vec_80m was embedded from a different KB`.
 
 ## 6. Lỗi thường gặp
 
@@ -111,8 +120,7 @@ backend/.venv/bin/pip install -r backend/requirements.txt
 cp backend/llm.openrouter.toml backend/llm.toml
 cd backend
 .venv/bin/python -m application.modules.legal_retrieval.kb build
-.venv/bin/python -m application.modules.legal_retrieval.dense embed --model codefuse-ai/F2LLM-v2-80M --tag 80m
-.venv/bin/python -m application.modules.legal_retrieval.qdrant_store index --tag 80m
+.venv/bin/python -m application.modules.legal_retrieval.qdrant_store index --tag 80m --committed
 .venv/bin/python -m uvicorn application.main:app --port 8000
 ```
 

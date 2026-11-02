@@ -1,0 +1,8 @@
+{
+ "model": "codefuse-ai/F2LLM-v2-80M",
+ "dim": 320,
+ "n": 5779,
+ "seconds": 83.3,
+ "bf16": false,
+ "kb_sha": "5b259398d7c7af0bea49a290e5bc13bf001f5cdbe6be802767df11a02316be57"
+}

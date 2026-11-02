@@ -1,8 +1,14 @@
 """Dense half of statute retrieval: embed every chunk, brute-force cosine search over a numpy matrix.
 
 ~5k chunks x <=2048 floats is tens of MB, so no vector database is needed (see kb.py). Vectors are
-row-aligned with `chunks.id` and stored as backend/cache/vec_<tag>.npy (+ .json with the model and
-dimension, so a mismatched index fails loudly instead of returning nonsense).
+row-aligned with `chunks.id` and stored as backend/cache/vec_<tag>.npy (+ .json with the model, the
+dimension and `kb_sha`, a hash of the chunk texts they were made from, so vectors from another KB fail
+loudly instead of returning nonsense).
+
+The demo index (80m) is committed in data/legal_vectors, so the Docker build and a fresh setup copy it
+instead of embedding. After changing data/legal_corpus, re-embed it and commit the result:
+    python -m application.modules.legal_retrieval.kb build
+    python -m application.modules.legal_retrieval.dense embed --model codefuse-ai/F2LLM-v2-80M --tag 80m --out ../data/legal_vectors
 
 Embedders: the F2LLM-v2 family (codefuse-ai/F2LLM-v2-{80M,160M,330M,0.6B,1.7B,...}): last-token pooling,
 L2-normalised, queries get an instruction prefix and documents get none. Its vectors are Matryoshka
@@ -12,6 +18,7 @@ trained, so `dim` may truncate them (re-normalised) to shrink the index.
     python -m application.modules.legal_retrieval.dense search "cho thuê lại nhà ở" --tag 330m
 """
 import argparse
+import hashlib
 import json
 import sqlite3
 import time
@@ -23,6 +30,26 @@ from application.modules.legal_retrieval.kb import DEFAULT_DB, LexicalRetriever,
 from application.modules.legal_retrieval.retriever import Hit
 
 CACHE = DEFAULT_DB.parent
+COMMITTED = DEFAULT_DB.parents[2] / "data" / "legal_vectors"
+
+
+def kb_fingerprint(con: sqlite3.Connection) -> str:
+    """sha256 of the chunk texts in id order: what the vectors are row-aligned with."""
+    h = hashlib.sha256()
+    for (text,) in con.execute("SELECT text FROM chunks ORDER BY id"):
+        h.update(text.encode("utf-8"))
+        h.update(b"\0")
+    return h.hexdigest()
+
+
+def check_kb(tag: str, meta: dict, con: sqlite3.Connection, rows: int) -> None:
+    """Raise if vec_<tag> was not embedded from this KB (row count; and kb_sha when the index records one)."""
+    n = con.execute("SELECT count(*) FROM chunks").fetchone()[0]
+    redo = f"re-run dense embed: python -m application.modules.legal_retrieval.dense embed --model {meta.get('model')} --tag {tag}"
+    if n != rows:
+        raise RuntimeError(f"vec_{tag} has {rows} rows but the KB has {n} chunks; {redo}")
+    if meta.get("kb_sha") and meta["kb_sha"] != kb_fingerprint(con):
+        raise RuntimeError(f"vec_{tag} was embedded from a different KB (the legal corpus changed); {redo}")
 QUERY_PROMPT = "Instruct: Given a question, retrieve passages that can help answer the question.\nQuery: "
 
 
@@ -64,7 +91,7 @@ class Embedder:
 
 
 def embed_index(model_id: str, tag: str, dim: int | None = None, db_path: Path = DEFAULT_DB,
-                bf16: bool = False) -> dict:
+                bf16: bool = False, out: Path = CACHE) -> dict:
     con = sqlite3.connect(db_path)
     rows = con.execute("SELECT id, text FROM chunks ORDER BY id").fetchall()
     assert [r[0] for r in rows] == list(range(len(rows))), "chunk ids must be 0..N-1"
@@ -72,9 +99,11 @@ def embed_index(model_id: str, tag: str, dim: int | None = None, db_path: Path =
     t = time.time()
     mat = emb.encode([r[1] for r in rows])
     secs = time.time() - t
-    np.save(CACHE / f"vec_{tag}.npy", mat)
-    meta = {"model": model_id, "dim": int(mat.shape[1]), "n": len(rows), "seconds": round(secs, 1), "bf16": bf16}
-    (CACHE / f"vec_{tag}.json").write_text(json.dumps(meta), encoding="utf-8")
+    out.mkdir(parents=True, exist_ok=True)
+    np.save(out / f"vec_{tag}.npy", mat)
+    meta = {"model": model_id, "dim": int(mat.shape[1]), "n": len(rows), "seconds": round(secs, 1), "bf16": bf16,
+            "kb_sha": kb_fingerprint(con)}
+    (out / f"vec_{tag}.json").write_text(json.dumps(meta, indent=1) + "\n", encoding="utf-8")
     return meta
 
 
@@ -83,9 +112,7 @@ class DenseRetriever:
         self.con = sqlite3.connect(db_path)
         self.mat = np.load(CACHE / f"vec_{tag}.npy")
         self.meta = json.loads((CACHE / f"vec_{tag}.json").read_text(encoding="utf-8"))
-        n = self.con.execute("SELECT count(*) FROM chunks").fetchone()[0]
-        if n != len(self.mat):
-            raise RuntimeError(f"vec_{tag} has {len(self.mat)} rows but the KB has {n} chunks; re-run embed")
+        check_kb(tag, self.meta, self.con, len(self.mat))
         self.emb = embedder or Embedder(self.meta["model"], self.meta["dim"], bf16=self.meta.get("bf16", False))
 
     def search(self, query: str, k: int = 5, law: str | None = None) -> list[Hit]:
@@ -126,11 +153,13 @@ def main():
     ap.add_argument("--tag", required=False)
     ap.add_argument("--dim", type=int)
     ap.add_argument("--bf16", action="store_true")
+    ap.add_argument("--db", type=Path, default=DEFAULT_DB)
+    ap.add_argument("--out", type=Path, default=CACHE, help="where vec_<tag>.* go (default backend/cache)")
     ap.add_argument("-k", type=int, default=5)
     a = ap.parse_args()
     if a.cmd == "embed":
         tag = a.tag or a.model.rsplit("-", 1)[-1].lower()
-        print(embed_index(a.model, tag, a.dim, bf16=a.bf16))
+        print(embed_index(a.model, tag, a.dim, a.db, bf16=a.bf16, out=a.out))
         return
     for h in DenseRetriever(a.tag).search(a.query, a.k):
         print(f"  {h.score:6.3f}  {h.law} Điều {h.dieu_no} [{h.ref or '-'}]  {h.text.splitlines()[-1][:90]}")

@@ -75,3 +75,15 @@ class Qdrant(unittest.TestCase):
         np.save(d / "vec_s.npy", np.eye(self.n - 1, self.n, dtype=np.float32))
         with self.assertRaisesRegex(RuntimeError, "re-run dense embed"):
             qs.index("s", self.db, self.store, self.cache)
+
+    def test_vectors_from_another_kb_fail_loudly(self):
+        # same row count, different chunk texts: only kb_sha can tell
+        from application.modules.legal_retrieval.dense import kb_fingerprint
+        d = Path(self.tmp.name)
+        np.save(d / "vec_o.npy", np.eye(self.n, dtype=np.float32))
+        (d / "vec_o.json").write_text(json.dumps({"model": "fake", "dim": self.n, "kb_sha": "0" * 64}), encoding="utf-8")
+        with self.assertRaisesRegex(RuntimeError, "different KB"):
+            qs.index("o", self.db, self.store, self.cache)
+        sha = kb_fingerprint(sqlite3.connect(self.db))
+        (d / "vec_o.json").write_text(json.dumps({"model": "fake", "dim": self.n, "kb_sha": sha}), encoding="utf-8")
+        self.assertEqual(qs.index("o", self.db, self.store, self.cache)["points"], self.n)

@@ -4,5 +4,6 @@
 !backend/application
 !backend/llm.openrouter.toml
 !data/legal_corpus/*.txt
+!data/legal_vectors
 !data/taxonomy
 **/__pycache__

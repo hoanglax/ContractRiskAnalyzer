@@ -14,7 +14,7 @@ def search_legal_articles(
         raise ValueError("Câu truy vấn không được để trống")
 
     if not 1 <= limit <= 20:
-        raise ValueError("limit phải nằm trong khoảng 1–20")
+        raise ValueError("limit phải nằm trong khoảng 1-20")
 
     vector = embed_query(query)
 

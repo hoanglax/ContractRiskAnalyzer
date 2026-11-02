@@ -1,0 +1,10 @@
+{
+  "error": {
+    "code": "FILE_TOO_LARGE",
+    "message": "The uploaded file exceeds the configured size limit.",
+    "details": {
+      "field": "file",
+      "max_bytes": 52428800
+    }
+  }
+}

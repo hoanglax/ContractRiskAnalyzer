@@ -30,6 +30,12 @@ REPO = BACKEND.parent
 DEFAULT_DB = BACKEND / "cache" / "legal_kb.db"
 DEFAULT_CORPUS = [REPO / "data" / "legal_corpus", REPO / "data" / "test" / "kb"]
 SKIP = {"nd96_2024_ma_template"}            # superseded placeholder, by file stem
+# What follows a statute's last article in the published text: the distribution list and signature of a decree,
+# the adoption line of a law, an appendix. None of it is an Điều, so a segmenter keyed on "Điều N" files it under the
+# last article (NĐ 254/2026 once carried a 21k-char appendix as "Điều 45, khoản 1-9"). The corpus files end at the
+# last article; this catches a new file that does not.
+NOT_ARTICLE = re.compile(r"^(Nơi nhận\s*[:.]|(Bộ )?[Ll]uật này (đã )?được Quốc hội\b|PHỤ LỤC\b|DANH MỤC MẪU BIỂU\b"
+                         r"|TM\. CHÍNH PHỦ|KT\. (THỦ TƯỚNG|BỘ TRƯỞNG)|CHỦ TỊCH QUỐC HỘI)", re.M)
 
 
 def _pyvi():
@@ -102,6 +108,9 @@ def build(corpus: list[Path] | None = None, db_path: Path = DEFAULT_DB) -> dict:
             for c in st.clauses:
                 m = re.match(r"Điều\s+(\d+)\s*$", c.label)
                 art_text = text[c.char_start:c.char_end]
+                if (tail := NOT_ARTICLE.search(art_text)):
+                    raise ValueError(f"{f.name} {c.label}: non-article text inside it ({tail.group()!r}); "
+                                     "cut the file at its last article (see data/legal_corpus/SOURCES.md)")
                 heading, body = _split_article(art_text, c.heading)
                 con.execute(
                     "INSERT INTO articles VALUES (?,?,?,?,?,?,?)",

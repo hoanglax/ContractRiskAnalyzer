@@ -54,7 +54,7 @@ QUERY_PROMPT = "Instruct: Given a question, retrieve passages that can help answ
 
 
 class Embedder:
-    def __init__(self, model_id: str, dim: int | None = None, max_len: int = 512, bf16: bool = False):
+    def __init__(self, model_id: str, dim: int | None = None, max_len: int = 2048, bf16: bool = False):
         import torch
         from transformers import AutoModel, AutoTokenizer
         self.torch, self.model_id, self.dim, self.max_len = torch, model_id, dim, max_len
@@ -102,7 +102,7 @@ def embed_index(model_id: str, tag: str, dim: int | None = None, db_path: Path =
     out.mkdir(parents=True, exist_ok=True)
     np.save(out / f"vec_{tag}.npy", mat)
     meta = {"model": model_id, "dim": int(mat.shape[1]), "n": len(rows), "seconds": round(secs, 1), "bf16": bf16,
-            "kb_sha": kb_fingerprint(con)}
+            "max_len": emb.max_len, "kb_sha": kb_fingerprint(con)}
     (out / f"vec_{tag}.json").write_text(json.dumps(meta, indent=1) + "\n", encoding="utf-8")
     return meta
 

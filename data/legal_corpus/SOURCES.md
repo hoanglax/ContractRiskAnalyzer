@@ -51,7 +51,18 @@ publication (vbpl.vn / congbao.chinhphu.vn) before showing it to a user.
 | File | Document | Điều | Notes |
 |---|---|---|---|
 | blds_2015.txt | Bộ luật Dân sự 91/2015/QH13 | 689 | Lease of property: Điều 472–482. |
-| luat_nha_o_2023.txt | Luật Nhà ở 27/2023/QH15 | 178 | In force 2024-08-01. |
+| luat_nha_o_2023.txt | Luật Nhà ở 27/2023/QH15 | 198 | In force 2024-08-01. |
 | luat_kdbds_2023.txt | Luật Kinh doanh bất động sản 29/2023/QH15 | 83 | In force 2024-08-01. |
 | nd96_2024.txt | NĐ 96/2024/NĐ-CP (guides Luật KDBĐS 2023) | 40 | Appendices are in a separate file. |
 | nd96_2024_fuluc2_hop_dong_thue_nha_o.txt | NĐ 96/2024 appendix: model house-rental contract | 12 | A model contract, not a statute; do not cite it as law. |
+
+## Every file ends at its last article (2026-11-02)
+
+The build files everything after an "Điều N" heading under that article, so text after a statute's last article
+was being indexed as part of it. Cut from every file: the distribution list ("Nơi nhận") and signature of each
+decree and circular, the adoption line and signature of each law, and a web caption under the model contract.
+Two cuts were larger than a signature: **NĐ 254/2026's appendix "Nội dung của hóa đơn"** (21k chars, items 1-9,
+no Điều headings), which had become 30 chunks cited as "Điều 45, khoản 1-9", and **TT 18/2026's form list
+("Danh mục mẫu biểu")**. Both are dropped, like the other appendices; the invoice-content rules they repeat are in
+the body of NĐ 254 (Điều 10). Chunks: 5,779 -> 5,749. `kb build` now refuses an article that contains such text
+(`NOT_ARTICLE` in `backend/application/modules/legal_retrieval/kb.py`).

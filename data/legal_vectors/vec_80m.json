@@ -1,8 +1,9 @@
 {
  "model": "codefuse-ai/F2LLM-v2-80M",
  "dim": 320,
- "n": 5779,
- "seconds": 83.3,
+ "n": 5749,
+ "seconds": 86.0,
  "bf16": false,
- "kb_sha": "5b259398d7c7af0bea49a290e5bc13bf001f5cdbe6be802767df11a02316be57"
+ "max_len": 2048,
+ "kb_sha": "a3cd7436efeca7f32195d29b43e8992be7c452e3feaf93757a738ee52b53d90d"
 }

@@ -150,7 +150,7 @@ def check(reply: str, it: Item) -> tuple[Explanation | None, str | None]:
 
 def explain(doc: Document, findings: list[Finding], bases: list[dict], *, tax: taxonomy.Taxonomy | None = None,
             task: str = "explain") -> dict:
-    """{"items": [Item], "warnings": [str], "attempts": [{"codes", "raw", "finish", "usage", "model"}]}"""
+    """{"items": [Item], "warnings": [str], "attempts": [{"codes", "raw", "finish", "usage", "model", "seconds"}]}"""
     tax = tax or taxonomy.load()
     items = group(doc, findings, bases, tax)
     t = time.monotonic()
@@ -168,7 +168,7 @@ def explain(doc: Document, findings: list[Finding], bases: list[dict], *, tax: t
             it.warnings.append(f"no explanation: {r}")
             log.warning("%s: no explanation (%s)", "+".join(it.codes), r)
             continue
-        attempts.append({"codes": it.codes, "raw": r.text, "finish": r.finish_reason, "usage": r.usage, "model": r.model})
+        attempts.append({"codes": it.codes, "raw": r.text, "finish": r.finish_reason, "usage": r.usage, "model": r.model, "seconds": r.seconds})
         it.explanation, why = check(r.text, it)
         if why:
             it.warnings.append(f"explanation dropped: {why}")

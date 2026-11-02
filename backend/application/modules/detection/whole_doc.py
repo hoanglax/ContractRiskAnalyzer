@@ -85,7 +85,7 @@ def fix_prompt(rejected: list[tuple[Finding, str]]) -> str:
 def detect(doc: Document, lens: list[LookFor], *, task: str = "detect", max_tokens: int = 8000,
            temperature: float | None = None, retries: int = RETRIES) -> dict:
     """-> {"kept": [Finding], "rejected": [(Finding, why)], "warnings": [str], "error": str|None,
-           "attempts": [{"raw", "finish", "usage", "model", "kept", "rejected", "error"}]}
+           "attempts": [{"raw", "finish", "usage", "model", "seconds", "kept", "rejected", "error"}]}
     "rejected" holds what was still rejected after the last retry. temperature None = the LLM profile's (0 by
     default, so repeated runs give the same answer)."""
     if not lens:
@@ -96,7 +96,7 @@ def detect(doc: Document, lens: list[LookFor], *, task: str = "detect", max_toke
     out = {"kept": [], "rejected": [], "warnings": [], "error": None, "attempts": []}
     for attempt in range(retries + 1):
         r = llm.chat(task, list(messages), sampling=sampling)
-        rec = {"raw": r.text, "finish": r.finish_reason, "usage": r.usage, "model": r.model,
+        rec = {"raw": r.text, "finish": r.finish_reason, "usage": r.usage, "model": r.model, "seconds": r.seconds,
                "kept": 0, "rejected": [], "error": None}
         out["attempts"].append(rec)
         messages.append({"role": "assistant", "content": r.text})

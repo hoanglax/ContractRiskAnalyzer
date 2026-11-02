@@ -3,7 +3,7 @@ PIPELINE_LLM_CONFIG, or the built-in default (the local 27B on :9876). Stdlib on
 
     from application.adapters.llm import chat
     r = chat("structure_fallback", [{"role": "user", "content": "..."}])
-    r.text, r.finish_reason, r.usage, r.profile, r.model
+    r.text, r.finish_reason, r.usage, r.profile, r.model, r.seconds
 
 Contract text is private: a profile whose host is not this machine is refused unless it sets allow_remote = true.
 Transient failures (429, 5xx, timeouts) are retried with backoff (`retries` per profile). `max_concurrency` per
@@ -63,6 +63,7 @@ class LLMResult:
     profile: str
     model: str
     raw: dict = field(default_factory=dict, repr=False)
+    seconds: float = 0.0                     # wall time of the call, retries and backoff included
 
 
 def config_path() -> Path | None:
@@ -105,13 +106,18 @@ def concurrency(task: str) -> int:
         return 1
 
 
-def map_calls(task: str, fn, items: list) -> list:
-    """fn over items, up to concurrency(task) at a time, results in input order. fn does the model call(s)."""
+def map_calls(task: str, fn, items, *, with_inputs: bool = False) -> list:
+    """fn over items, up to concurrency(task) at a time, results in input order. fn does the model call(s).
+    `items` may be a generator: it is consumed in this thread, and each item is handed to the pool as soon as it
+    is produced, so slow preparation overlaps the calls. with_inputs=True returns [(item, result)]."""
     n = concurrency(task)
-    if n == 1 or len(items) < 2:
-        return [fn(x) for x in items]
-    with ThreadPoolExecutor(max_workers=min(n, len(items)), thread_name_prefix=task) as pool:
-        return list(pool.map(fn, items))
+    if n == 1:
+        pairs = [(x, fn(x)) for x in items]
+    else:
+        with ThreadPoolExecutor(max_workers=n, thread_name_prefix=task) as pool:
+            futs = [(x, pool.submit(fn, x)) for x in items]
+            pairs = [(x, f.result()) for x, f in futs]
+    return pairs if with_inputs else [r for _, r in pairs]
 
 
 def is_local(base_url: str) -> bool:
@@ -153,12 +159,14 @@ def chat(task: str, messages: list[dict], *, sampling: dict | None = None, cfg: 
         time.sleep(wait)
     try:
         ch = out["choices"][0]
-        res = LLMResult(ch["message"]["content"] or "", ch.get("finish_reason"), out.get("usage", {}), name, body["model"], out)
+        res = LLMResult(ch["message"]["content"] or "", ch.get("finish_reason"), out.get("usage", {}), name, body["model"], out,
+                        round(time.monotonic() - t, 1))
     except (KeyError, IndexError, TypeError) as e:
         log.warning("%s -> %s %s: unexpected response shape", task, name, body["model"])
         raise LLMError(f"{name}: unexpected response shape") from e
     u = res.usage or {}
-    log.info("%s -> %s %s: %.1fs, finish=%s, tokens in=%s out=%s%s", task, name, res.model, time.monotonic() - t,
+    log.info("%s -> %s %s%s: %.1fs, finish=%s, tokens in=%s out=%s%s", task, name, res.model,
+             f" via {out['provider']}" if out.get("provider") else "", res.seconds,      # OpenRouter's upstream
              res.finish_reason, u.get("prompt_tokens", "?"), u.get("completion_tokens", "?"),
              f", cost ${u['cost']:.5f}" if isinstance(u.get("cost"), (int, float)) else "")
     return res

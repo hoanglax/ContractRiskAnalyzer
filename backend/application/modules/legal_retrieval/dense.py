@@ -33,6 +33,7 @@ class Embedder:
         self.torch, self.model_id, self.dim, self.max_len = torch, model_id, dim, max_len
         self.tok = AutoTokenizer.from_pretrained(model_id)
         self.model = AutoModel.from_pretrained(model_id, dtype=torch.bfloat16 if bf16 else torch.float32).eval()
+        self._queries: dict[str, np.ndarray] = {}
 
     def encode(self, texts: list[str], batch: int = 16, prefix: str = "") -> np.ndarray:
         torch = self.torch
@@ -54,7 +55,12 @@ class Embedder:
         return np.stack(out)
 
     def encode_query(self, q: str) -> np.ndarray:
-        return self.encode([q], prefix=QUERY_PROMPT)[0]
+        # one finding searches several laws with the same query: embed it once
+        if q not in self._queries:
+            if len(self._queries) >= 1024:
+                self._queries.clear()
+            self._queries[q] = self.encode([q], prefix=QUERY_PROMPT)[0]
+        return self._queries[q]
 
 
 def embed_index(model_id: str, tag: str, dim: int | None = None, db_path: Path = DEFAULT_DB,

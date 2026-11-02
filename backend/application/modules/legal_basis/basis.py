@@ -201,7 +201,7 @@ def parse_ids(text: str) -> list | None:
 
 
 def pick(f: Finding, risk: taxonomy.Risk, cands: list[Candidate], *, task: str = "legal_pick") -> dict:
-    """-> {"basis": [LegalBasis], "warnings": [str], "attempt": {"raw", "finish", "usage", "model"} | None}"""
+    """-> {"basis": [LegalBasis], "warnings": [str], "attempt": {"raw", "finish", "usage", "model", "seconds"} | None}"""
     if not cands:
         return {"basis": [], "warnings": [f"{f.code}: no candidate passages"], "attempt": None}
     prompt = PROMPT.format(
@@ -209,7 +209,7 @@ def pick(f: Finding, risk: taxonomy.Risk, cands: list[Candidate], *, task: str =
         quote_line=f"Trích hợp đồng: «{f.quote}»\n" if f.quote else "Loại: nội dung hợp đồng còn thiếu\n",
         candidates="\n\n".join(f"[{c.id}] {_label(c.hit)}\n{c.hit.text[:MAX_CHARS]}" for c in cands))
     r = llm.chat(task, [{"role": "user", "content": prompt}])
-    attempt = {"raw": r.text, "finish": r.finish_reason, "usage": r.usage, "model": r.model}
+    attempt = {"raw": r.text, "finish": r.finish_reason, "usage": r.usage, "model": r.model, "seconds": r.seconds}
     items = parse_ids(r.text)
     if not isinstance(items, list):
         return {"basis": [], "warnings": [f"{f.code}: unparseable legal_pick reply; finish={r.finish_reason}"],
@@ -245,9 +245,11 @@ def attach(findings: list[Finding], *, retriever: Retriever | None = None, tax: 
         out = []
         t = time.monotonic()
         log.info("legal basis start: %d findings, retriever %s", len(findings), type(retriever).__name__)
-        # candidates use this thread's SQLite and vector-store handles, so they are built here, one by one (fast);
-        # only the model calls run side by side
-        prepared = [(f, tax.by_code[f.code], *candidates(f, tax.by_code[f.code], retriever, con)) for f in findings]
+        # candidates use this thread's SQLite and vector-store handles, so they are built here, one by one; each
+        # finding's model call starts as soon as its candidates are ready, so retrieval overlaps the calls
+        def prepared():
+            for f in findings:
+                yield (f, tax.by_code[f.code], *candidates(f, tax.by_code[f.code], retriever, con))
 
         def one(p):
             f, risk, cands, _ = p
@@ -256,7 +258,7 @@ def attach(findings: list[Finding], *, retriever: Retriever | None = None, tax: 
             except llm.LLMError as e:     # one failed call costs this finding its basis, not the run
                 return {"basis": [], "warnings": [f"{f.code}: legal_pick failed ({e})"], "attempt": None}
 
-        for (f, risk, cands, warnings), res in zip(prepared, llm.map_calls("legal_pick", one, prepared)):
+        for (f, risk, cands, warnings), res in llm.map_calls("legal_pick", one, prepared(), with_inputs=True):
             log.debug("%s: %d candidates -> %s", f.code, len(cands),
                       ", ".join(f"{b.law} Đ{b.dieu} {b.ref}".strip() for b in res["basis"]) or "none")
             for w in warnings + res["warnings"]:

@@ -6,7 +6,8 @@
 
 The record is rewritten after every stage, so a poller sees progress and a failed run keeps what it had:
   {"id", "created", "status": queued | running | done | failed, "stage", "error": {code, message} | null,
-   "warnings": [{stage, message}], "document", "findings", "bases", "items", "calls": {stage: [...]}, "versions"}
+   "warnings": [{stage, message}], "document", "findings", "bases", "items", "calls": {stage: [...]}, "versions",
+   "stage_seconds": {stage: wall seconds}, "seconds" (whole run, when done)}
 A run fails when the file cannot be read (IngestError, with its code) or detection gets nothing readable from the
 model; a failed legal-basis or explanation call is a warning on that item. Runs go one at a time: the local model
 serves one request at a time and embedded Qdrant allows one user per process, so later ones wait as "queued".
@@ -75,7 +76,7 @@ def create(data: bytes, filename: str) -> str:
     (RUNS_DIR / f"{rid}.upload").write_bytes(data)
     _save({"id": rid, "created": datetime.datetime.now().isoformat(timespec="seconds"), "filename": filename,
            "status": "queued", "stage": None, "error": None, "warnings": [], "document": None, "findings": [],
-           "bases": [], "items": [], "calls": {}, "versions": versions()})
+           "bases": [], "items": [], "calls": {}, "stage_seconds": {}, "versions": versions()})
     log.info("run %s: queued %s (%d bytes)", rid, filename, len(data))
     return rid
 
@@ -135,8 +136,17 @@ def analyze(rid: str) -> dict:
     with _one_at_a_time:
         t0 = time.monotonic()
         rec["status"] = "running"
+        rec["stage_seconds"] = {}
+        ts = time.monotonic()
+
+        def lap():
+            nonlocal ts
+            if rec["stage"]:
+                rec["stage_seconds"][rec["stage"]] = round(time.monotonic() - ts, 1)
+            ts = time.monotonic()
 
         def stage(name):
+            lap()
             rec["stage"] = name
             rec["usage"] = usage(rec["calls"])
             _save(rec)
@@ -146,6 +156,7 @@ def analyze(rid: str) -> dict:
             rec["warnings"] += [{"stage": stage_name, "message": m} for m in messages]
 
         def fail(code, message):
+            lap()
             rec.update(status="failed", error={"code": code, "message": message}, usage=usage(rec["calls"]))
             _save(rec)
             log.warning("run %s failed at %s: %s %s", rid, rec["stage"], code, message)
@@ -191,11 +202,13 @@ def analyze(rid: str) -> dict:
             rec["calls"]["explain"] = ex["attempts"]
             warn("explain", ex["warnings"] + [w for it in ex["items"] for w in it.warnings])
 
+            lap()
             rec.update(status="done", stage=None, seconds=round(time.monotonic() - t0), usage=usage(rec["calls"]))
             _save(rec)
             cost = rec["usage"]["total"]["cost"]
-            log.info("run %s: done, %d items, %d warnings, %ds, %d calls%s", rid, len(rec["items"]),
-                     len(rec["warnings"]), rec["seconds"], rec["usage"]["total"]["calls"],
+            log.info("run %s: done, %d items, %d warnings, %ds (%s), %d calls%s", rid, len(rec["items"]),
+                     len(rec["warnings"]), rec["seconds"],
+                     ", ".join(f"{k} {v}s" for k, v in rec["stage_seconds"].items()), rec["usage"]["total"]["calls"],
                      f", cost ${cost:.4f}" if cost is not None else "")
             return rec
         except Exception as e:              # a bug must still end the run, or the poller waits forever

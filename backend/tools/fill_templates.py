@@ -2,7 +2,7 @@
 
     cd backend && .venv/bin/python tools/fill_templates.py [--variants 5] [--only 24,60] [--workers 4] [--limit N]
 
-Each template in data/test/templates gets N variants. A variant is a seeded random profile (parties, ID numbers,
+Each template in data/test/templates (minus PREFILLED and DUPLICATE_OF below) gets N variants. A variant is a seeded random profile (parties, ID numbers,
 addresses, property, rent, deposit, dates; all fictional) handed to a local LLM, which rewrites the template with
 every blank filled. Nothing here is a planted risk: the target is a clean, complete base for step 1 (planting).
 
@@ -50,6 +50,16 @@ DATA = Path(__file__).resolve().parents[2] / "data" / "test"
 TEMPLATES = DATA / "templates"
 OUT = DATA / "synth" / "filled"
 log = logging.getLogger("fill")
+
+# Templates not filled (audit 2026-11-02: a 27B read of every template, then checked by hand; duplicates by text
+# similarity >= 0.97). A template that already carries values cannot be filled under the "template words survive"
+# rule, and duplicates would only repeat one contract. The files stay: other tools use them.
+PREFILLED = {   # a real contract with names, ID numbers, addresses, amounts
+    "9", "17", "19", "20", "49", "78", "89", "90", "92", "97",
+    # sample values (NGUYỄN VĂN A, "123xxx" IDs) plus concrete prices and dates
+    "0", "6", "10", "26", "50", "70", "83", "88"}
+DUPLICATE_OF = {"7": "24", "45": "35", "81": "35", "76": "43", "77": "43", "48": "46", "58": "46", "68": "46",
+                "64": "47", "65": "47", "56": "54", "59": "54", "57": "55", "62": "61", "86": "84"}
 
 # ---------------- fictional profile ----------------
 
@@ -289,6 +299,7 @@ def main():
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)-7s %(name)s: %(message)s", datefmt="%H:%M:%S")
     a.out.mkdir(parents=True, exist_ok=True)
     manifest = json.loads((TEMPLATES / "manifest.json").read_text(encoding="utf-8"))
+    manifest = [t for t in manifest if t["id"] not in PREFILLED and t["id"] not in DUPLICATE_OF]
     if a.only:
         ids = set(a.only.split(","))
         manifest = [t for t in manifest if t["id"] in ids]

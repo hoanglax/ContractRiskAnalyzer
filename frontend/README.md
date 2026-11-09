@@ -1,75 +1,22 @@
-# React + TypeScript + Vite
+# ContractRiskAnalyzer frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + TypeScript + Vite UI for the **existing** FastAPI analysis pipeline.
 
-Currently, two official plugins are available:
+## Run locally
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+1. Start the existing backend as documented in `../backend/README.md` (default port 8000).
+2. From `frontend/`, run `npm ci` then `npm run dev`.
+3. Open `http://localhost:5173`.
 
-## React Compiler
+The Vite dev server proxies `/analyses` and `/health` to `http://127.0.0.1:8000`. The frontend uses the **implemented endpoints**, not the unapproved draft API schema:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- `POST /analyses`: multipart upload field `file`; currently HTTP 201 with `{id, status: "queued"}`.
+- `GET /analyses/{id}`: poll run status (`queued`, `running`, `done`, `failed`) and consume `document.text`, `items`, and `warnings`.
 
-## Expanding the ESLint configuration
+The results view reuses the data layout of the backend's `/demo`: source text highlights, risk items, missing-content items, explanations and legal-basis snippets. It does **not** invent a clause endpoint or legal citations. Back-end results and cited laws require separate legal review.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Scope / known gaps
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
-
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
+- Implements Sprint 2 UI-01 (single-file upload) and the available part of UI-02 (extracted contract text and risk items). Structured segmentation with dedicated clause IDs, numbers, source offsets, and API routes is not yet exposed as a stable contract by this backend; do not treat this UI as completed clause-segmentation acceptance.
+- File formats depend on backend ingestion adapters and configured providers. Do not upload real personal information to remote LLM/Vision services until the PII-redaction requirements in the SRS DEC-01 addendum are satisfied.
+- `docs/api/api-contract.md` includes draft response shapes that currently differ from the running `/analyses` API; reconcile them with the team before a production release.

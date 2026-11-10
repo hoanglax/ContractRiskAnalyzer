@@ -238,13 +238,13 @@ def party_names(profile: dict) -> list[str]:
     return [p.get("ten") or p["ho_ten"] for p in (profile["ben_cho_thue"], profile["ben_thue"])]
 
 
-def fill_one(tpl: dict, k: int, cfg: dict, out_dir: Path) -> dict:
+def fill_one(tpl: dict, k: int, cfg: dict, out_dir: Path, temperature: float = 0.6) -> dict:
     name = Path(tpl["file"]).stem
     seed = int(hashlib.sha256(f"{name}:{k}".encode()).hexdigest()[:8], 16)
     profile = make_profile(tpl["title"], seed)
     template = ingest(TEMPLATES / tpl["file"]).text
     n_tok = len(template) / 3.6
-    sampling = {"temperature": 0.6, "max_tokens": int(min(16000, n_tok * 1.6 + 1500))}
+    sampling = {"temperature": temperature, "max_tokens": int(min(16000, n_tok * 1.6 + 1500))}
     prompt = PROMPT.format(profile=json.dumps(profile, ensure_ascii=False, indent=1), template=template)
     attempts, best, note = [], None, ""
     t0 = time.monotonic()
@@ -274,7 +274,7 @@ def fill_one(tpl: dict, k: int, cfg: dict, out_dir: Path) -> dict:
     flags = [f for f, hit in (("truncated", best["finish"] != "stop"), ("lost_words", v),
                               ("leftover_blanks", best["leftover"]), ("missing_parties", best["missing_parties"])) if hit]
     status = "flagged" if flags else "ok"
-    meta = {"template": tpl["file"], "title": tpl["title"], "variant": k, "seed": seed, "status": status,
+    meta = {"template": tpl["file"], "title": tpl["title"], "variant": k, "seed": seed, "temperature": temperature, "status": status,
             "flags": flags, "profile": profile, "violations": v, "leftover_blanks": best["leftover"],
             "missing_parties": best["missing_parties"],
             "inserted": best["cmp"]["inserted"], "template_chars": len(template), "filled_chars": len(best["filled"]),
@@ -295,6 +295,7 @@ def main():
     ap.add_argument("--limit", type=int, help="stop after this many variants (pilot runs)")
     ap.add_argument("--base-url", default="http://127.0.0.1:9876/v1")
     ap.add_argument("--out", type=Path, default=OUT)
+    ap.add_argument("--temperature", type=float, default=0.6)
     a = ap.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)-7s %(name)s: %(message)s", datefmt="%H:%M:%S")
     a.out.mkdir(parents=True, exist_ok=True)
@@ -310,7 +311,7 @@ def main():
     log.info("%d variants to fill, %d workers", len(jobs), a.workers)
     cfg, done, counts, t0 = server_cfg(a.base_url), 0, {}, time.monotonic()
     with ThreadPoolExecutor(a.workers) as pool:
-        futs = {pool.submit(fill_one, t, k, cfg, a.out): (t, k) for t, k in jobs}
+        futs = {pool.submit(fill_one, t, k, cfg, a.out, a.temperature): (t, k) for t, k in jobs}
         for f in as_completed(futs):
             t, k = futs[f]
             done += 1

@@ -26,11 +26,12 @@ from pathlib import Path
 
 import numpy as np
 
+from application.config import settings
 from application.modules.legal_retrieval.kb import DEFAULT_DB, LexicalRetriever, hits_for
 from application.modules.legal_retrieval.retriever import Hit
 
 CACHE = DEFAULT_DB.parent
-COMMITTED = DEFAULT_DB.parents[2] / "data" / "legal_vectors"
+COMMITTED = settings.LEGAL_VECTORS_DIR
 
 
 def kb_fingerprint(con: sqlite3.Connection) -> str:

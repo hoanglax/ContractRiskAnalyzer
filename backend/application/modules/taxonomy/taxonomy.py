@@ -21,9 +21,10 @@ import zipfile
 from dataclasses import dataclass, field
 from pathlib import Path
 
-REPO = Path(__file__).resolve().parents[4]
-DEFAULT_XLSX = REPO / "data" / "Risk Taxonomy.xlsx"
-DEFAULT_JSON = REPO / "data" / "taxonomy" / "taxonomy.json"
+from application.config import settings
+
+DEFAULT_XLSX = settings.DATA_DIR / "Risk Taxonomy.xlsx"
+DEFAULT_JSON = settings.TAXONOMY_DIR / "taxonomy.json"
 
 SEVERITIES = ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
 PARTIES = {"A": "Bên cho thuê", "B": "Bên thuê"}

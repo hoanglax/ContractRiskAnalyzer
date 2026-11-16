@@ -21,7 +21,6 @@ import datetime
 import hashlib
 import json
 import logging
-import os
 import re
 import subprocess
 import threading
@@ -31,6 +30,7 @@ import uuid
 from pathlib import Path
 
 from application.adapters import llm
+from application.config import settings
 from application.modules.detection import pipeline as detection, whole_doc
 from application.modules.explain import explain as m6
 from application.modules.ingestion.ingest import IngestError, ingest
@@ -38,8 +38,8 @@ from application.modules.legal_basis import basis as m4
 from application.modules.taxonomy import taxonomy
 
 log = logging.getLogger(__name__)
-BACKEND = Path(__file__).resolve().parents[2]
-RUNS_DIR = Path(os.environ.get("RUNS_DIR") or BACKEND / "runs")
+BACKEND = settings.BACKEND_DIR
+RUNS_DIR = settings.RUNS_DIR
 TASKS = ("structure_fallback", "detect", "legal_pick", "explain")
 PROMPTS = {"detect": whole_doc.PROMPT, "detect_fix": whole_doc.FIX, "legal_pick": m4.PROMPT, "explain": m6.PROMPT}
 _ID = re.compile(r"[0-9a-f]{12}")

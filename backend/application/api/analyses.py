@@ -4,12 +4,14 @@ The analysis runs in the background in this process (application.analysis.run); 
 """
 from __future__ import annotations
 
+import asyncio
 from pathlib import Path
 
 from fastapi import APIRouter, BackgroundTasks, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 
 from application.analysis import run
+from application.config import settings
 
 router = APIRouter(prefix="/analyses", tags=["analyses"])
 demo = APIRouter()
@@ -24,7 +26,18 @@ def demo_page() -> FileResponse:
 
 @router.post("", status_code=201)
 async def create_analysis(file: UploadFile, background: BackgroundTasks) -> dict:
-    data = await file.read()
+    chunks = []
+    size = 0
+    try:
+        async with asyncio.timeout(settings.UPLOAD_TIMEOUT_SECONDS):
+            while chunk := await file.read(1024 * 1024):
+                size += len(chunk)
+                if size > settings.MAX_FILE_SIZE_BYTES:
+                    raise HTTPException(413, "file is too large")
+                chunks.append(chunk)
+    except TimeoutError:
+        raise HTTPException(408, "upload read timed out") from None
+    data = b"".join(chunks)
     if not data:
         raise HTTPException(400, "empty file")
     rid = run.create(data, file.filename or "upload")

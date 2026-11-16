@@ -15,11 +15,12 @@ import logging
 import re
 
 from application.adapters import llm
+from application.config import settings
 from application.modules.detection.finding import Finding, LookFor, ground
 from application.modules.ingestion.ingest import Document
 
 log = logging.getLogger(__name__)
-RETRIES = 2
+RETRIES = settings.DETECTION_RETRIES
 
 PROMPT = """Bạn là luật sư rà soát hợp đồng thuê nhà ở theo pháp luật Việt Nam. Hãy đọc hợp đồng và tìm những rủi ro trong DANH SÁCH RỦI RO bên dưới: điều khoản có rủi ro đó, hoặc nội dung cần thiết mà hợp đồng thiếu.
 

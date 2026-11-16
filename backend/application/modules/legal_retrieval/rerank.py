@@ -9,6 +9,7 @@ import os
 import urllib.request
 from pathlib import Path
 
+from application.config import settings
 from application.modules.legal_retrieval.retriever import Hit
 
 MODEL = Path(os.environ.get("RERANK_MODEL", Path.home() / "models" / "qwen3-reranker-0.6b"))
@@ -56,7 +57,7 @@ class ServerReranker:
     def score(self, query: str, docs: list[str]) -> list[float]:
         req = urllib.request.Request(self.url, json.dumps({"query": query, "documents": docs}).encode(),
                                      {"Content-Type": "application/json"})
-        with urllib.request.urlopen(req, timeout=300) as r:
+        with urllib.request.urlopen(req, timeout=settings.RERANK_TIMEOUT_SECONDS) as r:
             res = json.load(r)["results"]
         out = [0.0] * len(docs)
         for o in res:

@@ -6,10 +6,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from application import env, logs
+
+env.load()
+
 from application.api import analyses
 from application.modules.legal_basis import basis
 
-env.load()
 logs.setup()
 
 

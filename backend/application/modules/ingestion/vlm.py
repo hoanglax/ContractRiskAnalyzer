@@ -16,9 +16,10 @@ import time
 import urllib.error
 import urllib.request
 
+from application.config import settings
+
 DEFAULT_BASE_URL = "https://openrouter.ai/api/v1"
-TIMEOUT = 180
-RETRIES = 2
+RETRIES = settings.OCR_RETRIES
 
 PROMPT = (
     "Transcribe this page of a Vietnamese contract exactly as written. "
@@ -47,7 +48,7 @@ class VlmError(Exception):
 
 def engine() -> str:
     """'vlm' or 'off' after resolving OCR_ENGINE."""
-    choice = os.environ.get("OCR_ENGINE", "auto").lower()
+    choice = settings.current_ocr_engine()
     if choice == "off":
         return "off"
     if choice == "vlm" or (os.environ.get("OCR_API_KEY") and os.environ.get("OCR_MODEL")):
@@ -82,9 +83,9 @@ def transcribe(image: bytes, mime: str) -> tuple[str, dict]:
     req = urllib.request.Request(url, body, {"Authorization": f"Bearer {key}",
                                              "Content-Type": "application/json"})
     last = ""
-    for attempt in range(RETRIES + 1):
+    for attempt in range(settings.OCR_RETRIES + 1):
         try:
-            with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
+            with urllib.request.urlopen(req, timeout=settings.OCR_TIMEOUT_SECONDS) as r:
                 payload = json.loads(r.read())
             break
         except urllib.error.HTTPError as e:
@@ -93,10 +94,10 @@ def transcribe(image: bytes, mime: str) -> tuple[str, dict]:
                 raise VlmError(f"vision OCR request failed ({last})") from None
         except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as e:
             last = type(e).__name__
-        if attempt < RETRIES:
+        if attempt < settings.OCR_RETRIES:
             time.sleep(2 ** attempt)
     else:
-        raise VlmError(f"vision OCR request failed after {RETRIES + 1} tries ({last})")
+        raise VlmError(f"vision OCR request failed after {settings.OCR_RETRIES + 1} tries ({last})")
     try:
         choice = payload["choices"][0]
         text = choice["message"]["content"] or ""

@@ -19,10 +19,12 @@ import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from application.config import settings
 from application.modules.ingestion import vlm
 from application.modules.ingestion.text import clean, implausible_words, readable_ratio
 
-MAX_BYTES = 50 * 1024 * 1024
+# Backward-compatible alias; the configured value is defined in application.config.
+MAX_BYTES = settings.MAX_FILE_SIZE_BYTES
 
 # What each kind is normally called; used only to warn on a misleading name.
 EXTENSIONS = {
@@ -299,9 +301,6 @@ def route_docx(data: bytes, doc: Document) -> None:
 
 # ---------------- doc (legacy Word, via LibreOffice) ----------------
 
-SOFFICE_TIMEOUT = 120
-
-
 def _soffice() -> str | None:
     return shutil.which("soffice") or shutil.which("libreoffice")
 
@@ -321,10 +320,11 @@ def convert_with_soffice(data: bytes, src_ext: str, target: str) -> bytes:
         cmd = [exe, f"-env:UserInstallation={Path(d, 'profile').as_uri()}", "--headless",
                "--norestore", "--convert-to", target, "--outdir", str(Path(d, "out")), str(src)]
         try:
-            r = subprocess.run(cmd, capture_output=True, text=True, timeout=SOFFICE_TIMEOUT)
+            r = subprocess.run(cmd, capture_output=True, text=True,
+                               timeout=settings.PARSER_TIMEOUT_SECONDS)
         except subprocess.TimeoutExpired:
             raise IngestError("conversion_failed",
-                              f"LibreOffice did not finish within {SOFFICE_TIMEOUT}s") from None
+                              f"LibreOffice did not finish within {settings.PARSER_TIMEOUT_SECONDS}s") from None
         outs = list(Path(d, "out").glob("in.*"))
         if r.returncode != 0 or not outs:
             detail = (r.stderr or r.stdout).strip()[:300] or f"exit code {r.returncode}"
@@ -360,9 +360,10 @@ def _pdftotext(data: bytes, layout: bool) -> list[str]:
         raise IngestError("conversion_failed", "pdftotext (poppler-utils) is required for PDF input")
     cmd = [exe, "-enc", "UTF-8"] + (["-layout"] if layout else []) + ["-", "-"]
     try:
-        r = subprocess.run(cmd, input=data, capture_output=True, timeout=120)
+        r = subprocess.run(cmd, input=data, capture_output=True, timeout=settings.PARSER_TIMEOUT_SECONDS)
     except subprocess.TimeoutExpired:
-        raise IngestError("conversion_failed", "pdftotext did not finish within 120s") from None
+        raise IngestError("conversion_failed",
+                          f"pdftotext did not finish within {settings.PARSER_TIMEOUT_SECONDS}s") from None
     err = r.stderr.decode("utf-8", "replace")
     if r.returncode != 0:
         if "password" in err.lower() or "encrypt" in err.lower():
@@ -455,7 +456,7 @@ def _render_page(data: bytes, n: int) -> bytes:
         cmd = [exe, "-png", "-r", str(PDF_OCR_DPI), "-f", str(n), "-l", str(n),
                "-singlefile", str(src), str(Path(d, "page"))]
         try:
-            r = subprocess.run(cmd, capture_output=True, timeout=120)
+            r = subprocess.run(cmd, capture_output=True, timeout=settings.PARSER_TIMEOUT_SECONDS)
         except subprocess.TimeoutExpired:
             raise vlm.VlmError(f"rendering page {n} timed out") from None
         out = Path(d, "page.png")
@@ -468,14 +469,24 @@ def _pdf_page_count(data: bytes) -> int | None:
     exe = shutil.which("pdfinfo")
     if exe is None:
         return None
-    r = subprocess.run([exe, "-"], input=data, capture_output=True, timeout=60)
+    try:
+        r = subprocess.run([exe, "-"], input=data, capture_output=True,
+                           timeout=settings.PDF_INFO_TIMEOUT_SECONDS)
+    except subprocess.TimeoutExpired:
+        raise IngestError("conversion_failed",
+                          f"pdfinfo did not finish within {settings.PDF_INFO_TIMEOUT_SECONDS}s") from None
     m = re.search(rb"^Pages:\s+(\d+)", r.stdout, re.M)
     return int(m.group(1)) if m else None
 
 
 def route_pdf(data: bytes, doc: Document) -> None:
+    page_count = _pdf_page_count(data)
+    if page_count is not None and page_count > settings.MAX_PDF_PAGES:
+        raise IngestError("too_large", f"PDF has {page_count} pages; maximum is {settings.MAX_PDF_PAGES}")
     raw_pages = _pdftotext(data, PDF_LAYOUT)
-    n_pages = _pdf_page_count(data) or len(raw_pages)
+    n_pages = max(page_count or 0, len(raw_pages))
+    if n_pages > settings.MAX_PDF_PAGES:
+        raise IngestError("too_large", f"PDF has {n_pages} pages; maximum is {settings.MAX_PDF_PAGES}")
     raw_pages += [""] * (n_pages - len(raw_pages))     # pdftotext drops trailing empty pages
     if not raw_pages:
         raise IngestError("no_text", "the PDF has no pages")
@@ -563,12 +574,12 @@ def _load(src: str | Path | bytes, filename: str | None) -> tuple[bytes, str | N
         path = Path(src)
         filename = filename or path.name
         if path.stat().st_size > MAX_BYTES:
-            raise IngestError("too_large", f"file is over {MAX_BYTES // 2**20} MB")
+            raise IngestError("too_large", f"file is over {settings.MAX_FILE_SIZE_MB} MB")
         data = path.read_bytes()
     else:
         data = bytes(src)
     if len(data) > MAX_BYTES:
-        raise IngestError("too_large", f"file is over {MAX_BYTES // 2**20} MB")
+        raise IngestError("too_large", f"file is over {settings.MAX_FILE_SIZE_MB} MB")
     return data, filename
 
 
@@ -601,9 +612,6 @@ def ingest(src: str | Path | bytes, filename: str | None = None) -> Document:
     return doc
 
 
-MAX_IMAGES = 40
-
-
 def ingest_images(srcs: list[str | Path | bytes], filenames: list[str | None] | None = None) -> Document:
     """Photos or scans of one document, in page order -> one Document. Raises IngestError.
 
@@ -613,8 +621,9 @@ def ingest_images(srcs: list[str | Path | bytes], filenames: list[str | None] | 
     scanned PDF pages; only a failure on every page is an error."""
     if not srcs:
         raise IngestError("empty", "no files given")
-    if len(srcs) > MAX_IMAGES:
-        raise IngestError("too_large", f"{len(srcs)} images; at most {MAX_IMAGES} pages per document")
+    if len(srcs) > settings.MAX_IMAGE_PAGES:
+        raise IngestError("too_large",
+                          f"{len(srcs)} images; at most {settings.MAX_IMAGE_PAGES} pages per document")
     filenames = list(filenames) if filenames is not None else [None] * len(srcs)
     if len(filenames) != len(srcs):
         raise ValueError("filenames must match srcs one to one")

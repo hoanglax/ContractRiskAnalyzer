@@ -22,21 +22,23 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from application.config import settings
+
 log = logging.getLogger(__name__)
 
-CONFIG_DIR = Path(__file__).resolve().parents[2]
+CONFIG_DIR = settings.BACKEND_DIR
 DEFAULT = {
     "default_profile": "local27b",
     "tasks": {},
     "profiles": {"local27b": {
-        "base_url": "http://127.0.0.1:9876/v1", "model": "local", "timeout_s": 600, "allow_remote": False,
+        "base_url": "http://127.0.0.1:9876/v1", "model": "local",
+        "timeout_s": settings.LLM_TIMEOUT_SECONDS, "allow_remote": False,
         "sampling": {"temperature": 0, "max_tokens": 3000},
         "extra_body": {"chat_template_kwargs": {"enable_thinking": False}}}},
 }
 _LOCAL_HOSTS = {"127.0.0.1", "localhost", "::1", "0.0.0.0"}
 
 
-RETRIES = 3                                  # per call, for the transient failures below; a profile can set "retries"
 RETRY_STATUS = {429, 500, 502, 503, 504}     # rate limit, overload, gateway: worth waiting for; other 4xx are not
 BACKOFF = (2, 6, 15)                         # seconds before retry 1, 2, 3 (then the last value)
 
@@ -138,10 +140,10 @@ def chat(task: str, messages: list[dict], *, sampling: dict | None = None, cfg: 
     t = time.monotonic()
     log.debug("%s -> %s %s: %d messages, %d chars", task, name, body["model"], len(messages),
               sum(len(m.get("content") or "") for m in messages))
-    retries = int(prof.get("retries", RETRIES))
+    retries = int(prof.get("retries", settings.LLM_RETRIES))
     for attempt in range(retries + 1):
         try:
-            with urllib.request.urlopen(req, timeout=prof.get("timeout_s", 600)) as r:
+            with urllib.request.urlopen(req, timeout=prof.get("timeout_s", settings.LLM_TIMEOUT_SECONDS)) as r:
                 out = json.load(r)
             break
         except urllib.error.HTTPError as e:

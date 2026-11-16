@@ -20,15 +20,16 @@ import sqlite3
 import unicodedata
 from pathlib import Path
 
+from application.config import settings
 from application.modules.ingestion.structure import segment
 from application.modules.ingestion.text import clean
 from application.modules.legal_retrieval.chunk import khoan_split
 from application.modules.legal_retrieval.retriever import Hit
 
-BACKEND = Path(__file__).resolve().parents[3]
-REPO = BACKEND.parent
+BACKEND = settings.BACKEND_DIR
+REPO = settings.PROJECT_ROOT
 DEFAULT_DB = BACKEND / "cache" / "legal_kb.db"
-DEFAULT_CORPUS = [REPO / "data" / "legal_corpus", REPO / "data" / "test" / "kb"]
+DEFAULT_CORPUS = [settings.LEGAL_CORPUS_DIR, settings.DATA_DIR / "test" / "kb"]
 SKIP = {"nd96_2024_ma_template"}            # superseded placeholder, by file stem
 # What follows a statute's last article in the published text: the distribution list and signature of a decree,
 # the adoption line of a law, an appendix. None of it is an Điều, so a segmenter keyed on "Điều N" files it under the

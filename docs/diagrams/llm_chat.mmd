@@ -1,5 +1,5 @@
 graph TB
-    CALL["chat(task, messages, sampling)<br/>tasks: structure_fallback, vision, detect, legal_pick, explain"] --> CFG{"config source"}
+    CALL["chat(task, messages, sampling)<br/>tasks: structure_fallback, detect, legal_pick, explain"] --> CFG{"config source"}
     CFG -->|"PIPELINE_LLM_CONFIG set"| TOML["read that TOML"]
     CFG -->|"backend/llm.toml exists"| TOML
     CFG -->|neither| ERR0["LLMError: no LLM configured,<br/>copy llm.example.toml to llm.toml"]

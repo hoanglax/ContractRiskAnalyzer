@@ -4,8 +4,8 @@ Every downstream stage works on `Document.text` only; this is the only module
 that knows about file formats. The type is decided from the file's bytes, not
 its name — uploads get renamed. A mismatching extension is a warning.
 
-Routes are added step by step (INGEST_PLAN.md §8); a recognised type whose
-route does not exist yet raises IngestError("not_implemented").
+Supported inputs: TXT, DOCX, DOC and PDFs with a usable text layer.
+Images are recognised only to reject them; no OCR or vision calls are made.
 """
 import hashlib
 import io
@@ -19,7 +19,6 @@ import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from application.modules.ingestion import vlm
 from application.modules.ingestion.text import clean, implausible_words, readable_ratio
 
 MAX_BYTES = 50 * 1024 * 1024
@@ -64,7 +63,7 @@ class Block:
 @dataclass
 class Page:
     n: int
-    route: str                 # txt | docx | native | tesseract | vision
+    route: str                 # txt | docx | native
     chars: int
     quality: float | None = None
 
@@ -341,9 +340,8 @@ def route_doc(data: bytes, doc: Document) -> None:
 
 # ---------------- pdf (text layer) ----------------
 
-PDF_MIN_PAGE_CHARS = 200     # below this a page is probably a scan (INGEST_PLAN.md §4 pdf)
-PDF_MIN_LAST_PAGE_CHARS = 1  # the last page is often just the signature block (18/100 rendered
-                             # templates end on a 16-180 char page); only an empty one counts
+PDF_MIN_PAGE_CHARS = 200     # short readable pages warn; this is not proof of a scan
+PDF_MIN_LAST_PAGE_CHARS = 1  # the last page is often just a short signature block
 # pdftotext -layout. Measured on 100 rendered templates: default mode treats a
 # line-final "-" as hyphenation and glues lines ("QĐ-UB" -> "QĐUB",
 # "---o0o---" + title); -layout does not. Lines found 99.4% vs 99.2%.
@@ -441,29 +439,6 @@ def join_pages(doc: Document, texts: list[str], routes: list[str], quality: list
     return removed
 
 
-PDF_OCR_DPI = 150
-
-
-def _render_page(data: bytes, n: int) -> bytes:
-    """Page n (1-based) of a PDF as PNG bytes."""
-    exe = shutil.which("pdftoppm")
-    if exe is None:
-        raise vlm.VlmError("pdftoppm (poppler-utils) is required to OCR PDF pages")
-    with tempfile.TemporaryDirectory(prefix="ingest_") as d:
-        src = Path(d, "in.pdf")
-        src.write_bytes(data)
-        cmd = [exe, "-png", "-r", str(PDF_OCR_DPI), "-f", str(n), "-l", str(n),
-               "-singlefile", str(src), str(Path(d, "page"))]
-        try:
-            r = subprocess.run(cmd, capture_output=True, timeout=120)
-        except subprocess.TimeoutExpired:
-            raise vlm.VlmError(f"rendering page {n} timed out") from None
-        out = Path(d, "page.png")
-        if r.returncode != 0 or not out.exists():
-            raise vlm.VlmError(f"could not render page {n}")
-        return out.read_bytes()
-
-
 def _pdf_page_count(data: bytes) -> int | None:
     exe = shutil.which("pdfinfo")
     if exe is None:
@@ -476,75 +451,42 @@ def _pdf_page_count(data: bytes) -> int | None:
 def route_pdf(data: bytes, doc: Document) -> None:
     raw_pages = _pdftotext(data, PDF_LAYOUT)
     n_pages = _pdf_page_count(data) or len(raw_pages)
-    raw_pages += [""] * (n_pages - len(raw_pages))     # pdftotext drops trailing empty pages
+    raw_pages += [""] * (n_pages - len(raw_pages))
     if not raw_pages:
         raise IngestError("no_text", "the PDF has no pages")
 
-    # 1. find pages without a usable text layer
-    texts, quality, bad = [], [], []
-    for n, p in enumerate(raw_pages, 1):
-        text = clean(p)
+    # Do not analyse only the readable subset of a contract. Without OCR we cannot
+    # distinguish a blank page from an image-only page, so both require a new file.
+    texts, quality, low_text, unreadable = [], [], [], []
+    for n, page in enumerate(raw_pages, 1):
+        text = clean(page)
         q = readable_ratio(text)
-        if "(cid:" in text or (text and q < MIN_READABLE):
-            bad.append((n, "broken text layer (unreadable characters)"))
-            text = ""
+        if not text:
+            unreadable.append(f"{n} (no text layer)")
+        elif "(cid:" in text or q < MIN_READABLE:
+            unreadable.append(f"{n} (broken text layer)")
         elif len(text) < (PDF_MIN_LAST_PAGE_CHARS if n == len(raw_pages) else PDF_MIN_PAGE_CHARS):
-            bad.append((n, f"only {len(text)} characters" if text else "no text layer"))
+            low_text.append(n)
+            doc.warnings.append(
+                f"page {n}: only {len(text)} characters in the text layer; "
+                "check that the PDF contains all contract text")
         texts.append(text)
         quality.append(round(q, 3) if text else None)
-    routes = ["native"] * len(raw_pages)
+    if unreadable:
+        raise IngestError(
+            "no_text", "PDF pages without usable text: " + ", ".join(unreadable)
+            + ". Scanned PDFs and image-only pages are not supported; "
+            "provide a PDF with a readable text layer or a DOCX/TXT file. "
+            "Remove genuinely blank pages before retrying.")
 
-    # 2. OCR the pages without a usable text layer, if an engine is configured
-    ocr_info = {}
-    use_ocr = bool(bad) and vlm.engine() == "vlm"
-    ocr_done = []
-    for n, why in bad:
-        if not use_ocr:
-            doc.warnings.append(f"page {n}: {why}; it looks scanned and needs OCR (OCR is not available)")
-            continue
-        try:
-            ocr_text, info = vlm.transcribe(_render_page(data, n), "image/png")
-        except vlm.VlmError as e:
-            doc.warnings.append(f"page {n}: {why}; OCR failed ({e})")
-            continue
-        ocr_text = clean(ocr_text)
-        if not ocr_text:
-            doc.warnings.append(f"page {n}: {why}; OCR found no text")
-            continue
-        texts[n - 1], routes[n - 1] = ocr_text, "vision"
-        quality[n - 1] = round(readable_ratio(ocr_text), 3)
-        ocr_done.append(n)
-        ocr_info = {"model": info["model"]}
-    if ocr_done:
-        doc.warnings.append(f"pages {', '.join(map(str, ocr_done))} were read by a vision model "
-                            f"({ocr_info['model']}); check them against the original")
-
-    # 3. strip running headers/footers across all pages, native and OCR'd alike
-    removed = join_pages(doc, texts, routes, quality)
+    removed = join_pages(doc, texts, ["native"] * len(texts), quality)
+    # Header-only pages must not silently disappear when running lines are removed.
+    empty = [str(page.n) for page in doc.pages if not page.chars]
+    if empty:
+        raise IngestError("no_text", "PDF pages contain no body text after removing headers/footers: "
+                          + ", ".join(empty) + "; provide a complete text-layer PDF or DOCX/TXT file")
     doc.raw = {"pdf_pages": len(raw_pages), "layout_mode": PDF_LAYOUT,
-               "removed_lines": removed, "low_text_pages": [n for n, _ in bad], "ocr": ocr_info}
-
-
-# ---------------- images (vision model) ----------------
-
-IMAGE_MIME = {"png": "image/png", "jpeg": "image/jpeg", "webp": "image/webp"}
-
-
-def route_image(data: bytes, doc: Document) -> None:
-    kind = doc.source["detected_type"]
-    if vlm.engine() != "vlm":
-        raise IngestError("not_implemented",
-                          "image input needs OCR; set OCR_API_KEY and OCR_MODEL (see ingest/vlm.py)")
-    try:
-        raw, info = vlm.transcribe(data, IMAGE_MIME[kind])
-    except vlm.VlmError as e:
-        raise IngestError("conversion_failed", str(e)) from None
-    doc.text = clean(raw)
-    doc.blocks = line_blocks(doc.text, page=1)
-    doc.pages = [Page(1, "vision", len(doc.text), round(readable_ratio(doc.text), 3))]
-    doc.warnings.append(f"text was read from the image by a vision model ({info['model']}); "
-                        "check it against the original")
-    doc.raw = {"model": info["model"], "usage": info["usage"]}
+               "removed_lines": removed, "low_text_pages": low_text}
 
 
 # ---------------- entry point ----------------
@@ -554,7 +496,6 @@ ROUTES = {   # kind -> fn(data: bytes, doc: Document) -> None
     "docx": route_docx,
     "doc": route_doc,
     "pdf": route_pdf,
-    **dict.fromkeys(IMAGE_MIME, route_image),
 }
 
 
@@ -582,8 +523,10 @@ def _source(data: bytes, filename: str | None, kind: str, warnings: list[str]) -
 
 
 def _no_route(kind: str) -> IngestError:
-    hint = "; convert the photo to JPEG or PNG" if kind == "heic" else ""
-    return IngestError("not_implemented", f"{kind} input is not supported yet{hint}")
+    if kind in IMAGE_KINDS:
+        return IngestError("unsupported_type",
+                          "image input is not supported; provide a text-layer PDF, DOCX, DOC or TXT file")
+    return IngestError("not_implemented", f"{kind} input is not supported")
 
 
 def ingest(src: str | Path | bytes, filename: str | None = None) -> Document:
@@ -597,77 +540,6 @@ def ingest(src: str | Path | bytes, filename: str | None = None) -> Document:
     if route is None:
         raise _no_route(kind)
     route(data, doc)
-    _finish(doc)
-    return doc
-
-
-MAX_IMAGES = 40
-
-
-def ingest_images(srcs: list[str | Path | bytes], filenames: list[str | None] | None = None) -> Document:
-    """Photos or scans of one document, in page order -> one Document. Raises IngestError.
-
-    A contract photographed page by page has to be segmented as one text: ingested one photo at a
-    time, each page holds a few clause headings at most and a clause that runs over a page break is
-    cut in two. Every file must be an image. A page whose OCR fails costs that page (warned), as for
-    scanned PDF pages; only a failure on every page is an error."""
-    if not srcs:
-        raise IngestError("empty", "no files given")
-    if len(srcs) > MAX_IMAGES:
-        raise IngestError("too_large", f"{len(srcs)} images; at most {MAX_IMAGES} pages per document")
-    filenames = list(filenames) if filenames is not None else [None] * len(srcs)
-    if len(filenames) != len(srcs):
-        raise ValueError("filenames must match srcs one to one")
-
-    # check every file before any model call
-    doc = Document(text="", source={})
-    files = []
-    for n, (src, name) in enumerate(zip(srcs, filenames), 1):
-        try:
-            data, name = _load(src, name)
-            kind = sniff(data)
-        except IngestError as e:
-            raise IngestError(e.reason, f"page {n} ({name or 'unnamed'}): {e.message}") from None
-        if kind not in IMAGE_KINDS:
-            raise IngestError("unsupported_type", f"page {n} ({name or 'unnamed'}) is {kind}, not an image; "
-                                                  "only photos or scans can be combined into one document")
-        if kind not in IMAGE_MIME:
-            raise _no_route(kind)
-        files.append((data, kind, _source(data, name, kind, doc.warnings)))
-    if vlm.engine() != "vlm":
-        raise IngestError("not_implemented",
-                          "image input needs OCR; set OCR_API_KEY and OCR_MODEL (see ingest/vlm.py)")
-    # identity of the whole set: the page hashes in order
-    doc.source = {"filename": files[0][2]["filename"], "size": sum(f[2]["size"] for f in files),
-                  "sha256": hashlib.sha256("".join(f[2]["sha256"] for f in files).encode()).hexdigest(),
-                  "detected_type": "images", "files": [f[2] for f in files]}
-
-    texts, quality, usage, failed, model = [], [], [], [], None
-    for n, (data, kind, src) in enumerate(files, 1):
-        label = f"page {n} ({src['filename']})" if src["filename"] else f"page {n}"
-        try:
-            raw, info = vlm.transcribe(data, IMAGE_MIME[kind])
-        except vlm.VlmError as e:
-            doc.warnings.append(f"{label}: OCR failed ({e}); the page is missing from the text")
-            failed.append((n, str(e)))
-            texts.append("")
-            quality.append(None)
-            usage.append(None)
-            continue
-        text = clean(raw)
-        if not text:
-            doc.warnings.append(f"{label}: OCR found no text")
-        texts.append(text)
-        quality.append(round(readable_ratio(text), 3) if text else None)
-        usage.append(info["usage"])
-        model = info["model"]
-    if len(failed) == len(files):
-        raise IngestError("conversion_failed", f"OCR failed on every page ({failed[0][1]})")
-
-    removed = join_pages(doc, texts, ["vision"] * len(files), quality)
-    doc.warnings.append(f"text was read from {len(files) - len(failed)} images by a vision model ({model}); "
-                        "check it against the original")
-    doc.raw = {"model": model, "usage": usage, "failed_pages": [n for n, _ in failed], "removed_lines": removed}
     _finish(doc)
     return doc
 

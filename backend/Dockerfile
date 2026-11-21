@@ -2,7 +2,7 @@
 # Build context is the repo root (it needs data/):  docker compose build backend
 FROM python:3.12-slim
 
-# poppler-utils: PDF text and page images for OCR. LibreOffice: legacy .doc only (~400 MB; build with
+# poppler-utils: PDF text extraction and page counts. LibreOffice: legacy .doc only (~400 MB; build with
 # --build-arg WITH_LIBREOFFICE=0 to skip it, and .doc uploads then fail with a clear error).
 ARG WITH_LIBREOFFICE=1
 RUN apt-get update \

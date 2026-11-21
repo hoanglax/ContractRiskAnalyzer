@@ -3,7 +3,7 @@ uvicorn[standard]==0.54.0
 python-multipart==0.0.32    # file uploads (POST /analyses)
 httpx==0.28.1               # FastAPI TestClient, tests only
 
-# statute retrieval (app/legal)
+# statute retrieval (application/modules/legal_retrieval)
 numpy==2.5.4
 pyvi==0.1.1
 transformers==5.20.0
@@ -11,6 +11,3 @@ transformers==5.20.0
 torch==2.14.1
 # Vector database
 qdrant-client
-
-# Local embedding model
-sentence-transformers

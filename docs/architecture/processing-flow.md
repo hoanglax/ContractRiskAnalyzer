@@ -1,5 +1,11 @@
 # Luồng xử lý hợp đồng (Processing Flow)
 
+> Ghi chú 19/11/2026: tài liệu thiết kế lịch sử, không phải toàn bộ hiện trạng runtime.
+> Phạm vi hiện hành chỉ nhận TXT/DOCX/DOC/PDF có lớp chữ; đã bỏ OCR và đầu vào ảnh.
+> Các đề xuất OCR/vision, lưu trữ và trạng thái mô-đun bên dưới phản ánh thiết kế cũ.
+> Xem [kiến trúc hiện hành](overview.md) và [API hiện hành](../api/README.md).
+
+
 ## 1. Mục đích
 
 Tài liệu mô tả trình tự xử lý hợp đồng của ContractRiskAnalyzer, từ khi người dùng cung cấp tài liệu đến khi hệ thống trả kết quả phân tích rủi ro.

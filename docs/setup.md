@@ -50,8 +50,8 @@ docker compose stop backend         # dừng
 docker compose up -d --build backend  # chạy lại sau khi pull code mới
 ```
 
-Chỉ cần chạy service `backend`. Service `qdrant` trong `docker-compose.yml` là Qdrant dạng server, pipeline không
-dùng đến (chỉ mục vector đã nằm sẵn trong image backend).
+Chỉ cần chạy service `backend`. Qdrant được dùng ở chế độ nhúng trong backend;
+service Qdrant riêng đã được gỡ khỏi Compose.
 
 ## 4. Dùng
 
@@ -80,7 +80,9 @@ Bản ghi các lần chạy được lưu trong volume Docker `runs`, nên vẫn
 | `.docx` | Tốt nhất. |
 | `.pdf` có lớp chữ | Đọc trực tiếp. |
 | `.doc` (Word cũ) | Chuyển sang `.docx` bằng LibreOffice trong container. |
-| PDF scan, ảnh `.png` | Cần OCR, mặc định **chưa bật**: điền `OCR_API_KEY` và `OCR_MODEL` (mô hình thị giác bất kỳ có API kiểu OpenAI) trong `.env`, rồi `docker compose up -d backend`. |
+| PDF scan, ảnh PNG/JPEG/WEBP/TIFF/HEIC | Không hỗ trợ; cung cấp PDF có lớp chữ, DOCX, DOC hoặc TXT. |
+
+PDF có trang chỉ có ảnh không được phân tích một phần. Trang có chữ ngắn vẫn được giữ (có cảnh báo nếu không phải trang cuối); chữ ít không đủ để kết luận trang scan. PDF đã được công cụ khác thêm lớp chữ vẫn có thể đọc được. Không có bước OCR để đối chiếu lớp chữ với ảnh gốc.
 
 ## 5. Tùy chỉnh
 
@@ -106,7 +108,8 @@ Bản ghi các lần chạy được lưu trong volume Docker `runs`, nên vẫn
 | `env file .env not found` | Chưa tạo `.env` (bước 2). |
 | `port is already allocated` | Đặt `PORT=` sang cổng khác trong `.env`. |
 | Phân tích `failed`, lỗi 401 trong log | `OPENROUTER_API_KEY` sai hoặc hết hạn mức. |
-| `image input needs OCR` | File là bản scan/ảnh; bật OCR (mục 4) hoặc dùng `.docx`. |
+| `unsupported_type` với ảnh | Không hỗ trợ ảnh; đổi sang tài liệu có văn bản. |
+| `no_text` với PDF | Có trang không có chữ/lớp chữ lỗi, hoặc không còn nội dung sau khi bỏ header/footer. PDF trộn trang cũng bị từ chối; bỏ trang trắng thật và cung cấp đầy đủ văn bản. |
 | Cảnh báo `cited law not in the KB` | Bình thường: văn bản đó chưa có trong bộ luật (`data/legal_corpus/SOURCES.md`). |
 
 ## Chạy không dùng Docker (phát triển)

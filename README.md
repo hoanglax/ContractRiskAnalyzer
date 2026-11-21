@@ -3,7 +3,10 @@
 Hệ thống phân tích rủi ro hợp đồng.
 
 > **Chạy pipeline phân tích (Docker, kèm giao diện demo):** xem [docs/setup.md](docs/setup.md). Các mục bên dưới là
-> hướng dẫn môi trường phát triển chung; backend hiện chạy bằng `application.main:app` (không còn `app.main:app`).
+> hướng dẫn môi trường phát triển chung; backend hiện chạy bằng `application.main:app`.
+
+Đầu vào hiện hỗ trợ TXT, DOCX, DOC và PDF có lớp chữ; không hỗ trợ ảnh hoặc OCR PDF scan.
+Xem [kiến trúc hiện hành](docs/architecture/overview.md) và [API hiện hành](docs/api/README.md).
 
 ## 1. Yêu cầu môi trường
 
@@ -35,7 +38,7 @@ backend\.venv\Scripts\python.exe -m pip install -r backend\requirements.txt
 Chạy backend:
 
 ```cmd
-backend\.venv\Scripts\python.exe -m uvicorn app.main:app --app-dir backend --reload
+backend\.venv\Scripts\python.exe -m uvicorn application.main:app --app-dir backend --reload
 ```
 
 ### Linux / WSL
@@ -50,7 +53,7 @@ backend/.venv/bin/python -m pip install -r backend/requirements.txt
 Chạy backend:
 
 ```bash
-backend/.venv/bin/python -m uvicorn app.main:app --app-dir backend --reload
+backend/.venv/bin/python -m uvicorn application.main:app --app-dir backend --reload
 ```
 
 ### Kiểm tra API

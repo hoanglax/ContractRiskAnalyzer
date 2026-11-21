@@ -1,5 +1,11 @@
 # Kiến trúc hệ thống ContractRiskAnalyzer
 
+> Ghi chú 19/11/2026: tài liệu thiết kế lịch sử, không phải toàn bộ hiện trạng runtime.
+> Phạm vi hiện hành chỉ nhận TXT/DOCX/DOC/PDF có lớp chữ; đã bỏ OCR và đầu vào ảnh.
+> Các đề xuất OCR/vision, lưu trữ và trạng thái mô-đun bên dưới phản ánh thiết kế cũ.
+> Xem [kiến trúc hiện hành](overview.md) và [API hiện hành](../api/README.md).
+
+
 ## 1. Mục đích tài liệu
 
 Tài liệu mô tả kiến trúc tổng thể của ContractRiskAnalyzer, một hệ thống hỗ trợ phân tích rủi ro trong hợp đồng thuê nhà/phòng tại Việt Nam.

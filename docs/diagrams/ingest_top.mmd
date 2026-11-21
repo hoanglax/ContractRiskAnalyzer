@@ -1,28 +1,19 @@
 graph TB
-    IN["ingest(file) / ingest_images(photos)"]
-    LOAD["_load + guards: empty, >50MB, >40 images"]
-    SNIFF["sniff(data): type from MAGIC BYTES<br/>zip->docx, OLE->doc, heuristic->txt<br/>extension only warns on mismatch"]
+    IN["ingest(file): TXT / DOCX / DOC / text-layer PDF"]
+    LOAD["_load + guards: empty, >50MB"]
+    SNIFF["sniff: magic bytes; images recognised only to reject"]
     ROUTE{"ROUTES[kind]"}
-    ERR["IngestError: empty, too_large, unsupported_type,<br/>encrypted, not_implemented, no_text, conversion_failed"]
-    FIN["_finish: clean text, readable_ratio and implausible_words check"]
-    DOC["Document: text, source{sha256,type}, blocks,<br/>pages[quality], warnings, raw"]
-    R1["route_txt: decode + legacy-encoding warn"]
-    R2["route_docx: docx_text.py XML paras, tables, QR"]
-    R3["route_doc: soffice convert to docx"]
-    R4["route_pdf: see route_pdf diagram"]
-    R5["route_image: vision OCR whole page"]
+    ERR["IngestError: unsupported_type, no_text, encrypted, conversion_failed"]
+    TXT["route_txt: decode text"]
+    DOCX["route_docx: paragraphs, tables, numbering"]
+    DOC["route_doc: LibreOffice to DOCX"]
+    PDF["route_pdf: extract and check every page"]
+    FIN["_finish: quality checks and text clause map"]
+    OUT["Document: text, source, blocks, pages, warnings"]
     IN --> LOAD --> SNIFF --> ROUTE
-    ROUTE -.->|kind unknown| ERR
-    LOAD -.->|fail| ERR
-    ROUTE --> R1
-    ROUTE --> R2
-    ROUTE --> R3
-    ROUTE --> R4
-    ROUTE --> R5
-    FIN -.->|text implausible| ERR
-    R1 --> FIN
-    R2 --> FIN
-    R3 --> FIN
-    R4 --> FIN
-    R5 --> FIN
-    FIN --> DOC
+    LOAD -.-> ERR
+    ROUTE --> TXT & DOCX & DOC & PDF
+    ROUTE -->|image or unsupported| ERR
+    TXT & DOCX & DOC & PDF --> FIN --> OUT
+    PDF -.->|unreadable page| ERR
+    FIN -.->|unreadable text| ERR

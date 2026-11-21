@@ -166,7 +166,7 @@ function App() {
     <p className="disclaimer">Kết quả do AI hỗ trợ tạo ra và chỉ mang tính tham khảo, không thay thế tư vấn pháp lý chuyên nghiệp.</p>
     <section className="panel upload-panel" aria-label="Tải hợp đồng">
       <form onSubmit={event => { void submit(event) }} className="upload-form">
-        <label className="file-field"><span className="file-icon">↥</span><strong>{file ? file.name : 'Chọn hợp đồng để phân tích'}</strong><span>PDF, DOCX, DOC, TXT hoặc ảnh PNG/JPG</span><input type="file" accept=".pdf,.docx,.doc,.txt,.png,.jpg,.jpeg,.webp" onChange={event => setFile(event.target.files?.[0] ?? null)} /></label>
+        <label className="file-field"><span className="file-icon">↥</span><strong>{file ? file.name : 'Chọn hợp đồng để phân tích'}</strong><span>PDF có lớp chữ, DOCX, DOC hoặc TXT (không hỗ trợ PDF scan và ảnh)</span><input type="file" accept=".pdf,.docx,.doc,.txt" onChange={event => setFile(event.target.files?.[0] ?? null)} /></label>
         <button className="primary" disabled={!file || busy || (run?.status === 'running' || run?.status === 'queued')} type="submit">{busy ? 'Đang gửi…' : 'Phân tích hợp đồng'}</button>
       </form>
       {run && <div className="progress" aria-live="polite"><div className="progress-title"><strong>{run.status === 'done' ? 'Đã phân tích xong' : run.status === 'failed' ? 'Phân tích thất bại' : run.status === 'queued' ? 'Đang chờ xử lý' : 'Đang phân tích…'}</strong><span>#{run.id} · {run.seconds ?? elapsed} giây</span></div><div className="steps">{STAGES.map(([key, label], index) => <span key={key} className={`step ${run.status === 'done' || index < stageIndex ? 'completed' : index === stageIndex && run.status === 'running' ? 'current' : ''}`}>{label}</span>)}</div></div>}

@@ -68,28 +68,52 @@ class TestStripRunningLines(unittest.TestCase):
 
 
 class TestRouteMocked(unittest.TestCase):
-    """Route logic with pdftotext's output faked, OCR switched off
-    (OCR of scanned pages is covered in test_ocr)."""
-
-    def setUp(self):
-        p = mock.patch.dict(ing.os.environ, {"OCR_ENGINE": "off"})
-        p.start()
-        self.addCleanup(p.stop)
+    """Text extraction and completeness gates, without external PDF tools."""
 
     def run_pages(self, pages):
         with mock.patch.object(ing, "_pdftotext", return_value=pages), \
              mock.patch.object(ing, "_pdf_page_count", return_value=len(pages)):
             return ingest(b"%PDF-1.7 fake", filename="x.pdf")
 
-    def test_broken_cid_page_dropped_with_warning(self):
-        doc = self.run_pages([BODY * 3, "(cid:12)(cid:45)(cid:3)" * 30, BODY * 3])
-        self.assertEqual([pg.chars > 0 for pg in doc.pages], [True, False, True])
-        self.assertTrue(any("page 2: broken text layer" in w for w in doc.warnings))
-        self.assertNotIn("cid", doc.text)
+    def test_broken_cid_page_rejects_the_whole_document(self):
+        with self.assertRaises(IngestError) as cm:
+            self.run_pages([BODY * 3, "(cid:12)(cid:45)(cid:3)" * 30, BODY * 3])
+        self.assertEqual(cm.exception.reason, "no_text")
+        self.assertIn("2 (broken text layer)", cm.exception.message)
 
-    def test_empty_middle_page_warns(self):
-        doc = self.run_pages([BODY * 3, "", BODY * 3])
-        self.assertTrue(any("page 2: no text layer" in w for w in doc.warnings))
+    def test_empty_middle_page_rejects_partial_analysis(self):
+        with self.assertRaises(IngestError) as cm:
+            self.run_pages([BODY * 3, "", BODY * 3])
+        self.assertEqual(cm.exception.reason, "no_text")
+        self.assertIn("2 (no text layer)", cm.exception.message)
+
+    def test_short_readable_middle_page_is_kept_with_warning(self):
+        short = "Điều 2. Các bên xác nhận bàn giao chìa khóa vào ngày ký."
+        doc = self.run_pages([BODY * 3, short, BODY * 3])
+        self.assertIn(short, doc.text)
+        self.assertEqual(doc.raw["low_text_pages"], [2])
+        self.assertNotIn("ocr", doc.raw)
+
+    def test_trailing_image_page_reported_by_pdfinfo_is_not_lost(self):
+        with mock.patch.object(ing, "_pdftotext", return_value=[BODY * 3]), \
+             mock.patch.object(ing, "_pdf_page_count", return_value=2):
+            with self.assertRaises(IngestError) as cm:
+                ingest(b"%PDF-1.7 fake", filename="mixed.pdf")
+        self.assertIn("2 (no text layer)", cm.exception.message)
+
+    def test_header_only_page_is_not_silently_dropped(self):
+        pages = ["CÔNG TY ABC\n" + "\n".join(BODY + str(i) for i in range(8)) + "\nTrang 1/2",
+                 "CÔNG TY ABC\nTrang 2/2"]
+        with self.assertRaises(IngestError) as cm:
+            self.run_pages(pages)
+        self.assertEqual(cm.exception.reason, "no_text")
+        self.assertIn("no body text", cm.exception.message)
+
+    def test_legacy_ocr_settings_cannot_reenable_scan_support(self):
+        with mock.patch.dict(ing.os.environ, {"OCR_ENGINE": "vlm", "OCR_API_KEY": "unused", "OCR_MODEL": "unused"}):
+            with self.assertRaises(IngestError) as cm:
+                self.run_pages(["", ""])
+        self.assertEqual(cm.exception.reason, "no_text")
 
     def test_short_last_page_is_normal(self):
         doc = self.run_pages([BODY * 3, BODY * 3, "BÊN CHO THUÊ          BÊN THUÊ\n(Ký, ghi rõ họ tên)"])
@@ -168,8 +192,9 @@ class TestRenderedTemplates(unittest.TestCase):
             src = Path(d) / "b.docx"
             src.write_bytes(make_docx(body, header=RUNNING_HEADER, footer=RUNNING_FOOTER))
             pdf = ing.convert_with_soffice(src.read_bytes(), ".docx", "pdf")
-        doc = ingest(pdf, filename="b.pdf")
-        self.assertTrue(any("no text layer" in w or "only" in w for w in doc.warnings), doc.warnings)
+        with self.assertRaises(IngestError) as cm:
+            ingest(pdf, filename="b.pdf")
+        self.assertEqual(cm.exception.reason, "no_text")
 
 
 @unittest.skipUnless(shutil.which("pdftotext"), "pdftotext not installed")

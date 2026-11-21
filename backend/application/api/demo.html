@@ -67,7 +67,8 @@ details { margin-top: 4px } summary { cursor: pointer; font-size: 14px }
 
   <section class="panel">
     <form id="form" class="upload">
-      <input id="file" type="file" accept=".pdf,.docx,.doc,.txt,.png,.jpg,.jpeg" required>
+      <p>TXT, DOCX, DOC hoặc PDF có lớp chữ. Không hỗ trợ PDF scan và ảnh.</p>
+      <input id="file" type="file" accept=".pdf,.docx,.doc,.txt" required>
       <button id="go" type="submit">Phân tích</button>
       <span id="elapsed" class="sub"></span>
     </form>

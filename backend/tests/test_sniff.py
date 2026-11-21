@@ -119,11 +119,19 @@ class TestIngestEntry(unittest.TestCase):
         self.assertEqual(len(doc.warnings), 1)
         self.assertIn("content is txt", doc.warnings[0])
 
-    def test_unimplemented_route(self):
-        with self.assertRaises(IngestError) as cm:
-            ingest(b"\x00\x00\x00\x18ftypheic\x00\x00", filename="p.heic")
-        self.assertEqual(cm.exception.reason, "not_implemented")
-        self.assertIn("JPEG", cm.exception.message)
+    def test_images_are_rejected_even_with_document_extensions(self):
+        images = [b"\x89PNG\r\n\x1a\n" + b"\x00" * 20,
+                  b"\xff\xd8\xff\xe0" + b"\x00" * 20,
+                  b"II*\x00" + b"\x00" * 20,
+                  b"RIFF\x00\x00\x00\x00WEBPVP8 ",
+                  b"\x00\x00\x00\x18ftypheic\x00\x00"]
+        for data in images:
+            for filename in ("photo.png", "contract.pdf", "contract.txt", "contract.docx"):
+                with self.subTest(kind=sniff(data), filename=filename):
+                    with self.assertRaises(IngestError) as cm:
+                        ingest(data, filename=filename)
+                    self.assertEqual(cm.exception.reason, "unsupported_type")
+                    self.assertIn("image input is not supported", cm.exception.message)
 
     def test_too_large(self):
         old = ing.MAX_BYTES
@@ -135,6 +143,7 @@ class TestIngestEntry(unittest.TestCase):
         finally:
             ing.MAX_BYTES = old
 
+    @unittest.skipUnless((TEMPLATES / "9_hop-dong.txt").exists(), "optional template not present")
     def test_path_input(self):
         doc = ingest(TEMPLATES / "9_hop-dong.txt")
         self.assertEqual(doc.source["filename"], "9_hop-dong.txt")

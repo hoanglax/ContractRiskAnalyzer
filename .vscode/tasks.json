@@ -9,7 +9,7 @@
     "args": [
         "-m",
         "uvicorn",
-        "app.main:app",
+        "application.main:app",
         "--app-dir",
         "backend",
         "--reload",

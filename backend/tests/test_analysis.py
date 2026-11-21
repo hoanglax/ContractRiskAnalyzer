@@ -10,6 +10,9 @@ from fastapi.testclient import TestClient
 from application.adapters.llm import LLMError, LLMResult
 from application.analysis import run
 from application.main import app
+from application.modules.legal_basis.basis import attach
+from application.modules.legal_retrieval import kb
+from tests.docx_fixtures import plain_docx
 
 CONTRACT = ("HỢP ĐỒNG THUÊ PHÒNG\nĐiều 1. Tiền cọc\nBên B đặt cọc 2 tháng tiền thuê. Bên A không hoàn trả tiền cọc "
             "trong mọi trường hợp.\nĐiều 2. Lãi chậm trả\nBên B chậm trả thì chịu lãi 2% mỗi ngày trên số tiền chậm trả.\n"
@@ -40,6 +43,14 @@ class FakeRetriever:
 
 
 class Analysis(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        # A clean checkout has no runtime cache. Tests build an isolated KB.
+        directory = tempfile.TemporaryDirectory()
+        cls.addClassCleanup(directory.cleanup)
+        cls.db = Path(directory.name) / "legal_kb.db"
+        kb.build(db_path=cls.db)
+
     def setUp(self):
         d = tempfile.TemporaryDirectory()
         self.addCleanup(d.cleanup)
@@ -48,6 +59,8 @@ class Analysis(unittest.TestCase):
             p.start()
             self.addCleanup(p.stop)
         for p in (mock.patch.dict(os.environ, {"STRUCTURE_LLM": "off"}),
+                  mock.patch("application.analysis.run.m4.attach",
+                             side_effect=lambda findings: attach(findings, db_path=self.db)),
                   mock.patch("application.modules.legal_basis.basis.default_retriever",
                              return_value=(FakeRetriever(), [])),
                   mock.patch("application.adapters.llm.chat", side_effect=fake_chat)):
@@ -74,6 +87,41 @@ class Analysis(unittest.TestCase):
         rid = self.client.post("/analyses", files={"file": ("x.txt", b"ngan qua", "text/plain")}).json()["id"]
         rec = self.client.get(f"/analyses/{rid}").json()
         self.assertEqual((rec["status"], rec["stage"], rec["error"]["code"]), ("failed", "ingest", "no_text"))
+
+    def test_docx_and_text_pdf_still_complete(self):
+        cases = [("hd.docx", plain_docx(CONTRACT.decode(), running=False)),
+                 ("hd.pdf", b"%PDF-1.7 mocked")]
+        with mock.patch("application.modules.ingestion.ingest._pdftotext", return_value=[CONTRACT.decode()]), \
+             mock.patch("application.modules.ingestion.ingest._pdf_page_count", return_value=1):
+            for filename, data in cases:
+                with self.subTest(filename=filename):
+                    response = self.client.post("/analyses", files={"file": (filename, data)})
+                    self.assertEqual(response.status_code, 201)
+                    rec = self.client.get(f"/analyses/{response.json()['id']}").json()
+                    self.assertEqual(rec["status"], "done", rec.get("error"))
+                    self.assertTrue(rec["items"])
+
+    def test_images_and_mixed_pdfs_fail_before_detection(self):
+        with mock.patch("application.modules.ingestion.ingest._pdftotext", return_value=[CONTRACT.decode(), ""]), \
+             mock.patch("application.modules.ingestion.ingest._pdf_page_count", return_value=2), \
+             mock.patch("application.analysis.run.detection.run") as detect:
+            for filename, data, code in [("photo.png", b"\x89PNG\r\n\x1a\n" + b"0" * 64, "unsupported_type"),
+                                          ("renamed.pdf", b"\xff\xd8\xff" + b"0" * 64, "unsupported_type"),
+                                          ("mixed.pdf", b"%PDF-1.7 mocked", "no_text")]:
+                with self.subTest(filename=filename):
+                    response = self.client.post("/analyses", files={"file": (filename, data)})
+                    self.assertEqual(response.status_code, 201)
+                    rec = self.client.get(f"/analyses/{response.json()['id']}").json()
+                    self.assertEqual((rec["status"], rec["stage"], rec["error"]["code"]),
+                                     ("failed", "ingest", code))
+                    self.assertEqual(rec["items"], [])
+            detect.assert_not_called()
+
+    def test_demo_advertises_only_supported_formats(self):
+        self.assertEqual(self.client.get("/health").json(), {"status": "ok"})
+        response = self.client.get("/demo")
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('accept=".pdf,.docx,.doc,.txt"', response.text)
 
     def test_model_down_fails_detection_but_a_later_stage_only_warns(self):
         with mock.patch("application.adapters.llm.chat", side_effect=LLMError("p: HTTP 503")):

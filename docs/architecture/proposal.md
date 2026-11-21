@@ -1,5 +1,11 @@
 # Đề xuất điều chỉnh kiến trúc ContractRiskAnalyzer
 
+> Ghi chú 19/11/2026: tài liệu thiết kế lịch sử, không phải toàn bộ hiện trạng runtime.
+> Phạm vi hiện hành chỉ nhận TXT/DOCX/DOC/PDF có lớp chữ; đã bỏ OCR và đầu vào ảnh.
+> Các đề xuất OCR/vision, lưu trữ và trạng thái mô-đun bên dưới phản ánh thiết kế cũ.
+> Xem [kiến trúc hiện hành](overview.md) và [API hiện hành](../api/README.md).
+
+
 **Trạng thái:** bản đề xuất, chờ nhóm thảo luận và thống nhất.
 **Phạm vi:** thay thế `system-architecture.md` sau khi nhóm chốt các đề xuất ở mục 4.
 

@@ -1,6 +1,6 @@
 services:
   # API + pipeline + demo UI (http://localhost:${PORT:-8000}/demo). Needs OPENROUTER_API_KEY in .env.
-  # The legal vector store is embedded inside this image; it does not use the qdrant service below.
+  # The legal vector store is embedded inside this image; no separate Qdrant server is needed.
   backend:
     build:
       context: .
@@ -16,16 +16,5 @@ services:
     volumes:
       - runs:/app/runs                   # analysis records and uploads survive restarts and rebuilds
 
-  qdrant:
-    image: qdrant/qdrant:latest
-    container_name: contract-risk-qdrant
-    restart: unless-stopped
-    ports:
-      - "6333:6333"
-      - "6334:6334"
-    volumes:
-      - qdrant_data:/qdrant/storage
-
 volumes:
-  qdrant_data:
   runs:

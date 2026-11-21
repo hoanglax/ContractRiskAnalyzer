@@ -1,9 +1,0 @@
-{
-  "error": {
-    "code": "FILE_REQUIRED",
-    "message": "A file must be provided in the 'file' field.",
-    "details": {
-      "field": "file"
-    }
-  }
-}

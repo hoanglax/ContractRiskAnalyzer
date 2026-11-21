@@ -1,5 +1,10 @@
 # API-01 — Implemented API Contract (repository snapshot)
 
+> Historical snapshot before the 2026-11-19 cleanup. OCR, image input and the unused draft
+> schema/examples mentioned below have since been removed. See [current API](README.md).
+> References to removed draft files below record the old state, not current file locations.
+
+
 **Status:** AS-IMPLEMENTED / reference for Team A–B review — **not approved canonical API**  
 **Reviewed:** 2026-11-09  
 **Evidence:** `backend/application/api/analyses.py`, `backend/application/main.py`, `backend/application/analysis/run.py`, `backend/application/modules/ingestion/ingest.py`, `frontend/src/App.tsx`, and `backend/tests/test_analysis.py`.

@@ -4,7 +4,7 @@ React + TypeScript + Vite UI for the **existing** FastAPI analysis pipeline.
 
 ## Run locally
 
-1. Start the existing backend as documented in `../backend/README.md` (default port 8000).
+1. Start the existing backend as documented in `../docs/setup.md` (default port 8000).
 2. From `frontend/`, run `npm ci` then `npm run dev`.
 3. Open `http://localhost:5173`.
 
@@ -18,5 +18,5 @@ The results view reuses the data layout of the backend's `/demo`: source text hi
 ## Scope / known gaps
 
 - Implements Sprint 2 UI-01 (single-file upload) and the available part of UI-02 (extracted contract text and risk items). Structured segmentation with dedicated clause IDs, numbers, source offsets, and API routes is not yet exposed as a stable contract by this backend; do not treat this UI as completed clause-segmentation acceptance.
-- File formats depend on backend ingestion adapters and configured providers. Do not upload real personal information to remote LLM/Vision services until the PII-redaction requirements in the SRS DEC-01 addendum are satisfied.
-- `docs/api/api-contract.md` includes draft response shapes that currently differ from the running `/analyses` API; reconcile them with the team before a production release.
+- Supported inputs are TXT, DOCX, DOC and text-layer PDF. Images and scanned PDFs are not supported. PDFs with any empty or broken text-layer page fail ingestion, including mixed text/scan files; remove genuinely blank pages before upload. Do not upload real personal information to remote LLM/Vision services until the PII-redaction requirements in the SRS DEC-01 addendum are satisfied.
+- See `../docs/api/README.md` for the current API. Upload still returns 201/queued before ingestion; rejected content is reported by polling as failed. The unused 202/analysis_id draft has been archived outside the repository.

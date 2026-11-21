@@ -125,7 +125,7 @@ def usage(calls: dict) -> dict:
 
 def _document(doc) -> dict:
     d = dataclasses.asdict(doc)
-    d.pop("raw", None)                        # per-page OCR provenance: large, and only for debugging ingest
+    d.pop("raw", None)                        # extraction/structure metadata: only for debugging ingest
     d.pop("blocks", None)
     return d
 

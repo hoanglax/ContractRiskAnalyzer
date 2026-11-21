@@ -18,16 +18,14 @@ instance is not disturbed.
 
 ## Contents
 
-Every diagram exists twice: `.mmd` (mermaid source, the single truth) and
-`.png` (regenerated artifact). Together they are the planned architecture
-(see `docs/architecture/proposal.md`): document first, then implement.
+Only `.mmd` sources are committed. PNG renders were removed during cleanup; the commands above recreate them when needed. See `docs/architecture/overview.md` for the current runtime scope; some module designs remain proposals.
 Diagrams marked *(planned)* describe code that does not match yet.
 
 - `ingest_top` - M1 Ingest top level: load + guards, magic-byte sniffing,
-  five routes, _finish quality check, Document and the IngestError codes.
+  four routes, _finish quality check, Document and the IngestError codes.
   (`backend/application/modules/ingestion/ingest.py`)
 - `route_pdf` - inside `route_pdf`: per-page text-layer quality check,
-  vision-OCR fallback for bad pages, header/footer stripping, per-page
+  whole-document rejection for empty or broken text-layer pages, header/footer stripping, per-page
   provenance in `raw`. (`ingest.py`)
 - `m2_top` - clause map entry `segment_auto`: tier 1, confidence decision,
   tier 2 fallback, keep-tier-1-with-warning paths. (`ingestion/structure_llm.py`)
@@ -78,4 +76,4 @@ Diagrams marked *(planned)* describe code that does not match yet.
 Not drawn: the taxonomy build (`taxonomy/taxonomy.py`, xlsx -> json) is an
 offline tool, rerun after each workbook edit; see `data/taxonomy/README.md`.
 
-Sources are the single truth; PNGs are regenerated artifacts.
+Sources are the single truth; PNGs are optional regenerated artifacts, not runtime assets.

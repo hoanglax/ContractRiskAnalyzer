@@ -26,10 +26,13 @@ from application.modules.ingestion.ingest import Document
 from application.modules.legal_basis.basis import LegalBasis
 from application.modules.taxonomy import taxonomy
 
+from . import packet_context
+
 log = logging.getLogger(__name__)
 MAX_LAW_CHARS = 800
 PARTY_VI = {"lessor": "bên cho thuê", "lessee": "bên thuê", "both": "cả hai bên"}
 _LREF = re.compile(r"\[L(\d+)\]")
+_PACKET_LREF = re.compile(r"\[\s*[Ll](?:\s*[+-]?\s*\d+|[A-Za-z0-9_-]*)\s*\]")
 # a law article written out by the model: "Điều 468 Bộ luật Dân sự", "Điều 172 khoản 1 của Luật Nhà ở" ...
 _SELF_CITED = re.compile(r"Điều\s+(\d+)\b[^.\n\[]{0,40}?\b(Bộ luật|Luật|BLDS|Nghị định|NĐ|Thông tư|TT)\b")
 
@@ -76,8 +79,7 @@ class Item:
     warnings: list[str] = field(default_factory=list)
 
 
-def group(doc: Document, findings: list[Finding], bases: list[dict], tax: taxonomy.Taxonomy) -> list[Item]:
-    """Items in contract order (missing last). `bases` is M4's items, aligned with `findings`."""
+def _clusters(findings: list[Finding], bases: list[dict]) -> list[list[tuple[Finding, dict]]]:
     pairs = list(zip(findings, bases))
     present = sorted((p for p in pairs if p[0].kind == "present"), key=lambda p: (p[0].char_start, -p[0].char_end))
     clusters: list[list[tuple[Finding, dict]]] = []
@@ -90,6 +92,15 @@ def group(doc: Document, findings: list[Finding], bases: list[dict], tax: taxono
             clusters.append([p])
             end = p[0].char_end
     clusters += [[p] for p in pairs if p[0].kind != "present"]
+    return clusters
+
+
+def group(doc: Document, findings: list[Finding], bases: list[dict], tax: taxonomy.Taxonomy) -> list[Item]:
+    """Items in contract order (missing last). `bases` is M4's items, aligned with `findings`."""
+    return _group_items(doc, _clusters(findings, bases), tax)
+
+
+def _group_items(doc, clusters, tax):
     order = taxonomy.SEVERITIES
     items = []
     for c in clusters:
@@ -122,7 +133,7 @@ def prompt_for(it: Item, tax: taxonomy.Taxonomy) -> str:
                          no_law="" if it.basis else " Danh sách trống: không nhắc tới điều luật nào.")
 
 
-def check(reply: str, it: Item) -> tuple[Explanation | None, str | None]:
+def check(reply: str, it: Item, *, packet_citations: bool = False) -> tuple[Explanation | None, str | None]:
     """The explanation with [Lk] resolved, or None and why it was dropped."""
     m = re.search(r"\{.*\}", reply, re.S)
     try:
@@ -132,9 +143,18 @@ def check(reply: str, it: Item) -> tuple[Explanation | None, str | None]:
     if not isinstance(d, dict) or not all(isinstance(d.get(k), str) and d[k].strip() for k in ("summary", "recommendation")):
         return None, "unparseable explain reply"
     text = d["summary"] + " " + d["recommendation"]
-    bad = sorted({int(n) for n in _LREF.findall(text) if not 1 <= int(n) <= len(it.basis)})
-    if bad:
-        return None, f"cites [L{bad[0]}], which is not in its legal basis"
+    if packet_citations:
+        allowed_refs = {f"[L{i}]" for i in range(1, len(it.basis) + 1)}
+        for ref in _PACKET_LREF.findall(text):
+            if ref not in allowed_refs:
+                safe_ref = ref if len(ref) <= 16 and ref.isascii() else "a malformed packet citation"
+                return None, f"cites {safe_ref}, which is not in its legal basis"
+        if re.search(_SELF_CITED.pattern, text, re.IGNORECASE):
+            return None, "writes out a legal citation instead of using a packet citation ID"
+    else:
+        bad = sorted({int(n) for n in _LREF.findall(text) if not 1 <= int(n) <= len(it.basis)})
+        if bad:
+            return None, f"cites [L{bad[0]}], which is not in its legal basis"
     allowed = {b.dieu for b in it.basis}
     own = sorted({int(n) for n, _ in _SELF_CITED.findall(text) if int(n) not in allowed})
     if own:
@@ -149,27 +169,91 @@ def check(reply: str, it: Item) -> tuple[Explanation | None, str | None]:
 
 
 def explain(doc: Document, findings: list[Finding], bases: list[dict], *, tax: taxonomy.Taxonomy | None = None,
-            task: str = "explain") -> dict:
+            task: str = "explain", context_run_id: str | None = None) -> dict:
     """{"items": [Item], "warnings": [str], "attempts": [{"codes", "raw", "finish", "usage", "model", "seconds"}]}"""
     tax = tax or taxonomy.load()
-    items = group(doc, findings, bases, tax)
+    if context_run_id is not None and len(findings) != len(bases):
+        items = group(doc, findings, [{"basis": []} for _ in findings], tax)
+        for it in items:
+            it.warnings.append("no explanation: legal attachments do not align with findings")
+        return {"items": items, "warnings": [], "attempts": []}
+    clusters = _clusters(findings, bases)
+    items = _group_items(doc, clusters, tax)
     t = time.monotonic()
     log.info("explain start: %d findings -> %d items", len(findings), len(items))
     attempts, warnings = [], []
 
-    def one(it):
+    context = None
+    messages_overridden = False
+    if context_run_id is not None:
         try:
-            return llm.chat(task, [{"role": "user", "content": prompt_for(it, tax)}])
+            context = packet_context.PacketContext.configure(context_run_id, task, tax)
+        except packet_context.MessageOverrideError:
+            messages_overridden = True
+        except (ValueError, TypeError, llm.LLMError):
+            warnings.append("context packet disabled for this run: check the explanation profile and context budget")
+
+    def prepared():
+        for it, cluster in zip(items, clusters):
+            if messages_overridden:
+                it.warnings.append("no explanation: model profile overrides explanation messages")
+                continue
+            if context_run_id is not None and any(
+                "code" in basis and basis["code"] != finding.code for finding, basis in cluster
+            ):
+                it.basis = []
+                it.warnings.append("no explanation: legal attachments do not align with findings")
+                continue
+            messages = [{"role": "user", "content": prompt_for(it, tax)}]
+            if context is None:
+                yield it, it, messages, False, None
+                continue
+            packet = None
+            try:
+                packet = context.build(doc, cluster)
+                enhanced = context.enhanced(packet, it)
+            except Exception as exc:
+                it.warnings.append(f"context packet unavailable ({type(exc).__name__}); using legacy explanation if it fits")
+                enhanced = None
+            if packet is not None:
+                it.warnings.extend(f"context packet: {code}" for code in dict.fromkeys(
+                    diagnostic.code for diagnostic in packet.diagnostics
+                ))
+            if enhanced is not None:
+                payload, scoped = enhanced
+                yield it, scoped, payload, True, packet_context.trace_for(packet, scoped, enhanced=True)
+                continue
+            if packet is not None and any(
+                d.code in {"invalid_legal_attachment", "conflicting_legal_attachment"}
+                for d in packet.diagnostics
+            ):
+                it.warnings.append("no explanation: invalid or conflicting legal attachments")
+                continue
+            if packet is not None and packet.data and packet.data.guidance:
+                it.warnings.append("context packet guidance omitted")
+            if packet_context.message_size(messages) > context.budget.allowance:
+                it.warnings.append("no explanation: context budget exceeded")
+                continue
+            trace = packet_context.trace_for(packet, it, enhanced=False) if packet else None
+            yield it, it, messages, False, trace
+
+    def one(job):
+        try:
+            if context is not None:
+                return llm.chat(task, job[2], cfg=context.llm_config)
+            return llm.chat(task, job[2])
         except llm.LLMError as e:
             return e
 
-    for it, r in zip(items, llm.map_calls(task, one, items)):
+    for (it, scoped, _, enhanced, trace), r in llm.map_calls(task, one, prepared(), with_inputs=True):
         if isinstance(r, llm.LLMError):
             it.warnings.append(f"no explanation: {r}")
             log.warning("%s: no explanation (%s)", "+".join(it.codes), r)
             continue
         attempts.append({"codes": it.codes, "raw": r.text, "finish": r.finish_reason, "usage": r.usage, "model": r.model, "seconds": r.seconds})
-        it.explanation, why = check(r.text, it)
+        if trace is not None:
+            attempts[-1]["context_packet"] = trace
+        it.explanation, why = check(r.text, scoped, packet_citations=enhanced)
         if why:
             it.warnings.append(f"explanation dropped: {why}")
             log.warning("%s: explanation dropped: %s", "+".join(it.codes), why)

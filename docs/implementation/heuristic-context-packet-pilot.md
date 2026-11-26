@@ -1,6 +1,6 @@
 # Offline Heuristic Context Packet Builder
 
-The [pilot module](../../backend/application/modules/context_packet/) implements the packet boundary from the [integration design](heuristic-context-builder-design.md). It consumes existing grounded findings and legal attachments. It has no runtime call site and does not render a model prompt, search the legal corpus, call a model or persist data.
+The [pilot module](../../backend/application/modules/context_packet/) implements the packet boundary from the [integration design](heuristic-context-builder-design.md). It consumes existing grounded findings and legal attachments. The builder remains independently usable offline and does not render a model prompt, search the legal corpus, call a model or persist data. The [optional Explanation adapter](heuristic-explanation-integration.md) provides its runtime call site.
 
 ## Input and output
 

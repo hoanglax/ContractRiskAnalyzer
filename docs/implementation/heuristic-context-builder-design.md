@@ -1,5 +1,7 @@
 # Heuristic Memory and Context Builder integration
 
+The proposed explanation integration now has a default-off implementation. See [Configuration and runtime behavior](heuristic-explanation-integration.md) for the operational contract, including the conservative budget and optional Explanation argument.
+
 **Proposed first integration:** Build context for each explanation item after risk detection has grounded its findings and legal basis has selected corpus passages. The Context Builder assembles a bounded packet of contract evidence, selected legal passages and approved reasoning guidance. Detection and legal selection keep their current inputs. The current seed contains 18 drafts, so the approved-only path contributes zero heuristic guidance until an authorized reviewer approves entries.
 
 ## Current pipeline
@@ -13,7 +15,7 @@
 | Legal basis | [`legal_basis/basis.py`](../../backend/application/modules/legal_basis/basis.py) → [`legal_retrieval/retriever.py`](../../backend/application/modules/legal_retrieval/retriever.py) | `attach()` creates one result per finding in the same order. It combines taxonomy-seeded candidates with corpus search. Default search combines BM25 and dense retrieval and can fall back to BM25. The model picks candidate IDs. Unknown IDs are dropped and `LegalBasis` text comes from the corpus. |
 | Explanation | [`explain/explain.py`](../../backend/application/modules/explain/explain.py) | `group()` clusters overlapping present findings, leaves missing findings as separate items and deduplicates attached legal passages by chunk ID. `prompt_for()` renders the item and numbers legal passages `[L1]`, `[L2]`, etc. `check()` parses the response, rejects out-of-range `[Lk]` references, checks a limited pattern for written-out article numbers, and resolves valid references to corpus labels. The run persists the resulting cards and warnings. |
 
-[Heuristic Memory v2](../../backend/application/modules/heuristic_memory/retriever.py) is a standalone local selector. It accepts plain text or an ordered list of explicit clause IDs and text. Its selection records include matched taxonomy hints, trigger and vocabulary phrases, clause IDs, and entry and snapshot versions. The repository contains a [future Context Builder note](heuristic-memory.md), with no implementation or runtime call site for Context Builder or Short-term Memory found in this checkout. The Short-term Memory contract below is a proposal for team agreement.
+[Heuristic Memory v2](../../backend/application/modules/heuristic_memory/retriever.py) is a local selector. It accepts plain text or an ordered list of explicit clause IDs and text. Its selection records include matched taxonomy hints, trigger and vocabulary phrases, clause IDs, and entry and snapshot versions. The [Context Packet Builder](heuristic-context-packet-pilot.md) implements the packet boundary. The Short-term Memory contract below remains a proposal for team agreement.
 
 ## Proposed insertion point and sequence
 
@@ -48,7 +50,7 @@ flowchart LR
 
 ## Proposed Python interfaces
 
-These interfaces describe the first implementation. They do not exist in the runtime yet. `LegalBasis`, `Document` and `Item` are existing types. The adapter maps a validated packet to the current explanation item and its basis order. Contract excerpts in the packet are slices of the current `Document.text`.
+These are design interfaces. The implementation uses `GroundedRisk` per finding, `ContextPacket.data` for its serialized payload, and `explain(..., context_run_id=...)` for the opt-in run handoff. `LegalBasis`, `Document` and `Item` are existing types. The adapter maps a validated packet to the current explanation item and its basis order. Contract excerpts in the packet are slices of the current `Document.text`.
 
 ```python
 from dataclasses import dataclass

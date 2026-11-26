@@ -191,7 +191,8 @@ def analyze(rid: str) -> dict:
             warn("legal_basis", bases["warnings"] + [w for b in bases["items"] for w in b["warnings"]])
 
             stage("explain")
-            ex = m6.explain(doc, det["findings"], bases["items"])
+            explain_options = {"context_run_id": rid} if m6.packet_context.enabled() else {}
+            ex = m6.explain(doc, det["findings"], bases["items"], **explain_options)
             tax = taxonomy.load()
             rec["items"] = [{**dataclasses.asdict(it),
                              "risks": [{"code": c, "name": tax.by_code[c].name, "severity": tax.by_code[c].severity,

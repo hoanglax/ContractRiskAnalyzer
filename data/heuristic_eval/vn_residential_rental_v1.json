@@ -1,0 +1,407 @@
+{
+  "schema_version": 1,
+  "domain": "vn_residential_rental",
+  "label_status": "provisional_requires_human_review",
+  "source": "synthetic",
+  "scenarios": [
+    {
+      "id": "VN-01",
+      "type": "positive",
+      "text": "Biên nhận ghi tiền giữ chỗ 4 triệu. Lịch thanh toán ghi khoản này được cấn trừ vào tháng đầu, nhưng phiếu ký hợp đồng lại ghi đó là khoản bảo đảm.",
+      "expected_ids": [
+        "deposit_identity"
+      ],
+      "explanation": "Cần đối chiếu mục đích của cùng một khoản chuyển."
+    },
+    {
+      "id": "VN-02",
+      "type": "positive",
+      "text": "Chủ nhà hoàn trả tiền cọc trong 10 ngày kể từ khi hai bên ký xác nhận thanh lý. Hợp đồng không nêu hạn ký xác nhận.",
+      "expected_ids": [
+        "deposit_refund_clock"
+      ],
+      "explanation": "Mốc tính hạn phụ thuộc vào chữ ký chưa có thời hạn."
+    },
+    {
+      "id": "VN-03",
+      "type": "positive",
+      "text": "Chủ nhà khấu trừ tiền cọc theo bảng kê do mình lập; bên thuê chỉ được xem chứng từ sau khi quyết toán.",
+      "expected_ids": [
+        "deposit_deductions"
+      ],
+      "explanation": "Cần kiểm tra căn cứ và chứng từ cho số tiền bị giữ."
+    },
+    {
+      "id": "VN-04",
+      "type": "positive",
+      "text": "Bên thuê mất cọc nếu tự rời căn hộ trước tháng thứ sáu, kể cả khi hai bên ký văn bản đồng ý cho dọn sớm.",
+      "expected_ids": [
+        "deposit_forfeiture"
+      ],
+      "explanation": "Cần xác định phạm vi chế tài khi hai bên đồng ý."
+    },
+    {
+      "id": "VN-05",
+      "type": "positive",
+      "text": "Chủ nhà được chấm dứt hợp đồng sau 7 ngày kể từ khi gửi thông báo; bên thuê có 7 ngày từ lúc nhận thư để khắc phục.",
+      "expected_ids": [
+        "termination_notice_clock"
+      ],
+      "explanation": "Hai đồng hồ gửi và nhận có thể lệch nhau."
+    },
+    {
+      "id": "VN-06",
+      "type": "positive",
+      "text": "Hợp đồng tự động gia hạn thêm sáu tháng nếu không báo trước 30 ngày tính từ ngày hết hạn.",
+      "expected_ids": [
+        "renewal_vs_exit"
+      ],
+      "explanation": "Cần xác định cửa sổ từ chối nối kỳ."
+    },
+    {
+      "id": "VN-07",
+      "type": "positive",
+      "text": "Giấy chứng nhận ghi tên bà H.; bên cho thuê ký tên ông T. và yêu cầu chuyển tiền vào tài khoản của mình.",
+      "expected_ids": [
+        "lessor_identity"
+      ],
+      "explanation": "Người ký và người đứng tên khác nhau."
+    },
+    {
+      "id": "VN-08",
+      "type": "positive",
+      "text": "Căn hộ thuộc sở hữu chung của hai chị em. Văn bản của người vắng mặt chỉ đồng ý cho người còn lại thu tiền.",
+      "expected_ids": [
+        "co_owner_consent"
+      ],
+      "explanation": "Phạm vi đồng ý thu tiền có thể khác phạm vi ký."
+    },
+    {
+      "id": "VN-09",
+      "type": "positive",
+      "text": "Bên thuê cấp một phòng cho người thuê lại trong 12 tháng; hợp đồng thuê gốc chỉ còn 8 tháng.",
+      "expected_ids": [
+        "sublease_scope"
+      ],
+      "explanation": "Thời hạn cấp lại vượt thời hạn còn lại."
+    },
+    {
+      "id": "VN-10",
+      "type": "positive",
+      "text": "Khi trả căn hộ, bên thuê phải sơn lại toàn bộ để khôi phục nguyên trạng, kể cả vết ố đã ghi lúc nhận.",
+      "expected_ids": [
+        "wear_baseline"
+      ],
+      "explanation": "Cần so sánh tình trạng ban đầu với yêu cầu phục hồi."
+    },
+    {
+      "id": "VN-11",
+      "type": "positive",
+      "text": "Nếu ống nước vỡ, bên thuê được sửa chữa khẩn cấp và yêu cầu hoàn trả chi phí khi có phiếu thu.",
+      "expected_ids": [
+        "repair_reimbursement"
+      ],
+      "explanation": "Điều khoản có quy trình chi trước và yêu cầu hoàn lại."
+    },
+    {
+      "id": "VN-12",
+      "type": "positive",
+      "text": "Bảo trì nhà tắm làm căn hộ không sử dụng được trong ba ngày; tiền thuê tháng đó vẫn tính đủ.",
+      "expected_ids": [
+        "repair_disruption"
+      ],
+      "explanation": "Cần đối chiếu thời gian mất công năng với tiền thuê."
+    },
+    {
+      "id": "VN-13",
+      "type": "positive",
+      "text": "Bên cho thuê có thể tăng giá thuê từ tháng thứ tư, theo mức tự xác định mỗi quý.",
+      "expected_ids": [
+        "rent_increase"
+      ],
+      "explanation": "Cần xác định cơ chế, kỳ áp dụng và giới hạn nếu có."
+    },
+    {
+      "id": "VN-14",
+      "type": "positive",
+      "text": "Tiền điện tính theo công tơ chung của hai căn; hai người thuê chia theo số người ở dù số ngày ở khác nhau.",
+      "expected_ids": [
+        "utility_service_fees"
+      ],
+      "explanation": "Cần kiểm tra cách phân bổ chi phí đo chung."
+    },
+    {
+      "id": "VN-15",
+      "type": "positive",
+      "text": "Giá thuê đã bao gồm thuế. Bên thuê nộp thay chủ nhà và được trừ số đã nộp vào kỳ kế tiếp.",
+      "expected_ids": [
+        "tax_incidence"
+      ],
+      "explanation": "Cần phân biệt chi phí cuối cùng với người nộp."
+    },
+    {
+      "id": "VN-16",
+      "type": "positive",
+      "text": "Nếu chậm trả 20 ngày, bên thuê chịu phạt vi phạm hai triệu, đồng thời bồi thường hai triệu cho chính khoản chậm đó.",
+      "expected_ids": [
+        "overlapping_remedies"
+      ],
+      "explanation": "Cần đối chiếu các chế tài gắn với cùng sự kiện."
+    },
+    {
+      "id": "VN-17",
+      "type": "positive",
+      "text": "Bên thuê trả nhà và nộp chìa khóa cho bảo vệ ngày 30; chủ nhà chỉ ký biên bản vào ngày 3 và tính thêm tiền tới ngày ký.",
+      "expected_ids": [
+        "return_milestones"
+      ],
+      "explanation": "Mốc trao chìa và ký xác nhận dẫn đến tiền thuê khác nhau."
+    },
+    {
+      "id": "VN-18",
+      "type": "positive",
+      "text": "Hợp đồng ghi thời hạn thuê 12 tháng, phụ lục có đủ chữ ký ghi 18 tháng và không nói điều khoản nào thay thế.",
+      "expected_ids": [
+        "annex_conflict"
+      ],
+      "explanation": "Hai văn bản quy định khác nhau về cùng thời hạn."
+    },
+    {
+      "id": "VN-19",
+      "type": "negative",
+      "text": "Bên thuê sử dụng căn hộ để ở tối đa ba người. Mèo nuôi phải đeo thẻ khi ra hành lang.",
+      "expected_ids": [],
+      "explanation": "Chỉ có nội quy cư trú và vật nuôi."
+    },
+    {
+      "id": "VN-20",
+      "type": "negative",
+      "text": "Phụ lục ghi mã màu rèm và hướng mở cửa sổ. Giá thuê ghi tại Điều 3 và hai bên xác nhận mức đó giữ nguyên suốt kỳ.",
+      "expected_ids": [],
+      "explanation": "Tài liệu đính kèm không sửa hay xung đột với giá."
+    },
+    {
+      "id": "VN-21",
+      "type": "negative",
+      "text": "Bên cho thuê bàn giao chìa khóa và biên bản kiểm kê vào buổi sáng ngày đầu kỳ.",
+      "expected_ids": [],
+      "explanation": "Đây là nhận nhà đầu kỳ, không phải trả nhà."
+    },
+    {
+      "id": "VN-22",
+      "type": "negative",
+      "text": "Hai bên không mất cọc trong trường hợp đổi chỗ đỗ xe; tiền cọc trong câu này là khoản riêng của thẻ xe.",
+      "expected_ids": [],
+      "explanation": "Khoản thẻ xe nằm ngoài tiền bảo đảm thuê căn hộ."
+    },
+    {
+      "id": "VN-23",
+      "type": "negative",
+      "text": "Bên thuê thông báo danh sách khách qua đêm. Đơn vị quản lý chấm dứt hợp đồng vệ sinh hành lang từ tháng sau.",
+      "expected_ids": [],
+      "explanation": "Thông báo và kết thúc dịch vụ không cùng sự kiện thuê."
+    },
+    {
+      "id": "VN-24",
+      "type": "negative",
+      "text": "Phí dịch vụ môi giới đã được thanh toán theo giấy biên nhận riêng trước khi ký hợp đồng thuê.",
+      "expected_ids": [],
+      "explanation": "Chỉ đề cập đến phí môi giới."
+    },
+    {
+      "id": "VN-25",
+      "type": "negative",
+      "text": "Cư dân để xe đạp ở tầng trệt và giữ nguyên trạng bảng tên gắn trên xe.",
+      "expected_ids": [],
+      "explanation": "Tình trạng bảng tên xe không phải tình trạng căn hộ."
+    },
+    {
+      "id": "VN-26",
+      "type": "negative",
+      "text": "Đến hết hạn bảo hành thẻ ra vào, cư dân có thể xin gia hạn hiệu lực thẻ tại quầy lễ tân.",
+      "expected_ids": [],
+      "explanation": "Việc gia hạn chỉ áp dụng cho thẻ."
+    },
+    {
+      "id": "VN-27",
+      "type": "paraphrased",
+      "text": "Khoản bảo đảm 15 triệu được chuyển lại cho người thuê trong vòng một tuần kể từ ngày chủ nhà nhận căn hộ.",
+      "expected_ids": [
+        "deposit_refund_clock"
+      ],
+      "explanation": "Đủ khoản tiền, hạn và mốc bắt đầu dù dùng cách gọi khác."
+    },
+    {
+      "id": "VN-28",
+      "type": "paraphrased",
+      "text": "Từ kỳ thứ bảy, chủ nhà được nâng mức tiền nhà thêm tối đa 600 nghìn mỗi tháng.",
+      "expected_ids": [
+        "rent_increase"
+      ],
+      "explanation": "Mức tiền nhà thay đổi theo kỳ."
+    },
+    {
+      "id": "VN-29",
+      "type": "paraphrased",
+      "text": "Ai muốn dọn đi giữa kỳ phải gửi thư trước một tháng; ngày tính là ngày bưu tá giao thư.",
+      "expected_ids": [
+        "termination_notice_clock"
+      ],
+      "explanation": "Rời giữa kỳ có quy tắc báo và bắt đầu tính hạn."
+    },
+    {
+      "id": "VN-30",
+      "type": "paraphrased",
+      "text": "Nơi ở thuộc về cả hai vợ chồng, nhưng chỉ người chồng ký và giấy của người vợ cho phép quản lý tòa nhà.",
+      "expected_ids": [
+        "co_owner_consent"
+      ],
+      "explanation": "Có nhiều người cùng đứng quyền và phạm vi cho phép chưa rõ."
+    },
+    {
+      "id": "VN-31",
+      "type": "paraphrased",
+      "text": "Nếu máy bơm hỏng lúc đêm, người thuê gọi thợ trước, ứng tiền rồi gửi phiếu để chủ nhà thanh toán lại.",
+      "expected_ids": [
+        "repair_reimbursement"
+      ],
+      "explanation": "Nêu đầy đủ tình huống, việc ứng tiền và hoàn lại."
+    },
+    {
+      "id": "VN-32",
+      "type": "paraphrased",
+      "text": "Mảng sơn bạc màu theo năm tháng vẫn bị tính vào chi phí làm mới lúc dọn ra dù ảnh lúc nhận đã có vết loang.",
+      "expected_ids": [
+        "wear_baseline"
+      ],
+      "explanation": "Cần phân biệt dấu vết có sẵn và hao mòn theo thời gian."
+    },
+    {
+      "id": "VN-33",
+      "type": "ambiguous",
+      "text": "Chủ nhà hoàn cọc sau khi quyết toán xong. Điều khoản không ghi ngày quyết toán hay bên chịu trách nhiệm lập bảng.",
+      "expected_ids": [
+        "deposit_refund_clock"
+      ],
+      "explanation": "Thiếu thông tin vẫn cần checklist về mốc hoàn trả."
+    },
+    {
+      "id": "VN-34",
+      "type": "ambiguous",
+      "text": "Bên thuê được sửa chữa sau khi thông báo. Văn bản chỉ nói về lịch vào nhà của thợ và không đề cập bên ứng hay chịu chi phí.",
+      "expected_ids": [],
+      "explanation": "Chưa có dấu hiệu cần phân tích quy trình hoàn tiền."
+    },
+    {
+      "id": "VN-35",
+      "type": "ambiguous",
+      "text": "Bên thuê trả nhà ngày 15. Chìa khóa gửi lễ tân nhưng chưa rõ lễ tân có quyền xác nhận thay chủ nhà.",
+      "expected_ids": [
+        "return_milestones"
+      ],
+      "explanation": "Thẩm quyền tiếp nhận cần được làm rõ."
+    },
+    {
+      "id": "VN-36",
+      "type": "ambiguous",
+      "text": "Hai bên sẽ xem xét điều chỉnh giá thuê khi tình hình thay đổi; chưa ghi ai có quyền quyết định hoặc thời điểm áp dụng.",
+      "expected_ids": [
+        "rent_increase"
+      ],
+      "explanation": "Có cơ chế điều chỉnh chưa xác định."
+    },
+    {
+      "id": "VN-37",
+      "type": "ambiguous",
+      "text": "Giá thuê ghi ở trang đầu; hóa đơn mua máy lạnh được lưu cùng hồ sơ. Không có điều khoản về cách phân bổ thuế thuê nhà.",
+      "expected_ids": [],
+      "explanation": "Hóa đơn thiết bị không cho thấy ai chịu hoặc nộp thuế thuê."
+    },
+    {
+      "id": "VN-38",
+      "type": "ambiguous",
+      "text": "Mục người ở bổ sung ghi em gái bên thuê được ở ba tháng và góp chi phí sinh hoạt. Không có giá thuê riêng hay quyền sử dụng độc lập.",
+      "expected_ids": [],
+      "explanation": "Chưa đủ dấu hiệu cho thuê lại trong tình huống này."
+    },
+    {
+      "id": "VN-39",
+      "type": "cross_clause",
+      "text": "Điều 4 hoàn cọc trong 7 ngày sau khi ký xác nhận. Điều 9 quy định trả nhà bằng cách gửi chìa khóa cho lễ tân nhưng không nói ai ký biên bản.",
+      "expected_ids": [
+        "deposit_refund_clock",
+        "return_milestones"
+      ],
+      "explanation": "Thủ tục trả nhà ảnh hưởng mốc chạy hạn hoàn cọc."
+    },
+    {
+      "id": "VN-40",
+      "type": "cross_clause",
+      "text": "Điều 5 ghi mất cọc nếu dọn sớm. Điều 8 cho dọn trước hạn nếu báo trước 30 ngày và ghi không áp dụng phạt vi phạm trong trường hợp này.",
+      "expected_ids": [
+        "deposit_forfeiture",
+        "termination_notice_clock"
+      ],
+      "explanation": "Cần đối chiếu quyền rời sớm và hậu quả; chưa có dấu hiệu hai chế tài cộng dồn."
+    },
+    {
+      "id": "VN-41",
+      "type": "cross_clause",
+      "text": "Điều 3 ghi giá thuê gồm phí quản lý. Phụ lục thanh toán ghi cùng loại phí thu thêm 400 nghìn mỗi tháng. Khoản phí dịch vụ môi giới đã được trả riêng.",
+      "expected_ids": [
+        "utility_service_fees",
+        "annex_conflict"
+      ],
+      "explanation": "Phí vận hành trùng giữa hai văn bản; phí môi giới là khoản khác."
+    },
+    {
+      "id": "VN-42",
+      "type": "cross_clause",
+      "text": "Điều 6 ghi trừ vào cọc chi phí sơn mới khi trả căn hộ. Biên bản lúc nhận ghi vết bong sơn cũ và phụ lục ảnh cho thấy vết còn nguyên.",
+      "expected_ids": [
+        "deposit_deductions",
+        "wear_baseline"
+      ],
+      "explanation": "Tính khoản khấu trừ bằng cách đối chiếu tình trạng gốc."
+    },
+    {
+      "id": "VN-43",
+      "type": "cross_clause",
+      "text": "Hợp đồng thuê gốc cho phép cho thuê lại căn hộ trong sáu tháng. Phụ lục của hợp đồng này chỉ nói không được cho thuê lại chỗ đỗ xe. Người thuê lại ký một năm.",
+      "expected_ids": [
+        "sublease_scope"
+      ],
+      "explanation": "Phạm vi chỗ đỗ xe không triệt tiêu việc xem xét căn hộ."
+    },
+    {
+      "id": "VN-44",
+      "type": "cross_clause",
+      "text": "Điều 5 quy định phạt vi phạm vì chậm tiền thuê. Điều 10 dùng cấn trừ tiền cọc để thu chính khoản phạt đó và ghi số tiền đã thu sẽ được ghi có.",
+      "expected_ids": [
+        "deposit_deductions",
+        "overlapping_remedies"
+      ],
+      "explanation": "Cần truy vết khoản trừ và xác định đây là cấn trừ thay vì thu hai lần."
+    },
+    {
+      "id": "VN-45",
+      "type": "cross_clause",
+      "text": "Điều 2 ghi tự động gia hạn nếu không báo trước khi hết hạn. Điều 7 nói phải báo trước 60 ngày khi chấm dứt giữa kỳ. Bên thuê định dọn đúng ngày cuối kỳ.",
+      "expected_ids": [
+        "renewal_vs_exit",
+        "termination_notice_clock"
+      ],
+      "explanation": "Cần phân biệt hai cơ chế và hai thời hạn."
+    },
+    {
+      "id": "VN-46",
+      "type": "cross_clause",
+      "text": "Điều 2 giữ giá thuê ổn định 12 tháng. Phụ lục ký sau ghi giá thuê mới từ tháng thứ sáu và bảng thanh toán lại giữ mức cũ.",
+      "expected_ids": [
+        "annex_conflict",
+        "rent_increase"
+      ],
+      "explanation": "Giá thay đổi và các văn bản dùng mốc khác nhau."
+    }
+  ]
+}

@@ -1,0 +1,968 @@
+{
+  "schema_version": "1.0.0",
+  "version": "1.0.0",
+  "heuristics": [
+    {
+      "kind": "reasoning_heuristic",
+      "id": "deposit_identity",
+      "domain": "vn_residential_rental",
+      "version": "1.0.0",
+      "title": "Distinguish deposit from advance rent",
+      "description": "Trace each transfer from reservation through lease signing and the first payment period.",
+      "risk_codes": [
+        "B-DEP-08",
+        "B-DEP-04"
+      ],
+      "vocabulary": [
+        "đặt cọc",
+        "tiền cọc",
+        "tiền giữ chỗ",
+        "trả trước",
+        "ứng trước",
+        "cấn trừ"
+      ],
+      "triggers": [
+        [
+          "đặt cọc",
+          "tiền cọc",
+          "tiền giữ chỗ"
+        ],
+        [
+          "trả trước",
+          "ứng trước",
+          "cấn trừ"
+        ]
+      ],
+      "exclusions": [
+        "không có khoản đặt cọc"
+      ],
+      "required_context": [
+        "Reservation receipt, payment schedule and first rent invoice"
+      ],
+      "cross_clause_checks": [
+        "Compare the receipt with the signing and rent-credit clauses"
+      ],
+      "reasoning_checklist": [
+        "Reconcile amount, recipient and contractual purpose for each transfer"
+      ],
+      "expected_behavior": "Report ambiguous allocation and keep advance rent separate from refundable security.",
+      "provenance": {
+        "origin": "ai_authored",
+        "source": "Synthetic editorial draft for Vietnamese residential rental review",
+        "status": "draft"
+      },
+      "examples": [
+        {
+          "kind": "linguistic_pattern",
+          "text": "đặt cọc … trả trước",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "kind": "reasoning_heuristic",
+      "id": "deposit_refund_clock",
+      "domain": "vn_residential_rental",
+      "version": "1.0.0",
+      "title": "Identify the deposit refund clock",
+      "description": "A refund period may start only after keys are returned, an exit record is signed or final utilities are settled.",
+      "risk_codes": [
+        "B-DEP-04",
+        "A-DEP-04"
+      ],
+      "vocabulary": [
+        "hoàn cọc",
+        "hoàn trả tiền cọc",
+        "trả lại tiền cọc"
+      ],
+      "triggers": [
+        [
+          "hoàn cọc",
+          "hoàn trả tiền cọc",
+          "trả lại tiền cọc"
+        ]
+      ],
+      "exclusions": [
+        "cọc giữ chỗ mua nhà"
+      ],
+      "required_context": [
+        "Refund interval, start event, signatories and final billing cycle"
+      ],
+      "cross_clause_checks": [
+        "Compare the refund clause with handover and utility settlement clauses"
+      ],
+      "reasoning_checklist": [
+        "Check who controls each prerequisite and whether an undisputed balance can be released"
+      ],
+      "expected_behavior": "State what starts the clock and flag dependencies that can defer payment.",
+      "provenance": {
+        "origin": "ai_authored",
+        "source": "Synthetic editorial draft for Vietnamese residential rental review",
+        "status": "draft"
+      },
+      "examples": [
+        {
+          "kind": "linguistic_pattern",
+          "text": "hoàn cọc",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "kind": "reasoning_heuristic",
+      "id": "deposit_deductions",
+      "domain": "vn_residential_rental",
+      "version": "1.0.0",
+      "title": "Reconcile deposit deductions and proof",
+      "description": "A deposit settlement can combine unpaid rent, utility balances and repair charges.",
+      "risk_codes": [
+        "B-DEP-02",
+        "A-DEP-02"
+      ],
+      "vocabulary": [
+        "khấu trừ tiền cọc",
+        "trừ vào cọc",
+        "cấn trừ tiền cọc"
+      ],
+      "triggers": [
+        [
+          "khấu trừ tiền cọc",
+          "trừ vào cọc",
+          "cấn trừ tiền cọc"
+        ]
+      ],
+      "exclusions": [],
+      "required_context": [
+        "Deposit amount, itemized deductions, receipts and settlement statement"
+      ],
+      "cross_clause_checks": [
+        "Match deduction items to the payment, maintenance and move-out clauses"
+      ],
+      "reasoning_checklist": [
+        "Trace each deduction to a charge and check for a remaining refundable balance"
+      ],
+      "expected_behavior": "Distinguish documented deductions from discretionary or unsupported ones.",
+      "provenance": {
+        "origin": "ai_authored",
+        "source": "Synthetic editorial draft for Vietnamese residential rental review",
+        "status": "draft"
+      },
+      "examples": [
+        {
+          "kind": "linguistic_pattern",
+          "text": "khấu trừ tiền cọc",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "kind": "reasoning_heuristic",
+      "id": "deposit_forfeiture",
+      "domain": "vn_residential_rental",
+      "version": "1.0.0",
+      "title": "Distinguish breach from agreed early exit",
+      "description": "A forfeiture provision may describe tenant breach while another clause permits early exit with notice.",
+      "risk_codes": [
+        "B-DEP-03",
+        "A-DEP-03"
+      ],
+      "vocabulary": [
+        "mất cọc",
+        "tịch thu tiền cọc",
+        "không hoàn cọc"
+      ],
+      "triggers": [
+        [
+          "mất cọc",
+          "tịch thu tiền cọc",
+          "không hoàn cọc"
+        ]
+      ],
+      "exclusions": [],
+      "required_context": [
+        "Forfeiture events, notice clauses, cure rights and party initiating exit"
+      ],
+      "cross_clause_checks": [
+        "Compare forfeiture language with tenant exit, mutual termination and landlord recovery clauses"
+      ],
+      "reasoning_checklist": [
+        "Map each exit scenario to its own deposit outcome"
+      ],
+      "expected_behavior": "Describe conditional outcomes and cite the relevant contract clauses.",
+      "provenance": {
+        "origin": "ai_authored",
+        "source": "Synthetic editorial draft for Vietnamese residential rental review",
+        "status": "draft"
+      },
+      "examples": [
+        {
+          "kind": "linguistic_pattern",
+          "text": "mất cọc",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "kind": "reasoning_heuristic",
+      "id": "termination_notice_clock",
+      "domain": "vn_residential_rental",
+      "version": "1.0.0",
+      "title": "Reconstruct notice and cure deadlines",
+      "description": "The effective date can turn on receipt of notice or expiration of a separate cure period.",
+      "risk_codes": [
+        "B-TRM-01",
+        "B-TRM-03",
+        "A-PEN-06"
+      ],
+      "vocabulary": [
+        "chấm dứt",
+        "thu hồi nhà",
+        "thông báo",
+        "báo trước",
+        "khắc phục"
+      ],
+      "triggers": [
+        [
+          "chấm dứt",
+          "thu hồi nhà"
+        ],
+        [
+          "thông báo",
+          "báo trước",
+          "khắc phục"
+        ]
+      ],
+      "exclusions": [
+        "chấm dứt hợp đồng môi giới"
+      ],
+      "required_context": [
+        "Notice channels, receipt date, day-count convention and cure period"
+      ],
+      "cross_clause_checks": [
+        "Compare the notice, breach, termination and handover clauses"
+      ],
+      "reasoning_checklist": [
+        "Build a timeline with service, cure, termination and key-return dates"
+      ],
+      "expected_behavior": "Flag conflicting start events and express unresolved timelines conditionally.",
+      "provenance": {
+        "origin": "ai_authored",
+        "source": "Synthetic editorial draft for Vietnamese residential rental review",
+        "status": "draft"
+      },
+      "examples": [
+        {
+          "kind": "linguistic_pattern",
+          "text": "chấm dứt … thông báo",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "kind": "reasoning_heuristic",
+      "id": "renewal_vs_exit",
+      "domain": "vn_residential_rental",
+      "version": "1.0.0",
+      "title": "Distinguish nonrenewal from early termination",
+      "description": "A notice window before expiry may govern automatic renewal and differ from the notice for breaking a current term.",
+      "risk_codes": [
+        "A-TRM-03",
+        "B-TRM-04"
+      ],
+      "vocabulary": [
+        "gia hạn",
+        "tự động gia hạn",
+        "hết hạn",
+        "báo trước",
+        "không gia hạn"
+      ],
+      "triggers": [
+        [
+          "gia hạn",
+          "tự động gia hạn"
+        ],
+        [
+          "hết hạn",
+          "báo trước",
+          "không gia hạn"
+        ]
+      ],
+      "exclusions": [],
+      "required_context": [
+        "End date, renewal mechanism, nonrenewal deadline and extension price"
+      ],
+      "cross_clause_checks": [
+        "Compare the term clause and renewal annex with early exit provisions"
+      ],
+      "reasoning_checklist": [
+        "Identify whether silence extends the existing term or opens fresh negotiations"
+      ],
+      "expected_behavior": "Describe the operative deadline and the consequence of missing it.",
+      "provenance": {
+        "origin": "ai_authored",
+        "source": "Synthetic editorial draft for Vietnamese residential rental review",
+        "status": "draft"
+      },
+      "examples": [
+        {
+          "kind": "linguistic_pattern",
+          "text": "gia hạn … hết hạn",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "kind": "reasoning_heuristic",
+      "id": "lessor_identity",
+      "domain": "vn_residential_rental",
+      "version": "1.0.0",
+      "title": "Trace the lessor’s authority chain",
+      "description": "The named lessor, signatory, title holder and deposit recipient may be different people.",
+      "risk_codes": [
+        "B-AUT-01",
+        "B-AUT-05",
+        "A-AUT-01"
+      ],
+      "vocabulary": [
+        "bên cho thuê",
+        "chủ nhà",
+        "giấy chứng nhận",
+        "ủy quyền",
+        "uỷ quyền",
+        "đứng tên"
+      ],
+      "triggers": [
+        [
+          "bên cho thuê",
+          "chủ nhà"
+        ],
+        [
+          "giấy chứng nhận",
+          "ủy quyền",
+          "uỷ quyền",
+          "đứng tên"
+        ]
+      ],
+      "exclusions": [],
+      "required_context": [
+        "Property identifier, title holder, signer, mandate and payee"
+      ],
+      "cross_clause_checks": [
+        "Compare party identification, signature block, authority documents and payment instructions"
+      ],
+      "reasoning_checklist": [
+        "Check property scope, mandate expiry and powers to lease and receive funds"
+      ],
+      "expected_behavior": "Identify missing links and request the corresponding documents.",
+      "provenance": {
+        "origin": "ai_authored",
+        "source": "Synthetic editorial draft for Vietnamese residential rental review",
+        "status": "draft"
+      },
+      "examples": [
+        {
+          "kind": "linguistic_pattern",
+          "text": "bên cho thuê … giấy chứng nhận",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "kind": "reasoning_heuristic",
+      "id": "co_owner_consent",
+      "domain": "vn_residential_rental",
+      "version": "1.0.0",
+      "title": "Check scope of co-owner consent",
+      "description": "A co-owner may sign for a shared property while consent covers only management or collection.",
+      "risk_codes": [
+        "B-AUT-02",
+        "A-AUT-02"
+      ],
+      "vocabulary": [
+        "đồng sở hữu",
+        "tài sản chung",
+        "sở hữu chung"
+      ],
+      "triggers": [
+        [
+          "đồng sở hữu",
+          "tài sản chung",
+          "sở hữu chung"
+        ]
+      ],
+      "exclusions": [],
+      "required_context": [
+        "Co-owner identity, shared property description and consent text"
+      ],
+      "cross_clause_checks": [
+        "Compare the names on ownership documents with the signatures and authorization annex"
+      ],
+      "reasoning_checklist": [
+        "Identify consenting parties and whether their consent covers the unit and lease term"
+      ],
+      "expected_behavior": "Record missing or unclear consent as a verification issue.",
+      "provenance": {
+        "origin": "ai_authored",
+        "source": "Synthetic editorial draft for Vietnamese residential rental review",
+        "status": "draft"
+      },
+      "examples": [
+        {
+          "kind": "linguistic_pattern",
+          "text": "đồng sở hữu",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "kind": "reasoning_heuristic",
+      "id": "sublease_scope",
+      "domain": "vn_residential_rental",
+      "version": "1.0.0",
+      "title": "Trace consent through the head lease",
+      "description": "A sublease may exceed the head lease term, approved unit or permitted use.",
+      "risk_codes": [
+        "B-AUT-01",
+        "A-AUT-01"
+      ],
+      "vocabulary": [
+        "cho thuê lại",
+        "hợp đồng thuê gốc",
+        "thuê lại"
+      ],
+      "triggers": [
+        [
+          "cho thuê lại",
+          "hợp đồng thuê gốc",
+          "thuê lại"
+        ]
+      ],
+      "exclusions": [
+        "cho thuê lại chỗ đỗ xe"
+      ],
+      "required_context": [
+        "Head lease, owner consent, sublet unit and both expiry dates"
+      ],
+      "cross_clause_checks": [
+        "Compare the head lease prohibition or consent clause to the sublease and attached approval"
+      ],
+      "reasoning_checklist": [
+        "Distinguish a true sublease from authorized occupants or guests and compare expiry dates"
+      ],
+      "expected_behavior": "Identify the authorizing document, scope and unresolved limits.",
+      "provenance": {
+        "origin": "ai_authored",
+        "source": "Synthetic editorial draft for Vietnamese residential rental review",
+        "status": "draft"
+      },
+      "examples": [
+        {
+          "kind": "linguistic_pattern",
+          "text": "cho thuê lại",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "kind": "reasoning_heuristic",
+      "id": "wear_baseline",
+      "domain": "vn_residential_rental",
+      "version": "1.0.0",
+      "title": "Compare wear against the move-in baseline",
+      "description": "A requirement to restore original condition can sweep in existing defects and use-related wear.",
+      "risk_codes": [
+        "B-MNT-01",
+        "B-TRM-05",
+        "B-PEN-02"
+      ],
+      "vocabulary": [
+        "hao mòn tự nhiên",
+        "hao mòn thông thường",
+        "xuống cấp",
+        "nguyên trạng"
+      ],
+      "triggers": [
+        [
+          "hao mòn tự nhiên",
+          "hao mòn thông thường",
+          "xuống cấp",
+          "nguyên trạng"
+        ]
+      ],
+      "exclusions": [],
+      "required_context": [
+        "Dated inventory, photos, age, move-out record and cause of damage"
+      ],
+      "cross_clause_checks": [
+        "Compare handover records with repair duties and deposit deductions"
+      ],
+      "reasoning_checklist": [
+        "Separate pre-existing conditions, ordinary wear and attributable damage"
+      ],
+      "expected_behavior": "Explain baseline gaps before assigning responsibility.",
+      "provenance": {
+        "origin": "ai_authored",
+        "source": "Synthetic editorial draft for Vietnamese residential rental review",
+        "status": "draft"
+      },
+      "examples": [
+        {
+          "kind": "linguistic_pattern",
+          "text": "hao mòn tự nhiên",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "kind": "reasoning_heuristic",
+      "id": "repair_reimbursement",
+      "domain": "vn_residential_rental",
+      "version": "1.0.0",
+      "title": "Trace repair approval and reimbursement",
+      "description": "Emergency repairs may follow a different process from tenant-funded improvements.",
+      "risk_codes": [
+        "A-MNT-03",
+        "B-MNT-04"
+      ],
+      "vocabulary": [
+        "sửa chữa",
+        "bảo trì",
+        "hoàn trả chi phí",
+        "chi phí hợp lý",
+        "khẩn cấp",
+        "thông báo"
+      ],
+      "triggers": [
+        [
+          "sửa chữa",
+          "bảo trì"
+        ],
+        [
+          "hoàn trả chi phí",
+          "chi phí hợp lý",
+          "khẩn cấp",
+          "thông báo"
+        ]
+      ],
+      "exclusions": [
+        "chi phí sửa chữa xe"
+      ],
+      "required_context": [
+        "Defect notice, response window, urgency, consent and invoice"
+      ],
+      "cross_clause_checks": [
+        "Compare repair duties with tenant alterations and reimbursement clauses"
+      ],
+      "reasoning_checklist": [
+        "Identify whether emergency work has a distinct authorization and reimbursement route"
+      ],
+      "expected_behavior": "State the documented steps and surface unresolved reimbursement conditions.",
+      "provenance": {
+        "origin": "ai_authored",
+        "source": "Synthetic editorial draft for Vietnamese residential rental review",
+        "status": "draft"
+      },
+      "examples": [
+        {
+          "kind": "linguistic_pattern",
+          "text": "sửa chữa … hoàn trả chi phí",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "kind": "reasoning_heuristic",
+      "id": "repair_disruption",
+      "domain": "vn_residential_rental",
+      "version": "1.0.0",
+      "title": "Check rent allocation during loss of use",
+      "description": "A repair period may leave only part of the premises usable while rent continues on its regular schedule.",
+      "risk_codes": [
+        "B-MNT-03",
+        "A-MNT-05"
+      ],
+      "vocabulary": [
+        "bảo trì",
+        "cải tạo",
+        "gián đoạn",
+        "không sử dụng được",
+        "tạm ngừng sử dụng"
+      ],
+      "triggers": [
+        [
+          "bảo trì",
+          "cải tạo"
+        ],
+        [
+          "gián đoạn",
+          "không sử dụng được",
+          "tạm ngừng sử dụng"
+        ]
+      ],
+      "exclusions": [],
+      "required_context": [
+        "Affected area, dates, access plan, temporary accommodation and rent schedule"
+      ],
+      "cross_clause_checks": [
+        "Compare repair access provisions with rent adjustment and early exit terms"
+      ],
+      "reasoning_checklist": [
+        "Distinguish partial room closure from loss of the entire unit"
+      ],
+      "expected_behavior": "Identify any express rent adjustment or relief and the periods it covers.",
+      "provenance": {
+        "origin": "ai_authored",
+        "source": "Synthetic editorial draft for Vietnamese residential rental review",
+        "status": "draft"
+      },
+      "examples": [
+        {
+          "kind": "linguistic_pattern",
+          "text": "bảo trì … gián đoạn",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "kind": "reasoning_heuristic",
+      "id": "rent_increase",
+      "domain": "vn_residential_rental",
+      "version": "1.0.0",
+      "title": "Reconcile scheduled and unilateral rent changes",
+      "description": "Different provisions can set a fixed initial rent, an escalation schedule and a discretionary reset.",
+      "risk_codes": [
+        "B-DEP-05",
+        "A-DEP-05",
+        "A-MNT-04"
+      ],
+      "vocabulary": [
+        "tăng giá thuê",
+        "điều chỉnh giá thuê",
+        "thay đổi giá thuê"
+      ],
+      "triggers": [
+        [
+          "tăng giá thuê",
+          "điều chỉnh giá thuê",
+          "thay đổi giá thuê"
+        ]
+      ],
+      "exclusions": [],
+      "required_context": [
+        "Fixed period, formula, cap, notice and effective dates"
+      ],
+      "cross_clause_checks": [
+        "Compare the rent table with renewal, improvement and amendment clauses"
+      ],
+      "reasoning_checklist": [
+        "Separate preset changes from discretionary changes and check which period each covers"
+      ],
+      "expected_behavior": "Show the relevant pricing mechanism and flag incompatible dates or formulas.",
+      "provenance": {
+        "origin": "ai_authored",
+        "source": "Synthetic editorial draft for Vietnamese residential rental review",
+        "status": "draft"
+      },
+      "examples": [
+        {
+          "kind": "linguistic_pattern",
+          "text": "tăng giá thuê",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "kind": "reasoning_heuristic",
+      "id": "utility_service_fees",
+      "domain": "vn_residential_rental",
+      "version": "1.0.0",
+      "title": "Reconcile service fees and utility billing",
+      "description": "Building fees, metered charges and shared charges can have different payees and calculation bases.",
+      "risk_codes": [
+        "B-DEP-07",
+        "A-DEP-07",
+        "B-DEP-08"
+      ],
+      "vocabulary": [
+        "phí quản lý",
+        "phí dịch vụ",
+        "tiền điện",
+        "tiền nước",
+        "phí gửi xe"
+      ],
+      "triggers": [
+        [
+          "phí quản lý",
+          "phí dịch vụ",
+          "tiền điện",
+          "tiền nước",
+          "phí gửi xe"
+        ]
+      ],
+      "exclusions": [
+        "phí dịch vụ môi giới"
+      ],
+      "required_context": [
+        "Included services, rates, meter readings, billing period and payees"
+      ],
+      "cross_clause_checks": [
+        "Compare inclusive rent wording with the fee annex and final utility settlement"
+      ],
+      "reasoning_checklist": [
+        "Check shared-meter allocation, pass-through charges and duplicate inclusions"
+      ],
+      "expected_behavior": "List charges with their basis and identify unclear or duplicate billing.",
+      "provenance": {
+        "origin": "ai_authored",
+        "source": "Synthetic editorial draft for Vietnamese residential rental review",
+        "status": "draft"
+      },
+      "examples": [
+        {
+          "kind": "linguistic_pattern",
+          "text": "phí quản lý",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "kind": "reasoning_heuristic",
+      "id": "tax_incidence",
+      "domain": "vn_residential_rental",
+      "version": "1.0.0",
+      "title": "Distinguish inclusive rent from tax paid on behalf",
+      "description": "The price schedule and invoice clause can disagree about who bears tax and who performs filing or payment.",
+      "risk_codes": [
+        "A-TAX-04",
+        "A-TAX-05",
+        "B-TAX-03"
+      ],
+      "vocabulary": [
+        "thuế",
+        "hóa đơn",
+        "hoá đơn",
+        "nộp thay",
+        "đã bao gồm",
+        "chưa bao gồm",
+        "giá thuê"
+      ],
+      "triggers": [
+        [
+          "thuế",
+          "hóa đơn",
+          "hoá đơn"
+        ],
+        [
+          "nộp thay",
+          "đã bao gồm",
+          "chưa bao gồm",
+          "giá thuê"
+        ]
+      ],
+      "exclusions": [],
+      "required_context": [
+        "Quoted price, included tax, payment on behalf and documentation obligations"
+      ],
+      "cross_clause_checks": [
+        "Compare rent and tax clauses with the invoice and proof-of-payment provisions"
+      ],
+      "reasoning_checklist": [
+        "Trace economic cost, remitter, cooperation and the handling of administrative penalties"
+      ],
+      "expected_behavior": "Describe the contract’s allocation and route statutory responsibility to the legal workflow.",
+      "provenance": {
+        "origin": "ai_authored",
+        "source": "Synthetic editorial draft for Vietnamese residential rental review",
+        "status": "draft"
+      },
+      "examples": [
+        {
+          "kind": "linguistic_pattern",
+          "text": "thuế … nộp thay",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "kind": "reasoning_heuristic",
+      "id": "overlapping_remedies",
+      "domain": "vn_residential_rental",
+      "version": "1.0.0",
+      "title": "Reconcile remedies for the same breach",
+      "description": "One missed payment or exit may trigger forfeiture, a fixed penalty and compensation calculated from the same loss.",
+      "risk_codes": [
+        "B-PEN-03",
+        "B-PEN-04",
+        "B-DEP-03"
+      ],
+      "vocabulary": [
+        "phạt vi phạm",
+        "bồi thường",
+        "lãi chậm trả",
+        "mất cọc",
+        "khấu trừ",
+        "cộng dồn",
+        "đồng thời",
+        "cấn trừ"
+      ],
+      "triggers": [
+        [
+          "phạt vi phạm",
+          "bồi thường",
+          "lãi chậm trả"
+        ],
+        [
+          "mất cọc",
+          "khấu trừ",
+          "cộng dồn",
+          "đồng thời",
+          "cấn trừ"
+        ]
+      ],
+      "exclusions": [],
+      "required_context": [
+        "Breach event, remedy formulas, loss evidence and any offsets"
+      ],
+      "cross_clause_checks": [
+        "Compare default, penalty, compensation, forfeiture and settlement clauses"
+      ],
+      "reasoning_checklist": [
+        "Map each remedy to the event and loss and identify alternative or credited amounts"
+      ],
+      "expected_behavior": "Report potential overlap with calculations where inputs are known.",
+      "provenance": {
+        "origin": "ai_authored",
+        "source": "Synthetic editorial draft for Vietnamese residential rental review",
+        "status": "draft"
+      },
+      "examples": [
+        {
+          "kind": "linguistic_pattern",
+          "text": "phạt vi phạm … mất cọc",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "kind": "reasoning_heuristic",
+      "id": "return_milestones",
+      "domain": "vn_residential_rental",
+      "version": "1.0.0",
+      "title": "Tie return obligations to a documented handover",
+      "description": "Vacating, delivering access devices and signing a handover record may occur on different dates.",
+      "risk_codes": [
+        "B-TRM-06",
+        "A-TRM-05",
+        "B-PEN-05"
+      ],
+      "vocabulary": [
+        "bàn giao",
+        "trả nhà",
+        "chìa khóa",
+        "chìa khoá",
+        "công tơ",
+        "biên bản",
+        "chậm bàn giao"
+      ],
+      "triggers": [
+        [
+          "bàn giao",
+          "trả nhà"
+        ],
+        [
+          "chìa khóa",
+          "chìa khoá",
+          "công tơ",
+          "biên bản",
+          "chậm bàn giao"
+        ]
+      ],
+      "exclusions": [],
+      "required_context": [
+        "Initial inventory, keys and access cards, meter readings, tender and signature dates"
+      ],
+      "cross_clause_checks": [
+        "Compare return criteria with late fees, rent cutoff and deposit refund triggers"
+      ],
+      "reasoning_checklist": [
+        "Check who can accept handover and how refusal or absence is recorded"
+      ],
+      "expected_behavior": "Identify the documented return event and any disputed timing dependencies.",
+      "provenance": {
+        "origin": "ai_authored",
+        "source": "Synthetic editorial draft for Vietnamese residential rental review",
+        "status": "draft"
+      },
+      "examples": [
+        {
+          "kind": "linguistic_pattern",
+          "text": "bàn giao … chìa khóa",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "kind": "reasoning_heuristic",
+      "id": "annex_conflict",
+      "domain": "vn_residential_rental",
+      "version": "1.0.0",
+      "title": "Resolve inconsistent annex and main-lease terms",
+      "description": "A signed annex can revise only one term while another copy or payment schedule retains the old figure.",
+      "risk_codes": [
+        "B-DEP-04",
+        "B-DEP-08",
+        "B-TRM-04"
+      ],
+      "vocabulary": [
+        "phụ lục",
+        "thỏa thuận bổ sung",
+        "thoả thuận bổ sung",
+        "ưu tiên áp dụng",
+        "mâu thuẫn",
+        "thay thế",
+        "tiền cọc",
+        "giá thuê",
+        "thời hạn thuê"
+      ],
+      "triggers": [
+        [
+          "phụ lục",
+          "thỏa thuận bổ sung",
+          "thoả thuận bổ sung"
+        ],
+        [
+          "ưu tiên áp dụng",
+          "mâu thuẫn",
+          "thay thế",
+          "tiền cọc",
+          "giá thuê",
+          "thời hạn thuê"
+        ]
+      ],
+      "exclusions": [],
+      "required_context": [
+        "Signed versions, dates, scope of amendment, parties and priority wording"
+      ],
+      "cross_clause_checks": [
+        "Compare the same payment, refund or term field across all versions and attachments"
+      ],
+      "reasoning_checklist": [
+        "Check incorporation, signatures, effective dates and express precedence before choosing a controlling term"
+      ],
+      "expected_behavior": "Report both clauses and mark precedence unresolved where documentation is incomplete.",
+      "provenance": {
+        "origin": "ai_authored",
+        "source": "Synthetic editorial draft for Vietnamese residential rental review",
+        "status": "draft"
+      },
+      "examples": [
+        {
+          "kind": "linguistic_pattern",
+          "text": "phụ lục … ưu tiên áp dụng",
+          "status": "draft"
+        }
+      ]
+    }
+  ],
+  "legal_rules": []
+}

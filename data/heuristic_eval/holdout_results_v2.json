@@ -1,0 +1,3439 @@
+{
+  "v1": {
+    "schema_version": 1,
+    "domain": "vn_residential_rental",
+    "label_status": "provisional_requires_human_review",
+    "dataset_sha256": "ba838fb7f1980269ac4d48e223c1b52412a2773eab6778f6ad6f793bd2ed1b97",
+    "knowledge_version": "1.0.0",
+    "knowledge_sha256": "1b51b84ac94b44181bfc2a6fe4f0ec945e4d50fc7cbc15b10a43b5c1e30dcee5",
+    "retriever_sha256": "31322d2b7869c5a2539c01ef6efcff615d7e7d43cd5e9e3d293bc458103a534d",
+    "settings": {
+      "include_drafts": true,
+      "risk_codes": [],
+      "categories": []
+    },
+    "results": {
+      "1": {
+        "overall": {
+          "scenarios": 30,
+          "expected_empty": 9,
+          "correct_empty": 4,
+          "false_positives": 5,
+          "false_negatives": 16,
+          "precision": 0.4,
+          "recall": 0.38333333333333336,
+          "hit": 0.4
+        },
+        "by_type": {
+          "positive": {
+            "scenarios": 6,
+            "expected_empty": 0,
+            "correct_empty": 0,
+            "false_positives": 0,
+            "false_negatives": 1,
+            "precision": 0.8333333333333334,
+            "recall": 0.8333333333333334,
+            "hit": 0.8333333333333334
+          },
+          "negative": {
+            "scenarios": 6,
+            "expected_empty": 6,
+            "correct_empty": 2,
+            "false_positives": 4,
+            "false_negatives": 0,
+            "precision": 0.3333333333333333,
+            "recall": 0.3333333333333333,
+            "hit": 0.3333333333333333
+          },
+          "paraphrased": {
+            "scenarios": 6,
+            "expected_empty": 0,
+            "correct_empty": 0,
+            "false_positives": 0,
+            "false_negatives": 6,
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          "ambiguous": {
+            "scenarios": 4,
+            "expected_empty": 2,
+            "correct_empty": 2,
+            "false_positives": 0,
+            "false_negatives": 2,
+            "precision": 0.5,
+            "recall": 0.5,
+            "hit": 0.5
+          },
+          "cross_clause": {
+            "scenarios": 8,
+            "expected_empty": 1,
+            "correct_empty": 0,
+            "false_positives": 1,
+            "false_negatives": 7,
+            "precision": 0.375,
+            "recall": 0.3125,
+            "hit": 0.375
+          }
+        },
+        "scenarios": [
+          {
+            "scenario_id": "HO-01",
+            "type": "positive",
+            "expected_ids": [
+              "overlapping_remedies"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "overlapping_remedies"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-02",
+            "type": "positive",
+            "expected_ids": [
+              "sublease_scope"
+            ],
+            "selected_ids": [
+              "sublease_scope"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-03",
+            "type": "positive",
+            "expected_ids": [
+              "utility_service_fees"
+            ],
+            "selected_ids": [
+              "utility_service_fees"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-04",
+            "type": "positive",
+            "expected_ids": [
+              "tax_incidence"
+            ],
+            "selected_ids": [
+              "tax_incidence"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-05",
+            "type": "positive",
+            "expected_ids": [
+              "termination_notice_clock"
+            ],
+            "selected_ids": [
+              "termination_notice_clock"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-06",
+            "type": "positive",
+            "expected_ids": [
+              "co_owner_consent"
+            ],
+            "selected_ids": [
+              "co_owner_consent"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-07",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-08",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-09",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [
+              "repair_disruption"
+            ],
+            "false_positives": [
+              "repair_disruption"
+            ],
+            "false_negatives": [],
+            "precision": 0.0,
+            "recall": 0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-10",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [
+              "termination_notice_clock"
+            ],
+            "false_positives": [
+              "termination_notice_clock"
+            ],
+            "false_negatives": [],
+            "precision": 0.0,
+            "recall": 0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-11",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [
+              "lessor_identity"
+            ],
+            "false_positives": [
+              "lessor_identity"
+            ],
+            "false_negatives": [],
+            "precision": 0.0,
+            "recall": 0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-12",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [
+              "return_milestones"
+            ],
+            "false_positives": [
+              "return_milestones"
+            ],
+            "false_negatives": [],
+            "precision": 0.0,
+            "recall": 0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-13",
+            "type": "paraphrased",
+            "expected_ids": [
+              "deposit_refund_clock"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "deposit_refund_clock"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-14",
+            "type": "paraphrased",
+            "expected_ids": [
+              "repair_reimbursement"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "repair_reimbursement"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-15",
+            "type": "paraphrased",
+            "expected_ids": [
+              "rent_increase"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "rent_increase"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-16",
+            "type": "paraphrased",
+            "expected_ids": [
+              "return_milestones"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "return_milestones"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-17",
+            "type": "paraphrased",
+            "expected_ids": [
+              "deposit_identity"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "deposit_identity"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-18",
+            "type": "paraphrased",
+            "expected_ids": [
+              "renewal_vs_exit"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "renewal_vs_exit"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-19",
+            "type": "ambiguous",
+            "expected_ids": [
+              "deposit_refund_clock"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "deposit_refund_clock"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-20",
+            "type": "ambiguous",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-21",
+            "type": "ambiguous",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-22",
+            "type": "ambiguous",
+            "expected_ids": [
+              "deposit_forfeiture"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "deposit_forfeiture"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-23",
+            "type": "cross_clause",
+            "expected_ids": [
+              "utility_service_fees",
+              "annex_conflict"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "annex_conflict",
+              "utility_service_fees"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-24",
+            "type": "cross_clause",
+            "expected_ids": [
+              "return_milestones",
+              "deposit_refund_clock"
+            ],
+            "selected_ids": [
+              "return_milestones"
+            ],
+            "false_positives": [],
+            "false_negatives": [
+              "deposit_refund_clock"
+            ],
+            "precision": 1.0,
+            "recall": 0.5,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-25",
+            "type": "cross_clause",
+            "expected_ids": [
+              "deposit_deductions",
+              "wear_baseline"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "deposit_deductions",
+              "wear_baseline"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-26",
+            "type": "cross_clause",
+            "expected_ids": [
+              "repair_disruption"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "repair_disruption"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-27",
+            "type": "cross_clause",
+            "expected_ids": [
+              "lessor_identity"
+            ],
+            "selected_ids": [
+              "lessor_identity"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-28",
+            "type": "cross_clause",
+            "expected_ids": [
+              "termination_notice_clock"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "termination_notice_clock"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-29",
+            "type": "cross_clause",
+            "expected_ids": [],
+            "selected_ids": [
+              "overlapping_remedies"
+            ],
+            "false_positives": [
+              "overlapping_remedies"
+            ],
+            "false_negatives": [],
+            "precision": 0.0,
+            "recall": 0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-30",
+            "type": "cross_clause",
+            "expected_ids": [
+              "sublease_scope"
+            ],
+            "selected_ids": [
+              "sublease_scope"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          }
+        ]
+      },
+      "3": {
+        "overall": {
+          "scenarios": 30,
+          "expected_empty": 9,
+          "correct_empty": 4,
+          "false_positives": 6,
+          "false_negatives": 16,
+          "precision": 0.4,
+          "recall": 0.38333333333333336,
+          "hit": 0.4
+        },
+        "by_type": {
+          "positive": {
+            "scenarios": 6,
+            "expected_empty": 0,
+            "correct_empty": 0,
+            "false_positives": 0,
+            "false_negatives": 1,
+            "precision": 0.8333333333333334,
+            "recall": 0.8333333333333334,
+            "hit": 0.8333333333333334
+          },
+          "negative": {
+            "scenarios": 6,
+            "expected_empty": 6,
+            "correct_empty": 2,
+            "false_positives": 5,
+            "false_negatives": 0,
+            "precision": 0.3333333333333333,
+            "recall": 0.3333333333333333,
+            "hit": 0.3333333333333333
+          },
+          "paraphrased": {
+            "scenarios": 6,
+            "expected_empty": 0,
+            "correct_empty": 0,
+            "false_positives": 0,
+            "false_negatives": 6,
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          "ambiguous": {
+            "scenarios": 4,
+            "expected_empty": 2,
+            "correct_empty": 2,
+            "false_positives": 0,
+            "false_negatives": 2,
+            "precision": 0.5,
+            "recall": 0.5,
+            "hit": 0.5
+          },
+          "cross_clause": {
+            "scenarios": 8,
+            "expected_empty": 1,
+            "correct_empty": 0,
+            "false_positives": 1,
+            "false_negatives": 7,
+            "precision": 0.375,
+            "recall": 0.3125,
+            "hit": 0.375
+          }
+        },
+        "scenarios": [
+          {
+            "scenario_id": "HO-01",
+            "type": "positive",
+            "expected_ids": [
+              "overlapping_remedies"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "overlapping_remedies"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-02",
+            "type": "positive",
+            "expected_ids": [
+              "sublease_scope"
+            ],
+            "selected_ids": [
+              "sublease_scope"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-03",
+            "type": "positive",
+            "expected_ids": [
+              "utility_service_fees"
+            ],
+            "selected_ids": [
+              "utility_service_fees"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-04",
+            "type": "positive",
+            "expected_ids": [
+              "tax_incidence"
+            ],
+            "selected_ids": [
+              "tax_incidence"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-05",
+            "type": "positive",
+            "expected_ids": [
+              "termination_notice_clock"
+            ],
+            "selected_ids": [
+              "termination_notice_clock"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-06",
+            "type": "positive",
+            "expected_ids": [
+              "co_owner_consent"
+            ],
+            "selected_ids": [
+              "co_owner_consent"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-07",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-08",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-09",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [
+              "repair_disruption"
+            ],
+            "false_positives": [
+              "repair_disruption"
+            ],
+            "false_negatives": [],
+            "precision": 0.0,
+            "recall": 0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-10",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [
+              "termination_notice_clock"
+            ],
+            "false_positives": [
+              "termination_notice_clock"
+            ],
+            "false_negatives": [],
+            "precision": 0.0,
+            "recall": 0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-11",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [
+              "lessor_identity",
+              "tax_incidence"
+            ],
+            "false_positives": [
+              "lessor_identity",
+              "tax_incidence"
+            ],
+            "false_negatives": [],
+            "precision": 0.0,
+            "recall": 0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-12",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [
+              "return_milestones"
+            ],
+            "false_positives": [
+              "return_milestones"
+            ],
+            "false_negatives": [],
+            "precision": 0.0,
+            "recall": 0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-13",
+            "type": "paraphrased",
+            "expected_ids": [
+              "deposit_refund_clock"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "deposit_refund_clock"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-14",
+            "type": "paraphrased",
+            "expected_ids": [
+              "repair_reimbursement"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "repair_reimbursement"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-15",
+            "type": "paraphrased",
+            "expected_ids": [
+              "rent_increase"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "rent_increase"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-16",
+            "type": "paraphrased",
+            "expected_ids": [
+              "return_milestones"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "return_milestones"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-17",
+            "type": "paraphrased",
+            "expected_ids": [
+              "deposit_identity"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "deposit_identity"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-18",
+            "type": "paraphrased",
+            "expected_ids": [
+              "renewal_vs_exit"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "renewal_vs_exit"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-19",
+            "type": "ambiguous",
+            "expected_ids": [
+              "deposit_refund_clock"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "deposit_refund_clock"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-20",
+            "type": "ambiguous",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-21",
+            "type": "ambiguous",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-22",
+            "type": "ambiguous",
+            "expected_ids": [
+              "deposit_forfeiture"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "deposit_forfeiture"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-23",
+            "type": "cross_clause",
+            "expected_ids": [
+              "utility_service_fees",
+              "annex_conflict"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "annex_conflict",
+              "utility_service_fees"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-24",
+            "type": "cross_clause",
+            "expected_ids": [
+              "return_milestones",
+              "deposit_refund_clock"
+            ],
+            "selected_ids": [
+              "return_milestones"
+            ],
+            "false_positives": [],
+            "false_negatives": [
+              "deposit_refund_clock"
+            ],
+            "precision": 1.0,
+            "recall": 0.5,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-25",
+            "type": "cross_clause",
+            "expected_ids": [
+              "deposit_deductions",
+              "wear_baseline"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "deposit_deductions",
+              "wear_baseline"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-26",
+            "type": "cross_clause",
+            "expected_ids": [
+              "repair_disruption"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "repair_disruption"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-27",
+            "type": "cross_clause",
+            "expected_ids": [
+              "lessor_identity"
+            ],
+            "selected_ids": [
+              "lessor_identity"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-28",
+            "type": "cross_clause",
+            "expected_ids": [
+              "termination_notice_clock"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "termination_notice_clock"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-29",
+            "type": "cross_clause",
+            "expected_ids": [],
+            "selected_ids": [
+              "overlapping_remedies"
+            ],
+            "false_positives": [
+              "overlapping_remedies"
+            ],
+            "false_negatives": [],
+            "precision": 0.0,
+            "recall": 0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-30",
+            "type": "cross_clause",
+            "expected_ids": [
+              "sublease_scope"
+            ],
+            "selected_ids": [
+              "sublease_scope"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          }
+        ]
+      },
+      "5": {
+        "overall": {
+          "scenarios": 30,
+          "expected_empty": 9,
+          "correct_empty": 4,
+          "false_positives": 6,
+          "false_negatives": 16,
+          "precision": 0.4,
+          "recall": 0.38333333333333336,
+          "hit": 0.4
+        },
+        "by_type": {
+          "positive": {
+            "scenarios": 6,
+            "expected_empty": 0,
+            "correct_empty": 0,
+            "false_positives": 0,
+            "false_negatives": 1,
+            "precision": 0.8333333333333334,
+            "recall": 0.8333333333333334,
+            "hit": 0.8333333333333334
+          },
+          "negative": {
+            "scenarios": 6,
+            "expected_empty": 6,
+            "correct_empty": 2,
+            "false_positives": 5,
+            "false_negatives": 0,
+            "precision": 0.3333333333333333,
+            "recall": 0.3333333333333333,
+            "hit": 0.3333333333333333
+          },
+          "paraphrased": {
+            "scenarios": 6,
+            "expected_empty": 0,
+            "correct_empty": 0,
+            "false_positives": 0,
+            "false_negatives": 6,
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          "ambiguous": {
+            "scenarios": 4,
+            "expected_empty": 2,
+            "correct_empty": 2,
+            "false_positives": 0,
+            "false_negatives": 2,
+            "precision": 0.5,
+            "recall": 0.5,
+            "hit": 0.5
+          },
+          "cross_clause": {
+            "scenarios": 8,
+            "expected_empty": 1,
+            "correct_empty": 0,
+            "false_positives": 1,
+            "false_negatives": 7,
+            "precision": 0.375,
+            "recall": 0.3125,
+            "hit": 0.375
+          }
+        },
+        "scenarios": [
+          {
+            "scenario_id": "HO-01",
+            "type": "positive",
+            "expected_ids": [
+              "overlapping_remedies"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "overlapping_remedies"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-02",
+            "type": "positive",
+            "expected_ids": [
+              "sublease_scope"
+            ],
+            "selected_ids": [
+              "sublease_scope"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-03",
+            "type": "positive",
+            "expected_ids": [
+              "utility_service_fees"
+            ],
+            "selected_ids": [
+              "utility_service_fees"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-04",
+            "type": "positive",
+            "expected_ids": [
+              "tax_incidence"
+            ],
+            "selected_ids": [
+              "tax_incidence"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-05",
+            "type": "positive",
+            "expected_ids": [
+              "termination_notice_clock"
+            ],
+            "selected_ids": [
+              "termination_notice_clock"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-06",
+            "type": "positive",
+            "expected_ids": [
+              "co_owner_consent"
+            ],
+            "selected_ids": [
+              "co_owner_consent"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-07",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-08",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-09",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [
+              "repair_disruption"
+            ],
+            "false_positives": [
+              "repair_disruption"
+            ],
+            "false_negatives": [],
+            "precision": 0.0,
+            "recall": 0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-10",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [
+              "termination_notice_clock"
+            ],
+            "false_positives": [
+              "termination_notice_clock"
+            ],
+            "false_negatives": [],
+            "precision": 0.0,
+            "recall": 0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-11",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [
+              "lessor_identity",
+              "tax_incidence"
+            ],
+            "false_positives": [
+              "lessor_identity",
+              "tax_incidence"
+            ],
+            "false_negatives": [],
+            "precision": 0.0,
+            "recall": 0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-12",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [
+              "return_milestones"
+            ],
+            "false_positives": [
+              "return_milestones"
+            ],
+            "false_negatives": [],
+            "precision": 0.0,
+            "recall": 0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-13",
+            "type": "paraphrased",
+            "expected_ids": [
+              "deposit_refund_clock"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "deposit_refund_clock"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-14",
+            "type": "paraphrased",
+            "expected_ids": [
+              "repair_reimbursement"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "repair_reimbursement"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-15",
+            "type": "paraphrased",
+            "expected_ids": [
+              "rent_increase"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "rent_increase"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-16",
+            "type": "paraphrased",
+            "expected_ids": [
+              "return_milestones"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "return_milestones"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-17",
+            "type": "paraphrased",
+            "expected_ids": [
+              "deposit_identity"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "deposit_identity"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-18",
+            "type": "paraphrased",
+            "expected_ids": [
+              "renewal_vs_exit"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "renewal_vs_exit"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-19",
+            "type": "ambiguous",
+            "expected_ids": [
+              "deposit_refund_clock"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "deposit_refund_clock"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-20",
+            "type": "ambiguous",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-21",
+            "type": "ambiguous",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-22",
+            "type": "ambiguous",
+            "expected_ids": [
+              "deposit_forfeiture"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "deposit_forfeiture"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-23",
+            "type": "cross_clause",
+            "expected_ids": [
+              "utility_service_fees",
+              "annex_conflict"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "annex_conflict",
+              "utility_service_fees"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-24",
+            "type": "cross_clause",
+            "expected_ids": [
+              "return_milestones",
+              "deposit_refund_clock"
+            ],
+            "selected_ids": [
+              "return_milestones"
+            ],
+            "false_positives": [],
+            "false_negatives": [
+              "deposit_refund_clock"
+            ],
+            "precision": 1.0,
+            "recall": 0.5,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-25",
+            "type": "cross_clause",
+            "expected_ids": [
+              "deposit_deductions",
+              "wear_baseline"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "deposit_deductions",
+              "wear_baseline"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-26",
+            "type": "cross_clause",
+            "expected_ids": [
+              "repair_disruption"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "repair_disruption"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-27",
+            "type": "cross_clause",
+            "expected_ids": [
+              "lessor_identity"
+            ],
+            "selected_ids": [
+              "lessor_identity"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-28",
+            "type": "cross_clause",
+            "expected_ids": [
+              "termination_notice_clock"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "termination_notice_clock"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-29",
+            "type": "cross_clause",
+            "expected_ids": [],
+            "selected_ids": [
+              "overlapping_remedies"
+            ],
+            "false_positives": [
+              "overlapping_remedies"
+            ],
+            "false_negatives": [],
+            "precision": 0.0,
+            "recall": 0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-30",
+            "type": "cross_clause",
+            "expected_ids": [
+              "sublease_scope"
+            ],
+            "selected_ids": [
+              "sublease_scope"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          }
+        ]
+      }
+    }
+  },
+  "v2": {
+    "schema_version": 1,
+    "domain": "vn_residential_rental",
+    "label_status": "provisional_requires_human_review",
+    "dataset_sha256": "ba838fb7f1980269ac4d48e223c1b52412a2773eab6778f6ad6f793bd2ed1b97",
+    "knowledge_version": "1.0.0",
+    "knowledge_sha256": "1b51b84ac94b44181bfc2a6fe4f0ec945e4d50fc7cbc15b10a43b5c1e30dcee5",
+    "retriever_sha256": "a53eb95c8c1e8685842478bf8ac0d6558d9e503884554ac8257983f3c06decef",
+    "matching_rules_sha256": "8eecb11347a5253920622deb84b3a141be3ef89f72db6c78d81d2756c9b09517",
+    "settings": {
+      "include_drafts": true,
+      "risk_codes": [],
+      "categories": []
+    },
+    "results": {
+      "1": {
+        "overall": {
+          "scenarios": 30,
+          "expected_empty": 9,
+          "correct_empty": 6,
+          "false_positives": 3,
+          "false_negatives": 10,
+          "precision": 0.6666666666666666,
+          "recall": 0.6166666666666667,
+          "hit": 0.6666666666666666
+        },
+        "by_type": {
+          "positive": {
+            "scenarios": 6,
+            "expected_empty": 0,
+            "correct_empty": 0,
+            "false_positives": 0,
+            "false_negatives": 1,
+            "precision": 0.8333333333333334,
+            "recall": 0.8333333333333334,
+            "hit": 0.8333333333333334
+          },
+          "negative": {
+            "scenarios": 6,
+            "expected_empty": 6,
+            "correct_empty": 4,
+            "false_positives": 2,
+            "false_negatives": 0,
+            "precision": 0.6666666666666666,
+            "recall": 0.6666666666666666,
+            "hit": 0.6666666666666666
+          },
+          "paraphrased": {
+            "scenarios": 6,
+            "expected_empty": 0,
+            "correct_empty": 0,
+            "false_positives": 0,
+            "false_negatives": 5,
+            "precision": 0.16666666666666666,
+            "recall": 0.16666666666666666,
+            "hit": 0.16666666666666666
+          },
+          "ambiguous": {
+            "scenarios": 4,
+            "expected_empty": 2,
+            "correct_empty": 1,
+            "false_positives": 1,
+            "false_negatives": 0,
+            "precision": 0.75,
+            "recall": 0.75,
+            "hit": 0.75
+          },
+          "cross_clause": {
+            "scenarios": 8,
+            "expected_empty": 1,
+            "correct_empty": 1,
+            "false_positives": 0,
+            "false_negatives": 4,
+            "precision": 0.875,
+            "recall": 0.6875,
+            "hit": 0.875
+          }
+        },
+        "scenarios": [
+          {
+            "scenario_id": "HO-01",
+            "type": "positive",
+            "expected_ids": [
+              "overlapping_remedies"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "overlapping_remedies"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-02",
+            "type": "positive",
+            "expected_ids": [
+              "sublease_scope"
+            ],
+            "selected_ids": [
+              "sublease_scope"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-03",
+            "type": "positive",
+            "expected_ids": [
+              "utility_service_fees"
+            ],
+            "selected_ids": [
+              "utility_service_fees"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-04",
+            "type": "positive",
+            "expected_ids": [
+              "tax_incidence"
+            ],
+            "selected_ids": [
+              "tax_incidence"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-05",
+            "type": "positive",
+            "expected_ids": [
+              "termination_notice_clock"
+            ],
+            "selected_ids": [
+              "termination_notice_clock"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-06",
+            "type": "positive",
+            "expected_ids": [
+              "co_owner_consent"
+            ],
+            "selected_ids": [
+              "co_owner_consent"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-07",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-08",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-09",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [
+              "repair_disruption"
+            ],
+            "false_positives": [
+              "repair_disruption"
+            ],
+            "false_negatives": [],
+            "precision": 0.0,
+            "recall": 0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-10",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-11",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [
+              "lessor_identity"
+            ],
+            "false_positives": [
+              "lessor_identity"
+            ],
+            "false_negatives": [],
+            "precision": 0.0,
+            "recall": 0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-12",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-13",
+            "type": "paraphrased",
+            "expected_ids": [
+              "deposit_refund_clock"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "deposit_refund_clock"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-14",
+            "type": "paraphrased",
+            "expected_ids": [
+              "repair_reimbursement"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "repair_reimbursement"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-15",
+            "type": "paraphrased",
+            "expected_ids": [
+              "rent_increase"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "rent_increase"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-16",
+            "type": "paraphrased",
+            "expected_ids": [
+              "return_milestones"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "return_milestones"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-17",
+            "type": "paraphrased",
+            "expected_ids": [
+              "deposit_identity"
+            ],
+            "selected_ids": [
+              "deposit_identity"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-18",
+            "type": "paraphrased",
+            "expected_ids": [
+              "renewal_vs_exit"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "renewal_vs_exit"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-19",
+            "type": "ambiguous",
+            "expected_ids": [
+              "deposit_refund_clock"
+            ],
+            "selected_ids": [
+              "deposit_refund_clock"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-20",
+            "type": "ambiguous",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-21",
+            "type": "ambiguous",
+            "expected_ids": [],
+            "selected_ids": [
+              "repair_reimbursement"
+            ],
+            "false_positives": [
+              "repair_reimbursement"
+            ],
+            "false_negatives": [],
+            "precision": 0.0,
+            "recall": 0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-22",
+            "type": "ambiguous",
+            "expected_ids": [
+              "deposit_forfeiture"
+            ],
+            "selected_ids": [
+              "deposit_forfeiture"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-23",
+            "type": "cross_clause",
+            "expected_ids": [
+              "utility_service_fees",
+              "annex_conflict"
+            ],
+            "selected_ids": [
+              "utility_service_fees"
+            ],
+            "false_positives": [],
+            "false_negatives": [
+              "annex_conflict"
+            ],
+            "precision": 1.0,
+            "recall": 0.5,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-24",
+            "type": "cross_clause",
+            "expected_ids": [
+              "return_milestones",
+              "deposit_refund_clock"
+            ],
+            "selected_ids": [
+              "return_milestones"
+            ],
+            "false_positives": [],
+            "false_negatives": [
+              "deposit_refund_clock"
+            ],
+            "precision": 1.0,
+            "recall": 0.5,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-25",
+            "type": "cross_clause",
+            "expected_ids": [
+              "deposit_deductions",
+              "wear_baseline"
+            ],
+            "selected_ids": [
+              "deposit_deductions"
+            ],
+            "false_positives": [],
+            "false_negatives": [
+              "wear_baseline"
+            ],
+            "precision": 1.0,
+            "recall": 0.5,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-26",
+            "type": "cross_clause",
+            "expected_ids": [
+              "repair_disruption"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "repair_disruption"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-27",
+            "type": "cross_clause",
+            "expected_ids": [
+              "lessor_identity"
+            ],
+            "selected_ids": [
+              "lessor_identity"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-28",
+            "type": "cross_clause",
+            "expected_ids": [
+              "termination_notice_clock"
+            ],
+            "selected_ids": [
+              "termination_notice_clock"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-29",
+            "type": "cross_clause",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-30",
+            "type": "cross_clause",
+            "expected_ids": [
+              "sublease_scope"
+            ],
+            "selected_ids": [
+              "sublease_scope"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          }
+        ]
+      },
+      "3": {
+        "overall": {
+          "scenarios": 30,
+          "expected_empty": 9,
+          "correct_empty": 6,
+          "false_positives": 3,
+          "false_negatives": 9,
+          "precision": 0.6666666666666666,
+          "recall": 0.6333333333333333,
+          "hit": 0.6666666666666666
+        },
+        "by_type": {
+          "positive": {
+            "scenarios": 6,
+            "expected_empty": 0,
+            "correct_empty": 0,
+            "false_positives": 0,
+            "false_negatives": 1,
+            "precision": 0.8333333333333334,
+            "recall": 0.8333333333333334,
+            "hit": 0.8333333333333334
+          },
+          "negative": {
+            "scenarios": 6,
+            "expected_empty": 6,
+            "correct_empty": 4,
+            "false_positives": 2,
+            "false_negatives": 0,
+            "precision": 0.6666666666666666,
+            "recall": 0.6666666666666666,
+            "hit": 0.6666666666666666
+          },
+          "paraphrased": {
+            "scenarios": 6,
+            "expected_empty": 0,
+            "correct_empty": 0,
+            "false_positives": 0,
+            "false_negatives": 5,
+            "precision": 0.16666666666666666,
+            "recall": 0.16666666666666666,
+            "hit": 0.16666666666666666
+          },
+          "ambiguous": {
+            "scenarios": 4,
+            "expected_empty": 2,
+            "correct_empty": 1,
+            "false_positives": 1,
+            "false_negatives": 0,
+            "precision": 0.75,
+            "recall": 0.75,
+            "hit": 0.75
+          },
+          "cross_clause": {
+            "scenarios": 8,
+            "expected_empty": 1,
+            "correct_empty": 1,
+            "false_positives": 0,
+            "false_negatives": 3,
+            "precision": 0.875,
+            "recall": 0.75,
+            "hit": 0.875
+          }
+        },
+        "scenarios": [
+          {
+            "scenario_id": "HO-01",
+            "type": "positive",
+            "expected_ids": [
+              "overlapping_remedies"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "overlapping_remedies"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-02",
+            "type": "positive",
+            "expected_ids": [
+              "sublease_scope"
+            ],
+            "selected_ids": [
+              "sublease_scope"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-03",
+            "type": "positive",
+            "expected_ids": [
+              "utility_service_fees"
+            ],
+            "selected_ids": [
+              "utility_service_fees"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-04",
+            "type": "positive",
+            "expected_ids": [
+              "tax_incidence"
+            ],
+            "selected_ids": [
+              "tax_incidence"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-05",
+            "type": "positive",
+            "expected_ids": [
+              "termination_notice_clock"
+            ],
+            "selected_ids": [
+              "termination_notice_clock"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-06",
+            "type": "positive",
+            "expected_ids": [
+              "co_owner_consent"
+            ],
+            "selected_ids": [
+              "co_owner_consent"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-07",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-08",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-09",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [
+              "repair_disruption"
+            ],
+            "false_positives": [
+              "repair_disruption"
+            ],
+            "false_negatives": [],
+            "precision": 0.0,
+            "recall": 0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-10",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-11",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [
+              "lessor_identity"
+            ],
+            "false_positives": [
+              "lessor_identity"
+            ],
+            "false_negatives": [],
+            "precision": 0.0,
+            "recall": 0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-12",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-13",
+            "type": "paraphrased",
+            "expected_ids": [
+              "deposit_refund_clock"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "deposit_refund_clock"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-14",
+            "type": "paraphrased",
+            "expected_ids": [
+              "repair_reimbursement"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "repair_reimbursement"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-15",
+            "type": "paraphrased",
+            "expected_ids": [
+              "rent_increase"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "rent_increase"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-16",
+            "type": "paraphrased",
+            "expected_ids": [
+              "return_milestones"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "return_milestones"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-17",
+            "type": "paraphrased",
+            "expected_ids": [
+              "deposit_identity"
+            ],
+            "selected_ids": [
+              "deposit_identity"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-18",
+            "type": "paraphrased",
+            "expected_ids": [
+              "renewal_vs_exit"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "renewal_vs_exit"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-19",
+            "type": "ambiguous",
+            "expected_ids": [
+              "deposit_refund_clock"
+            ],
+            "selected_ids": [
+              "deposit_refund_clock"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-20",
+            "type": "ambiguous",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-21",
+            "type": "ambiguous",
+            "expected_ids": [],
+            "selected_ids": [
+              "repair_reimbursement"
+            ],
+            "false_positives": [
+              "repair_reimbursement"
+            ],
+            "false_negatives": [],
+            "precision": 0.0,
+            "recall": 0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-22",
+            "type": "ambiguous",
+            "expected_ids": [
+              "deposit_forfeiture"
+            ],
+            "selected_ids": [
+              "deposit_forfeiture"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-23",
+            "type": "cross_clause",
+            "expected_ids": [
+              "utility_service_fees",
+              "annex_conflict"
+            ],
+            "selected_ids": [
+              "utility_service_fees"
+            ],
+            "false_positives": [],
+            "false_negatives": [
+              "annex_conflict"
+            ],
+            "precision": 1.0,
+            "recall": 0.5,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-24",
+            "type": "cross_clause",
+            "expected_ids": [
+              "return_milestones",
+              "deposit_refund_clock"
+            ],
+            "selected_ids": [
+              "return_milestones",
+              "deposit_refund_clock"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-25",
+            "type": "cross_clause",
+            "expected_ids": [
+              "deposit_deductions",
+              "wear_baseline"
+            ],
+            "selected_ids": [
+              "deposit_deductions"
+            ],
+            "false_positives": [],
+            "false_negatives": [
+              "wear_baseline"
+            ],
+            "precision": 1.0,
+            "recall": 0.5,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-26",
+            "type": "cross_clause",
+            "expected_ids": [
+              "repair_disruption"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "repair_disruption"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-27",
+            "type": "cross_clause",
+            "expected_ids": [
+              "lessor_identity"
+            ],
+            "selected_ids": [
+              "lessor_identity"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-28",
+            "type": "cross_clause",
+            "expected_ids": [
+              "termination_notice_clock"
+            ],
+            "selected_ids": [
+              "termination_notice_clock"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-29",
+            "type": "cross_clause",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-30",
+            "type": "cross_clause",
+            "expected_ids": [
+              "sublease_scope"
+            ],
+            "selected_ids": [
+              "sublease_scope"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          }
+        ]
+      },
+      "5": {
+        "overall": {
+          "scenarios": 30,
+          "expected_empty": 9,
+          "correct_empty": 6,
+          "false_positives": 3,
+          "false_negatives": 9,
+          "precision": 0.6666666666666666,
+          "recall": 0.6333333333333333,
+          "hit": 0.6666666666666666
+        },
+        "by_type": {
+          "positive": {
+            "scenarios": 6,
+            "expected_empty": 0,
+            "correct_empty": 0,
+            "false_positives": 0,
+            "false_negatives": 1,
+            "precision": 0.8333333333333334,
+            "recall": 0.8333333333333334,
+            "hit": 0.8333333333333334
+          },
+          "negative": {
+            "scenarios": 6,
+            "expected_empty": 6,
+            "correct_empty": 4,
+            "false_positives": 2,
+            "false_negatives": 0,
+            "precision": 0.6666666666666666,
+            "recall": 0.6666666666666666,
+            "hit": 0.6666666666666666
+          },
+          "paraphrased": {
+            "scenarios": 6,
+            "expected_empty": 0,
+            "correct_empty": 0,
+            "false_positives": 0,
+            "false_negatives": 5,
+            "precision": 0.16666666666666666,
+            "recall": 0.16666666666666666,
+            "hit": 0.16666666666666666
+          },
+          "ambiguous": {
+            "scenarios": 4,
+            "expected_empty": 2,
+            "correct_empty": 1,
+            "false_positives": 1,
+            "false_negatives": 0,
+            "precision": 0.75,
+            "recall": 0.75,
+            "hit": 0.75
+          },
+          "cross_clause": {
+            "scenarios": 8,
+            "expected_empty": 1,
+            "correct_empty": 1,
+            "false_positives": 0,
+            "false_negatives": 3,
+            "precision": 0.875,
+            "recall": 0.75,
+            "hit": 0.875
+          }
+        },
+        "scenarios": [
+          {
+            "scenario_id": "HO-01",
+            "type": "positive",
+            "expected_ids": [
+              "overlapping_remedies"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "overlapping_remedies"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-02",
+            "type": "positive",
+            "expected_ids": [
+              "sublease_scope"
+            ],
+            "selected_ids": [
+              "sublease_scope"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-03",
+            "type": "positive",
+            "expected_ids": [
+              "utility_service_fees"
+            ],
+            "selected_ids": [
+              "utility_service_fees"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-04",
+            "type": "positive",
+            "expected_ids": [
+              "tax_incidence"
+            ],
+            "selected_ids": [
+              "tax_incidence"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-05",
+            "type": "positive",
+            "expected_ids": [
+              "termination_notice_clock"
+            ],
+            "selected_ids": [
+              "termination_notice_clock"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-06",
+            "type": "positive",
+            "expected_ids": [
+              "co_owner_consent"
+            ],
+            "selected_ids": [
+              "co_owner_consent"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-07",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-08",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-09",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [
+              "repair_disruption"
+            ],
+            "false_positives": [
+              "repair_disruption"
+            ],
+            "false_negatives": [],
+            "precision": 0.0,
+            "recall": 0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-10",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-11",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [
+              "lessor_identity"
+            ],
+            "false_positives": [
+              "lessor_identity"
+            ],
+            "false_negatives": [],
+            "precision": 0.0,
+            "recall": 0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-12",
+            "type": "negative",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-13",
+            "type": "paraphrased",
+            "expected_ids": [
+              "deposit_refund_clock"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "deposit_refund_clock"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-14",
+            "type": "paraphrased",
+            "expected_ids": [
+              "repair_reimbursement"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "repair_reimbursement"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-15",
+            "type": "paraphrased",
+            "expected_ids": [
+              "rent_increase"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "rent_increase"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-16",
+            "type": "paraphrased",
+            "expected_ids": [
+              "return_milestones"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "return_milestones"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-17",
+            "type": "paraphrased",
+            "expected_ids": [
+              "deposit_identity"
+            ],
+            "selected_ids": [
+              "deposit_identity"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-18",
+            "type": "paraphrased",
+            "expected_ids": [
+              "renewal_vs_exit"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "renewal_vs_exit"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-19",
+            "type": "ambiguous",
+            "expected_ids": [
+              "deposit_refund_clock"
+            ],
+            "selected_ids": [
+              "deposit_refund_clock"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-20",
+            "type": "ambiguous",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-21",
+            "type": "ambiguous",
+            "expected_ids": [],
+            "selected_ids": [
+              "repair_reimbursement"
+            ],
+            "false_positives": [
+              "repair_reimbursement"
+            ],
+            "false_negatives": [],
+            "precision": 0.0,
+            "recall": 0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-22",
+            "type": "ambiguous",
+            "expected_ids": [
+              "deposit_forfeiture"
+            ],
+            "selected_ids": [
+              "deposit_forfeiture"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-23",
+            "type": "cross_clause",
+            "expected_ids": [
+              "utility_service_fees",
+              "annex_conflict"
+            ],
+            "selected_ids": [
+              "utility_service_fees"
+            ],
+            "false_positives": [],
+            "false_negatives": [
+              "annex_conflict"
+            ],
+            "precision": 1.0,
+            "recall": 0.5,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-24",
+            "type": "cross_clause",
+            "expected_ids": [
+              "return_milestones",
+              "deposit_refund_clock"
+            ],
+            "selected_ids": [
+              "return_milestones",
+              "deposit_refund_clock"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-25",
+            "type": "cross_clause",
+            "expected_ids": [
+              "deposit_deductions",
+              "wear_baseline"
+            ],
+            "selected_ids": [
+              "deposit_deductions"
+            ],
+            "false_positives": [],
+            "false_negatives": [
+              "wear_baseline"
+            ],
+            "precision": 1.0,
+            "recall": 0.5,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-26",
+            "type": "cross_clause",
+            "expected_ids": [
+              "repair_disruption"
+            ],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [
+              "repair_disruption"
+            ],
+            "precision": 0,
+            "recall": 0.0,
+            "hit": 0
+          },
+          {
+            "scenario_id": "HO-27",
+            "type": "cross_clause",
+            "expected_ids": [
+              "lessor_identity"
+            ],
+            "selected_ids": [
+              "lessor_identity"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-28",
+            "type": "cross_clause",
+            "expected_ids": [
+              "termination_notice_clock"
+            ],
+            "selected_ids": [
+              "termination_notice_clock"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-29",
+            "type": "cross_clause",
+            "expected_ids": [],
+            "selected_ids": [],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1,
+            "recall": 1,
+            "hit": 1
+          },
+          {
+            "scenario_id": "HO-30",
+            "type": "cross_clause",
+            "expected_ids": [
+              "sublease_scope"
+            ],
+            "selected_ids": [
+              "sublease_scope"
+            ],
+            "false_positives": [],
+            "false_negatives": [],
+            "precision": 1.0,
+            "recall": 1.0,
+            "hit": 1
+          }
+        ]
+      }
+    }
+  },
+  "selection_changes": {
+    "1": [
+      {
+        "scenario_id": "HO-10",
+        "v1_selected_ids": [
+          "termination_notice_clock"
+        ],
+        "v2_selected_ids": [],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-12",
+        "v1_selected_ids": [
+          "return_milestones"
+        ],
+        "v2_selected_ids": [],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-17",
+        "v1_selected_ids": [],
+        "v2_selected_ids": [
+          "deposit_identity"
+        ],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-19",
+        "v1_selected_ids": [],
+        "v2_selected_ids": [
+          "deposit_refund_clock"
+        ],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-21",
+        "v1_selected_ids": [],
+        "v2_selected_ids": [
+          "repair_reimbursement"
+        ],
+        "metrics_decreased": [
+          "precision",
+          "recall",
+          "hit"
+        ],
+        "new_false_positives": [
+          "repair_reimbursement"
+        ],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-22",
+        "v1_selected_ids": [],
+        "v2_selected_ids": [
+          "deposit_forfeiture"
+        ],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-23",
+        "v1_selected_ids": [],
+        "v2_selected_ids": [
+          "utility_service_fees"
+        ],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-25",
+        "v1_selected_ids": [],
+        "v2_selected_ids": [
+          "deposit_deductions"
+        ],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-28",
+        "v1_selected_ids": [],
+        "v2_selected_ids": [
+          "termination_notice_clock"
+        ],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-29",
+        "v1_selected_ids": [
+          "overlapping_remedies"
+        ],
+        "v2_selected_ids": [],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      }
+    ],
+    "3": [
+      {
+        "scenario_id": "HO-10",
+        "v1_selected_ids": [
+          "termination_notice_clock"
+        ],
+        "v2_selected_ids": [],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-11",
+        "v1_selected_ids": [
+          "lessor_identity",
+          "tax_incidence"
+        ],
+        "v2_selected_ids": [
+          "lessor_identity"
+        ],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-12",
+        "v1_selected_ids": [
+          "return_milestones"
+        ],
+        "v2_selected_ids": [],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-17",
+        "v1_selected_ids": [],
+        "v2_selected_ids": [
+          "deposit_identity"
+        ],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-19",
+        "v1_selected_ids": [],
+        "v2_selected_ids": [
+          "deposit_refund_clock"
+        ],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-21",
+        "v1_selected_ids": [],
+        "v2_selected_ids": [
+          "repair_reimbursement"
+        ],
+        "metrics_decreased": [
+          "precision",
+          "recall",
+          "hit"
+        ],
+        "new_false_positives": [
+          "repair_reimbursement"
+        ],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-22",
+        "v1_selected_ids": [],
+        "v2_selected_ids": [
+          "deposit_forfeiture"
+        ],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-23",
+        "v1_selected_ids": [],
+        "v2_selected_ids": [
+          "utility_service_fees"
+        ],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-24",
+        "v1_selected_ids": [
+          "return_milestones"
+        ],
+        "v2_selected_ids": [
+          "return_milestones",
+          "deposit_refund_clock"
+        ],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-25",
+        "v1_selected_ids": [],
+        "v2_selected_ids": [
+          "deposit_deductions"
+        ],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-28",
+        "v1_selected_ids": [],
+        "v2_selected_ids": [
+          "termination_notice_clock"
+        ],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-29",
+        "v1_selected_ids": [
+          "overlapping_remedies"
+        ],
+        "v2_selected_ids": [],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      }
+    ],
+    "5": [
+      {
+        "scenario_id": "HO-10",
+        "v1_selected_ids": [
+          "termination_notice_clock"
+        ],
+        "v2_selected_ids": [],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-11",
+        "v1_selected_ids": [
+          "lessor_identity",
+          "tax_incidence"
+        ],
+        "v2_selected_ids": [
+          "lessor_identity"
+        ],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-12",
+        "v1_selected_ids": [
+          "return_milestones"
+        ],
+        "v2_selected_ids": [],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-17",
+        "v1_selected_ids": [],
+        "v2_selected_ids": [
+          "deposit_identity"
+        ],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-19",
+        "v1_selected_ids": [],
+        "v2_selected_ids": [
+          "deposit_refund_clock"
+        ],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-21",
+        "v1_selected_ids": [],
+        "v2_selected_ids": [
+          "repair_reimbursement"
+        ],
+        "metrics_decreased": [
+          "precision",
+          "recall",
+          "hit"
+        ],
+        "new_false_positives": [
+          "repair_reimbursement"
+        ],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-22",
+        "v1_selected_ids": [],
+        "v2_selected_ids": [
+          "deposit_forfeiture"
+        ],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-23",
+        "v1_selected_ids": [],
+        "v2_selected_ids": [
+          "utility_service_fees"
+        ],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-24",
+        "v1_selected_ids": [
+          "return_milestones"
+        ],
+        "v2_selected_ids": [
+          "return_milestones",
+          "deposit_refund_clock"
+        ],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-25",
+        "v1_selected_ids": [],
+        "v2_selected_ids": [
+          "deposit_deductions"
+        ],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-28",
+        "v1_selected_ids": [],
+        "v2_selected_ids": [
+          "termination_notice_clock"
+        ],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      },
+      {
+        "scenario_id": "HO-29",
+        "v1_selected_ids": [
+          "overlapping_remedies"
+        ],
+        "v2_selected_ids": [],
+        "metrics_decreased": [],
+        "new_false_positives": [],
+        "new_false_negatives": []
+      }
+    ]
+  }
+}

@@ -1,0 +1,2323 @@
+{
+  "schema_version": 1,
+  "domain": "vn_residential_rental",
+  "label_status": "provisional_requires_human_review",
+  "dataset_sha256": "6ca3179f660ef97d37669778303c57ad45e6dc6e94603007fda5b296f773240d",
+  "knowledge_version": "1.0.0",
+  "knowledge_sha256": "1b51b84ac94b44181bfc2a6fe4f0ec945e4d50fc7cbc15b10a43b5c1e30dcee5",
+  "retriever_sha256": "31322d2b7869c5a2539c01ef6efcff615d7e7d43cd5e9e3d293bc458103a534d",
+  "settings": {
+    "include_drafts": true,
+    "risk_codes": [],
+    "categories": []
+  },
+  "results": {
+    "1": {
+      "overall": {
+        "scenarios": 46,
+        "expected_empty": 11,
+        "correct_empty": 3,
+        "false_positives": 10,
+        "false_negatives": 16,
+        "precision": 0.6304347826086957,
+        "recall": 0.5760869565217391,
+        "hit": 0.6304347826086957
+      },
+      "by_type": {
+        "positive": {
+          "scenarios": 18,
+          "expected_empty": 0,
+          "correct_empty": 0,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        "negative": {
+          "scenarios": 8,
+          "expected_empty": 8,
+          "correct_empty": 2,
+          "false_positives": 6,
+          "false_negatives": 0,
+          "precision": 0.25,
+          "recall": 0.25,
+          "hit": 0.25
+        },
+        "paraphrased": {
+          "scenarios": 6,
+          "expected_empty": 0,
+          "correct_empty": 0,
+          "false_positives": 0,
+          "false_negatives": 6,
+          "precision": 0,
+          "recall": 0.0,
+          "hit": 0
+        },
+        "ambiguous": {
+          "scenarios": 6,
+          "expected_empty": 3,
+          "correct_empty": 1,
+          "false_positives": 2,
+          "false_negatives": 0,
+          "precision": 0.6666666666666666,
+          "recall": 0.6666666666666666,
+          "hit": 0.6666666666666666
+        },
+        "cross_clause": {
+          "scenarios": 8,
+          "expected_empty": 0,
+          "correct_empty": 0,
+          "false_positives": 2,
+          "false_negatives": 10,
+          "precision": 0.625,
+          "recall": 0.3125,
+          "hit": 0.625
+        }
+      },
+      "scenarios": [
+        {
+          "scenario_id": "VN-01",
+          "type": "positive",
+          "expected_ids": [
+            "deposit_identity"
+          ],
+          "selected_ids": [
+            "deposit_identity"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-02",
+          "type": "positive",
+          "expected_ids": [
+            "deposit_refund_clock"
+          ],
+          "selected_ids": [
+            "deposit_refund_clock"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-03",
+          "type": "positive",
+          "expected_ids": [
+            "deposit_deductions"
+          ],
+          "selected_ids": [
+            "deposit_deductions"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-04",
+          "type": "positive",
+          "expected_ids": [
+            "deposit_forfeiture"
+          ],
+          "selected_ids": [
+            "deposit_forfeiture"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-05",
+          "type": "positive",
+          "expected_ids": [
+            "termination_notice_clock"
+          ],
+          "selected_ids": [
+            "termination_notice_clock"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-06",
+          "type": "positive",
+          "expected_ids": [
+            "renewal_vs_exit"
+          ],
+          "selected_ids": [
+            "renewal_vs_exit"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-07",
+          "type": "positive",
+          "expected_ids": [
+            "lessor_identity"
+          ],
+          "selected_ids": [
+            "lessor_identity"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-08",
+          "type": "positive",
+          "expected_ids": [
+            "co_owner_consent"
+          ],
+          "selected_ids": [
+            "co_owner_consent"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-09",
+          "type": "positive",
+          "expected_ids": [
+            "sublease_scope"
+          ],
+          "selected_ids": [
+            "sublease_scope"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-10",
+          "type": "positive",
+          "expected_ids": [
+            "wear_baseline"
+          ],
+          "selected_ids": [
+            "wear_baseline"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-11",
+          "type": "positive",
+          "expected_ids": [
+            "repair_reimbursement"
+          ],
+          "selected_ids": [
+            "repair_reimbursement"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-12",
+          "type": "positive",
+          "expected_ids": [
+            "repair_disruption"
+          ],
+          "selected_ids": [
+            "repair_disruption"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-13",
+          "type": "positive",
+          "expected_ids": [
+            "rent_increase"
+          ],
+          "selected_ids": [
+            "rent_increase"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-14",
+          "type": "positive",
+          "expected_ids": [
+            "utility_service_fees"
+          ],
+          "selected_ids": [
+            "utility_service_fees"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-15",
+          "type": "positive",
+          "expected_ids": [
+            "tax_incidence"
+          ],
+          "selected_ids": [
+            "tax_incidence"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-16",
+          "type": "positive",
+          "expected_ids": [
+            "overlapping_remedies"
+          ],
+          "selected_ids": [
+            "overlapping_remedies"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-17",
+          "type": "positive",
+          "expected_ids": [
+            "return_milestones"
+          ],
+          "selected_ids": [
+            "return_milestones"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-18",
+          "type": "positive",
+          "expected_ids": [
+            "annex_conflict"
+          ],
+          "selected_ids": [
+            "annex_conflict"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-19",
+          "type": "negative",
+          "expected_ids": [],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1,
+          "recall": 1,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-20",
+          "type": "negative",
+          "expected_ids": [],
+          "selected_ids": [
+            "annex_conflict"
+          ],
+          "false_positives": [
+            "annex_conflict"
+          ],
+          "false_negatives": [],
+          "precision": 0.0,
+          "recall": 0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-21",
+          "type": "negative",
+          "expected_ids": [],
+          "selected_ids": [
+            "return_milestones"
+          ],
+          "false_positives": [
+            "return_milestones"
+          ],
+          "false_negatives": [],
+          "precision": 0.0,
+          "recall": 0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-22",
+          "type": "negative",
+          "expected_ids": [],
+          "selected_ids": [
+            "deposit_forfeiture"
+          ],
+          "false_positives": [
+            "deposit_forfeiture"
+          ],
+          "false_negatives": [],
+          "precision": 0.0,
+          "recall": 0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-23",
+          "type": "negative",
+          "expected_ids": [],
+          "selected_ids": [
+            "termination_notice_clock"
+          ],
+          "false_positives": [
+            "termination_notice_clock"
+          ],
+          "false_negatives": [],
+          "precision": 0.0,
+          "recall": 0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-24",
+          "type": "negative",
+          "expected_ids": [],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1,
+          "recall": 1,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-25",
+          "type": "negative",
+          "expected_ids": [],
+          "selected_ids": [
+            "wear_baseline"
+          ],
+          "false_positives": [
+            "wear_baseline"
+          ],
+          "false_negatives": [],
+          "precision": 0.0,
+          "recall": 0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-26",
+          "type": "negative",
+          "expected_ids": [],
+          "selected_ids": [
+            "renewal_vs_exit"
+          ],
+          "false_positives": [
+            "renewal_vs_exit"
+          ],
+          "false_negatives": [],
+          "precision": 0.0,
+          "recall": 0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-27",
+          "type": "paraphrased",
+          "expected_ids": [
+            "deposit_refund_clock"
+          ],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [
+            "deposit_refund_clock"
+          ],
+          "precision": 0,
+          "recall": 0.0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-28",
+          "type": "paraphrased",
+          "expected_ids": [
+            "rent_increase"
+          ],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [
+            "rent_increase"
+          ],
+          "precision": 0,
+          "recall": 0.0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-29",
+          "type": "paraphrased",
+          "expected_ids": [
+            "termination_notice_clock"
+          ],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [
+            "termination_notice_clock"
+          ],
+          "precision": 0,
+          "recall": 0.0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-30",
+          "type": "paraphrased",
+          "expected_ids": [
+            "co_owner_consent"
+          ],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [
+            "co_owner_consent"
+          ],
+          "precision": 0,
+          "recall": 0.0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-31",
+          "type": "paraphrased",
+          "expected_ids": [
+            "repair_reimbursement"
+          ],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [
+            "repair_reimbursement"
+          ],
+          "precision": 0,
+          "recall": 0.0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-32",
+          "type": "paraphrased",
+          "expected_ids": [
+            "wear_baseline"
+          ],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [
+            "wear_baseline"
+          ],
+          "precision": 0,
+          "recall": 0.0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-33",
+          "type": "ambiguous",
+          "expected_ids": [
+            "deposit_refund_clock"
+          ],
+          "selected_ids": [
+            "deposit_refund_clock"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-34",
+          "type": "ambiguous",
+          "expected_ids": [],
+          "selected_ids": [
+            "repair_reimbursement"
+          ],
+          "false_positives": [
+            "repair_reimbursement"
+          ],
+          "false_negatives": [],
+          "precision": 0.0,
+          "recall": 0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-35",
+          "type": "ambiguous",
+          "expected_ids": [
+            "return_milestones"
+          ],
+          "selected_ids": [
+            "return_milestones"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-36",
+          "type": "ambiguous",
+          "expected_ids": [
+            "rent_increase"
+          ],
+          "selected_ids": [
+            "rent_increase"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-37",
+          "type": "ambiguous",
+          "expected_ids": [],
+          "selected_ids": [
+            "tax_incidence"
+          ],
+          "false_positives": [
+            "tax_incidence"
+          ],
+          "false_negatives": [],
+          "precision": 0.0,
+          "recall": 0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-38",
+          "type": "ambiguous",
+          "expected_ids": [],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1,
+          "recall": 1,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-39",
+          "type": "cross_clause",
+          "expected_ids": [
+            "deposit_refund_clock",
+            "return_milestones"
+          ],
+          "selected_ids": [
+            "return_milestones"
+          ],
+          "false_positives": [],
+          "false_negatives": [
+            "deposit_refund_clock"
+          ],
+          "precision": 1.0,
+          "recall": 0.5,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-40",
+          "type": "cross_clause",
+          "expected_ids": [
+            "deposit_forfeiture",
+            "termination_notice_clock"
+          ],
+          "selected_ids": [
+            "overlapping_remedies"
+          ],
+          "false_positives": [
+            "overlapping_remedies"
+          ],
+          "false_negatives": [
+            "deposit_forfeiture",
+            "termination_notice_clock"
+          ],
+          "precision": 0.0,
+          "recall": 0.0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-41",
+          "type": "cross_clause",
+          "expected_ids": [
+            "utility_service_fees",
+            "annex_conflict"
+          ],
+          "selected_ids": [
+            "annex_conflict"
+          ],
+          "false_positives": [],
+          "false_negatives": [
+            "utility_service_fees"
+          ],
+          "precision": 1.0,
+          "recall": 0.5,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-42",
+          "type": "cross_clause",
+          "expected_ids": [
+            "deposit_deductions",
+            "wear_baseline"
+          ],
+          "selected_ids": [
+            "deposit_deductions"
+          ],
+          "false_positives": [],
+          "false_negatives": [
+            "wear_baseline"
+          ],
+          "precision": 1.0,
+          "recall": 0.5,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-43",
+          "type": "cross_clause",
+          "expected_ids": [
+            "sublease_scope"
+          ],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [
+            "sublease_scope"
+          ],
+          "precision": 0,
+          "recall": 0.0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-44",
+          "type": "cross_clause",
+          "expected_ids": [
+            "deposit_deductions",
+            "overlapping_remedies"
+          ],
+          "selected_ids": [
+            "deposit_identity"
+          ],
+          "false_positives": [
+            "deposit_identity"
+          ],
+          "false_negatives": [
+            "deposit_deductions",
+            "overlapping_remedies"
+          ],
+          "precision": 0.0,
+          "recall": 0.0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-45",
+          "type": "cross_clause",
+          "expected_ids": [
+            "renewal_vs_exit",
+            "termination_notice_clock"
+          ],
+          "selected_ids": [
+            "renewal_vs_exit"
+          ],
+          "false_positives": [],
+          "false_negatives": [
+            "termination_notice_clock"
+          ],
+          "precision": 1.0,
+          "recall": 0.5,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-46",
+          "type": "cross_clause",
+          "expected_ids": [
+            "annex_conflict",
+            "rent_increase"
+          ],
+          "selected_ids": [
+            "annex_conflict"
+          ],
+          "false_positives": [],
+          "false_negatives": [
+            "rent_increase"
+          ],
+          "precision": 1.0,
+          "recall": 0.5,
+          "hit": 1
+        }
+      ]
+    },
+    "3": {
+      "overall": {
+        "scenarios": 46,
+        "expected_empty": 11,
+        "correct_empty": 3,
+        "false_positives": 10,
+        "false_negatives": 11,
+        "precision": 0.6557971014492754,
+        "recall": 0.6304347826086957,
+        "hit": 0.6739130434782609
+      },
+      "by_type": {
+        "positive": {
+          "scenarios": 18,
+          "expected_empty": 0,
+          "correct_empty": 0,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        "negative": {
+          "scenarios": 8,
+          "expected_empty": 8,
+          "correct_empty": 2,
+          "false_positives": 6,
+          "false_negatives": 0,
+          "precision": 0.25,
+          "recall": 0.25,
+          "hit": 0.25
+        },
+        "paraphrased": {
+          "scenarios": 6,
+          "expected_empty": 0,
+          "correct_empty": 0,
+          "false_positives": 0,
+          "false_negatives": 6,
+          "precision": 0,
+          "recall": 0.0,
+          "hit": 0
+        },
+        "ambiguous": {
+          "scenarios": 6,
+          "expected_empty": 3,
+          "correct_empty": 1,
+          "false_positives": 2,
+          "false_negatives": 0,
+          "precision": 0.6666666666666666,
+          "recall": 0.6666666666666666,
+          "hit": 0.6666666666666666
+        },
+        "cross_clause": {
+          "scenarios": 8,
+          "expected_empty": 0,
+          "correct_empty": 0,
+          "false_positives": 2,
+          "false_negatives": 5,
+          "precision": 0.7708333333333334,
+          "recall": 0.625,
+          "hit": 0.875
+        }
+      },
+      "scenarios": [
+        {
+          "scenario_id": "VN-01",
+          "type": "positive",
+          "expected_ids": [
+            "deposit_identity"
+          ],
+          "selected_ids": [
+            "deposit_identity"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-02",
+          "type": "positive",
+          "expected_ids": [
+            "deposit_refund_clock"
+          ],
+          "selected_ids": [
+            "deposit_refund_clock"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-03",
+          "type": "positive",
+          "expected_ids": [
+            "deposit_deductions"
+          ],
+          "selected_ids": [
+            "deposit_deductions"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-04",
+          "type": "positive",
+          "expected_ids": [
+            "deposit_forfeiture"
+          ],
+          "selected_ids": [
+            "deposit_forfeiture"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-05",
+          "type": "positive",
+          "expected_ids": [
+            "termination_notice_clock"
+          ],
+          "selected_ids": [
+            "termination_notice_clock"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-06",
+          "type": "positive",
+          "expected_ids": [
+            "renewal_vs_exit"
+          ],
+          "selected_ids": [
+            "renewal_vs_exit"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-07",
+          "type": "positive",
+          "expected_ids": [
+            "lessor_identity"
+          ],
+          "selected_ids": [
+            "lessor_identity"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-08",
+          "type": "positive",
+          "expected_ids": [
+            "co_owner_consent"
+          ],
+          "selected_ids": [
+            "co_owner_consent"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-09",
+          "type": "positive",
+          "expected_ids": [
+            "sublease_scope"
+          ],
+          "selected_ids": [
+            "sublease_scope"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-10",
+          "type": "positive",
+          "expected_ids": [
+            "wear_baseline"
+          ],
+          "selected_ids": [
+            "wear_baseline"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-11",
+          "type": "positive",
+          "expected_ids": [
+            "repair_reimbursement"
+          ],
+          "selected_ids": [
+            "repair_reimbursement"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-12",
+          "type": "positive",
+          "expected_ids": [
+            "repair_disruption"
+          ],
+          "selected_ids": [
+            "repair_disruption"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-13",
+          "type": "positive",
+          "expected_ids": [
+            "rent_increase"
+          ],
+          "selected_ids": [
+            "rent_increase"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-14",
+          "type": "positive",
+          "expected_ids": [
+            "utility_service_fees"
+          ],
+          "selected_ids": [
+            "utility_service_fees"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-15",
+          "type": "positive",
+          "expected_ids": [
+            "tax_incidence"
+          ],
+          "selected_ids": [
+            "tax_incidence"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-16",
+          "type": "positive",
+          "expected_ids": [
+            "overlapping_remedies"
+          ],
+          "selected_ids": [
+            "overlapping_remedies"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-17",
+          "type": "positive",
+          "expected_ids": [
+            "return_milestones"
+          ],
+          "selected_ids": [
+            "return_milestones"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-18",
+          "type": "positive",
+          "expected_ids": [
+            "annex_conflict"
+          ],
+          "selected_ids": [
+            "annex_conflict"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-19",
+          "type": "negative",
+          "expected_ids": [],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1,
+          "recall": 1,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-20",
+          "type": "negative",
+          "expected_ids": [],
+          "selected_ids": [
+            "annex_conflict"
+          ],
+          "false_positives": [
+            "annex_conflict"
+          ],
+          "false_negatives": [],
+          "precision": 0.0,
+          "recall": 0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-21",
+          "type": "negative",
+          "expected_ids": [],
+          "selected_ids": [
+            "return_milestones"
+          ],
+          "false_positives": [
+            "return_milestones"
+          ],
+          "false_negatives": [],
+          "precision": 0.0,
+          "recall": 0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-22",
+          "type": "negative",
+          "expected_ids": [],
+          "selected_ids": [
+            "deposit_forfeiture"
+          ],
+          "false_positives": [
+            "deposit_forfeiture"
+          ],
+          "false_negatives": [],
+          "precision": 0.0,
+          "recall": 0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-23",
+          "type": "negative",
+          "expected_ids": [],
+          "selected_ids": [
+            "termination_notice_clock"
+          ],
+          "false_positives": [
+            "termination_notice_clock"
+          ],
+          "false_negatives": [],
+          "precision": 0.0,
+          "recall": 0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-24",
+          "type": "negative",
+          "expected_ids": [],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1,
+          "recall": 1,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-25",
+          "type": "negative",
+          "expected_ids": [],
+          "selected_ids": [
+            "wear_baseline"
+          ],
+          "false_positives": [
+            "wear_baseline"
+          ],
+          "false_negatives": [],
+          "precision": 0.0,
+          "recall": 0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-26",
+          "type": "negative",
+          "expected_ids": [],
+          "selected_ids": [
+            "renewal_vs_exit"
+          ],
+          "false_positives": [
+            "renewal_vs_exit"
+          ],
+          "false_negatives": [],
+          "precision": 0.0,
+          "recall": 0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-27",
+          "type": "paraphrased",
+          "expected_ids": [
+            "deposit_refund_clock"
+          ],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [
+            "deposit_refund_clock"
+          ],
+          "precision": 0,
+          "recall": 0.0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-28",
+          "type": "paraphrased",
+          "expected_ids": [
+            "rent_increase"
+          ],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [
+            "rent_increase"
+          ],
+          "precision": 0,
+          "recall": 0.0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-29",
+          "type": "paraphrased",
+          "expected_ids": [
+            "termination_notice_clock"
+          ],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [
+            "termination_notice_clock"
+          ],
+          "precision": 0,
+          "recall": 0.0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-30",
+          "type": "paraphrased",
+          "expected_ids": [
+            "co_owner_consent"
+          ],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [
+            "co_owner_consent"
+          ],
+          "precision": 0,
+          "recall": 0.0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-31",
+          "type": "paraphrased",
+          "expected_ids": [
+            "repair_reimbursement"
+          ],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [
+            "repair_reimbursement"
+          ],
+          "precision": 0,
+          "recall": 0.0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-32",
+          "type": "paraphrased",
+          "expected_ids": [
+            "wear_baseline"
+          ],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [
+            "wear_baseline"
+          ],
+          "precision": 0,
+          "recall": 0.0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-33",
+          "type": "ambiguous",
+          "expected_ids": [
+            "deposit_refund_clock"
+          ],
+          "selected_ids": [
+            "deposit_refund_clock"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-34",
+          "type": "ambiguous",
+          "expected_ids": [],
+          "selected_ids": [
+            "repair_reimbursement"
+          ],
+          "false_positives": [
+            "repair_reimbursement"
+          ],
+          "false_negatives": [],
+          "precision": 0.0,
+          "recall": 0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-35",
+          "type": "ambiguous",
+          "expected_ids": [
+            "return_milestones"
+          ],
+          "selected_ids": [
+            "return_milestones"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-36",
+          "type": "ambiguous",
+          "expected_ids": [
+            "rent_increase"
+          ],
+          "selected_ids": [
+            "rent_increase"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-37",
+          "type": "ambiguous",
+          "expected_ids": [],
+          "selected_ids": [
+            "tax_incidence"
+          ],
+          "false_positives": [
+            "tax_incidence"
+          ],
+          "false_negatives": [],
+          "precision": 0.0,
+          "recall": 0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-38",
+          "type": "ambiguous",
+          "expected_ids": [],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1,
+          "recall": 1,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-39",
+          "type": "cross_clause",
+          "expected_ids": [
+            "deposit_refund_clock",
+            "return_milestones"
+          ],
+          "selected_ids": [
+            "return_milestones",
+            "deposit_refund_clock"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-40",
+          "type": "cross_clause",
+          "expected_ids": [
+            "deposit_forfeiture",
+            "termination_notice_clock"
+          ],
+          "selected_ids": [
+            "overlapping_remedies",
+            "deposit_forfeiture"
+          ],
+          "false_positives": [
+            "overlapping_remedies"
+          ],
+          "false_negatives": [
+            "termination_notice_clock"
+          ],
+          "precision": 0.5,
+          "recall": 0.5,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-41",
+          "type": "cross_clause",
+          "expected_ids": [
+            "utility_service_fees",
+            "annex_conflict"
+          ],
+          "selected_ids": [
+            "annex_conflict"
+          ],
+          "false_positives": [],
+          "false_negatives": [
+            "utility_service_fees"
+          ],
+          "precision": 1.0,
+          "recall": 0.5,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-42",
+          "type": "cross_clause",
+          "expected_ids": [
+            "deposit_deductions",
+            "wear_baseline"
+          ],
+          "selected_ids": [
+            "deposit_deductions"
+          ],
+          "false_positives": [],
+          "false_negatives": [
+            "wear_baseline"
+          ],
+          "precision": 1.0,
+          "recall": 0.5,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-43",
+          "type": "cross_clause",
+          "expected_ids": [
+            "sublease_scope"
+          ],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [
+            "sublease_scope"
+          ],
+          "precision": 0,
+          "recall": 0.0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-44",
+          "type": "cross_clause",
+          "expected_ids": [
+            "deposit_deductions",
+            "overlapping_remedies"
+          ],
+          "selected_ids": [
+            "deposit_identity",
+            "overlapping_remedies",
+            "deposit_deductions"
+          ],
+          "false_positives": [
+            "deposit_identity"
+          ],
+          "false_negatives": [],
+          "precision": 0.6666666666666666,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-45",
+          "type": "cross_clause",
+          "expected_ids": [
+            "renewal_vs_exit",
+            "termination_notice_clock"
+          ],
+          "selected_ids": [
+            "renewal_vs_exit",
+            "termination_notice_clock"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-46",
+          "type": "cross_clause",
+          "expected_ids": [
+            "annex_conflict",
+            "rent_increase"
+          ],
+          "selected_ids": [
+            "annex_conflict"
+          ],
+          "false_positives": [],
+          "false_negatives": [
+            "rent_increase"
+          ],
+          "precision": 1.0,
+          "recall": 0.5,
+          "hit": 1
+        }
+      ]
+    },
+    "5": {
+      "overall": {
+        "scenarios": 46,
+        "expected_empty": 11,
+        "correct_empty": 3,
+        "false_positives": 10,
+        "false_negatives": 11,
+        "precision": 0.6557971014492754,
+        "recall": 0.6304347826086957,
+        "hit": 0.6739130434782609
+      },
+      "by_type": {
+        "positive": {
+          "scenarios": 18,
+          "expected_empty": 0,
+          "correct_empty": 0,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        "negative": {
+          "scenarios": 8,
+          "expected_empty": 8,
+          "correct_empty": 2,
+          "false_positives": 6,
+          "false_negatives": 0,
+          "precision": 0.25,
+          "recall": 0.25,
+          "hit": 0.25
+        },
+        "paraphrased": {
+          "scenarios": 6,
+          "expected_empty": 0,
+          "correct_empty": 0,
+          "false_positives": 0,
+          "false_negatives": 6,
+          "precision": 0,
+          "recall": 0.0,
+          "hit": 0
+        },
+        "ambiguous": {
+          "scenarios": 6,
+          "expected_empty": 3,
+          "correct_empty": 1,
+          "false_positives": 2,
+          "false_negatives": 0,
+          "precision": 0.6666666666666666,
+          "recall": 0.6666666666666666,
+          "hit": 0.6666666666666666
+        },
+        "cross_clause": {
+          "scenarios": 8,
+          "expected_empty": 0,
+          "correct_empty": 0,
+          "false_positives": 2,
+          "false_negatives": 5,
+          "precision": 0.7708333333333334,
+          "recall": 0.625,
+          "hit": 0.875
+        }
+      },
+      "scenarios": [
+        {
+          "scenario_id": "VN-01",
+          "type": "positive",
+          "expected_ids": [
+            "deposit_identity"
+          ],
+          "selected_ids": [
+            "deposit_identity"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-02",
+          "type": "positive",
+          "expected_ids": [
+            "deposit_refund_clock"
+          ],
+          "selected_ids": [
+            "deposit_refund_clock"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-03",
+          "type": "positive",
+          "expected_ids": [
+            "deposit_deductions"
+          ],
+          "selected_ids": [
+            "deposit_deductions"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-04",
+          "type": "positive",
+          "expected_ids": [
+            "deposit_forfeiture"
+          ],
+          "selected_ids": [
+            "deposit_forfeiture"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-05",
+          "type": "positive",
+          "expected_ids": [
+            "termination_notice_clock"
+          ],
+          "selected_ids": [
+            "termination_notice_clock"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-06",
+          "type": "positive",
+          "expected_ids": [
+            "renewal_vs_exit"
+          ],
+          "selected_ids": [
+            "renewal_vs_exit"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-07",
+          "type": "positive",
+          "expected_ids": [
+            "lessor_identity"
+          ],
+          "selected_ids": [
+            "lessor_identity"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-08",
+          "type": "positive",
+          "expected_ids": [
+            "co_owner_consent"
+          ],
+          "selected_ids": [
+            "co_owner_consent"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-09",
+          "type": "positive",
+          "expected_ids": [
+            "sublease_scope"
+          ],
+          "selected_ids": [
+            "sublease_scope"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-10",
+          "type": "positive",
+          "expected_ids": [
+            "wear_baseline"
+          ],
+          "selected_ids": [
+            "wear_baseline"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-11",
+          "type": "positive",
+          "expected_ids": [
+            "repair_reimbursement"
+          ],
+          "selected_ids": [
+            "repair_reimbursement"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-12",
+          "type": "positive",
+          "expected_ids": [
+            "repair_disruption"
+          ],
+          "selected_ids": [
+            "repair_disruption"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-13",
+          "type": "positive",
+          "expected_ids": [
+            "rent_increase"
+          ],
+          "selected_ids": [
+            "rent_increase"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-14",
+          "type": "positive",
+          "expected_ids": [
+            "utility_service_fees"
+          ],
+          "selected_ids": [
+            "utility_service_fees"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-15",
+          "type": "positive",
+          "expected_ids": [
+            "tax_incidence"
+          ],
+          "selected_ids": [
+            "tax_incidence"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-16",
+          "type": "positive",
+          "expected_ids": [
+            "overlapping_remedies"
+          ],
+          "selected_ids": [
+            "overlapping_remedies"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-17",
+          "type": "positive",
+          "expected_ids": [
+            "return_milestones"
+          ],
+          "selected_ids": [
+            "return_milestones"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-18",
+          "type": "positive",
+          "expected_ids": [
+            "annex_conflict"
+          ],
+          "selected_ids": [
+            "annex_conflict"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-19",
+          "type": "negative",
+          "expected_ids": [],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1,
+          "recall": 1,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-20",
+          "type": "negative",
+          "expected_ids": [],
+          "selected_ids": [
+            "annex_conflict"
+          ],
+          "false_positives": [
+            "annex_conflict"
+          ],
+          "false_negatives": [],
+          "precision": 0.0,
+          "recall": 0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-21",
+          "type": "negative",
+          "expected_ids": [],
+          "selected_ids": [
+            "return_milestones"
+          ],
+          "false_positives": [
+            "return_milestones"
+          ],
+          "false_negatives": [],
+          "precision": 0.0,
+          "recall": 0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-22",
+          "type": "negative",
+          "expected_ids": [],
+          "selected_ids": [
+            "deposit_forfeiture"
+          ],
+          "false_positives": [
+            "deposit_forfeiture"
+          ],
+          "false_negatives": [],
+          "precision": 0.0,
+          "recall": 0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-23",
+          "type": "negative",
+          "expected_ids": [],
+          "selected_ids": [
+            "termination_notice_clock"
+          ],
+          "false_positives": [
+            "termination_notice_clock"
+          ],
+          "false_negatives": [],
+          "precision": 0.0,
+          "recall": 0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-24",
+          "type": "negative",
+          "expected_ids": [],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1,
+          "recall": 1,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-25",
+          "type": "negative",
+          "expected_ids": [],
+          "selected_ids": [
+            "wear_baseline"
+          ],
+          "false_positives": [
+            "wear_baseline"
+          ],
+          "false_negatives": [],
+          "precision": 0.0,
+          "recall": 0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-26",
+          "type": "negative",
+          "expected_ids": [],
+          "selected_ids": [
+            "renewal_vs_exit"
+          ],
+          "false_positives": [
+            "renewal_vs_exit"
+          ],
+          "false_negatives": [],
+          "precision": 0.0,
+          "recall": 0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-27",
+          "type": "paraphrased",
+          "expected_ids": [
+            "deposit_refund_clock"
+          ],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [
+            "deposit_refund_clock"
+          ],
+          "precision": 0,
+          "recall": 0.0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-28",
+          "type": "paraphrased",
+          "expected_ids": [
+            "rent_increase"
+          ],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [
+            "rent_increase"
+          ],
+          "precision": 0,
+          "recall": 0.0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-29",
+          "type": "paraphrased",
+          "expected_ids": [
+            "termination_notice_clock"
+          ],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [
+            "termination_notice_clock"
+          ],
+          "precision": 0,
+          "recall": 0.0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-30",
+          "type": "paraphrased",
+          "expected_ids": [
+            "co_owner_consent"
+          ],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [
+            "co_owner_consent"
+          ],
+          "precision": 0,
+          "recall": 0.0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-31",
+          "type": "paraphrased",
+          "expected_ids": [
+            "repair_reimbursement"
+          ],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [
+            "repair_reimbursement"
+          ],
+          "precision": 0,
+          "recall": 0.0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-32",
+          "type": "paraphrased",
+          "expected_ids": [
+            "wear_baseline"
+          ],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [
+            "wear_baseline"
+          ],
+          "precision": 0,
+          "recall": 0.0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-33",
+          "type": "ambiguous",
+          "expected_ids": [
+            "deposit_refund_clock"
+          ],
+          "selected_ids": [
+            "deposit_refund_clock"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-34",
+          "type": "ambiguous",
+          "expected_ids": [],
+          "selected_ids": [
+            "repair_reimbursement"
+          ],
+          "false_positives": [
+            "repair_reimbursement"
+          ],
+          "false_negatives": [],
+          "precision": 0.0,
+          "recall": 0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-35",
+          "type": "ambiguous",
+          "expected_ids": [
+            "return_milestones"
+          ],
+          "selected_ids": [
+            "return_milestones"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-36",
+          "type": "ambiguous",
+          "expected_ids": [
+            "rent_increase"
+          ],
+          "selected_ids": [
+            "rent_increase"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-37",
+          "type": "ambiguous",
+          "expected_ids": [],
+          "selected_ids": [
+            "tax_incidence"
+          ],
+          "false_positives": [
+            "tax_incidence"
+          ],
+          "false_negatives": [],
+          "precision": 0.0,
+          "recall": 0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-38",
+          "type": "ambiguous",
+          "expected_ids": [],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1,
+          "recall": 1,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-39",
+          "type": "cross_clause",
+          "expected_ids": [
+            "deposit_refund_clock",
+            "return_milestones"
+          ],
+          "selected_ids": [
+            "return_milestones",
+            "deposit_refund_clock"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-40",
+          "type": "cross_clause",
+          "expected_ids": [
+            "deposit_forfeiture",
+            "termination_notice_clock"
+          ],
+          "selected_ids": [
+            "overlapping_remedies",
+            "deposit_forfeiture"
+          ],
+          "false_positives": [
+            "overlapping_remedies"
+          ],
+          "false_negatives": [
+            "termination_notice_clock"
+          ],
+          "precision": 0.5,
+          "recall": 0.5,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-41",
+          "type": "cross_clause",
+          "expected_ids": [
+            "utility_service_fees",
+            "annex_conflict"
+          ],
+          "selected_ids": [
+            "annex_conflict"
+          ],
+          "false_positives": [],
+          "false_negatives": [
+            "utility_service_fees"
+          ],
+          "precision": 1.0,
+          "recall": 0.5,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-42",
+          "type": "cross_clause",
+          "expected_ids": [
+            "deposit_deductions",
+            "wear_baseline"
+          ],
+          "selected_ids": [
+            "deposit_deductions"
+          ],
+          "false_positives": [],
+          "false_negatives": [
+            "wear_baseline"
+          ],
+          "precision": 1.0,
+          "recall": 0.5,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-43",
+          "type": "cross_clause",
+          "expected_ids": [
+            "sublease_scope"
+          ],
+          "selected_ids": [],
+          "false_positives": [],
+          "false_negatives": [
+            "sublease_scope"
+          ],
+          "precision": 0,
+          "recall": 0.0,
+          "hit": 0
+        },
+        {
+          "scenario_id": "VN-44",
+          "type": "cross_clause",
+          "expected_ids": [
+            "deposit_deductions",
+            "overlapping_remedies"
+          ],
+          "selected_ids": [
+            "deposit_identity",
+            "overlapping_remedies",
+            "deposit_deductions"
+          ],
+          "false_positives": [
+            "deposit_identity"
+          ],
+          "false_negatives": [],
+          "precision": 0.6666666666666666,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-45",
+          "type": "cross_clause",
+          "expected_ids": [
+            "renewal_vs_exit",
+            "termination_notice_clock"
+          ],
+          "selected_ids": [
+            "renewal_vs_exit",
+            "termination_notice_clock"
+          ],
+          "false_positives": [],
+          "false_negatives": [],
+          "precision": 1.0,
+          "recall": 1.0,
+          "hit": 1
+        },
+        {
+          "scenario_id": "VN-46",
+          "type": "cross_clause",
+          "expected_ids": [
+            "annex_conflict",
+            "rent_increase"
+          ],
+          "selected_ids": [
+            "annex_conflict"
+          ],
+          "false_positives": [],
+          "false_negatives": [
+            "rent_increase"
+          ],
+          "precision": 1.0,
+          "recall": 0.5,
+          "hit": 1
+        }
+      ]
+    }
+  }
+}

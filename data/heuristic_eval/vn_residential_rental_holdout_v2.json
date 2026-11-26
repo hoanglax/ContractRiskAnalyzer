@@ -1,0 +1,264 @@
+{
+  "schema_version": 1,
+  "domain": "vn_residential_rental",
+  "label_status": "provisional_requires_human_review",
+  "source": "synthetic",
+  "authorship": "Codex, authored after retrieval code and rules were frozen; no independent human review.",
+  "scenarios": [
+    {
+      "id": "HO-01",
+      "type": "positive",
+      "text": "Quá ngày thứ 05 của kỳ thanh toán, tiền thuê còn thiếu chịu lãi chậm trả 0,03% mỗi ngày; ngoài khoản lãi này bên thuê phải chịu một khoản phạt vi phạm bằng 500.000 đồng cho cùng lần trả muộn.",
+      "expected_ids": [
+        "overlapping_remedies"
+      ],
+      "explanation": "Cùng lần trả muộn làm phát sinh hai khoản riêng."
+    },
+    {
+      "id": "HO-02",
+      "type": "positive",
+      "text": "Bên A được cho thuê lại một phòng ngủ với sự đồng ý bằng văn bản của chủ căn hộ. Văn bản đồng ý ghi rõ phòng phía sau, nhưng hợp đồng với người ở mới lại ghi cả hai phòng.",
+      "expected_ids": [
+        "sublease_scope"
+      ],
+      "explanation": "Phạm vi căn phòng trong hai giấy tờ khác nhau."
+    },
+    {
+      "id": "HO-03",
+      "type": "positive",
+      "text": "Tiền nước được tính theo đồng hồ tổng tại tầng trệt. Bên A chia tổng số mét khối theo số căn đang mở cửa, kể cả căn chưa có người vào ở.",
+      "expected_ids": [
+        "utility_service_fees"
+      ],
+      "explanation": "Cách chia đồng hồ tổng cần đối chiếu theo căn và người sử dụng."
+    },
+    {
+      "id": "HO-04",
+      "type": "positive",
+      "text": "Giá thuê ghi tại Điều 4 chưa bao gồm thuế cho thuê. Nếu cơ quan thuế yêu cầu, bên thuê nộp thay và gửi chứng từ, còn tiền đã nộp sẽ được hoàn vào tháng sau.",
+      "expected_ids": [
+        "tax_incidence"
+      ],
+      "explanation": "Khoản thuế và người nộp thay được mô tả riêng."
+    },
+    {
+      "id": "HO-05",
+      "type": "positive",
+      "text": "Khi chấm dứt hợp đồng do chậm thanh toán, văn bản thông báo được coi là đã nhận sau 48 giờ kể từ lúc bưu cục phát bưu phẩm.",
+      "expected_ids": [
+        "termination_notice_clock"
+      ],
+      "explanation": "Có quy tắc tính thời điểm nhận thông báo chấm dứt."
+    },
+    {
+      "id": "HO-06",
+      "type": "positive",
+      "text": "Căn nhà là tài sản chung của bà L. và em trai. Giấy đồng ý cho thuê của người em giới hạn ở tầng một nhưng trang mô tả tài sản ghi cả hai tầng.",
+      "expected_ids": [
+        "co_owner_consent"
+      ],
+      "explanation": "Cần so sánh phạm vi đồng ý với phần nhà cho thuê."
+    },
+    {
+      "id": "HO-07",
+      "type": "negative",
+      "text": "Bên thuê nộp 200.000 đồng/thẻ vào ngày nhận thẻ thang máy. Thẻ được đánh số và in tên của ban quản lý.",
+      "expected_ids": [],
+      "explanation": "Chỉ nói đến thủ tục cấp thẻ, không có điều khoản thuộc các checklist được xét."
+    },
+    {
+      "id": "HO-08",
+      "type": "negative",
+      "text": "Mọi cuộc họp cư dân phải có biên bản. Bên thuê không được tự ý thay thế người đại diện do tầng bầu.",
+      "expected_ids": [],
+      "explanation": "Nội quy về họp cư dân."
+    },
+    {
+      "id": "HO-09",
+      "type": "negative",
+      "text": "Việc bảo trì xe máy gây gián đoạn lối xuống hầm trong hai tiếng. Bên thuê đi theo lối số 2 trong thời gian này.",
+      "expected_ids": [],
+      "explanation": "Không có việc sửa căn hộ hay gián đoạn sử dụng căn hộ."
+    },
+    {
+      "id": "HO-10",
+      "type": "negative",
+      "text": "Bên thuê thông báo số điện thoại mới khi thay SIM. Hợp đồng gửi xe chấm dứt vào ngày 22 của tháng.",
+      "expected_ids": [],
+      "explanation": "Các sự kiện chỉ liên quan liên hệ và gửi xe."
+    },
+    {
+      "id": "HO-11",
+      "type": "negative",
+      "text": "Mục 3. Hóa đơn điện tử mua đồ nội thất đứng tên chủ nhà; giá thuê được ghi riêng trong bảng đầu hợp đồng.",
+      "expected_ids": [],
+      "explanation": "Hóa đơn hàng hóa không xác lập nghĩa vụ thuế của việc cho thuê."
+    },
+    {
+      "id": "HO-12",
+      "type": "negative",
+      "text": "Tại thời điểm nhận nhà, bên thuê ký biên bản bàn giao, nhận hai chìa khóa và xác nhận chỉ số công tơ ban đầu.",
+      "expected_ids": [],
+      "explanation": "Quy trình nhận nhà ban đầu không đặt ra mốc bàn giao lại."
+    },
+    {
+      "id": "HO-13",
+      "type": "paraphrased",
+      "text": "Khi giao lại thẻ từ, bên A chuyển trả số tiền đã giữ để bảo chứng trong bảy ngày làm việc.",
+      "expected_ids": [
+        "deposit_refund_clock"
+      ],
+      "explanation": "Số tiền bảo chứng phải được trả theo mốc giao thẻ."
+    },
+    {
+      "id": "HO-14",
+      "type": "paraphrased",
+      "text": "Nếu đường nước bục và không gọi được quản lý, người ở có thể mời người đến xử lý. Chủ căn hộ trả lại số đã chi khi nhận ảnh và biên nhận.",
+      "expected_ids": [
+        "repair_reimbursement"
+      ],
+      "explanation": "Có quy trình khắc phục và hoàn chi phí khẩn cấp."
+    },
+    {
+      "id": "HO-15",
+      "type": "paraphrased",
+      "text": "Mức thuê 9 triệu đồng áp dụng sáu tháng đầu; sang đầu tháng thứ bảy, bên A có thể ấn định lại số thu hằng tháng theo bảng giá của mình.",
+      "expected_ids": [
+        "rent_increase"
+      ],
+      "explanation": "Có quyền đơn phương xác định tiền thuê của giai đoạn sau."
+    },
+    {
+      "id": "HO-16",
+      "type": "paraphrased",
+      "text": "Khi bên B trả phòng, giấy biên nhận tại quầy trực ghi ngày gửi bộ khóa. Tiền sử dụng phòng ngừng tính vào ngày quản lý đi kiểm tra, có thể muộn hơn.",
+      "expected_ids": [
+        "return_milestones"
+      ],
+      "explanation": "Gửi khóa và ngày kiểm tra là hai mốc bàn giao khác nhau."
+    },
+    {
+      "id": "HO-17",
+      "type": "paraphrased",
+      "text": "Tiền giữ căn được trừ vào tiền thuê ngay tại kỳ đầu, nhưng biên nhận của môi giới ghi khoản đó sẽ nằm lại để bảo đảm đến cuối kỳ.",
+      "expected_ids": [
+        "deposit_identity"
+      ],
+      "explanation": "Cùng khoản chuyển được mô tả vừa là trả tiền thuê vừa là giữ bảo đảm."
+    },
+    {
+      "id": "HO-18",
+      "type": "paraphrased",
+      "text": "Sau 12 tháng các điều khoản tiếp tục có hiệu lực thêm quý nữa, trừ khi một bên gửi thư từ chối trước ngày cuối tháng ít nhất hai tuần.",
+      "expected_ids": [
+        "renewal_vs_exit"
+      ],
+      "explanation": "Có cơ chế nối kỳ mặc định và hạn từ chối."
+    },
+    {
+      "id": "HO-19",
+      "type": "ambiguous",
+      "text": "Bên A hoàn lại tiền cọc khi hồ sơ đã đầy đủ. Không thấy danh sách giấy tờ cần nộp kèm bản hợp đồng.",
+      "expected_ids": [
+        "deposit_refund_clock"
+      ],
+      "explanation": "Mốc trả tiền phụ thuộc điều kiện chưa được định nghĩa."
+    },
+    {
+      "id": "HO-20",
+      "type": "ambiguous",
+      "text": "Chị của người thuê sẽ sang ở cùng và cùng mua đồ ăn. Hợp đồng hiện chưa ghi phòng nào dành riêng cho chị.",
+      "expected_ids": [],
+      "explanation": "Việc ở cùng và chia chi tiêu chưa thể hiện một thỏa thuận cho thuê lại."
+    },
+    {
+      "id": "HO-21",
+      "type": "ambiguous",
+      "text": "Bên thuê có quyền yêu cầu bên cho thuê sửa chữa hư hỏng bằng văn bản. Không ghi bên nào được tự thuê thợ hay có quyền xin thanh toán lại.",
+      "expected_ids": [],
+      "explanation": "Điều khoản về yêu cầu sửa và thông tin hoàn tiền đều chưa đặt ra quy trình chi trước."
+    },
+    {
+      "id": "HO-22",
+      "type": "ambiguous",
+      "text": "Nếu để quá hạn thanh toán thì bên A giữ toàn bộ tiền cọc. Điều khoản không nêu mức quá hạn tối thiểu.",
+      "expected_ids": [
+        "deposit_forfeiture"
+      ],
+      "explanation": "Có điều kiện giữ cọc nhưng thời lượng chưa rõ."
+    },
+    {
+      "id": "HO-23",
+      "type": "cross_clause",
+      "text": "Điều 3. Phí vận hành đã tính trong tiền thuê, mức 8,8 triệu đồng/tháng. Điều 10. Phụ lục ký cùng ngày thu riêng 300.000 đồng/tháng cho phí vận hành, từ kỳ đầu tiên.",
+      "expected_ids": [
+        "utility_service_fees",
+        "annex_conflict"
+      ],
+      "explanation": "Hai tài liệu phân bổ cùng loại phí theo hai cách."
+    },
+    {
+      "id": "HO-24",
+      "type": "cross_clause",
+      "text": "Điều 2. Ngày dọn đi do hai bên thống nhất qua thư. Điều 5. Bàn giao lại căn hộ ngày 28 và ký biên bản sau khi bảo vệ đã nhận đủ thẻ ra vào. Điều 6. Trả cọc chậm nhất 10 ngày tính từ ngày ký biên bản.",
+      "expected_ids": [
+        "return_milestones",
+        "deposit_refund_clock"
+      ],
+      "explanation": "Cần nối thời điểm nhận thẻ, ký biên bản và hạn trả cọc."
+    },
+    {
+      "id": "HO-25",
+      "type": "cross_clause",
+      "text": "Mục B. Nếu sàn gỗ có vết xước khi trả căn hộ, chủ nhà trừ vào tiền cọc tiền thay ván. Mục C. Ảnh mặt sàn chụp khi nhận nhà thể hiện cùng vết xước dưới cửa sổ.",
+      "expected_ids": [
+        "deposit_deductions",
+        "wear_baseline"
+      ],
+      "explanation": "Các ảnh nhận nhà có ý nghĩa đối với khoản khấu trừ."
+    },
+    {
+      "id": "HO-26",
+      "type": "cross_clause",
+      "text": "Mục 2 buộc bên thuê trả lại căn hộ khi không còn khả năng ở do thi công quá 20 ngày. Mục 6 quy định tiền thuê vẫn chạy đủ trong các ngày không thể ở. Phí dọn chỗ ở tạm do người thuê tự trả.",
+      "expected_ids": [
+        "repair_disruption"
+      ],
+      "explanation": "Cần đối chiếu mất công năng do thi công với lịch thu tiền."
+    },
+    {
+      "id": "HO-27",
+      "type": "cross_clause",
+      "text": "Bản hợp đồng ghi bà C. là bên cho thuê nhưng bà không ký. Sổ hồng đứng tên ông D.; giấy ủy quyền quản lý cho bà C. không đề cập nhận cọc. Biên nhận yêu cầu trả vào tài khoản người khác.",
+      "expected_ids": [
+        "lessor_identity"
+      ],
+      "explanation": "Cần so sánh người đứng tên, quyền đại diện và người nhận tiền."
+    },
+    {
+      "id": "HO-28",
+      "type": "cross_clause",
+      "text": "Điều 8. Chủ nhà có thể chấm dứt hợp đồng môi giới với sàn mà không ảnh hưởng hợp đồng này. Điều 9. Bên thuê được chấm dứt hợp đồng thuê nếu báo trước bằng văn bản 45 ngày.",
+      "expected_ids": [
+        "termination_notice_clock"
+      ],
+      "explanation": "Giới hạn mô tả về môi giới không loại bỏ thời hạn của việc thuê."
+    },
+    {
+      "id": "HO-29",
+      "type": "cross_clause",
+      "text": "Điều 7. Tiền thuê đã đến hạn chịu lãi chậm trả. Điều 8. Chủ nhà có thể phạt vi phạm nếu để vật nuôi chạy trong hành lang, đồng thời cư dân phải báo bảo vệ.",
+      "expected_ids": [],
+      "explanation": "Hai nghĩa vụ gắn với sự kiện khác nhau; báo bảo vệ không phải một chế tài tài chính."
+    },
+    {
+      "id": "HO-30",
+      "type": "cross_clause",
+      "text": "Hợp đồng ghi chỗ đỗ xe không được cho thuê lại. Giấy đồng ý cho thuê lại một phòng ngủ của chủ nhà ghi hạn đến hết tháng 9, trong khi thỏa thuận cho người ở mới kéo dài đến tháng 11.",
+      "expected_ids": [
+        "sublease_scope"
+      ],
+      "explanation": "Hai đối tượng có điều kiện riêng và hạn của phòng cần kiểm tra."
+    }
+  ]
+}

@@ -1,0 +1,455 @@
+{
+  "schema_version": 1,
+  "dataset_id": "vn_residential_explanation_ab_v1",
+  "source": "synthetic",
+  "label_status": "provisional_requires_human_review",
+  "cases": [
+    {
+      "id": "AB-01-deposit-refund",
+      "code": "B-DEP-04",
+      "clauses": [
+        "Bên A hoàn cọc trong 7 ngày kể từ khi ký biên bản trả nhà."
+      ],
+      "quote_clause": 0,
+      "issue": "Mốc ký biên bản chưa có thời hạn.",
+      "attached_passages": [
+        {
+          "chunk_id": 71,
+          "fixture_id": "fixture_payment",
+          "text": "Đoạn giữ chỗ tổng hợp để kiểm tra liên kết dữ liệu. Không có nội dung quy phạm."
+        }
+      ],
+      "fixture_heuristic_ids": [
+        "deposit_refund_clock"
+      ],
+      "context_window": 10000,
+      "retrieval_error": false,
+      "reply": {
+        "summary": "Cần làm rõ thời điểm ký biên bản [L1].",
+        "recommendation": "Đề nghị hai bên ghi rõ điều kiện áp dụng."
+      },
+      "expected": {
+        "legacy": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [
+            71
+          ],
+          "guidance_ids": []
+        },
+        "enhanced": {
+          "mode": "enhanced",
+          "outcome": "accepted",
+          "citation_chunks": [
+            71
+          ],
+          "guidance_ids": [
+            "deposit_refund_clock"
+          ]
+        }
+      }
+    },
+    {
+      "id": "AB-02-early-exit",
+      "code": "B-DEP-03",
+      "clauses": [
+        "Bên thuê mất cọc nếu dọn đi trước kỳ hạn."
+      ],
+      "quote_clause": 0,
+      "issue": "Điều kiện giữ cọc chưa phân biệt các cách chấm dứt.",
+      "attached_passages": [],
+      "fixture_heuristic_ids": [
+        "deposit_forfeiture"
+      ],
+      "context_window": 10000,
+      "retrieval_error": false,
+      "reply": {
+        "summary": "Cần làm rõ cách thực hiện điều khoản.",
+        "recommendation": "Đề nghị hai bên ghi rõ điều kiện áp dụng."
+      },
+      "expected": {
+        "legacy": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [],
+          "guidance_ids": []
+        },
+        "enhanced": {
+          "mode": "enhanced",
+          "outcome": "accepted",
+          "citation_chunks": [],
+          "guidance_ids": [
+            "deposit_forfeiture"
+          ]
+        }
+      }
+    },
+    {
+      "id": "AB-03-repair-no-law",
+      "code": "B-MNT-04",
+      "clauses": [
+        "Bên thuê được sửa chữa khẩn cấp và yêu cầu hoàn trả chi phí khi có phiếu thu."
+      ],
+      "quote_clause": 0,
+      "issue": "Cần làm rõ chứng từ và thời hạn hoàn trả.",
+      "attached_passages": [],
+      "fixture_heuristic_ids": [
+        "repair_reimbursement"
+      ],
+      "context_window": 10000,
+      "retrieval_error": false,
+      "reply": {
+        "summary": "Cần xác nhận hạn nộp chứng từ [L99].",
+        "recommendation": "Đề nghị hai bên ghi rõ điều kiện áp dụng."
+      },
+      "expected": {
+        "legacy": {
+          "mode": "legacy",
+          "outcome": "rejected",
+          "citation_chunks": [],
+          "guidance_ids": []
+        },
+        "enhanced": {
+          "mode": "enhanced",
+          "outcome": "rejected",
+          "citation_chunks": [],
+          "guidance_ids": [
+            "repair_reimbursement"
+          ],
+          "warning_contains": "missing_legal_evidence"
+        }
+      }
+    },
+    {
+      "id": "AB-04-cross-clause",
+      "required_clause_indices": [0, 1],
+      "code": "B-TRM-06",
+      "clauses": [
+        "Bên thuê trả căn hộ vào ngày cuối tháng.",
+        "Chìa khóa được giao cho lễ tân theo giấy nhận."
+      ],
+      "quote_clause": 0,
+      "issue": "Lễ tân có thể nhận khóa trước khi chủ nhà ký.",
+      "attached_passages": [
+        {
+          "chunk_id": 72,
+          "fixture_id": "fixture_handover",
+          "text": "Đoạn tổng hợp để kiểm tra định danh bàn giao. Không có nội dung quy phạm."
+        }
+      ],
+      "fixture_heuristic_ids": [
+        "return_milestones"
+      ],
+      "context_window": 10000,
+      "retrieval_error": false,
+      "reply": {
+        "summary": "Cần phân biệt ngày gửi khóa với ngày ký [L1].",
+        "recommendation": "Đề nghị hai bên ghi rõ điều kiện áp dụng."
+      },
+      "expected": {
+        "legacy": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [
+            72
+          ],
+          "guidance_ids": []
+        },
+        "enhanced": {
+          "mode": "enhanced",
+          "outcome": "accepted",
+          "citation_chunks": [
+            72
+          ],
+          "guidance_ids": [
+            "return_milestones"
+          ]
+        }
+      }
+    },
+    {
+      "id": "AB-05-no-approved",
+      "code": "B-DEP-04",
+      "clauses": [
+        "Bên A hoàn cọc trong 7 ngày kể từ khi ký biên bản trả nhà."
+      ],
+      "quote_clause": 0,
+      "issue": "Cần xác định mốc bắt đầu tính hạn.",
+      "attached_passages": [
+        {
+          "chunk_id": 71,
+          "fixture_id": "fixture_payment",
+          "text": "Đoạn giữ chỗ tổng hợp để kiểm tra liên kết dữ liệu. Không có nội dung quy phạm."
+        }
+      ],
+      "fixture_heuristic_ids": [],
+      "context_window": 10000,
+      "retrieval_error": false,
+      "reply": {
+        "summary": "Nên bổ sung hạn ký biên bản [L1].",
+        "recommendation": "Đề nghị hai bên ghi rõ điều kiện áp dụng."
+      },
+      "expected": {
+        "legacy": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [
+            71
+          ],
+          "guidance_ids": []
+        },
+        "enhanced": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [
+            71
+          ],
+          "guidance_ids": [],
+          "warning_contains": "no_guidance_packed"
+        }
+      }
+    },
+    {
+      "id": "AB-06-no-match",
+      "code": "B-DEP-04",
+      "clauses": [
+        "Bên thuê phải đăng ký xe đạp với lễ tân trước ngày nhận nhà."
+      ],
+      "quote_clause": 0,
+      "issue": "Bên thuê hỏi khoản phí có đi kèm tiền bảo đảm hay không.",
+      "attached_passages": [],
+      "fixture_heuristic_ids": [
+        "deposit_refund_clock"
+      ],
+      "context_window": 10000,
+      "retrieval_error": false,
+      "reply": {
+        "summary": "Cần làm rõ cách thực hiện điều khoản.",
+        "recommendation": "Đề nghị hai bên ghi rõ điều kiện áp dụng."
+      },
+      "expected": {
+        "legacy": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [],
+          "guidance_ids": []
+        },
+        "enhanced": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [],
+          "guidance_ids": [],
+          "warning_contains": "no_guidance_packed"
+        }
+      }
+    },
+    {
+      "id": "AB-07-dropped-chunk",
+      "code": "B-DEP-04",
+      "clauses": [
+        "Bên A hoàn cọc trong 7 ngày kể từ khi ký biên bản trả nhà."
+      ],
+      "quote_clause": 0,
+      "issue": "Cần xác định văn bản làm mốc.",
+      "attached_passages": [
+        {
+          "chunk_id": 71,
+          "fixture_id": "fixture_payment",
+          "text": "Đoạn giữ chỗ tổng hợp để kiểm tra liên kết dữ liệu. Không có nội dung quy phạm.",
+          "repeat": 250
+        },
+        {
+          "chunk_id": 72,
+          "fixture_id": "fixture_handover",
+          "text": "Đoạn tổng hợp để kiểm tra định danh bàn giao. Không có nội dung quy phạm."
+        }
+      ],
+      "fixture_heuristic_ids": [
+        "deposit_refund_clock"
+      ],
+      "context_window": 10000,
+      "retrieval_error": false,
+      "reply": {
+        "summary": "Cần xác định ngày đối chiếu [L2].",
+        "recommendation": "Đề nghị hai bên ghi rõ điều kiện áp dụng."
+      },
+      "expected": {
+        "legacy": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [
+            71,
+            72
+          ],
+          "guidance_ids": []
+        },
+        "enhanced": {
+          "mode": "enhanced",
+          "outcome": "rejected",
+          "citation_chunks": [
+            72
+          ],
+          "guidance_ids": [
+            "deposit_refund_clock"
+          ],
+          "warning_contains": "legal_passage_over_budget"
+        }
+      }
+    },
+    {
+      "id": "AB-08-budget-overflow",
+      "code": "B-DEP-04",
+      "clauses": [
+        "Bên A hoàn cọc trong 7 ngày kể từ khi ký biên bản trả nhà."
+      ],
+      "quote_clause": 0,
+      "issue": "Hợp đồng chưa định hạn ký.",
+      "attached_passages": [],
+      "fixture_heuristic_ids": [
+        "deposit_refund_clock"
+      ],
+      "context_window": 700,
+      "retrieval_error": false,
+      "reply": {
+        "summary": "Cần làm rõ cách thực hiện điều khoản.",
+        "recommendation": "Đề nghị hai bên ghi rõ điều kiện áp dụng."
+      },
+      "expected": {
+        "legacy": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [],
+          "guidance_ids": []
+        },
+        "enhanced": {
+          "mode": "skipped",
+          "outcome": "skipped",
+          "citation_chunks": [],
+          "guidance_ids": [],
+          "warning_contains": "context budget exceeded"
+        }
+      }
+    },
+    {
+      "id": "AB-09-retrieval-error",
+      "code": "B-DEP-04",
+      "clauses": [
+        "Bên A hoàn cọc trong 7 ngày kể từ khi ký biên bản trả nhà."
+      ],
+      "quote_clause": 0,
+      "issue": "Cần kiểm tra điều kiện hoàn cọc.",
+      "attached_passages": [
+        {
+          "chunk_id": 71,
+          "fixture_id": "fixture_payment",
+          "text": "Đoạn giữ chỗ tổng hợp để kiểm tra liên kết dữ liệu. Không có nội dung quy phạm."
+        }
+      ],
+      "fixture_heuristic_ids": [
+        "deposit_refund_clock"
+      ],
+      "context_window": 10000,
+      "retrieval_error": true,
+      "reply": {
+        "summary": "Cần bổ sung ngày hoàn tiền [L1].",
+        "recommendation": "Đề nghị hai bên ghi rõ điều kiện áp dụng."
+      },
+      "expected": {
+        "legacy": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [
+            71
+          ],
+          "guidance_ids": []
+        },
+        "enhanced": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [
+            71
+          ],
+          "guidance_ids": [],
+          "warning_contains": "context packet unavailable"
+        }
+      }
+    },
+    {
+      "id": "AB-10-missing-term",
+      "code": "B-DEP-04",
+      "clauses": [
+        "Giá thuê được thanh toán vào đầu mỗi tháng."
+      ],
+      "quote_clause": null,
+      "issue": "Hồ sơ tổng hợp chưa xác định điều khoản hoàn cọc.",
+      "attached_passages": [],
+      "fixture_heuristic_ids": [],
+      "context_window": 10000,
+      "retrieval_error": false,
+      "reply": {
+        "summary": "Cần làm rõ cách thực hiện điều khoản.",
+        "recommendation": "Đề nghị hai bên ghi rõ điều kiện áp dụng."
+      },
+      "expected": {
+        "legacy": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [],
+          "guidance_ids": []
+        },
+        "enhanced": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [],
+          "guidance_ids": [],
+          "warning_contains": "missing_contract_evidence"
+        }
+      }
+    },
+    {
+      "id": "AB-11-citation-alias",
+      "code": "B-DEP-04",
+      "clauses": [
+        "Bên A hoàn cọc trong 7 ngày kể từ khi ký biên bản trả nhà."
+      ],
+      "quote_clause": 0,
+      "issue": "Mốc hoàn cọc chưa rõ.",
+      "attached_passages": [
+        {
+          "chunk_id": 71,
+          "fixture_id": "fixture_payment",
+          "text": "Đoạn giữ chỗ tổng hợp để kiểm tra liên kết dữ liệu. Không có nội dung quy phạm."
+        }
+      ],
+      "fixture_heuristic_ids": [
+        "deposit_refund_clock"
+      ],
+      "context_window": 10000,
+      "retrieval_error": false,
+      "reply": {
+        "summary": "Cần làm rõ mốc hoàn cọc [L01].",
+        "recommendation": "Đề nghị hai bên ghi rõ điều kiện áp dụng."
+      },
+      "expected": {
+        "legacy": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [
+            71
+          ],
+          "guidance_ids": []
+        },
+        "enhanced": {
+          "mode": "enhanced",
+          "outcome": "rejected",
+          "citation_chunks": [
+            71
+          ],
+          "guidance_ids": [
+            "deposit_refund_clock"
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,1371 @@
+{
+  "evaluation_version": "1.0.0",
+  "experiment": "offline_scripted_infrastructure_only",
+  "dataset": {
+    "id": "vn_residential_explanation_ab_v1",
+    "sha256_lf": "524adcd25b4f14317d86cc4e0f8b71686f254d6aee96a2a1999ab965a208b88a",
+    "label_status": "provisional_requires_human_review"
+  },
+  "fixture_profile": {
+    "default_profile": "offline_fixture",
+    "profiles": {
+      "offline_fixture": {
+        "base_url": "http://127.0.0.1:1",
+        "model": "scripted_reply_v1",
+        "sampling": {
+          "temperature": 0,
+          "max_tokens": 400
+        },
+        "max_concurrency": 1
+      }
+    }
+  },
+  "safety_margin": 256,
+  "knowledge_version": "1.0.0",
+  "input_digests_lf": {
+    "runner": "d4d591f82781e650bed3cc37270ecabcd9c8c3f4ab0f570abafc5e7e32583c31",
+    "knowledge": "1b51b84ac94b44181bfc2a6fe4f0ec945e4d50fc7cbc15b10a43b5c1e30dcee5",
+    "taxonomy": "f797fc8c6be08d9b5c1671fcc83e9c4bbe9d6cd4e2aa1054b96fcee54a24d218",
+    "explain": "b290dab6920bfb79f008a7a372e93b370f3838463b153354105964e3de9ff88b",
+    "packet_context": "a625f3953cecdf46ac2a0e68594b2c662e93e4c6bdaee39052c320bec9f0b213",
+    "builder": "c982c2c9c47f1753287d2682ce0d28efc83c032da09020a0c1bd287fe6c64599",
+    "rental_matching": "8eecb11347a5253920622deb84b3a141be3ef89f72db6c78d81d2756c9b09517",
+    "retriever": "a53eb95c8c1e8685842478bf8ac0d6558d9e503884554ac8257983f3c06decef"
+  },
+  "summary": {
+    "cases": 11,
+    "arm_checks_passed": {
+      "legacy": 11,
+      "enhanced": 11
+    },
+    "enhanced_modes": {
+      "enhanced": 6,
+      "legacy": 4,
+      "skipped": 1
+    }
+  },
+  "cases": [
+    {
+      "case_id": "AB-01-deposit-refund",
+      "risk_code": "B-DEP-04",
+      "kind": "present",
+      "evidence_offsets": [
+        0,
+        58
+      ],
+      "document_sha256": "50c0ba5c07a9c7c16cfb386915b8fe08ae405958aff08eb4a9a8fa67e548f1ec",
+      "attached_chunk_ids": [
+        71
+      ],
+      "fixture_heuristics": [
+        {
+          "id": "deposit_refund_clock",
+          "version": "1.0.0"
+        }
+      ],
+      "context_window": 10000,
+      "scripted_reply": {
+        "summary": "Cần làm rõ thời điểm ký biên bản [L1].",
+        "recommendation": "Đề nghị hai bên ghi rõ điều kiện áp dụng."
+      },
+      "expected": {
+        "legacy": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [
+            71
+          ],
+          "guidance_ids": []
+        },
+        "enhanced": {
+          "mode": "enhanced",
+          "outcome": "accepted",
+          "citation_chunks": [
+            71
+          ],
+          "guidance_ids": [
+            "deposit_refund_clock"
+          ]
+        }
+      },
+      "legacy": {
+        "mode": "legacy",
+        "outcome": "accepted",
+        "call_count": 1,
+        "prompt_bytes": 1552,
+        "citation_chunks": {
+          "L1": 71
+        },
+        "reply_reference_ids": [
+          "L1"
+        ],
+        "reply_ids_outside_scope": [],
+        "resolved_labels": [
+          "fixture_payment, Điều None"
+        ],
+        "guidance_ids": [],
+        "trace": {},
+        "warnings": [],
+        "checks": {
+          "mode_and_fallback": true,
+          "citation_validation": true,
+          "citation_scope": true,
+          "packet_completeness": null,
+          "guidance_traceability": null,
+          "guidance_selection": true,
+          "budget_compliance": null,
+          "call_count": true,
+          "evidence_preservation": true
+        },
+        "passed": true
+      },
+      "enhanced": {
+        "mode": "enhanced",
+        "outcome": "accepted",
+        "call_count": 1,
+        "prompt_bytes": 2739,
+        "citation_chunks": {
+          "L1": 71
+        },
+        "reply_reference_ids": [
+          "L1"
+        ],
+        "reply_ids_outside_scope": [],
+        "resolved_labels": [
+          "fixture_payment, Điều None"
+        ],
+        "guidance_ids": [
+          "deposit_refund_clock"
+        ],
+        "trace": {
+          "mode": "enhanced",
+          "packet_status": "ready",
+          "document_sha256": "50c0ba5c07a9c7c16cfb386915b8fe08ae405958aff08eb4a9a8fa67e548f1ec",
+          "clause_ids": [
+            "clause-0-58"
+          ],
+          "guidance": [
+            {
+              "id": "deposit_refund_clock",
+              "entry_version": "1.0.0",
+              "knowledge_version": "1.0.0",
+              "clause_ids": [
+                "clause-0-58"
+              ]
+            }
+          ],
+          "citation_chunks": {
+            "L1": 71
+          },
+          "diagnostics": []
+        },
+        "warnings": [],
+        "checks": {
+          "mode_and_fallback": true,
+          "citation_validation": true,
+          "citation_scope": true,
+          "packet_completeness": true,
+          "guidance_traceability": true,
+          "guidance_selection": true,
+          "budget_compliance": true,
+          "call_count": true,
+          "evidence_preservation": true
+        },
+        "passed": true
+      }
+    },
+    {
+      "case_id": "AB-02-early-exit",
+      "risk_code": "B-DEP-03",
+      "kind": "present",
+      "evidence_offsets": [
+        0,
+        41
+      ],
+      "document_sha256": "8c37102a7847a8f397aa6cfb97e0f4caaf66848bec223bd5968dc069a81b9696",
+      "attached_chunk_ids": [],
+      "fixture_heuristics": [
+        {
+          "id": "deposit_forfeiture",
+          "version": "1.0.0"
+        }
+      ],
+      "context_window": 10000,
+      "scripted_reply": {
+        "summary": "Cần làm rõ cách thực hiện điều khoản.",
+        "recommendation": "Đề nghị hai bên ghi rõ điều kiện áp dụng."
+      },
+      "expected": {
+        "legacy": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [],
+          "guidance_ids": []
+        },
+        "enhanced": {
+          "mode": "enhanced",
+          "outcome": "accepted",
+          "citation_chunks": [],
+          "guidance_ids": [
+            "deposit_forfeiture"
+          ]
+        }
+      },
+      "legacy": {
+        "mode": "legacy",
+        "outcome": "accepted",
+        "call_count": 1,
+        "prompt_bytes": 1512,
+        "citation_chunks": {},
+        "reply_reference_ids": [],
+        "reply_ids_outside_scope": [],
+        "resolved_labels": [],
+        "guidance_ids": [],
+        "trace": {},
+        "warnings": [],
+        "checks": {
+          "mode_and_fallback": true,
+          "citation_validation": true,
+          "citation_scope": true,
+          "packet_completeness": null,
+          "guidance_traceability": null,
+          "guidance_selection": true,
+          "budget_compliance": null,
+          "call_count": true,
+          "evidence_preservation": true
+        },
+        "passed": true
+      },
+      "enhanced": {
+        "mode": "enhanced",
+        "outcome": "accepted",
+        "call_count": 1,
+        "prompt_bytes": 2458,
+        "citation_chunks": {},
+        "reply_reference_ids": [],
+        "reply_ids_outside_scope": [],
+        "resolved_labels": [],
+        "guidance_ids": [
+          "deposit_forfeiture"
+        ],
+        "trace": {
+          "mode": "enhanced",
+          "packet_status": "ready",
+          "document_sha256": "8c37102a7847a8f397aa6cfb97e0f4caaf66848bec223bd5968dc069a81b9696",
+          "clause_ids": [
+            "clause-0-41"
+          ],
+          "guidance": [
+            {
+              "id": "deposit_forfeiture",
+              "entry_version": "1.0.0",
+              "knowledge_version": "1.0.0",
+              "clause_ids": [
+                "clause-0-41"
+              ]
+            }
+          ],
+          "citation_chunks": {},
+          "diagnostics": [
+            {
+              "code": "missing_legal_evidence",
+              "ids": [
+                "B-DEP-03"
+              ]
+            }
+          ]
+        },
+        "warnings": [
+          "context packet: missing_legal_evidence"
+        ],
+        "checks": {
+          "mode_and_fallback": true,
+          "citation_validation": true,
+          "citation_scope": true,
+          "packet_completeness": true,
+          "guidance_traceability": true,
+          "guidance_selection": true,
+          "budget_compliance": true,
+          "call_count": true,
+          "evidence_preservation": true
+        },
+        "passed": true
+      }
+    },
+    {
+      "case_id": "AB-03-repair-no-law",
+      "risk_code": "B-MNT-04",
+      "kind": "present",
+      "evidence_offsets": [
+        0,
+        77
+      ],
+      "document_sha256": "582092dfe9d8059ff0e60dc3ec6c87e8b7da0efeec51e15855fd2b4ee5b2fe98",
+      "attached_chunk_ids": [],
+      "fixture_heuristics": [
+        {
+          "id": "repair_reimbursement",
+          "version": "1.0.0"
+        }
+      ],
+      "context_window": 10000,
+      "scripted_reply": {
+        "summary": "Cần xác nhận hạn nộp chứng từ [L99].",
+        "recommendation": "Đề nghị hai bên ghi rõ điều kiện áp dụng."
+      },
+      "expected": {
+        "legacy": {
+          "mode": "legacy",
+          "outcome": "rejected",
+          "citation_chunks": [],
+          "guidance_ids": []
+        },
+        "enhanced": {
+          "mode": "enhanced",
+          "outcome": "rejected",
+          "citation_chunks": [],
+          "guidance_ids": [
+            "repair_reimbursement"
+          ],
+          "warning_contains": "missing_legal_evidence"
+        }
+      },
+      "legacy": {
+        "mode": "legacy",
+        "outcome": "rejected",
+        "call_count": 1,
+        "prompt_bytes": 1586,
+        "citation_chunks": {},
+        "reply_reference_ids": [
+          "L99"
+        ],
+        "reply_ids_outside_scope": [
+          "L99"
+        ],
+        "resolved_labels": [],
+        "guidance_ids": [],
+        "trace": {},
+        "warnings": [
+          "explanation dropped: cites [L99], which is not in its legal basis"
+        ],
+        "checks": {
+          "mode_and_fallback": true,
+          "citation_validation": true,
+          "citation_scope": true,
+          "packet_completeness": null,
+          "guidance_traceability": null,
+          "guidance_selection": true,
+          "budget_compliance": null,
+          "call_count": true,
+          "evidence_preservation": true
+        },
+        "passed": true
+      },
+      "enhanced": {
+        "mode": "enhanced",
+        "outcome": "rejected",
+        "call_count": 1,
+        "prompt_bytes": 2587,
+        "citation_chunks": {},
+        "reply_reference_ids": [
+          "L99"
+        ],
+        "reply_ids_outside_scope": [
+          "L99"
+        ],
+        "resolved_labels": [],
+        "guidance_ids": [
+          "repair_reimbursement"
+        ],
+        "trace": {
+          "mode": "enhanced",
+          "packet_status": "ready",
+          "document_sha256": "582092dfe9d8059ff0e60dc3ec6c87e8b7da0efeec51e15855fd2b4ee5b2fe98",
+          "clause_ids": [
+            "clause-0-77"
+          ],
+          "guidance": [
+            {
+              "id": "repair_reimbursement",
+              "entry_version": "1.0.0",
+              "knowledge_version": "1.0.0",
+              "clause_ids": [
+                "clause-0-77"
+              ]
+            }
+          ],
+          "citation_chunks": {},
+          "diagnostics": [
+            {
+              "code": "missing_legal_evidence",
+              "ids": [
+                "B-MNT-04"
+              ]
+            }
+          ]
+        },
+        "warnings": [
+          "context packet: missing_legal_evidence",
+          "explanation dropped: cites [L99], which is not in its legal basis"
+        ],
+        "checks": {
+          "mode_and_fallback": true,
+          "citation_validation": true,
+          "citation_scope": true,
+          "packet_completeness": true,
+          "guidance_traceability": true,
+          "guidance_selection": true,
+          "budget_compliance": true,
+          "call_count": true,
+          "evidence_preservation": true
+        },
+        "passed": true
+      }
+    },
+    {
+      "case_id": "AB-04-cross-clause",
+      "risk_code": "B-TRM-06",
+      "kind": "present",
+      "evidence_offsets": [
+        0,
+        40
+      ],
+      "document_sha256": "a404594abefbf190d6cf7a85641df23a4229d15a4f8a377ffc18d61c6b9243f3",
+      "attached_chunk_ids": [
+        72
+      ],
+      "fixture_heuristics": [
+        {
+          "id": "return_milestones",
+          "version": "1.0.0"
+        }
+      ],
+      "context_window": 10000,
+      "scripted_reply": {
+        "summary": "Cần phân biệt ngày gửi khóa với ngày ký [L1].",
+        "recommendation": "Đề nghị hai bên ghi rõ điều kiện áp dụng."
+      },
+      "expected": {
+        "legacy": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [
+            72
+          ],
+          "guidance_ids": []
+        },
+        "enhanced": {
+          "mode": "enhanced",
+          "outcome": "accepted",
+          "citation_chunks": [
+            72
+          ],
+          "guidance_ids": [
+            "return_milestones"
+          ]
+        }
+      },
+      "legacy": {
+        "mode": "legacy",
+        "outcome": "accepted",
+        "call_count": 1,
+        "prompt_bytes": 1625,
+        "citation_chunks": {
+          "L1": 72
+        },
+        "reply_reference_ids": [
+          "L1"
+        ],
+        "reply_ids_outside_scope": [],
+        "resolved_labels": [
+          "fixture_handover, Điều None"
+        ],
+        "guidance_ids": [],
+        "trace": {},
+        "warnings": [],
+        "checks": {
+          "mode_and_fallback": true,
+          "citation_validation": true,
+          "citation_scope": true,
+          "packet_completeness": null,
+          "guidance_traceability": null,
+          "guidance_selection": true,
+          "budget_compliance": null,
+          "call_count": true,
+          "evidence_preservation": true
+        },
+        "passed": true
+      },
+      "enhanced": {
+        "mode": "enhanced",
+        "outcome": "accepted",
+        "call_count": 1,
+        "prompt_bytes": 2976,
+        "citation_chunks": {
+          "L1": 72
+        },
+        "reply_reference_ids": [
+          "L1"
+        ],
+        "reply_ids_outside_scope": [],
+        "resolved_labels": [
+          "fixture_handover, Điều None"
+        ],
+        "guidance_ids": [
+          "return_milestones"
+        ],
+        "trace": {
+          "mode": "enhanced",
+          "packet_status": "ready",
+          "document_sha256": "a404594abefbf190d6cf7a85641df23a4229d15a4f8a377ffc18d61c6b9243f3",
+          "clause_ids": [
+            "clause-0-40",
+            "clause-41-87"
+          ],
+          "guidance": [
+            {
+              "id": "return_milestones",
+              "entry_version": "1.0.0",
+              "knowledge_version": "1.0.0",
+              "clause_ids": [
+                "clause-0-40",
+                "clause-41-87"
+              ]
+            }
+          ],
+          "citation_chunks": {
+            "L1": 72
+          },
+          "diagnostics": []
+        },
+        "warnings": [],
+        "checks": {
+          "mode_and_fallback": true,
+          "citation_validation": true,
+          "citation_scope": true,
+          "packet_completeness": true,
+          "guidance_traceability": true,
+          "guidance_selection": true,
+          "budget_compliance": true,
+          "call_count": true,
+          "evidence_preservation": true
+        },
+        "passed": true
+      }
+    },
+    {
+      "case_id": "AB-05-no-approved",
+      "risk_code": "B-DEP-04",
+      "kind": "present",
+      "evidence_offsets": [
+        0,
+        58
+      ],
+      "document_sha256": "50c0ba5c07a9c7c16cfb386915b8fe08ae405958aff08eb4a9a8fa67e548f1ec",
+      "attached_chunk_ids": [
+        71
+      ],
+      "fixture_heuristics": [],
+      "context_window": 10000,
+      "scripted_reply": {
+        "summary": "Nên bổ sung hạn ký biên bản [L1].",
+        "recommendation": "Đề nghị hai bên ghi rõ điều kiện áp dụng."
+      },
+      "expected": {
+        "legacy": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [
+            71
+          ],
+          "guidance_ids": []
+        },
+        "enhanced": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [
+            71
+          ],
+          "guidance_ids": [],
+          "warning_contains": "no_guidance_packed"
+        }
+      },
+      "legacy": {
+        "mode": "legacy",
+        "outcome": "accepted",
+        "call_count": 1,
+        "prompt_bytes": 1557,
+        "citation_chunks": {
+          "L1": 71
+        },
+        "reply_reference_ids": [
+          "L1"
+        ],
+        "reply_ids_outside_scope": [],
+        "resolved_labels": [
+          "fixture_payment, Điều None"
+        ],
+        "guidance_ids": [],
+        "trace": {},
+        "warnings": [],
+        "checks": {
+          "mode_and_fallback": true,
+          "citation_validation": true,
+          "citation_scope": true,
+          "packet_completeness": null,
+          "guidance_traceability": null,
+          "guidance_selection": true,
+          "budget_compliance": null,
+          "call_count": true,
+          "evidence_preservation": true
+        },
+        "passed": true
+      },
+      "enhanced": {
+        "mode": "legacy",
+        "outcome": "accepted",
+        "call_count": 1,
+        "prompt_bytes": 1557,
+        "citation_chunks": {
+          "L1": 71
+        },
+        "reply_reference_ids": [
+          "L1"
+        ],
+        "reply_ids_outside_scope": [],
+        "resolved_labels": [
+          "fixture_payment, Điều None"
+        ],
+        "guidance_ids": [],
+        "trace": {
+          "mode": "legacy",
+          "packet_status": "ready",
+          "document_sha256": "50c0ba5c07a9c7c16cfb386915b8fe08ae405958aff08eb4a9a8fa67e548f1ec",
+          "clause_ids": [
+            "clause-0-58"
+          ],
+          "guidance": [],
+          "citation_chunks": {
+            "L1": 71
+          },
+          "diagnostics": [
+            {
+              "code": "no_guidance_packed",
+              "ids": []
+            }
+          ]
+        },
+        "warnings": [
+          "context packet: no_guidance_packed"
+        ],
+        "checks": {
+          "mode_and_fallback": true,
+          "citation_validation": true,
+          "citation_scope": true,
+          "packet_completeness": null,
+          "guidance_traceability": null,
+          "guidance_selection": true,
+          "budget_compliance": true,
+          "call_count": true,
+          "evidence_preservation": true
+        },
+        "passed": true
+      }
+    },
+    {
+      "case_id": "AB-06-no-match",
+      "risk_code": "B-DEP-04",
+      "kind": "present",
+      "evidence_offsets": [
+        0,
+        60
+      ],
+      "document_sha256": "6cbc21fd087ea42c237a9685a362d2a01e79e011400856243f7f4c6d3b179605",
+      "attached_chunk_ids": [],
+      "fixture_heuristics": [
+        {
+          "id": "deposit_refund_clock",
+          "version": "1.0.0"
+        }
+      ],
+      "context_window": 10000,
+      "scripted_reply": {
+        "summary": "Cần làm rõ cách thực hiện điều khoản.",
+        "recommendation": "Đề nghị hai bên ghi rõ điều kiện áp dụng."
+      },
+      "expected": {
+        "legacy": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [],
+          "guidance_ids": []
+        },
+        "enhanced": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [],
+          "guidance_ids": [],
+          "warning_contains": "no_guidance_packed"
+        }
+      },
+      "legacy": {
+        "mode": "legacy",
+        "outcome": "accepted",
+        "call_count": 1,
+        "prompt_bytes": 1518,
+        "citation_chunks": {},
+        "reply_reference_ids": [],
+        "reply_ids_outside_scope": [],
+        "resolved_labels": [],
+        "guidance_ids": [],
+        "trace": {},
+        "warnings": [],
+        "checks": {
+          "mode_and_fallback": true,
+          "citation_validation": true,
+          "citation_scope": true,
+          "packet_completeness": null,
+          "guidance_traceability": null,
+          "guidance_selection": true,
+          "budget_compliance": null,
+          "call_count": true,
+          "evidence_preservation": true
+        },
+        "passed": true
+      },
+      "enhanced": {
+        "mode": "legacy",
+        "outcome": "accepted",
+        "call_count": 1,
+        "prompt_bytes": 1518,
+        "citation_chunks": {},
+        "reply_reference_ids": [],
+        "reply_ids_outside_scope": [],
+        "resolved_labels": [],
+        "guidance_ids": [],
+        "trace": {
+          "mode": "legacy",
+          "packet_status": "ready",
+          "document_sha256": "6cbc21fd087ea42c237a9685a362d2a01e79e011400856243f7f4c6d3b179605",
+          "clause_ids": [
+            "clause-0-60"
+          ],
+          "guidance": [],
+          "citation_chunks": {},
+          "diagnostics": [
+            {
+              "code": "missing_legal_evidence",
+              "ids": [
+                "B-DEP-04"
+              ]
+            },
+            {
+              "code": "no_guidance_packed",
+              "ids": []
+            }
+          ]
+        },
+        "warnings": [
+          "context packet: missing_legal_evidence",
+          "context packet: no_guidance_packed"
+        ],
+        "checks": {
+          "mode_and_fallback": true,
+          "citation_validation": true,
+          "citation_scope": true,
+          "packet_completeness": null,
+          "guidance_traceability": null,
+          "guidance_selection": true,
+          "budget_compliance": true,
+          "call_count": true,
+          "evidence_preservation": true
+        },
+        "passed": true
+      }
+    },
+    {
+      "case_id": "AB-07-dropped-chunk",
+      "risk_code": "B-DEP-04",
+      "kind": "present",
+      "evidence_offsets": [
+        0,
+        58
+      ],
+      "document_sha256": "50c0ba5c07a9c7c16cfb386915b8fe08ae405958aff08eb4a9a8fa67e548f1ec",
+      "attached_chunk_ids": [
+        71,
+        72
+      ],
+      "fixture_heuristics": [
+        {
+          "id": "deposit_refund_clock",
+          "version": "1.0.0"
+        }
+      ],
+      "context_window": 10000,
+      "scripted_reply": {
+        "summary": "Cần xác định ngày đối chiếu [L2].",
+        "recommendation": "Đề nghị hai bên ghi rõ điều kiện áp dụng."
+      },
+      "expected": {
+        "legacy": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [
+            71,
+            72
+          ],
+          "guidance_ids": []
+        },
+        "enhanced": {
+          "mode": "enhanced",
+          "outcome": "rejected",
+          "citation_chunks": [
+            72
+          ],
+          "guidance_ids": [
+            "deposit_refund_clock"
+          ],
+          "warning_contains": "legal_passage_over_budget"
+        }
+      },
+      "legacy": {
+        "mode": "legacy",
+        "outcome": "accepted",
+        "call_count": 1,
+        "prompt_bytes": 2671,
+        "citation_chunks": {
+          "L1": 71,
+          "L2": 72
+        },
+        "reply_reference_ids": [
+          "L2"
+        ],
+        "reply_ids_outside_scope": [],
+        "resolved_labels": [
+          "fixture_handover, Điều None"
+        ],
+        "guidance_ids": [],
+        "trace": {},
+        "warnings": [],
+        "checks": {
+          "mode_and_fallback": true,
+          "citation_validation": true,
+          "citation_scope": true,
+          "packet_completeness": null,
+          "guidance_traceability": null,
+          "guidance_selection": true,
+          "budget_compliance": null,
+          "call_count": true,
+          "evidence_preservation": true
+        },
+        "passed": true
+      },
+      "enhanced": {
+        "mode": "enhanced",
+        "outcome": "rejected",
+        "call_count": 1,
+        "prompt_bytes": 2722,
+        "citation_chunks": {
+          "L1": 72
+        },
+        "reply_reference_ids": [
+          "L2"
+        ],
+        "reply_ids_outside_scope": [
+          "L2"
+        ],
+        "resolved_labels": [],
+        "guidance_ids": [
+          "deposit_refund_clock"
+        ],
+        "trace": {
+          "mode": "enhanced",
+          "packet_status": "ready",
+          "document_sha256": "50c0ba5c07a9c7c16cfb386915b8fe08ae405958aff08eb4a9a8fa67e548f1ec",
+          "clause_ids": [
+            "clause-0-58"
+          ],
+          "guidance": [
+            {
+              "id": "deposit_refund_clock",
+              "entry_version": "1.0.0",
+              "knowledge_version": "1.0.0",
+              "clause_ids": [
+                "clause-0-58"
+              ]
+            }
+          ],
+          "citation_chunks": {
+            "L1": 72
+          },
+          "diagnostics": [
+            {
+              "code": "legal_passage_over_budget",
+              "ids": [
+                "71"
+              ]
+            }
+          ]
+        },
+        "warnings": [
+          "context packet: legal_passage_over_budget",
+          "explanation dropped: cites [L2], which is not in its legal basis"
+        ],
+        "checks": {
+          "mode_and_fallback": true,
+          "citation_validation": true,
+          "citation_scope": true,
+          "packet_completeness": true,
+          "guidance_traceability": true,
+          "guidance_selection": true,
+          "budget_compliance": true,
+          "call_count": true,
+          "evidence_preservation": true
+        },
+        "passed": true
+      }
+    },
+    {
+      "case_id": "AB-08-budget-overflow",
+      "risk_code": "B-DEP-04",
+      "kind": "present",
+      "evidence_offsets": [
+        0,
+        58
+      ],
+      "document_sha256": "50c0ba5c07a9c7c16cfb386915b8fe08ae405958aff08eb4a9a8fa67e548f1ec",
+      "attached_chunk_ids": [],
+      "fixture_heuristics": [
+        {
+          "id": "deposit_refund_clock",
+          "version": "1.0.0"
+        }
+      ],
+      "context_window": 700,
+      "scripted_reply": {
+        "summary": "Cần làm rõ cách thực hiện điều khoản.",
+        "recommendation": "Đề nghị hai bên ghi rõ điều kiện áp dụng."
+      },
+      "expected": {
+        "legacy": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [],
+          "guidance_ids": []
+        },
+        "enhanced": {
+          "mode": "skipped",
+          "outcome": "skipped",
+          "citation_chunks": [],
+          "guidance_ids": [],
+          "warning_contains": "context budget exceeded"
+        }
+      },
+      "legacy": {
+        "mode": "legacy",
+        "outcome": "accepted",
+        "call_count": 1,
+        "prompt_bytes": 1474,
+        "citation_chunks": {},
+        "reply_reference_ids": [],
+        "reply_ids_outside_scope": [],
+        "resolved_labels": [],
+        "guidance_ids": [],
+        "trace": {},
+        "warnings": [],
+        "checks": {
+          "mode_and_fallback": true,
+          "citation_validation": true,
+          "citation_scope": true,
+          "packet_completeness": null,
+          "guidance_traceability": null,
+          "guidance_selection": true,
+          "budget_compliance": null,
+          "call_count": true,
+          "evidence_preservation": true
+        },
+        "passed": true
+      },
+      "enhanced": {
+        "mode": "skipped",
+        "outcome": "skipped",
+        "call_count": 0,
+        "prompt_bytes": 0,
+        "citation_chunks": {},
+        "reply_reference_ids": [],
+        "reply_ids_outside_scope": [],
+        "resolved_labels": [],
+        "guidance_ids": [],
+        "trace": {},
+        "warnings": [
+          "context packet: core_over_budget",
+          "no explanation: context budget exceeded"
+        ],
+        "checks": {
+          "mode_and_fallback": true,
+          "citation_validation": true,
+          "citation_scope": true,
+          "packet_completeness": null,
+          "guidance_traceability": null,
+          "guidance_selection": true,
+          "budget_compliance": true,
+          "call_count": true,
+          "evidence_preservation": true
+        },
+        "passed": true
+      }
+    },
+    {
+      "case_id": "AB-09-retrieval-error",
+      "risk_code": "B-DEP-04",
+      "kind": "present",
+      "evidence_offsets": [
+        0,
+        58
+      ],
+      "document_sha256": "50c0ba5c07a9c7c16cfb386915b8fe08ae405958aff08eb4a9a8fa67e548f1ec",
+      "attached_chunk_ids": [
+        71
+      ],
+      "fixture_heuristics": [
+        {
+          "id": "deposit_refund_clock",
+          "version": "1.0.0"
+        }
+      ],
+      "context_window": 10000,
+      "scripted_reply": {
+        "summary": "Cần bổ sung ngày hoàn tiền [L1].",
+        "recommendation": "Đề nghị hai bên ghi rõ điều kiện áp dụng."
+      },
+      "expected": {
+        "legacy": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [
+            71
+          ],
+          "guidance_ids": []
+        },
+        "enhanced": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [
+            71
+          ],
+          "guidance_ids": [],
+          "warning_contains": "context packet unavailable"
+        }
+      },
+      "legacy": {
+        "mode": "legacy",
+        "outcome": "accepted",
+        "call_count": 1,
+        "prompt_bytes": 1551,
+        "citation_chunks": {
+          "L1": 71
+        },
+        "reply_reference_ids": [
+          "L1"
+        ],
+        "reply_ids_outside_scope": [],
+        "resolved_labels": [
+          "fixture_payment, Điều None"
+        ],
+        "guidance_ids": [],
+        "trace": {},
+        "warnings": [],
+        "checks": {
+          "mode_and_fallback": true,
+          "citation_validation": true,
+          "citation_scope": true,
+          "packet_completeness": null,
+          "guidance_traceability": null,
+          "guidance_selection": true,
+          "budget_compliance": null,
+          "call_count": true,
+          "evidence_preservation": true
+        },
+        "passed": true
+      },
+      "enhanced": {
+        "mode": "legacy",
+        "outcome": "accepted",
+        "call_count": 1,
+        "prompt_bytes": 1551,
+        "citation_chunks": {
+          "L1": 71
+        },
+        "reply_reference_ids": [
+          "L1"
+        ],
+        "reply_ids_outside_scope": [],
+        "resolved_labels": [
+          "fixture_payment, Điều None"
+        ],
+        "guidance_ids": [],
+        "trace": {},
+        "warnings": [
+          "context packet unavailable (RuntimeError); using legacy explanation if it fits"
+        ],
+        "checks": {
+          "mode_and_fallback": true,
+          "citation_validation": true,
+          "citation_scope": true,
+          "packet_completeness": null,
+          "guidance_traceability": null,
+          "guidance_selection": true,
+          "budget_compliance": true,
+          "call_count": true,
+          "evidence_preservation": true
+        },
+        "passed": true
+      }
+    },
+    {
+      "case_id": "AB-10-missing-term",
+      "risk_code": "B-DEP-04",
+      "kind": "missing",
+      "evidence_offsets": [
+        null,
+        null
+      ],
+      "document_sha256": "2be6c74a9e26fabbf0b1379a519da7030d00d27a8f65cc8d1ac3ac56eec2bbc8",
+      "attached_chunk_ids": [],
+      "fixture_heuristics": [],
+      "context_window": 10000,
+      "scripted_reply": {
+        "summary": "Cần làm rõ cách thực hiện điều khoản.",
+        "recommendation": "Đề nghị hai bên ghi rõ điều kiện áp dụng."
+      },
+      "expected": {
+        "legacy": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [],
+          "guidance_ids": []
+        },
+        "enhanced": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [],
+          "guidance_ids": [],
+          "warning_contains": "missing_contract_evidence"
+        }
+      },
+      "legacy": {
+        "mode": "legacy",
+        "outcome": "accepted",
+        "call_count": 1,
+        "prompt_bytes": 1458,
+        "citation_chunks": {},
+        "reply_reference_ids": [],
+        "reply_ids_outside_scope": [],
+        "resolved_labels": [],
+        "guidance_ids": [],
+        "trace": {},
+        "warnings": [],
+        "checks": {
+          "mode_and_fallback": true,
+          "citation_validation": true,
+          "citation_scope": true,
+          "packet_completeness": null,
+          "guidance_traceability": null,
+          "guidance_selection": true,
+          "budget_compliance": null,
+          "call_count": true,
+          "evidence_preservation": true
+        },
+        "passed": true
+      },
+      "enhanced": {
+        "mode": "legacy",
+        "outcome": "accepted",
+        "call_count": 1,
+        "prompt_bytes": 1458,
+        "citation_chunks": {},
+        "reply_reference_ids": [],
+        "reply_ids_outside_scope": [],
+        "resolved_labels": [],
+        "guidance_ids": [],
+        "trace": {
+          "mode": "legacy",
+          "packet_status": "ready",
+          "document_sha256": "2be6c74a9e26fabbf0b1379a519da7030d00d27a8f65cc8d1ac3ac56eec2bbc8",
+          "clause_ids": [],
+          "guidance": [],
+          "citation_chunks": {},
+          "diagnostics": [
+            {
+              "code": "missing_contract_evidence",
+              "ids": [
+                "B-DEP-04"
+              ]
+            },
+            {
+              "code": "missing_legal_evidence",
+              "ids": [
+                "B-DEP-04"
+              ]
+            },
+            {
+              "code": "guidance_skipped_missing_anchor_or_domain",
+              "ids": []
+            }
+          ]
+        },
+        "warnings": [
+          "context packet: missing_contract_evidence",
+          "context packet: missing_legal_evidence",
+          "context packet: guidance_skipped_missing_anchor_or_domain"
+        ],
+        "checks": {
+          "mode_and_fallback": true,
+          "citation_validation": true,
+          "citation_scope": true,
+          "packet_completeness": null,
+          "guidance_traceability": null,
+          "guidance_selection": true,
+          "budget_compliance": true,
+          "call_count": true,
+          "evidence_preservation": true
+        },
+        "passed": true
+      }
+    },
+    {
+      "case_id": "AB-11-citation-alias",
+      "risk_code": "B-DEP-04",
+      "kind": "present",
+      "evidence_offsets": [
+        0,
+        58
+      ],
+      "document_sha256": "50c0ba5c07a9c7c16cfb386915b8fe08ae405958aff08eb4a9a8fa67e548f1ec",
+      "attached_chunk_ids": [
+        71
+      ],
+      "fixture_heuristics": [
+        {
+          "id": "deposit_refund_clock",
+          "version": "1.0.0"
+        }
+      ],
+      "context_window": 10000,
+      "scripted_reply": {
+        "summary": "Cần làm rõ mốc hoàn cọc [L01].",
+        "recommendation": "Đề nghị hai bên ghi rõ điều kiện áp dụng."
+      },
+      "expected": {
+        "legacy": {
+          "mode": "legacy",
+          "outcome": "accepted",
+          "citation_chunks": [
+            71
+          ],
+          "guidance_ids": []
+        },
+        "enhanced": {
+          "mode": "enhanced",
+          "outcome": "rejected",
+          "citation_chunks": [
+            71
+          ],
+          "guidance_ids": [
+            "deposit_refund_clock"
+          ]
+        }
+      },
+      "legacy": {
+        "mode": "legacy",
+        "outcome": "accepted",
+        "call_count": 1,
+        "prompt_bytes": 1535,
+        "citation_chunks": {
+          "L1": 71
+        },
+        "reply_reference_ids": [
+          "L01"
+        ],
+        "reply_ids_outside_scope": [
+          "L01"
+        ],
+        "resolved_labels": [
+          "fixture_payment, Điều None"
+        ],
+        "guidance_ids": [],
+        "trace": {},
+        "warnings": [],
+        "checks": {
+          "mode_and_fallback": true,
+          "citation_validation": true,
+          "citation_scope": true,
+          "packet_completeness": null,
+          "guidance_traceability": null,
+          "guidance_selection": true,
+          "budget_compliance": null,
+          "call_count": true,
+          "evidence_preservation": true
+        },
+        "passed": true
+      },
+      "enhanced": {
+        "mode": "enhanced",
+        "outcome": "rejected",
+        "call_count": 1,
+        "prompt_bytes": 2722,
+        "citation_chunks": {
+          "L1": 71
+        },
+        "reply_reference_ids": [
+          "L01"
+        ],
+        "reply_ids_outside_scope": [
+          "L01"
+        ],
+        "resolved_labels": [],
+        "guidance_ids": [
+          "deposit_refund_clock"
+        ],
+        "trace": {
+          "mode": "enhanced",
+          "packet_status": "ready",
+          "document_sha256": "50c0ba5c07a9c7c16cfb386915b8fe08ae405958aff08eb4a9a8fa67e548f1ec",
+          "clause_ids": [
+            "clause-0-58"
+          ],
+          "guidance": [
+            {
+              "id": "deposit_refund_clock",
+              "entry_version": "1.0.0",
+              "knowledge_version": "1.0.0",
+              "clause_ids": [
+                "clause-0-58"
+              ]
+            }
+          ],
+          "citation_chunks": {
+            "L1": 71
+          },
+          "diagnostics": []
+        },
+        "warnings": [
+          "explanation dropped: cites [L01], which is not in its legal basis"
+        ],
+        "checks": {
+          "mode_and_fallback": true,
+          "citation_validation": true,
+          "citation_scope": true,
+          "packet_completeness": true,
+          "guidance_traceability": true,
+          "guidance_selection": true,
+          "budget_compliance": true,
+          "call_count": true,
+          "evidence_preservation": true
+        },
+        "passed": true
+      }
+    }
+  ]
+}

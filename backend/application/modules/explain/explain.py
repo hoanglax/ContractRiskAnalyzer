@@ -169,7 +169,8 @@ def check(reply: str, it: Item, *, packet_citations: bool = False) -> tuple[Expl
 
 
 def explain(doc: Document, findings: list[Finding], bases: list[dict], *, tax: taxonomy.Taxonomy | None = None,
-            task: str = "explain", context_run_id: str | None = None) -> dict:
+            task: str = "explain", context_run_id: str | None = None,
+            context_traces: list[dict] | None = None) -> dict:
     """{"items": [Item], "warnings": [str], "attempts": [{"codes", "raw", "finish", "usage", "model", "seconds"}]}"""
     tax = tax or taxonomy.load()
     if context_run_id is not None and len(findings) != len(bases):
@@ -184,6 +185,7 @@ def explain(doc: Document, findings: list[Finding], bases: list[dict], *, tax: t
     attempts, warnings = [], []
 
     context = None
+    short_term = context_run_id is not None and packet_context.short_term_enabled()
     messages_overridden = False
     if context_run_id is not None:
         try:
@@ -195,24 +197,58 @@ def explain(doc: Document, findings: list[Finding], bases: list[dict], *, tax: t
 
     def prepared():
         for it, cluster in zip(items, clusters):
+            detail = None
+            if short_term:
+                detail = {"run_id": context_run_id, "codes": list(it.codes),
+                          "mode": "skipped", "packet": None, "packet_sent": False}
+                if context_traces is not None:
+                    context_traces.append(detail)
             if messages_overridden:
+                if detail is not None:
+                    detail["fallback_reason"] = "profile_overrides_messages"
                 it.warnings.append("no explanation: model profile overrides explanation messages")
                 continue
             if context_run_id is not None and any(
                 "code" in basis and basis["code"] != finding.code for finding, basis in cluster
             ):
+                if detail is not None:
+                    detail["fallback_reason"] = "legal_attachment_mismatch"
                 it.basis = []
                 it.warnings.append("no explanation: legal attachments do not align with findings")
                 continue
             messages = [{"role": "user", "content": prompt_for(it, tax)}]
             if context is None:
+                if detail is not None:
+                    detail.update(mode="legacy", fallback_reason="invalid_packet_configuration")
                 yield it, it, messages, False, None
                 continue
             packet = None
             try:
-                packet = context.build(doc, cluster)
-                enhanced = context.enhanced(packet, it)
+                if detail is not None:
+                    packet = context.build_short_term(doc, cluster, detail)
+                    if packet is None:
+                        it.warnings.append(f"short-term context: {detail['fallback_reason']}; using existing explanation path")
+                    else:
+                        codes = dict.fromkeys(
+                            [entry["reason"] for entry in detail["selection_diagnostics"]]
+                            + [entry["code"] for entry in detail["packing_diagnostics"]]
+                        )
+                        it.warnings.extend(f"short-term context: {code}" for code in codes)
+                strict = packet is not None
+                if not strict:
+                    packet = context.build(doc, cluster)
+                if detail is not None:
+                    detail.update(
+                        packet=packet.data.to_json() if packet.data else None,
+                        packet_status=packet.status,
+                        packet_diagnostics=[{"code": d.code, "ids": list(d.ids)} for d in packet.diagnostics],
+                        packet_policy="strict" if strict else "legacy",
+                    )
+                enhanced = context.enhanced(packet, it, short_term=strict, detail=detail)
             except Exception as exc:
+                if detail is not None:
+                    detail.setdefault("fallback_reason", "packet_error")
+                    detail["packet_error_type"] = type(exc).__name__
                 it.warnings.append(f"context packet unavailable ({type(exc).__name__}); using legacy explanation if it fits")
                 enhanced = None
             if packet is not None:
@@ -221,20 +257,31 @@ def explain(doc: Document, findings: list[Finding], bases: list[dict], *, tax: t
                 ))
             if enhanced is not None:
                 payload, scoped = enhanced
+                if detail is not None:
+                    detail.update(mode="enhanced", packet_sent=True)
                 yield it, scoped, payload, True, packet_context.trace_for(packet, scoped, enhanced=True)
                 continue
             if packet is not None and any(
                 d.code in {"invalid_legal_attachment", "conflicting_legal_attachment"}
                 for d in packet.diagnostics
             ):
+                if detail is not None:
+                    detail["skip_reason"] = "invalid_legal_attachment"
                 it.warnings.append("no explanation: invalid or conflicting legal attachments")
                 continue
             if packet is not None and packet.data and packet.data.guidance:
                 it.warnings.append("context packet guidance omitted")
-            if packet_context.message_size(messages) > context.budget.allowance:
+            legacy_prompt_bytes = packet_context.message_size(messages)
+            if detail is not None:
+                detail["legacy_prompt_bytes"] = legacy_prompt_bytes
+            if legacy_prompt_bytes > context.budget.allowance:
+                if detail is not None:
+                    detail["skip_reason"] = "legacy_prompt_over_budget"
                 it.warnings.append("no explanation: context budget exceeded")
                 continue
             trace = packet_context.trace_for(packet, it, enhanced=False) if packet else None
+            if detail is not None:
+                detail["mode"] = "legacy"
             yield it, it, messages, False, trace
 
     def one(job):

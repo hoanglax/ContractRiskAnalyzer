@@ -192,7 +192,18 @@ def analyze(rid: str) -> dict:
 
             stage("explain")
             explain_options = {"context_run_id": rid} if m6.packet_context.enabled() else {}
+            context_traces = []
+            if m6.packet_context.short_term_enabled():
+                explain_options["context_traces"] = context_traces
             ex = m6.explain(doc, det["findings"], bases["items"], **explain_options)
+            if context_traces:
+                path = _path(rid).with_suffix(".short-term-context.json")
+                temp = path.with_suffix(".tmp")
+                try:
+                    temp.write_text(json.dumps(context_traces, ensure_ascii=False, indent=2), encoding="utf-8")
+                    temp.replace(path)
+                except OSError:
+                    log.warning("run %s: could not save short-term context trace", rid)
             tax = taxonomy.load()
             rec["items"] = [{**dataclasses.asdict(it),
                              "risks": [{"code": c, "name": tax.by_code[c].name, "severity": tax.by_code[c].severity,

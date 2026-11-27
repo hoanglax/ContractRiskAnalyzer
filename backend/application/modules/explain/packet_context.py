@@ -1,6 +1,6 @@
 """Opt-in adapter from grounded explanation groups to the Context Packet Builder."""
 
-from dataclasses import dataclass, replace
+from dataclasses import asdict, dataclass, replace
 from functools import cached_property
 import json
 import os
@@ -10,10 +10,14 @@ from application.modules.context_packet import (
     ContextPacketBuilder, ContextRequest, GroundedRisk, PromptBudget,
 )
 from application.modules.heuristic_memory import HeuristicRetriever, load
+from application.modules.offline_context import build_offline_context
 from application.modules.taxonomy.taxonomy import Taxonomy
 
 
 FLAG = "EXPLANATION_CONTEXT_PACKET"
+SHORT_TERM_FLAG = "EXPLANATION_SHORT_TERM_CONTEXT"
+CONTRACT_BUDGET = "EXPLANATION_SHORT_TERM_CONTRACT_BYTES"
+DEFAULT_CONTRACT_BYTES = 4096
 WINDOW = "EXPLANATION_CONTEXT_WINDOW"
 DOMAIN = "vn_residential_rental"
 SAFETY_MARGIN = 256
@@ -36,6 +40,10 @@ Chỉ trả lời bằng JSON với "summary" (2–4 câu về rủi ro) và "re
 
 def enabled() -> bool:
     return os.environ.get(FLAG, "").strip().lower() in {"1", "true", "yes", "on"}
+
+
+def short_term_enabled() -> bool:
+    return enabled() and os.environ.get(SHORT_TERM_FLAG, "").strip().lower() in {"1", "true", "yes", "on"}
 
 
 def message_size(messages: list[dict]) -> int:
@@ -72,9 +80,51 @@ class PacketContext:
         # The MVP analysis route and taxonomy are scoped to Vietnamese residential rental.
         return self.builder.build(ContextRequest(self.run_id, doc, DOMAIN, risks), self.budget)
 
-    def enhanced(self, packet, item):
+    def build_short_term(self, doc, cluster, trace):
+        trace.update(run_id=self.run_id, prompt_budget=asdict(self.budget),
+                     prompt_allowance=self.budget.allowance)
+        try:
+            contract_bytes = int(os.environ.get(CONTRACT_BUDGET, DEFAULT_CONTRACT_BYTES))
+            if contract_bytes < 0:
+                raise ValueError
+        except ValueError:
+            trace["fallback_reason"] = "invalid_contract_budget"
+            return None
+        trace["contract_budget_bytes"] = contract_bytes
+        risks = tuple(GroundedRisk(f, tuple(b["basis"])) for f, b in cluster)
+        try:
+            result = build_offline_context(
+                doc, self.run_id, risks, builder=self.builder, domain=DOMAIN,
+                contract_budget_bytes=contract_bytes, packet_budget=self.budget,
+                selection_policy="strict", pack_selected_contract=True,
+            )
+        except Exception as exc:
+            trace["fallback_reason"] = "short_term_context_error"
+            trace["error_type"] = type(exc).__name__
+            return None
+        selection = result.selection
+        trace.update(
+            document_sha256=selection.references.document_sha256,
+            selection_status=selection.status, selected_text_bytes=selection.used_bytes,
+            mandatory_text_bytes=selection.mandatory_bytes,
+            selected=[{"clause_id": entry.excerpt.clause_id, "role": entry.excerpt.relation,
+                       "reason": entry.reason, "relation": asdict(entry.relation) if entry.relation else None}
+                      for entry in selection.selected],
+            omitted=[asdict(entry) for entry in selection.omitted],
+            selection_diagnostics=[asdict(entry) for entry in selection.invalid],
+            packing_diagnostics=[asdict(entry) for entry in result.packing_diagnostics],
+        )
+        if result.packet is None:
+            trace["fallback_reason"] = selection.status
+        return result.packet
+
+    def enhanced(self, packet, item, *, short_term: bool = False, detail: dict | None = None):
         data = packet.data
-        if data is None or not data.guidance:
+        if data is None or not (data.guidance or (
+            short_term and any(part.relation != "anchor" for part in data.contract)
+        )):
+            if detail is not None:
+                detail.setdefault("fallback_reason", packet.status if data is None else "no_optional_context")
             return None
         if any(g.review_status != "approved" for g in data.guidance):
             raise ValueError("Explanation received unapproved guidance")
@@ -92,7 +142,13 @@ class PacketContext:
 
         messages = [{"role": "system", "content": INSTRUCTIONS},
                     {"role": "user", "content": data.to_json()}]
-        if message_size(messages) > self.budget.allowance:
+        size = message_size(messages)
+        if detail is not None:
+            detail["full_prompt_bytes"] = size
+        if size > self.budget.allowance:
+            if detail is not None:
+                detail["fallback_reason"] = "full_prompt_over_budget"
+                item.warnings.append("short-term context: full prompt over budget")
             return None
         return messages, replace(item, basis=rendered)
 

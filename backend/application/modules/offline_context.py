@@ -24,6 +24,7 @@ def build_offline_context(
     builder: ContextPacketBuilder, contract_budget_bytes: int, packet_budget: PromptBudget,
     domain: str | None = "vn_residential_rental",
     selection_policy: Literal["legacy", "strict"] = "legacy",
+    pack_selected_contract: bool = False,
 ) -> OfflineContextResult:
     """Build a packet from grounded findings for one item, keeping both budget outcomes."""
     scope = RunScope.for_document(run_id, document)
@@ -35,8 +36,12 @@ def build_offline_context(
         neighbors = index.to_references(scope, (
             entry.excerpt.clause_id for entry in selection.selected if entry.excerpt.relation == "neighbor"
         )) if selection_policy == "strict" else None
+        diagnostics = (
+            (Diagnostic("missing_or_invalid_clause_map"),)
+            if pack_selected_contract and not index.clauses(scope) else ()
+        )
     if selection.status != "ready":
-        return OfflineContextResult(selection, None)
+        return OfflineContextResult(selection, None, diagnostics)
 
     # P0 accepts absent clause maps. Give Builder its normal empty Structure in that case.
     if getattr(document.structure, "clauses", None) is None:
@@ -44,11 +49,12 @@ def build_offline_context(
     request = ContextRequest(
         run_id, document, domain, risks, selection.references,
         selection_policy=selection_policy, selected_neighbors=neighbors,
+        pack_selected_contract=pack_selected_contract,
     )
     packet = builder.build(request, packet_budget)
     chosen = {entry.excerpt.clause_id for entry in selection.selected}
     packed = {part.clause_id for part in packet.data.contract} if packet.data else set()
-    diagnostics = tuple(
+    diagnostics += tuple(
         Diagnostic(code, tuple(sorted(ids)))
         for code, ids in (
             ("selected_context_not_packed", chosen - packed),

@@ -7,12 +7,15 @@ import pytest
 from application.modules.context_packet import (
     ClauseReferences, ContextPacketBuilder, ContextRequest, GroundedRisk, PromptBudget, clause_id,
 )
+from application.modules.context_selection import select_context
+from application.modules.cross_clause import retrieve_cross_clause
 from application.modules.detection.finding import Finding, ground
 from application.modules.detection.lens import from_taxonomy
 from application.modules.heuristic_memory import HeuristicRetriever, load
 from application.modules.heuristic_memory.knowledge import KnowledgeBase
 from application.modules.ingestion.ingest import Clause, Document, Structure
 from application.modules.legal_basis.basis import LegalBasis
+from application.modules.short_term_memory import RunClauseIndex, RunScope
 from application.modules.taxonomy import taxonomy
 
 
@@ -132,6 +135,57 @@ def test_ignores_foreign_reference_set(builder, make_request):
     packet = builder.build(request, BUDGET)
     assert not packet.data.guidance
     assert "stale_clause_references" in {d.code for d in packet.diagnostics}
+
+
+def test_accepts_references_from_run_clause_index(builder, make_request):
+    request = make_request("B-TRM-06", RETURN, "Bên thuê được nuôi mèo.", KEYS)
+    scope = RunScope.for_document(request.run_id, request.document)
+    with RunClauseIndex(scope, request.document) as index:
+        target = index.at_offset(scope, len(request.document.text) - 1)
+        references = index.to_references(scope, (target.clause_id,))
+        packet = builder.build(replace(request, references=references), BUDGET)
+    excerpt = packet.data.contract[-1]
+    assert (excerpt.clause_id, excerpt.text, excerpt.start, excerpt.end) == (
+        target.clause_id, target.text, target.start, target.end,
+    )
+    assert (excerpt.relation, excerpt.provenance) == ("reference", "clause_map")
+
+
+def test_cross_clause_retrieval_supplies_nonadjacent_builder_evidence(builder, make_request):
+    anchor = f"Điều 1. Trả nhà\n{RETURN} Quy trình giao chìa khóa quy định tại Điều 5."
+    target_text = f"Điều 5. Bàn giao\n{KEYS}"
+    request = make_request("B-TRM-06", anchor, "Điều 2. Vật nuôi", target_text)
+    scope = RunScope.for_document(request.run_id, request.document)
+    with RunClauseIndex(scope, request.document) as index:
+        source = index.at_offset(scope, 0)
+        result = retrieve_cross_clause(index, scope, source.clause_id)
+    packet = builder.build(replace(request, references=result.references), BUDGET)
+    target, = (part for part in packet.data.contract if part.relation == "reference")
+    assert target.text == target_text
+    assert target.clause_id == result.relations[0].target_clause_id
+    for changed in (replace(request, run_id="other-run"), replace(
+        request, document=replace(request.document, text=request.document.text + "!"),
+    )):
+        stale = builder.build(replace(changed, references=result.references), BUDGET)
+        assert "stale_clause_references" in {diagnostic.code for diagnostic in stale.diagnostics}
+        assert all(part.relation != "reference" for part in stale.data.contract)
+
+
+def test_context_selector_references_are_consumed_by_builder(builder, make_request):
+    anchor = f"Điều 1. Trả nhà\n{RETURN} Quy trình giao chìa khóa quy định tại Điều 5."
+    target = f"Điều 5. Bàn giao\n{KEYS}"
+    request = make_request("B-TRM-06", anchor, "Điều 2. Vật nuôi", target)
+    scope = RunScope.for_document(request.run_id, request.document)
+    with RunClauseIndex(scope, request.document) as index:
+        result = select_context(
+            index, scope, findings=(request.risks[0].finding,), budget_bytes=len((anchor + target).encode("utf-8")),
+        )
+    assert result.status == "ready"
+    assert len(result.references.clause_ids) == 1
+    packet = builder.build(replace(request, references=result.references), BUDGET)
+    excerpt, = (part for part in packet.data.contract if part.relation == "reference")
+    assert excerpt.clause_id == result.references.clause_ids[0]
+    assert excerpt.text == target
 
 
 def test_seed_default_excludes_all_drafts(tax, make_request):

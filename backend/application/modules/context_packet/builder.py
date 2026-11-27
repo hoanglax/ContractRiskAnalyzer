@@ -127,6 +127,8 @@ class ContextPacketBuilder:
     def build(self, request: ContextRequest, budget: PromptBudget) -> ContextPacket:
         if request.selection_policy not in ("legacy", "strict"):
             raise ValueError("Unknown context selection policy")
+        if request.pack_selected_contract and request.selection_policy != "strict":
+            raise ValueError("Packing selected contract context requires strict selection")
         if not request.run_id.strip() or not request.risks:
             raise ValueError("Expected a run ID and at least one grounded finding")
         risks, anchors = _grounded_evidence(request, self._tax)
@@ -139,11 +141,13 @@ class ContextPacketBuilder:
             request.domain, risks, anchors,
         )
         size = self._measure(data.to_json())
+        # Validate attachments even if the strict packet cannot fit and may fall back.
+        legal = _legal_candidates(request, diagnostics) if request.pack_selected_contract else None
         if size > budget.allowance:
             diagnostics.append(Diagnostic("core_over_budget"))
             return ContextPacket(None, "core_over_budget", size, tuple(diagnostics))
 
-        for passage in _legal_candidates(request, diagnostics):
+        for passage in legal if legal is not None else _legal_candidates(request, diagnostics):
             numbered = replace(passage, citation_id=f"L{len(data.legal_passages) + 1}")
             updated = replace(data, legal_passages=data.legal_passages + (numbered,))
             if self._measure(updated.to_json()) <= budget.allowance:
@@ -158,7 +162,12 @@ class ContextPacketBuilder:
         if not anchors or not request.domain:
             diagnostics.append(Diagnostic("guidance_skipped_missing_anchor_or_domain"))
         else:
-            data = self._pack_guidance(request, data, budget, diagnostics)
+            windows = self._windows(request, data, diagnostics)
+            if request.pack_selected_contract:
+                windows = tuple(windows)
+            data = self._pack_guidance(request, data, budget, diagnostics, windows)
+            if request.pack_selected_contract:
+                data = self._pack_selected_contract(data, budget, diagnostics, windows)
 
         return ContextPacket(data, "ready", self._measure(data.to_json()), tuple(diagnostics))
 
@@ -238,11 +247,30 @@ class ContextPacketBuilder:
                 if before or after:
                     yield (primary,)
 
-    def _pack_guidance(self, request, data, budget, diagnostics):
+    def _pack_selected_contract(self, data, budget, diagnostics, windows):
+        # Mandatory evidence, legal passages and approved guidance have packing priority.
+        candidates = {
+            part.clause_id: part for window in windows for part in window
+            if part.relation != "anchor"
+        }
+        packed = {part.clause_id for part in data.contract}
+        for identifier, part in candidates.items():
+            if identifier in packed:
+                continue
+            updated = replace(data, contract=tuple(sorted(
+                (*data.contract, part), key=lambda excerpt: (excerpt.start, excerpt.end),
+            )))
+            if self._measure(updated.to_json()) <= budget.allowance:
+                data = updated
+            else:
+                diagnostics.append(Diagnostic("selected_clause_over_prompt_budget", (identifier,)))
+        return data
+
+    def _pack_guidance(self, request, data, budget, diagnostics, windows):
         allowed = {"approved", "draft", "pending_review"} if self._synthetic_drafts else {"approved"}
         codes = tuple(dict.fromkeys(risk.code for risk in data.risks if risk.evidence_id is not None))
         known_windows, packed = set(), set()
-        for window in self._windows(request, data, diagnostics):
+        for window in windows:
             ids = tuple(part.clause_id for part in window)
             if ids in known_windows:
                 continue

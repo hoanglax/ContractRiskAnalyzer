@@ -79,12 +79,16 @@ def test_paragraph_notation_and_parent_id(body):
     ("tham chiếu Khoản 2 Điều 5", ("Điều 5. Hoàn cọc\n3. Trả nhà.",)),
     ("tham chiếu Khoản 2 Điều 5", ("Điều 5. Hoàn cọc\n2. Trả nhà.\n2. Hoàn cọc.",)),
     ("tham chiếu Khoản 2 Điều 5", ("Điều 5. Hoàn cọc\nPhụ lục 1\n2. Trả nhà.",)),
-    ("xem Phụ lục 1", ("Điều 5. Hoàn cọc\nPhụ lục 1: Thiết bị",)),
+    ("xem Phụ lục 1", ("Điều 5. Hoàn cọc\nPhụ lục 1 được lưu tại lễ tân.",)),
+    ("xem Phụ lục 1", ("Điều 5. Hoàn cọc\nPhụ lục 1: Thiết bị", "Phụ lục 1: Biên bản")),
+    ("xem Phụ lục 1", ("Điều 5. Hoàn cọc\nPhụ lục 1: Thiết bị\nPhụ lục 1: Biên bản",)),
     ("theo Điều 5a", ("Điều 5. Hoàn cọc",)),
     ("theo Điều 5.2", ("Điều 5. Hoàn cọc",)),
     ("theo Điều 5-6", ("Điều 5. Hoàn cọc",)),
     ("theo Điều 5 và Điều 6", ("Điều 5. Hoàn cọc",)),
     ("theo Điều 5 của Bộ luật Dân sự", ("Điều 5. Hoàn cọc",)),
+    ("theo Điều 5\n của Bộ\nluật Dân sự", ("Điều 5. Hoàn cọc",)),
+    ("theo\n\nĐiều 5", ("Điều 5. Hoàn cọc",)),
     ("theo Điều 5 Luật Nhà ở", ("Điều 5. Hoàn cọc",)),
     ("theo Điều 5 của hợp đồng số 123", ("Điều 5. Hoàn cọc",)),
     ("Điều 5 được nêu ra", ("Điều 5. Hoàn cọc",)),
@@ -93,6 +97,34 @@ def test_unresolved_mentions_return_no_targets(mention, targets):
     result = retrieve(mapped_document(f"Điều 1. Phạm vi\nNội dung {mention}.", *targets))
     assert result.relations == ()
     assert result.references.clause_ids == ()
+
+
+@pytest.mark.parametrize("mention", [
+    "theo\nĐiều 5",
+    "quy\nđịnh\ttại\r\nĐiều\u00a05",
+    "tham chiếu Khoản\n2 Điều\n5",
+])
+def test_wrapped_references_keep_exact_match_and_offsets(mention):
+    document = mapped_document(
+        f"Điều 1. Phạm vi\nThực hiện {mention}.", "Điều 5. Hoàn cọc\n2. Trả nhà.",
+    )
+    edge, = retrieve(document).relations
+    assert edge.matching_text == document.text[edge.source_start:edge.source_end] == mention
+
+
+def test_embedded_appendix_returns_container_with_exact_heading_span():
+    heading = "Phụ lục 1: Danh mục thiết bị"
+    document = mapped_document(
+        "Điều 1. Bàn giao\nXem Phụ lục 1.", f"Điều 5. Hoàn cọc\n{heading}\nDanh sách.",
+    )
+    result = retrieve(document)
+    edge, = result.relations
+    assert edge.relation_type == "appendix"
+    assert result.references.clause_ids == (edge.target_clause_id,)
+    assert edge.target_start == document.structure.clauses[1].char_start
+    start, end = edge.embedded_heading_span
+    assert document.text[start:end] == heading
+    assert edge.target_start < start < end <= edge.target_end
 
 
 def test_wrong_scope_unknown_source_and_release():

@@ -42,7 +42,11 @@ Builder đối chiếu lại phạm vi và đọc các đoạn đích từ tài 
 
 ## Giới hạn và kiểm thử
 
-Phụ lục cần có mục riêng trong bản đồ điều khoản. Bộ phân đoạn theo quy tắc hiện chủ yếu nhận diện tiêu đề Điều, nên Phụ lục có thể nằm trong khoảng của Điều cuối và khi đó P1 bỏ qua dẫn chiếu tới Phụ lục. Dấu Khoản được kiểm tra trong nội dung Điều hiện có và dùng ID của Điều, vì bản đồ hiện tại thường ở cấp Điều. P1 xử lý một bước dẫn chiếu rõ ràng, với các mẫu tiếng Việt nêu trên. Các quan hệ ngầm, chuỗi dẫn chiếu, danh sách/range và việc xác định tham chiếu thuộc hợp đồng hay văn bản khác bằng ngữ nghĩa nằm ngoài phạm vi này.
+[P2 chọn ngữ cảnh theo ngân sách](short-term-memory-context-selection.md) dùng thêm chẩn đoán `unresolved` và các đích vượt `top_k` trong `limited` để giải thích vì sao một đích không xuất hiện trong gói đề xuất.
+
+P3.1 cho phép dấu xuống dòng và khoảng trắng ngang giữa các thành phần của dẫn chiếu. Một dòng trống vẫn là ranh giới. Cụm khớp và offset giữ nguyên theo văn bản nguồn.
+
+Phụ lục có thể là mục riêng hoặc là một tiêu đề rõ ở đầu dòng bên trong một mục đã lập chỉ mục. Dạng lồng cần có tiêu đề đứng riêng hoặc dấu phân cách như trong `Phụ lục 1: Danh mục`. Khi chỉ có một tiêu đề khớp, kết quả dùng ID của điều khoản chứa tiêu đề và ghi thêm `embedded_heading_span`. Tiêu đề lặp, kể cả lặp trong cùng mục, trả `ambiguous_target`. Phụ lục không có dấu hiệu tiêu đề đủ rõ vẫn có thể bị bỏ sót. Dấu Khoản được kiểm tra trong nội dung Điều và dùng ID của Điều. Các quan hệ ngầm, chuỗi dẫn chiếu, danh sách hoặc khoảng số và xác định phạm vi tham chiếu bằng ngữ nghĩa nằm ngoài phạm vi này.
 
 Từ `backend/`, chạy:
 

@@ -30,6 +30,8 @@ class ContextRequest:
     risks: tuple[GroundedRisk, ...]
     # Trusted adapter references resolved against this document's clause map.
     references: ClauseReferences | None = None
+    selection_policy: Literal["legacy", "strict"] = "legacy"
+    selected_neighbors: ClauseReferences | None = None
 
 
 @dataclass(frozen=True)

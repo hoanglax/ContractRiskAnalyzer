@@ -1,0 +1,71 @@
+{
+  "k": 3,
+  "cases": [
+    {
+      "id": "distant",
+      "sections": [
+        "Điều 1. Tiền cọc\nBên thuê nhận lại tiền theo Điều 5.",
+        "Điều 2. Sử dụng nhà",
+        "Điều 5. Hoàn cọc"
+      ],
+      "primary_clause_id": "clause-0-52",
+      "expected_relevant_ids": [
+        "clause-73-89"
+      ],
+      "budget_bytes": 1000,
+      "expected_status": "ready"
+    },
+    {
+      "id": "competing",
+      "sections": [
+        "Điều 1. Bàn giao\nXem Phụ lục 1. Tham chiếu Khoản 2 Điều 7.",
+        "Điều 2. Sử dụng nhà",
+        "Điều 7. Trả nhà\n2. Giao chìa khóa.",
+        "Phụ lục 1. Danh mục tài sản"
+      ],
+      "primary_clause_id": "clause-0-58",
+      "expected_relevant_ids": [
+        "clause-79-113",
+        "clause-114-141"
+      ],
+      "budget_bytes": 115,
+      "expected_status": "ready"
+    },
+    {
+      "id": "ambiguous-and-missing",
+      "sections": [
+        "Điều 1. Tiền thuê\nTheo Điều 5. Theo Điều 12.",
+        "Điều 5. Đặt cọc",
+        "Điều 5. Bàn giao"
+      ],
+      "primary_clause_id": "clause-0-44",
+      "expected_relevant_ids": [],
+      "budget_bytes": 1000,
+      "expected_status": "ready"
+    },
+    {
+      "id": "no-explicit-reference",
+      "sections": [
+        "Điều 1. Thời hạn",
+        "Điều 2. Tiền thuê"
+      ],
+      "primary_clause_id": "clause-0-16",
+      "expected_relevant_ids": [],
+      "budget_bytes": 1000,
+      "expected_status": "ready"
+    },
+    {
+      "id": "mandatory-overflow",
+      "sections": [
+        "Điều 1. Tiền cọc\nTheo Điều 5.",
+        "Điều 5. Hoàn cọc"
+      ],
+      "primary_clause_id": "clause-0-29",
+      "expected_relevant_ids": [
+        "clause-30-46"
+      ],
+      "budget_bytes": 1,
+      "expected_status": "mandatory_over_budget"
+    }
+  ]
+}

@@ -102,7 +102,7 @@ class RunClauseIndex:
         )
         self._scope = scope
         self._data: _IndexData | None = _IndexData(
-            text if spans else "", spans, tuple(span.start for span in spans),
+            text, spans, tuple(span.start for span in spans),
             {span.clause_id: span for span in spans},
         )
 
@@ -129,6 +129,15 @@ class RunClauseIndex:
         data = self._checked_data(scope)
         span = data.by_id.get(identifier)
         return span.excerpt(data.text) if span is not None else None
+
+    def clauses(self, scope: RunScope) -> tuple[IndexedClause, ...]:
+        """Return the indexed clauses in document order."""
+        data = self._checked_data(scope)
+        return tuple(span.excerpt(data.text) for span in data.spans)
+
+    def source_text(self, scope: RunScope) -> str:
+        """Return the immutable cleaned text, including text outside the clause map."""
+        return self._checked_data(scope).text
 
     def at_offset(self, scope: RunScope, offset: int) -> IndexedClause | None:
         data = self._checked_data(scope)

@@ -1,0 +1,5672 @@
+{
+  "version": "p3.1-v2",
+  "baseline": "offline_context_synthetic_v1_results.json",
+  "annotation_note": "appendix-03 giữ nguyên ID đích và bỏ kỳ vọng chẩn đoán missing_target của P3.",
+  "baseline_rank_metrics": {
+    "recall@1": {
+      "value": 0.6893939393939394,
+      "cases": 22
+    },
+    "precision@1": {
+      "value": 0.6206896551724138,
+      "cases": 29
+    },
+    "precision_returned@1": {
+      "value": 1.0,
+      "cases": 18
+    },
+    "recall@3": {
+      "value": 0.7727272727272727,
+      "cases": 22
+    },
+    "precision@3": {
+      "value": 0.26436781609195403,
+      "cases": 29
+    },
+    "precision_returned@3": {
+      "value": 1.0,
+      "cases": 18
+    },
+    "recall@5": {
+      "value": 0.7878787878787878,
+      "cases": 22
+    },
+    "precision@5": {
+      "value": 0.1724137931034483,
+      "cases": 29
+    },
+    "precision_returned@5": {
+      "value": 1.0,
+      "cases": 18
+    },
+    "precision_returned_all": {
+      "value": 1.0,
+      "cases": 18
+    }
+  },
+  "baseline_mean_context_coverage": 0.9310344827586207,
+  "baseline_totals": {
+    "retained_mandatory_in_selection": 28,
+    "retained_mandatory_in_packet": 27,
+    "contract_budget_compliant_cases": 29,
+    "packet_budget_compliant_cases": 29,
+    "invalid_labels_rejected": 9,
+    "invalid_labels_total": 9
+  },
+  "cases_with_regressions": 1,
+  "comparison": [
+    {
+      "id": "direct-01",
+      "references_before": [
+        "clause-83-137"
+      ],
+      "references_after": [
+        "clause-83-137"
+      ],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [
+        "clause-0-82"
+      ],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "direct-02",
+      "references_before": [
+        "clause-94-144"
+      ],
+      "references_after": [
+        "clause-94-144"
+      ],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "direct-03",
+      "references_before": [
+        "clause-73-127"
+      ],
+      "references_after": [
+        "clause-73-127"
+      ],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [
+        "clause-0-72"
+      ],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "direct-04",
+      "references_before": [
+        "clause-84-138"
+      ],
+      "references_after": [
+        "clause-84-138"
+      ],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [
+        "clause-0-83"
+      ],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "distant-01",
+      "references_before": [
+        "clause-152-201"
+      ],
+      "references_after": [
+        "clause-152-201"
+      ],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [
+        "clause-0-104"
+      ],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "distant-02",
+      "references_before": [
+        "clause-0-48"
+      ],
+      "references_after": [
+        "clause-0-48"
+      ],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [
+        "clause-71-153"
+      ],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "distant-03",
+      "references_before": [
+        "clause-126-175"
+      ],
+      "references_after": [
+        "clause-126-175"
+      ],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [
+        "clause-0-81"
+      ],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "multiple-01",
+      "references_before": [
+        "clause-108-157",
+        "clause-158-186"
+      ],
+      "references_after": [
+        "clause-108-157",
+        "clause-158-186"
+      ],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [
+        "clause-0-91"
+      ],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "multiple-02",
+      "references_before": [
+        "clause-106-155",
+        "clause-156-172"
+      ],
+      "references_after": [
+        "clause-106-155",
+        "clause-156-172"
+      ],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [
+        "clause-0-105"
+      ],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "multiple-03",
+      "references_before": [
+        "clause-132-158",
+        "clause-159-183",
+        "clause-184-200",
+        "clause-201-223",
+        "clause-224-273",
+        "clause-274-299"
+      ],
+      "references_after": [
+        "clause-132-158",
+        "clause-159-183",
+        "clause-184-200",
+        "clause-201-223",
+        "clause-224-273",
+        "clause-274-299"
+      ],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "paragraph-01",
+      "references_before": [
+        "clause-87-151"
+      ],
+      "references_after": [
+        "clause-87-151"
+      ],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [
+        "clause-0-86"
+      ],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "paragraph-02",
+      "references_before": [
+        "clause-116-169",
+        "clause-99-115"
+      ],
+      "references_after": [
+        "clause-116-169",
+        "clause-99-115"
+      ],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [
+        "clause-0-98"
+      ],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "paragraph-03",
+      "references_before": [],
+      "references_after": [],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [
+        "clause-0-86"
+      ],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "ambiguous-01",
+      "references_before": [],
+      "references_after": [],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "ambiguous-02",
+      "references_before": [],
+      "references_after": [],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [
+        "clause-0-86"
+      ],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "ambiguous-03",
+      "references_before": [
+        "clause-120-169"
+      ],
+      "references_after": [
+        "clause-120-169"
+      ],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [
+        "clause-0-84"
+      ],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "missing-01",
+      "references_before": [],
+      "references_after": [],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "missing-02",
+      "references_before": [
+        "clause-88-137"
+      ],
+      "references_after": [
+        "clause-88-137"
+      ],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [
+        "clause-0-87"
+      ],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "appendix-01",
+      "references_before": [
+        "clause-110-162"
+      ],
+      "references_after": [
+        "clause-110-162"
+      ],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [
+        "clause-0-74"
+      ],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "appendix-02",
+      "references_before": [
+        "clause-96-124"
+      ],
+      "references_after": [
+        "clause-96-124"
+      ],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "appendix-03",
+      "references_before": [],
+      "references_after": [
+        "clause-75-119"
+      ],
+      "relevant_references_gained": [
+        "clause-75-119"
+      ],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "budget-01",
+      "references_before": [],
+      "references_after": [],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [
+        "clause-88-136"
+      ],
+      "packet_only_before": [
+        "clause-0-87",
+        "clause-88-136"
+      ],
+      "packet_only_after": [],
+      "regressions": [
+        "relevant_packet_context_lost"
+      ]
+    },
+    {
+      "id": "budget-02",
+      "references_before": [
+        "clause-271-287"
+      ],
+      "references_after": [
+        "clause-271-287"
+      ],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "budget-03",
+      "references_before": [],
+      "references_after": [],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "budget-04",
+      "references_before": [
+        "clause-73-121"
+      ],
+      "references_after": [
+        "clause-73-121"
+      ],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "none-01",
+      "references_before": [],
+      "references_after": [],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "none-02",
+      "references_before": [],
+      "references_after": [],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "none-03",
+      "references_before": [],
+      "references_after": [],
+      "relevant_references_gained": [],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [],
+      "packet_only_after": [],
+      "regressions": []
+    },
+    {
+      "id": "format-01",
+      "references_before": [],
+      "references_after": [
+        "clause-83-131"
+      ],
+      "relevant_references_gained": [
+        "clause-83-131"
+      ],
+      "relevant_references_lost": [],
+      "relevant_packet_context_gained": [],
+      "relevant_packet_context_lost": [],
+      "packet_only_before": [
+        "clause-0-82"
+      ],
+      "packet_only_after": [],
+      "regressions": []
+    }
+  ],
+  "dataset_kind": "synthetic",
+  "independently_reviewed": false,
+  "case_count": 29,
+  "rank_metrics": {
+    "recall@1": {
+      "value": 0.7803030303030303,
+      "cases": 22
+    },
+    "precision@1": {
+      "value": 0.6896551724137931,
+      "cases": 29
+    },
+    "precision_returned@1": {
+      "value": 1.0,
+      "cases": 20
+    },
+    "recall@3": {
+      "value": 0.8636363636363636,
+      "cases": 22
+    },
+    "precision@3": {
+      "value": 0.28735632183908044,
+      "cases": 29
+    },
+    "precision_returned@3": {
+      "value": 1.0,
+      "cases": 20
+    },
+    "recall@5": {
+      "value": 0.8787878787878788,
+      "cases": 22
+    },
+    "precision@5": {
+      "value": 0.18620689655172415,
+      "cases": 29
+    },
+    "precision_returned@5": {
+      "value": 1.0,
+      "cases": 20
+    },
+    "precision_returned_all": {
+      "value": 1.0,
+      "cases": 20
+    }
+  },
+  "mean_context_coverage": 0.9310344827586207,
+  "retained_mandatory_in_selection": 28,
+  "retained_mandatory_in_packet": 27,
+  "packets_with_data": 27,
+  "empty_label_cases_with_no_references": 7,
+  "contract_budget_compliant_cases": 29,
+  "packet_budget_compliant_cases": 29,
+  "strict_packet_text_budget_compliant_cases": 29,
+  "invalid_labels_total": 8,
+  "invalid_labels_rejected": 8,
+  "cases_with_errors": 11,
+  "cases": [
+    {
+      "id": "direct-01",
+      "category": "direct",
+      "explanation": "Điều 2 nêu nơi giao chìa khóa cho lần trả căn hộ.",
+      "expected_relevant_ids": [
+        "clause-83-137"
+      ],
+      "rank_metrics": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "precision_returned@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "precision_returned@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "precision_returned@5": 1.0,
+        "precision_returned_all": 1.0
+      },
+      "context_coverage": 1.0,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 120,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [
+        "clause-83-137"
+      ],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [],
+      "invalid_checks": [],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-83-137",
+              "label": "Điều 2. Giao chìa khóa",
+              "start": 83,
+              "end": 137,
+              "text": "Điều 2. Giao chìa khóa\nChìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+            "relation": {
+              "source_clause_id": "clause-0-82",
+              "target_clause_id": "clause-83-137",
+              "relation_type": "article",
+              "matching_text": "theo Điều 2",
+              "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+              "priority": 1,
+              "source_start": 70,
+              "source_end": 81,
+              "target_start": 83,
+              "target_end": 137,
+              "embedded_heading_span": null
+            }
+          }
+        ],
+        "omitted": [],
+        "invalid": [],
+        "references": {
+          "run_id": "direct-01",
+          "document_sha256": "5e4720e18d8deac19bc8d21e7c5fa58eb74fd4c3f84c45a41d232dd6aaa801a6",
+          "clause_ids": [
+            "clause-83-137"
+          ]
+        },
+        "budget_bytes": 4000,
+        "used_bytes": 120,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "direct-01",
+          "document_sha256": "5e4720e18d8deac19bc8d21e7c5fa58eb74fd4c3f84c45a41d232dd6aaa801a6",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-19-59"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            {
+              "clause_id": "clause-83-137",
+              "label": "Điều 2. Giao chìa khóa",
+              "start": 83,
+              "end": 137,
+              "text": "Điều 2. Giao chìa khóa\nChìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": [
+            {
+              "heuristic_id": "return_milestones",
+              "entry_version": "1.0.0",
+              "knowledge_version": "1.0.0",
+              "review_status": "draft",
+              "reason": {
+                "matched_codes": [
+                  "B-TRM-06"
+                ],
+                "matched_categories": [
+                  "TRM"
+                ],
+                "matched_triggers": [
+                  [
+                    "trả căn hộ"
+                  ],
+                  [
+                    "chìa khóa"
+                  ]
+                ],
+                "matched_vocabulary": [
+                  "chìa khóa"
+                ],
+                "matched_clause_ids": [
+                  "clause-19-59",
+                  "clause-83-137"
+                ]
+              },
+              "required_context": [
+                "Initial inventory, keys and access cards, meter readings, tender and signature dates"
+              ],
+              "cross_clause_checks": [
+                "Compare return criteria with late fees, rent cutoff and deposit refund triggers"
+              ],
+              "reasoning_checklist": [
+                "Check who can accept handover and how refusal or absence is recorded"
+              ],
+              "expected_behavior": "Identify the documented return event and any disputed timing dependencies."
+            }
+          ]
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 1480,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          }
+        ]
+      },
+      "violations": [],
+      "errors": []
+    },
+    {
+      "id": "direct-02",
+      "category": "direct",
+      "explanation": "Điều 3 bổ sung thủ tục kiểm kê khi trả nhà.",
+      "expected_relevant_ids": [
+        "clause-94-144"
+      ],
+      "rank_metrics": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "precision_returned@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "precision_returned@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "precision_returned@5": 1.0,
+        "precision_returned_all": 1.0
+      },
+      "context_coverage": 1.0,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 52,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [
+        {
+          "code": "selected_context_not_packed",
+          "ids": [
+            "clause-94-144"
+          ]
+        }
+      ],
+      "invalid_checks": [],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-94-144",
+              "label": "Điều 3. Kiểm kê",
+              "start": 94,
+              "end": 144,
+              "text": "Điều 3. Kiểm kê\nHai bên đối chiếu danh mục đồ đạc.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+            "relation": {
+              "source_clause_id": "clause-0-93",
+              "target_clause_id": "clause-94-144",
+              "relation_type": "article",
+              "matching_text": "quy định tại Điều 3",
+              "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+              "priority": 1,
+              "source_start": 73,
+              "source_end": 92,
+              "target_start": 94,
+              "target_end": 144,
+              "embedded_heading_span": null
+            }
+          }
+        ],
+        "omitted": [],
+        "invalid": [],
+        "references": {
+          "run_id": "direct-02",
+          "document_sha256": "a1d06279136068e88c4c9f8d89be211376157893245a035b9a8c5ea66585622a",
+          "clause_ids": [
+            "clause-94-144"
+          ]
+        },
+        "budget_bytes": 4000,
+        "used_bytes": 122,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "direct-02",
+          "document_sha256": "a1d06279136068e88c4c9f8d89be211376157893245a035b9a8c5ea66585622a",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-19-59"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": []
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 528,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          },
+          {
+            "code": "no_guidance_packed",
+            "ids": []
+          }
+        ]
+      },
+      "violations": [],
+      "errors": [
+        "relevant_context_not_in_packet (clause-94-144)"
+      ]
+    },
+    {
+      "id": "direct-03",
+      "category": "direct",
+      "explanation": "Số La Mã IV trỏ tới Điều 4 ghi bằng số Ả Rập.",
+      "expected_relevant_ids": [
+        "clause-73-127"
+      ],
+      "rank_metrics": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "precision_returned@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "precision_returned@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "precision_returned@5": 1.0,
+        "precision_returned_all": 1.0
+      },
+      "context_coverage": 1.0,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 122,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [
+        "clause-73-127"
+      ],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [],
+      "invalid_checks": [],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-73-127",
+              "label": "ĐIỀU 4. Nhận chìa khóa",
+              "start": 73,
+              "end": 127,
+              "text": "ĐIỀU 4. Nhận chìa khóa\nChìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+            "relation": {
+              "source_clause_id": "clause-0-72",
+              "target_clause_id": "clause-73-127",
+              "relation_type": "article",
+              "matching_text": "Xem ĐIỀU IV",
+              "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+              "priority": 1,
+              "source_start": 60,
+              "source_end": 71,
+              "target_start": 73,
+              "target_end": 127,
+              "embedded_heading_span": null
+            }
+          }
+        ],
+        "omitted": [],
+        "invalid": [],
+        "references": {
+          "run_id": "direct-03",
+          "document_sha256": "ee25a0e8cef56694cf0d7da9475bcd0b14eeeb538832556740027ec43e07f09f",
+          "clause_ids": [
+            "clause-73-127"
+          ]
+        },
+        "budget_bytes": 4000,
+        "used_bytes": 122,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "direct-03",
+          "document_sha256": "ee25a0e8cef56694cf0d7da9475bcd0b14eeeb538832556740027ec43e07f09f",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-19-59"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            {
+              "clause_id": "clause-73-127",
+              "label": "ĐIỀU 4. Nhận chìa khóa",
+              "start": 73,
+              "end": 127,
+              "text": "ĐIỀU 4. Nhận chìa khóa\nChìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": [
+            {
+              "heuristic_id": "return_milestones",
+              "entry_version": "1.0.0",
+              "knowledge_version": "1.0.0",
+              "review_status": "draft",
+              "reason": {
+                "matched_codes": [
+                  "B-TRM-06"
+                ],
+                "matched_categories": [
+                  "TRM"
+                ],
+                "matched_triggers": [
+                  [
+                    "trả căn hộ"
+                  ],
+                  [
+                    "chìa khóa"
+                  ]
+                ],
+                "matched_vocabulary": [
+                  "chìa khóa"
+                ],
+                "matched_clause_ids": [
+                  "clause-19-59",
+                  "clause-73-127"
+                ]
+              },
+              "required_context": [
+                "Initial inventory, keys and access cards, meter readings, tender and signature dates"
+              ],
+              "cross_clause_checks": [
+                "Compare return criteria with late fees, rent cutoff and deposit refund triggers"
+              ],
+              "reasoning_checklist": [
+                "Check who can accept handover and how refusal or absence is recorded"
+              ],
+              "expected_behavior": "Identify the documented return event and any disputed timing dependencies."
+            }
+          ]
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 1484,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          }
+        ]
+      },
+      "violations": [],
+      "errors": []
+    },
+    {
+      "id": "direct-04",
+      "category": "direct",
+      "explanation": "Dẫn chiếu có số 0 ở đầu và đích dùng số chuẩn.",
+      "expected_relevant_ids": [
+        "clause-84-138"
+      ],
+      "rank_metrics": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "precision_returned@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "precision_returned@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "precision_returned@5": 1.0,
+        "precision_returned_all": 1.0
+      },
+      "context_coverage": 1.0,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 120,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [
+        "clause-84-138"
+      ],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [],
+      "invalid_checks": [],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-84-138",
+              "label": "Điều 5. Giao chìa khóa",
+              "start": 84,
+              "end": 138,
+              "text": "Điều 5. Giao chìa khóa\nChìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+            "relation": {
+              "source_clause_id": "clause-0-83",
+              "target_clause_id": "clause-84-138",
+              "relation_type": "article",
+              "matching_text": "theo Điều 005",
+              "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+              "priority": 1,
+              "source_start": 69,
+              "source_end": 82,
+              "target_start": 84,
+              "target_end": 138,
+              "embedded_heading_span": null
+            }
+          }
+        ],
+        "omitted": [],
+        "invalid": [],
+        "references": {
+          "run_id": "direct-04",
+          "document_sha256": "d7d8acb666c0cc2899165799939335f605540f24af69848c0f908a4dcc8131cf",
+          "clause_ids": [
+            "clause-84-138"
+          ]
+        },
+        "budget_bytes": 4000,
+        "used_bytes": 120,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "direct-04",
+          "document_sha256": "d7d8acb666c0cc2899165799939335f605540f24af69848c0f908a4dcc8131cf",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-19-59"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            {
+              "clause_id": "clause-84-138",
+              "label": "Điều 5. Giao chìa khóa",
+              "start": 84,
+              "end": 138,
+              "text": "Điều 5. Giao chìa khóa\nChìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": [
+            {
+              "heuristic_id": "return_milestones",
+              "entry_version": "1.0.0",
+              "knowledge_version": "1.0.0",
+              "review_status": "draft",
+              "reason": {
+                "matched_codes": [
+                  "B-TRM-06"
+                ],
+                "matched_categories": [
+                  "TRM"
+                ],
+                "matched_triggers": [
+                  [
+                    "trả căn hộ"
+                  ],
+                  [
+                    "chìa khóa"
+                  ]
+                ],
+                "matched_vocabulary": [
+                  "chìa khóa"
+                ],
+                "matched_clause_ids": [
+                  "clause-19-59",
+                  "clause-84-138"
+                ]
+              },
+              "required_context": [
+                "Initial inventory, keys and access cards, meter readings, tender and signature dates"
+              ],
+              "cross_clause_checks": [
+                "Compare return criteria with late fees, rent cutoff and deposit refund triggers"
+              ],
+              "reasoning_checklist": [
+                "Check who can accept handover and how refusal or absence is recorded"
+              ],
+              "expected_behavior": "Identify the documented return event and any disputed timing dependencies."
+            }
+          ]
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 1480,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          }
+        ]
+      },
+      "violations": [],
+      "errors": []
+    },
+    {
+      "id": "distant-01",
+      "category": "distant",
+      "explanation": "Điều 12 là đích duy nhất dù có ba Điều xen giữa.",
+      "expected_relevant_ids": [
+        "clause-152-201"
+      ],
+      "rank_metrics": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "precision_returned@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "precision_returned@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "precision_returned@5": 1.0,
+        "precision_returned_all": 1.0
+      },
+      "context_coverage": 1.0,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 114,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [
+        "clause-152-201"
+      ],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [
+        {
+          "code": "selected_context_not_packed",
+          "ids": [
+            "clause-105-117"
+          ]
+        }
+      ],
+      "invalid_checks": [],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-152-201",
+              "label": "Điều 12. Bàn giao",
+              "start": 152,
+              "end": 201,
+              "text": "Điều 12. Bàn giao\nChìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+            "relation": {
+              "source_clause_id": "clause-0-104",
+              "target_clause_id": "clause-152-201",
+              "relation_type": "article",
+              "matching_text": "quy định tại Điều 12",
+              "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+              "priority": 1,
+              "source_start": 83,
+              "source_end": 103,
+              "target_start": 152,
+              "target_end": 201,
+              "embedded_heading_span": null
+            }
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-105-117",
+              "label": "Điều 2. Điện",
+              "start": 105,
+              "end": 117,
+              "text": "Điều 2. Điện",
+              "relation": "neighbor",
+              "provenance": "clause_map"
+            },
+            "reason": "adjacent_to_primary",
+            "relation": null
+          }
+        ],
+        "omitted": [],
+        "invalid": [],
+        "references": {
+          "run_id": "distant-01",
+          "document_sha256": "a2a3d643b5091ae49a1c1fb3199bac97509c7e2523382e727440a68ed1b51347",
+          "clause_ids": [
+            "clause-152-201"
+          ]
+        },
+        "budget_bytes": 4000,
+        "used_bytes": 132,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "distant-01",
+          "document_sha256": "a2a3d643b5091ae49a1c1fb3199bac97509c7e2523382e727440a68ed1b51347",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-19-59"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            {
+              "clause_id": "clause-152-201",
+              "label": "Điều 12. Bàn giao",
+              "start": 152,
+              "end": 201,
+              "text": "Điều 12. Bàn giao\nChìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": [
+            {
+              "heuristic_id": "return_milestones",
+              "entry_version": "1.0.0",
+              "knowledge_version": "1.0.0",
+              "review_status": "draft",
+              "reason": {
+                "matched_codes": [
+                  "B-TRM-06"
+                ],
+                "matched_categories": [
+                  "TRM"
+                ],
+                "matched_triggers": [
+                  [
+                    "bàn giao",
+                    "trả căn hộ"
+                  ],
+                  [
+                    "chìa khóa"
+                  ]
+                ],
+                "matched_vocabulary": [
+                  "bàn giao",
+                  "chìa khóa"
+                ],
+                "matched_clause_ids": [
+                  "clause-19-59",
+                  "clause-152-201"
+                ]
+              },
+              "required_context": [
+                "Initial inventory, keys and access cards, meter readings, tender and signature dates"
+              ],
+              "cross_clause_checks": [
+                "Compare return criteria with late fees, rent cutoff and deposit refund triggers"
+              ],
+              "reasoning_checklist": [
+                "Check who can accept handover and how refusal or absence is recorded"
+              ],
+              "expected_behavior": "Identify the documented return event and any disputed timing dependencies."
+            }
+          ]
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 1496,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          }
+        ]
+      },
+      "violations": [],
+      "errors": []
+    },
+    {
+      "id": "distant-02",
+      "category": "distant",
+      "explanation": "Điều 8 nằm trước điều khoản nguồn hai mục.",
+      "expected_relevant_ids": [
+        "clause-0-48"
+      ],
+      "rank_metrics": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "precision_returned@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "precision_returned@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "precision_returned@5": 1.0,
+        "precision_returned_all": 1.0
+      },
+      "context_coverage": 1.0,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 113,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [
+        "clause-0-48"
+      ],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [
+        {
+          "code": "selected_context_not_packed",
+          "ids": [
+            "clause-154-174",
+            "clause-49-70"
+          ]
+        }
+      ],
+      "invalid_checks": [],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-90-130",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 90,
+              "end": 130,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-0-48",
+              "label": "Điều 8. Bàn giao",
+              "start": 0,
+              "end": 48,
+              "text": "Điều 8. Bàn giao\nChìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+            "relation": {
+              "source_clause_id": "clause-71-153",
+              "target_clause_id": "clause-0-48",
+              "relation_type": "article",
+              "matching_text": "theo Điều 8",
+              "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+              "priority": 1,
+              "source_start": 141,
+              "source_end": 152,
+              "target_start": 0,
+              "target_end": 48,
+              "embedded_heading_span": null
+            }
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-49-70",
+              "label": "Điều 9. Nuôi thú cưng",
+              "start": 49,
+              "end": 70,
+              "text": "Điều 9. Nuôi thú cưng",
+              "relation": "neighbor",
+              "provenance": "clause_map"
+            },
+            "reason": "adjacent_to_primary",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-154-174",
+              "label": "Điều 10. Sử dụng bếp",
+              "start": 154,
+              "end": 174,
+              "text": "Điều 10. Sử dụng bếp",
+              "relation": "neighbor",
+              "provenance": "clause_map"
+            },
+            "reason": "adjacent_to_primary",
+            "relation": null
+          }
+        ],
+        "omitted": [],
+        "invalid": [],
+        "references": {
+          "run_id": "distant-02",
+          "document_sha256": "76e78ff8136b813c91682b33eb183563865f369dc473085a813c919a589ed354",
+          "clause_ids": [
+            "clause-0-48"
+          ]
+        },
+        "budget_bytes": 4000,
+        "used_bytes": 169,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "distant-02",
+          "document_sha256": "76e78ff8136b813c91682b33eb183563865f369dc473085a813c919a589ed354",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-90-130"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-0-48",
+              "label": "Điều 8. Bàn giao",
+              "start": 0,
+              "end": 48,
+              "text": "Điều 8. Bàn giao\nChìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            {
+              "clause_id": "clause-90-130",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 90,
+              "end": 130,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": [
+            {
+              "heuristic_id": "return_milestones",
+              "entry_version": "1.0.0",
+              "knowledge_version": "1.0.0",
+              "review_status": "draft",
+              "reason": {
+                "matched_codes": [
+                  "B-TRM-06"
+                ],
+                "matched_categories": [
+                  "TRM"
+                ],
+                "matched_triggers": [
+                  [
+                    "bàn giao",
+                    "trả căn hộ"
+                  ],
+                  [
+                    "chìa khóa"
+                  ]
+                ],
+                "matched_vocabulary": [
+                  "bàn giao",
+                  "chìa khóa"
+                ],
+                "matched_clause_ids": [
+                  "clause-0-48",
+                  "clause-90-130"
+                ]
+              },
+              "required_context": [
+                "Initial inventory, keys and access cards, meter readings, tender and signature dates"
+              ],
+              "cross_clause_checks": [
+                "Compare return criteria with late fees, rent cutoff and deposit refund triggers"
+              ],
+              "reasoning_checklist": [
+                "Check who can accept handover and how refusal or absence is recorded"
+              ],
+              "expected_behavior": "Identify the documented return event and any disputed timing dependencies."
+            }
+          ]
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 1489,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          }
+        ]
+      },
+      "violations": [],
+      "errors": []
+    },
+    {
+      "id": "distant-03",
+      "category": "distant",
+      "explanation": "Khoảng cách lớn không làm mất liên kết tới Điều 20.",
+      "expected_relevant_ids": [
+        "clause-126-175"
+      ],
+      "rank_metrics": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "precision_returned@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "precision_returned@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "precision_returned@5": 1.0,
+        "precision_returned_all": 1.0
+      },
+      "context_coverage": 1.0,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 116,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [
+        "clause-126-175"
+      ],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [
+        {
+          "code": "selected_context_not_packed",
+          "ids": [
+            "clause-82-97"
+          ]
+        }
+      ],
+      "invalid_checks": [],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-126-175",
+              "label": "Điều 20. Xác nhận",
+              "start": 126,
+              "end": 175,
+              "text": "Điều 20. Xác nhận\nChìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+            "relation": {
+              "source_clause_id": "clause-0-81",
+              "target_clause_id": "clause-126-175",
+              "relation_type": "article",
+              "matching_text": "Quy định tại Điều 20",
+              "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+              "priority": 1,
+              "source_start": 60,
+              "source_end": 80,
+              "target_start": 126,
+              "target_end": 175,
+              "embedded_heading_span": null
+            }
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-82-97",
+              "label": "Điều 2. Chi phí",
+              "start": 82,
+              "end": 97,
+              "text": "Điều 2. Chi phí",
+              "relation": "neighbor",
+              "provenance": "clause_map"
+            },
+            "reason": "adjacent_to_primary",
+            "relation": null
+          }
+        ],
+        "omitted": [],
+        "invalid": [],
+        "references": {
+          "run_id": "distant-03",
+          "document_sha256": "9fcf838e2cd188c5ec8e6b2fd9780dc11a92e602b18b4a8beec8023966892e97",
+          "clause_ids": [
+            "clause-126-175"
+          ]
+        },
+        "budget_bytes": 4000,
+        "used_bytes": 135,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "distant-03",
+          "document_sha256": "9fcf838e2cd188c5ec8e6b2fd9780dc11a92e602b18b4a8beec8023966892e97",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-19-59"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            {
+              "clause_id": "clause-126-175",
+              "label": "Điều 20. Xác nhận",
+              "start": 126,
+              "end": 175,
+              "text": "Điều 20. Xác nhận\nChìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": [
+            {
+              "heuristic_id": "return_milestones",
+              "entry_version": "1.0.0",
+              "knowledge_version": "1.0.0",
+              "review_status": "draft",
+              "reason": {
+                "matched_codes": [
+                  "B-TRM-06"
+                ],
+                "matched_categories": [
+                  "TRM"
+                ],
+                "matched_triggers": [
+                  [
+                    "trả căn hộ"
+                  ],
+                  [
+                    "chìa khóa"
+                  ]
+                ],
+                "matched_vocabulary": [
+                  "chìa khóa"
+                ],
+                "matched_clause_ids": [
+                  "clause-19-59",
+                  "clause-126-175"
+                ]
+              },
+              "required_context": [
+                "Initial inventory, keys and access cards, meter readings, tender and signature dates"
+              ],
+              "cross_clause_checks": [
+                "Compare return criteria with late fees, rent cutoff and deposit refund triggers"
+              ],
+              "reasoning_checklist": [
+                "Check who can accept handover and how refusal or absence is recorded"
+              ],
+              "expected_behavior": "Identify the documented return event and any disputed timing dependencies."
+            }
+          ]
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 1476,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          }
+        ]
+      },
+      "violations": [],
+      "errors": []
+    },
+    {
+      "id": "multiple-01",
+      "category": "multiple",
+      "explanation": "Điều 6 và Phụ lục 2 giải thích hai phần của bàn giao.",
+      "expected_relevant_ids": [
+        "clause-108-157",
+        "clause-158-186"
+      ],
+      "rank_metrics": {
+        "recall@1": 0.5,
+        "precision@1": 1.0,
+        "precision_returned@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.6666666666666666,
+        "precision_returned@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "precision_returned@5": 1.0,
+        "precision_returned_all": 1.0
+      },
+      "context_coverage": 1.0,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 115,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [
+        "clause-108-157"
+      ],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [
+        {
+          "code": "selected_context_not_packed",
+          "ids": [
+            "clause-158-186",
+            "clause-92-107"
+          ]
+        }
+      ],
+      "invalid_checks": [],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-108-157",
+              "label": "Điều 6. Chìa khóa",
+              "start": 108,
+              "end": 157,
+              "text": "Điều 6. Chìa khóa\nChìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+            "relation": {
+              "source_clause_id": "clause-0-91",
+              "target_clause_id": "clause-108-157",
+              "relation_type": "article",
+              "matching_text": "theo Điều 6",
+              "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+              "priority": 1,
+              "source_start": 64,
+              "source_end": 75,
+              "target_start": 108,
+              "target_end": 157,
+              "embedded_heading_span": null
+            }
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-158-186",
+              "label": "Phụ lục 2. Danh sách tài sản",
+              "start": 158,
+              "end": 186,
+              "text": "Phụ lục 2. Danh sách tài sản",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+            "relation": {
+              "source_clause_id": "clause-0-91",
+              "target_clause_id": "clause-158-186",
+              "relation_type": "appendix",
+              "matching_text": "Xem Phụ lục 2",
+              "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+              "priority": 1,
+              "source_start": 77,
+              "source_end": 90,
+              "target_start": 158,
+              "target_end": 186,
+              "embedded_heading_span": null
+            }
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-92-107",
+              "label": "Điều 2. Giờ vào",
+              "start": 92,
+              "end": 107,
+              "text": "Điều 2. Giờ vào",
+              "relation": "neighbor",
+              "provenance": "clause_map"
+            },
+            "reason": "adjacent_to_primary",
+            "relation": null
+          }
+        ],
+        "omitted": [],
+        "invalid": [],
+        "references": {
+          "run_id": "multiple-01",
+          "document_sha256": "d5012104fa928ed3cb000ab3c8bb45e812bd2d25ee74863277abb65db6750bd5",
+          "clause_ids": [
+            "clause-108-157",
+            "clause-158-186"
+          ]
+        },
+        "budget_bytes": 4000,
+        "used_bytes": 172,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "multiple-01",
+          "document_sha256": "d5012104fa928ed3cb000ab3c8bb45e812bd2d25ee74863277abb65db6750bd5",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-19-59"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            {
+              "clause_id": "clause-108-157",
+              "label": "Điều 6. Chìa khóa",
+              "start": 108,
+              "end": 157,
+              "text": "Điều 6. Chìa khóa\nChìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": [
+            {
+              "heuristic_id": "return_milestones",
+              "entry_version": "1.0.0",
+              "knowledge_version": "1.0.0",
+              "review_status": "draft",
+              "reason": {
+                "matched_codes": [
+                  "B-TRM-06"
+                ],
+                "matched_categories": [
+                  "TRM"
+                ],
+                "matched_triggers": [
+                  [
+                    "trả căn hộ"
+                  ],
+                  [
+                    "chìa khóa"
+                  ]
+                ],
+                "matched_vocabulary": [
+                  "chìa khóa"
+                ],
+                "matched_clause_ids": [
+                  "clause-19-59",
+                  "clause-108-157"
+                ]
+              },
+              "required_context": [
+                "Initial inventory, keys and access cards, meter readings, tender and signature dates"
+              ],
+              "cross_clause_checks": [
+                "Compare return criteria with late fees, rent cutoff and deposit refund triggers"
+              ],
+              "reasoning_checklist": [
+                "Check who can accept handover and how refusal or absence is recorded"
+              ],
+              "expected_behavior": "Identify the documented return event and any disputed timing dependencies."
+            }
+          ]
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 1475,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          }
+        ]
+      },
+      "violations": [],
+      "errors": [
+        "relevant_context_not_in_packet (clause-158-186)"
+      ]
+    },
+    {
+      "id": "multiple-02",
+      "category": "multiple",
+      "explanation": "Hai lần nhắc Điều 4 chỉ tạo một đích.",
+      "expected_relevant_ids": [
+        "clause-106-155",
+        "clause-156-172"
+      ],
+      "rank_metrics": {
+        "recall@1": 0.5,
+        "precision@1": 1.0,
+        "precision_returned@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.6666666666666666,
+        "precision_returned@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "precision_returned@5": 1.0,
+        "precision_returned_all": 1.0
+      },
+      "context_coverage": 1.0,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 115,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [
+        "clause-106-155"
+      ],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [
+        {
+          "code": "selected_context_not_packed",
+          "ids": [
+            "clause-156-172"
+          ]
+        }
+      ],
+      "invalid_checks": [],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-106-155",
+              "label": "Điều 4. Chìa khóa",
+              "start": 106,
+              "end": 155,
+              "text": "Điều 4. Chìa khóa\nChìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+            "relation": {
+              "source_clause_id": "clause-0-105",
+              "target_clause_id": "clause-106-155",
+              "relation_type": "article",
+              "matching_text": "Theo Điều 4",
+              "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+              "priority": 1,
+              "source_start": 60,
+              "source_end": 71,
+              "target_start": 106,
+              "target_end": 155,
+              "embedded_heading_span": null
+            }
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-156-172",
+              "label": "Điều 9. Biên bản",
+              "start": 156,
+              "end": 172,
+              "text": "Điều 9. Biên bản",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+            "relation": {
+              "source_clause_id": "clause-0-105",
+              "target_clause_id": "clause-156-172",
+              "relation_type": "article",
+              "matching_text": "Xem Điều 9",
+              "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+              "priority": 1,
+              "source_start": 94,
+              "source_end": 104,
+              "target_start": 156,
+              "target_end": 172,
+              "embedded_heading_span": null
+            }
+          }
+        ],
+        "omitted": [],
+        "invalid": [],
+        "references": {
+          "run_id": "multiple-02",
+          "document_sha256": "74d63f3c213eaf7fd6f1f52847bbc4b0e4929c237721ee9074cfbc4c70c223dc",
+          "clause_ids": [
+            "clause-106-155",
+            "clause-156-172"
+          ]
+        },
+        "budget_bytes": 4000,
+        "used_bytes": 137,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "multiple-02",
+          "document_sha256": "74d63f3c213eaf7fd6f1f52847bbc4b0e4929c237721ee9074cfbc4c70c223dc",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-19-59"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            {
+              "clause_id": "clause-106-155",
+              "label": "Điều 4. Chìa khóa",
+              "start": 106,
+              "end": 155,
+              "text": "Điều 4. Chìa khóa\nChìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": [
+            {
+              "heuristic_id": "return_milestones",
+              "entry_version": "1.0.0",
+              "knowledge_version": "1.0.0",
+              "review_status": "draft",
+              "reason": {
+                "matched_codes": [
+                  "B-TRM-06"
+                ],
+                "matched_categories": [
+                  "TRM"
+                ],
+                "matched_triggers": [
+                  [
+                    "trả căn hộ"
+                  ],
+                  [
+                    "chìa khóa"
+                  ]
+                ],
+                "matched_vocabulary": [
+                  "chìa khóa"
+                ],
+                "matched_clause_ids": [
+                  "clause-19-59",
+                  "clause-106-155"
+                ]
+              },
+              "required_context": [
+                "Initial inventory, keys and access cards, meter readings, tender and signature dates"
+              ],
+              "cross_clause_checks": [
+                "Compare return criteria with late fees, rent cutoff and deposit refund triggers"
+              ],
+              "reasoning_checklist": [
+                "Check who can accept handover and how refusal or absence is recorded"
+              ],
+              "expected_behavior": "Identify the documented return event and any disputed timing dependencies."
+            }
+          ]
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 1475,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          }
+        ]
+      },
+      "violations": [],
+      "errors": [
+        "relevant_context_not_in_packet (clause-156-172)"
+      ]
+    },
+    {
+      "id": "multiple-03",
+      "category": "multiple",
+      "explanation": "Sáu đích hợp lệ phân biệt Recall@1, @3 và @5.",
+      "expected_relevant_ids": [
+        "clause-132-158",
+        "clause-159-183",
+        "clause-184-200",
+        "clause-201-223",
+        "clause-224-273",
+        "clause-274-299"
+      ],
+      "rank_metrics": {
+        "recall@1": 0.16666666666666666,
+        "precision@1": 1.0,
+        "precision_returned@1": 1.0,
+        "recall@3": 0.5,
+        "precision@3": 1.0,
+        "precision_returned@3": 1.0,
+        "recall@5": 0.8333333333333334,
+        "precision@5": 1.0,
+        "precision_returned@5": 1.0,
+        "precision_returned_all": 1.0
+      },
+      "context_coverage": 1.0,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 52,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [
+        {
+          "code": "selected_context_not_packed",
+          "ids": [
+            "clause-132-158",
+            "clause-159-183",
+            "clause-184-200",
+            "clause-201-223",
+            "clause-224-273",
+            "clause-274-299"
+          ]
+        }
+      ],
+      "invalid_checks": [],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-132-158",
+              "label": "Điều 3. Thời điểm bàn giao",
+              "start": 132,
+              "end": 158,
+              "text": "Điều 3. Thời điểm bàn giao",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+            "relation": {
+              "source_clause_id": "clause-0-131",
+              "target_clause_id": "clause-132-158",
+              "relation_type": "article",
+              "matching_text": "Xem Điều 3",
+              "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+              "priority": 1,
+              "source_start": 60,
+              "source_end": 70,
+              "target_start": 132,
+              "target_end": 158,
+              "embedded_heading_span": null
+            }
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-159-183",
+              "label": "Điều 4. Người chứng kiến",
+              "start": 159,
+              "end": 183,
+              "text": "Điều 4. Người chứng kiến",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+            "relation": {
+              "source_clause_id": "clause-0-131",
+              "target_clause_id": "clause-159-183",
+              "relation_type": "article",
+              "matching_text": "Xem Điều 4",
+              "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+              "priority": 1,
+              "source_start": 72,
+              "source_end": 82,
+              "target_start": 159,
+              "target_end": 183,
+              "embedded_heading_span": null
+            }
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-184-200",
+              "label": "Điều 5. Biên bản",
+              "start": 184,
+              "end": 200,
+              "text": "Điều 5. Biên bản",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+            "relation": {
+              "source_clause_id": "clause-0-131",
+              "target_clause_id": "clause-184-200",
+              "relation_type": "article",
+              "matching_text": "Xem Điều 5",
+              "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+              "priority": 1,
+              "source_start": 84,
+              "source_end": 94,
+              "target_start": 184,
+              "target_end": 200,
+              "embedded_heading_span": null
+            }
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-201-223",
+              "label": "Điều 6. Ảnh hiện trạng",
+              "start": 201,
+              "end": 223,
+              "text": "Điều 6. Ảnh hiện trạng",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+            "relation": {
+              "source_clause_id": "clause-0-131",
+              "target_clause_id": "clause-201-223",
+              "relation_type": "article",
+              "matching_text": "Xem Điều 6",
+              "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+              "priority": 1,
+              "source_start": 96,
+              "source_end": 106,
+              "target_start": 201,
+              "target_end": 223,
+              "embedded_heading_span": null
+            }
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-224-273",
+              "label": "Điều 7. Chìa khóa",
+              "start": 224,
+              "end": 273,
+              "text": "Điều 7. Chìa khóa\nChìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+            "relation": {
+              "source_clause_id": "clause-0-131",
+              "target_clause_id": "clause-224-273",
+              "relation_type": "article",
+              "matching_text": "Xem Điều 7",
+              "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+              "priority": 1,
+              "source_start": 108,
+              "source_end": 118,
+              "target_start": 224,
+              "target_end": 273,
+              "embedded_heading_span": null
+            }
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-274-299",
+              "label": "Điều 8. Hoàn tất bàn giao",
+              "start": 274,
+              "end": 299,
+              "text": "Điều 8. Hoàn tất bàn giao",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+            "relation": {
+              "source_clause_id": "clause-0-131",
+              "target_clause_id": "clause-274-299",
+              "relation_type": "article",
+              "matching_text": "Xem Điều 8",
+              "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+              "priority": 1,
+              "source_start": 120,
+              "source_end": 130,
+              "target_start": 274,
+              "target_end": 299,
+              "embedded_heading_span": null
+            }
+          }
+        ],
+        "omitted": [],
+        "invalid": [],
+        "references": {
+          "run_id": "multiple-03",
+          "document_sha256": "094b565554c923b39dd22eacc688c8d6991ea52a2dbce5d97199b762498f1b26",
+          "clause_ids": [
+            "clause-132-158",
+            "clause-159-183",
+            "clause-184-200",
+            "clause-201-223",
+            "clause-224-273",
+            "clause-274-299"
+          ]
+        },
+        "budget_bytes": 4000,
+        "used_bytes": 269,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "multiple-03",
+          "document_sha256": "094b565554c923b39dd22eacc688c8d6991ea52a2dbce5d97199b762498f1b26",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-19-59"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": []
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 530,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          },
+          {
+            "code": "clause_reference_limit",
+            "ids": [
+              "clause-201-223"
+            ]
+          },
+          {
+            "code": "clause_reference_limit",
+            "ids": [
+              "clause-224-273"
+            ]
+          },
+          {
+            "code": "clause_reference_limit",
+            "ids": [
+              "clause-274-299"
+            ]
+          },
+          {
+            "code": "no_guidance_packed",
+            "ids": []
+          }
+        ]
+      },
+      "violations": [],
+      "errors": [
+        "relevant_context_not_in_packet (clause-132-158, clause-159-183, clause-184-200, clause-201-223, clause-224-273, clause-274-299)"
+      ]
+    },
+    {
+      "id": "paragraph-01",
+      "category": "direct",
+      "explanation": "Điều 7 chứa đúng một dấu Khoản 2.",
+      "expected_relevant_ids": [
+        "clause-87-151"
+      ],
+      "rank_metrics": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "precision_returned@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "precision_returned@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "precision_returned@5": 1.0,
+        "precision_returned_all": 1.0
+      },
+      "context_coverage": 1.0,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 133,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [
+        "clause-87-151"
+      ],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [],
+      "invalid_checks": [],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-87-151",
+              "label": "Điều 7. Bàn giao",
+              "start": 87,
+              "end": 151,
+              "text": "Điều 7. Bàn giao\n1. Chụp ảnh.\n2. Chìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một Điều và một dấu đầu dòng Khoản duy nhất trong Điều đó.",
+            "relation": {
+              "source_clause_id": "clause-0-86",
+              "target_clause_id": "clause-87-151",
+              "relation_type": "paragraph",
+              "matching_text": "Tham chiếu Khoản 2 Điều 7",
+              "reason": "Dẫn chiếu khớp với một Điều và một dấu đầu dòng Khoản duy nhất trong Điều đó.",
+              "priority": 2,
+              "source_start": 60,
+              "source_end": 85,
+              "target_start": 87,
+              "target_end": 151,
+              "embedded_heading_span": null
+            }
+          }
+        ],
+        "omitted": [],
+        "invalid": [],
+        "references": {
+          "run_id": "paragraph-01",
+          "document_sha256": "f7b5314d0549923873e8d1a26a4bd44404a3992f913555903635ee70c4da2797",
+          "clause_ids": [
+            "clause-87-151"
+          ]
+        },
+        "budget_bytes": 4000,
+        "used_bytes": 133,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "paragraph-01",
+          "document_sha256": "f7b5314d0549923873e8d1a26a4bd44404a3992f913555903635ee70c4da2797",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-19-59"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            {
+              "clause_id": "clause-87-151",
+              "label": "Điều 7. Bàn giao",
+              "start": 87,
+              "end": 151,
+              "text": "Điều 7. Bàn giao\n1. Chụp ảnh.\n2. Chìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": [
+            {
+              "heuristic_id": "return_milestones",
+              "entry_version": "1.0.0",
+              "knowledge_version": "1.0.0",
+              "review_status": "draft",
+              "reason": {
+                "matched_codes": [
+                  "B-TRM-06"
+                ],
+                "matched_categories": [
+                  "TRM"
+                ],
+                "matched_triggers": [
+                  [
+                    "bàn giao",
+                    "trả căn hộ"
+                  ],
+                  [
+                    "chìa khóa"
+                  ]
+                ],
+                "matched_vocabulary": [
+                  "bàn giao",
+                  "chìa khóa"
+                ],
+                "matched_clause_ids": [
+                  "clause-19-59",
+                  "clause-87-151"
+                ]
+              },
+              "required_context": [
+                "Initial inventory, keys and access cards, meter readings, tender and signature dates"
+              ],
+              "cross_clause_checks": [
+                "Compare return criteria with late fees, rent cutoff and deposit refund triggers"
+              ],
+              "reasoning_checklist": [
+                "Check who can accept handover and how refusal or absence is recorded"
+              ],
+              "expected_behavior": "Identify the documented return event and any disputed timing dependencies."
+            }
+          ]
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 1514,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          }
+        ]
+      },
+      "violations": [],
+      "errors": []
+    },
+    {
+      "id": "paragraph-02",
+      "category": "multiple",
+      "explanation": "Khoản 2 được xác minh nên đứng trước dẫn chiếu Điều 5.",
+      "expected_relevant_ids": [
+        "clause-116-169",
+        "clause-99-115"
+      ],
+      "rank_metrics": {
+        "recall@1": 0.5,
+        "precision@1": 1.0,
+        "precision_returned@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.6666666666666666,
+        "precision_returned@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "precision_returned@5": 1.0,
+        "precision_returned_all": 1.0
+      },
+      "context_coverage": 1.0,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 118,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [
+        "clause-116-169"
+      ],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [
+        {
+          "code": "selected_context_not_packed",
+          "ids": [
+            "clause-99-115"
+          ]
+        }
+      ],
+      "invalid_checks": [],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-116-169",
+              "label": "Điều 7. Bàn giao",
+              "start": 116,
+              "end": 169,
+              "text": "Điều 7. Bàn giao\n7.2. Chìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một Điều và một dấu đầu dòng Khoản duy nhất trong Điều đó.",
+            "relation": {
+              "source_clause_id": "clause-0-98",
+              "target_clause_id": "clause-116-169",
+              "relation_type": "paragraph",
+              "matching_text": "Tham chiếu Khoản 2 Điều 7",
+              "reason": "Dẫn chiếu khớp với một Điều và một dấu đầu dòng Khoản duy nhất trong Điều đó.",
+              "priority": 2,
+              "source_start": 72,
+              "source_end": 97,
+              "target_start": 116,
+              "target_end": 169,
+              "embedded_heading_span": null
+            }
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-99-115",
+              "label": "Điều 5. Biên bản",
+              "start": 99,
+              "end": 115,
+              "text": "Điều 5. Biên bản",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+            "relation": {
+              "source_clause_id": "clause-0-98",
+              "target_clause_id": "clause-99-115",
+              "relation_type": "article",
+              "matching_text": "Xem Điều 5",
+              "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+              "priority": 1,
+              "source_start": 60,
+              "source_end": 70,
+              "target_start": 99,
+              "target_end": 115,
+              "embedded_heading_span": null
+            }
+          }
+        ],
+        "omitted": [],
+        "invalid": [],
+        "references": {
+          "run_id": "paragraph-02",
+          "document_sha256": "0750654188fa54b6a3cb15fcd561084cce00337362da399ce0e0825d68e8f7a4",
+          "clause_ids": [
+            "clause-116-169",
+            "clause-99-115"
+          ]
+        },
+        "budget_bytes": 4000,
+        "used_bytes": 140,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "paragraph-02",
+          "document_sha256": "0750654188fa54b6a3cb15fcd561084cce00337362da399ce0e0825d68e8f7a4",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-19-59"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            {
+              "clause_id": "clause-116-169",
+              "label": "Điều 7. Bàn giao",
+              "start": 116,
+              "end": 169,
+              "text": "Điều 7. Bàn giao\n7.2. Chìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": [
+            {
+              "heuristic_id": "return_milestones",
+              "entry_version": "1.0.0",
+              "knowledge_version": "1.0.0",
+              "review_status": "draft",
+              "reason": {
+                "matched_codes": [
+                  "B-TRM-06"
+                ],
+                "matched_categories": [
+                  "TRM"
+                ],
+                "matched_triggers": [
+                  [
+                    "bàn giao",
+                    "trả căn hộ"
+                  ],
+                  [
+                    "chìa khóa"
+                  ]
+                ],
+                "matched_vocabulary": [
+                  "bàn giao",
+                  "chìa khóa"
+                ],
+                "matched_clause_ids": [
+                  "clause-19-59",
+                  "clause-116-169"
+                ]
+              },
+              "required_context": [
+                "Initial inventory, keys and access cards, meter readings, tender and signature dates"
+              ],
+              "cross_clause_checks": [
+                "Compare return criteria with late fees, rent cutoff and deposit refund triggers"
+              ],
+              "reasoning_checklist": [
+                "Check who can accept handover and how refusal or absence is recorded"
+              ],
+              "expected_behavior": "Identify the documented return event and any disputed timing dependencies."
+            }
+          ]
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 1501,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          }
+        ]
+      },
+      "violations": [],
+      "errors": [
+        "relevant_context_not_in_packet (clause-99-115)"
+      ]
+    },
+    {
+      "id": "paragraph-03",
+      "category": "missing",
+      "explanation": "Điều 7 có Khoản 2 còn Khoản 3 bị thiếu.",
+      "expected_relevant_ids": [],
+      "rank_metrics": {
+        "recall@1": null,
+        "precision@1": 0.0,
+        "precision_returned@1": null,
+        "recall@3": null,
+        "precision@3": 0.0,
+        "precision_returned@3": null,
+        "recall@5": null,
+        "precision@5": 0.0,
+        "precision_returned@5": null,
+        "precision_returned_all": null
+      },
+      "context_coverage": 1.0,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 116,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [],
+      "invalid_checks": [
+        {
+          "reason": "missing_or_ambiguous_paragraph",
+          "matching_text": "Tham chiếu Khoản 3 Điều 7",
+          "forbidden_ids": [
+            "clause-87-138"
+          ],
+          "rejected": true
+        }
+      ],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-87-138",
+              "label": "Điều 7. Bàn giao",
+              "start": 87,
+              "end": 138,
+              "text": "Điều 7. Bàn giao\n2. Chìa khóa được giao cho lễ tân.",
+              "relation": "neighbor",
+              "provenance": "clause_map"
+            },
+            "reason": "adjacent_to_primary",
+            "relation": null
+          }
+        ],
+        "omitted": [],
+        "invalid": [
+          {
+            "reason": "missing_or_ambiguous_paragraph",
+            "clause_id": null,
+            "source_clause_id": "clause-0-86",
+            "matching_text": "Tham chiếu Khoản 3 Điều 7",
+            "source_start": 60,
+            "source_end": 85,
+            "role": null
+          }
+        ],
+        "references": {
+          "run_id": "paragraph-03",
+          "document_sha256": "73587070a0342dd8292077c48461aeb7f91ad86ad8f997f5da3b26ae772e09fc",
+          "clause_ids": []
+        },
+        "budget_bytes": 4000,
+        "used_bytes": 116,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "paragraph-03",
+          "document_sha256": "73587070a0342dd8292077c48461aeb7f91ad86ad8f997f5da3b26ae772e09fc",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-19-59"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            {
+              "clause_id": "clause-87-138",
+              "label": "Điều 7. Bàn giao",
+              "start": 87,
+              "end": 138,
+              "text": "Điều 7. Bàn giao\n2. Chìa khóa được giao cho lễ tân.",
+              "relation": "neighbor",
+              "provenance": "clause_map"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": [
+            {
+              "heuristic_id": "return_milestones",
+              "entry_version": "1.0.0",
+              "knowledge_version": "1.0.0",
+              "review_status": "draft",
+              "reason": {
+                "matched_codes": [
+                  "B-TRM-06"
+                ],
+                "matched_categories": [
+                  "TRM"
+                ],
+                "matched_triggers": [
+                  [
+                    "bàn giao",
+                    "trả căn hộ"
+                  ],
+                  [
+                    "chìa khóa"
+                  ]
+                ],
+                "matched_vocabulary": [
+                  "bàn giao",
+                  "chìa khóa"
+                ],
+                "matched_clause_ids": [
+                  "clause-19-59",
+                  "clause-87-138"
+                ]
+              },
+              "required_context": [
+                "Initial inventory, keys and access cards, meter readings, tender and signature dates"
+              ],
+              "cross_clause_checks": [
+                "Compare return criteria with late fees, rent cutoff and deposit refund triggers"
+              ],
+              "reasoning_checklist": [
+                "Check who can accept handover and how refusal or absence is recorded"
+              ],
+              "expected_behavior": "Identify the documented return event and any disputed timing dependencies."
+            }
+          ]
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 1495,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          }
+        ]
+      },
+      "violations": [],
+      "errors": []
+    },
+    {
+      "id": "ambiguous-01",
+      "category": "ambiguous",
+      "explanation": "Hai Điều 5 cùng hợp lệ về hình thức và không đủ căn cứ chọn một.",
+      "expected_relevant_ids": [],
+      "rank_metrics": {
+        "recall@1": null,
+        "precision@1": 0.0,
+        "precision_returned@1": null,
+        "recall@3": null,
+        "precision@3": 0.0,
+        "precision_returned@3": null,
+        "recall@5": null,
+        "precision@5": 0.0,
+        "precision_returned@5": null,
+        "precision_returned_all": null
+      },
+      "context_coverage": 1.0,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 52,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [
+        {
+          "code": "selected_context_not_packed",
+          "ids": [
+            "clause-73-89"
+          ]
+        }
+      ],
+      "invalid_checks": [
+        {
+          "reason": "ambiguous_target",
+          "matching_text": "Theo Điều 5",
+          "forbidden_ids": [
+            "clause-73-89",
+            "clause-90-111"
+          ],
+          "rejected": true
+        }
+      ],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-73-89",
+              "label": "Điều 5. Xác nhận",
+              "start": 73,
+              "end": 89,
+              "text": "Điều 5. Xác nhận",
+              "relation": "neighbor",
+              "provenance": "clause_map"
+            },
+            "reason": "adjacent_to_primary",
+            "relation": null
+          }
+        ],
+        "omitted": [],
+        "invalid": [
+          {
+            "reason": "ambiguous_target",
+            "clause_id": null,
+            "source_clause_id": "clause-0-72",
+            "matching_text": "Theo Điều 5",
+            "source_start": 60,
+            "source_end": 71,
+            "role": null
+          }
+        ],
+        "references": {
+          "run_id": "ambiguous-01",
+          "document_sha256": "2e17c4e48b66ceea8403e28f515ce6d1e55e6513a45453ef5df6bb74c5ebb2d2",
+          "clause_ids": []
+        },
+        "budget_bytes": 4000,
+        "used_bytes": 74,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "ambiguous-01",
+          "document_sha256": "2e17c4e48b66ceea8403e28f515ce6d1e55e6513a45453ef5df6bb74c5ebb2d2",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-19-59"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": []
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 531,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          },
+          {
+            "code": "no_guidance_packed",
+            "ids": []
+          }
+        ]
+      },
+      "violations": [],
+      "errors": []
+    },
+    {
+      "id": "ambiguous-02",
+      "category": "ambiguous",
+      "explanation": "Điều 7 lặp số nên cần thêm thông tin để xác định đúng văn bản đích.",
+      "expected_relevant_ids": [],
+      "rank_metrics": {
+        "recall@1": null,
+        "precision@1": 0.0,
+        "precision_returned@1": null,
+        "recall@3": null,
+        "precision@3": 0.0,
+        "precision_returned@3": null,
+        "recall@5": null,
+        "precision@5": 0.0,
+        "precision_returned@5": null,
+        "precision_returned_all": null
+      },
+      "context_coverage": 1.0,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 116,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [],
+      "invalid_checks": [
+        {
+          "reason": "ambiguous_target",
+          "matching_text": "Tham chiếu Khoản 2 Điều 7",
+          "forbidden_ids": [
+            "clause-87-138",
+            "clause-139-155"
+          ],
+          "rejected": true
+        }
+      ],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-87-138",
+              "label": "Điều 7. Bàn giao",
+              "start": 87,
+              "end": 138,
+              "text": "Điều 7. Bàn giao\n2. Chìa khóa được giao cho lễ tân.",
+              "relation": "neighbor",
+              "provenance": "clause_map"
+            },
+            "reason": "adjacent_to_primary",
+            "relation": null
+          }
+        ],
+        "omitted": [],
+        "invalid": [
+          {
+            "reason": "ambiguous_target",
+            "clause_id": null,
+            "source_clause_id": "clause-0-86",
+            "matching_text": "Tham chiếu Khoản 2 Điều 7",
+            "source_start": 60,
+            "source_end": 85,
+            "role": null
+          }
+        ],
+        "references": {
+          "run_id": "ambiguous-02",
+          "document_sha256": "9f63c134640f9d2548577519deee98ed89fcc6ef0698ce9f2274a4aa8f6f70aa",
+          "clause_ids": []
+        },
+        "budget_bytes": 4000,
+        "used_bytes": 116,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "ambiguous-02",
+          "document_sha256": "9f63c134640f9d2548577519deee98ed89fcc6ef0698ce9f2274a4aa8f6f70aa",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-19-59"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            {
+              "clause_id": "clause-87-138",
+              "label": "Điều 7. Bàn giao",
+              "start": 87,
+              "end": 138,
+              "text": "Điều 7. Bàn giao\n2. Chìa khóa được giao cho lễ tân.",
+              "relation": "neighbor",
+              "provenance": "clause_map"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": [
+            {
+              "heuristic_id": "return_milestones",
+              "entry_version": "1.0.0",
+              "knowledge_version": "1.0.0",
+              "review_status": "draft",
+              "reason": {
+                "matched_codes": [
+                  "B-TRM-06"
+                ],
+                "matched_categories": [
+                  "TRM"
+                ],
+                "matched_triggers": [
+                  [
+                    "bàn giao",
+                    "trả căn hộ"
+                  ],
+                  [
+                    "chìa khóa"
+                  ]
+                ],
+                "matched_vocabulary": [
+                  "bàn giao",
+                  "chìa khóa"
+                ],
+                "matched_clause_ids": [
+                  "clause-19-59",
+                  "clause-87-138"
+                ]
+              },
+              "required_context": [
+                "Initial inventory, keys and access cards, meter readings, tender and signature dates"
+              ],
+              "cross_clause_checks": [
+                "Compare return criteria with late fees, rent cutoff and deposit refund triggers"
+              ],
+              "reasoning_checklist": [
+                "Check who can accept handover and how refusal or absence is recorded"
+              ],
+              "expected_behavior": "Identify the documented return event and any disputed timing dependencies."
+            }
+          ]
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 1495,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          }
+        ]
+      },
+      "violations": [],
+      "errors": []
+    },
+    {
+      "id": "ambiguous-03",
+      "category": "ambiguous",
+      "explanation": "Điều 5 mơ hồ còn Điều 8 có đích duy nhất.",
+      "expected_relevant_ids": [
+        "clause-120-169"
+      ],
+      "rank_metrics": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "precision_returned@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "precision_returned@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "precision_returned@5": 1.0,
+        "precision_returned_all": 1.0
+      },
+      "context_coverage": 1.0,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 115,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [
+        "clause-120-169"
+      ],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [
+        {
+          "code": "selected_context_not_packed",
+          "ids": [
+            "clause-85-101"
+          ]
+        }
+      ],
+      "invalid_checks": [
+        {
+          "reason": "ambiguous_target",
+          "matching_text": "Theo Điều 5",
+          "forbidden_ids": [
+            "clause-85-101",
+            "clause-102-119"
+          ],
+          "rejected": true
+        }
+      ],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-120-169",
+              "label": "Điều 8. Chìa khóa",
+              "start": 120,
+              "end": 169,
+              "text": "Điều 8. Chìa khóa\nChìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+            "relation": {
+              "source_clause_id": "clause-0-84",
+              "target_clause_id": "clause-120-169",
+              "relation_type": "article",
+              "matching_text": "Xem Điều 8",
+              "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+              "priority": 1,
+              "source_start": 73,
+              "source_end": 83,
+              "target_start": 120,
+              "target_end": 169,
+              "embedded_heading_span": null
+            }
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-85-101",
+              "label": "Điều 5. Biên bản",
+              "start": 85,
+              "end": 101,
+              "text": "Điều 5. Biên bản",
+              "relation": "neighbor",
+              "provenance": "clause_map"
+            },
+            "reason": "adjacent_to_primary",
+            "relation": null
+          }
+        ],
+        "omitted": [],
+        "invalid": [
+          {
+            "reason": "ambiguous_target",
+            "clause_id": null,
+            "source_clause_id": "clause-0-84",
+            "matching_text": "Theo Điều 5",
+            "source_start": 60,
+            "source_end": 71,
+            "role": null
+          }
+        ],
+        "references": {
+          "run_id": "ambiguous-03",
+          "document_sha256": "91c1a3a1e6d878f097dd510fbd438cffad03fe5fa7cd76a77797474bc1c40f8d",
+          "clause_ids": [
+            "clause-120-169"
+          ]
+        },
+        "budget_bytes": 4000,
+        "used_bytes": 137,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "ambiguous-03",
+          "document_sha256": "91c1a3a1e6d878f097dd510fbd438cffad03fe5fa7cd76a77797474bc1c40f8d",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-19-59"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            {
+              "clause_id": "clause-120-169",
+              "label": "Điều 8. Chìa khóa",
+              "start": 120,
+              "end": 169,
+              "text": "Điều 8. Chìa khóa\nChìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": [
+            {
+              "heuristic_id": "return_milestones",
+              "entry_version": "1.0.0",
+              "knowledge_version": "1.0.0",
+              "review_status": "draft",
+              "reason": {
+                "matched_codes": [
+                  "B-TRM-06"
+                ],
+                "matched_categories": [
+                  "TRM"
+                ],
+                "matched_triggers": [
+                  [
+                    "trả căn hộ"
+                  ],
+                  [
+                    "chìa khóa"
+                  ]
+                ],
+                "matched_vocabulary": [
+                  "chìa khóa"
+                ],
+                "matched_clause_ids": [
+                  "clause-19-59",
+                  "clause-120-169"
+                ]
+              },
+              "required_context": [
+                "Initial inventory, keys and access cards, meter readings, tender and signature dates"
+              ],
+              "cross_clause_checks": [
+                "Compare return criteria with late fees, rent cutoff and deposit refund triggers"
+              ],
+              "reasoning_checklist": [
+                "Check who can accept handover and how refusal or absence is recorded"
+              ],
+              "expected_behavior": "Identify the documented return event and any disputed timing dependencies."
+            }
+          ]
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 1476,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          }
+        ]
+      },
+      "violations": [],
+      "errors": []
+    },
+    {
+      "id": "missing-01",
+      "category": "missing",
+      "explanation": "Bản đồ không có Điều 19.",
+      "expected_relevant_ids": [],
+      "rank_metrics": {
+        "recall@1": null,
+        "precision@1": 0.0,
+        "precision_returned@1": null,
+        "recall@3": null,
+        "precision@3": 0.0,
+        "precision_returned@3": null,
+        "recall@5": null,
+        "precision@5": 0.0,
+        "precision_returned@5": null,
+        "precision_returned_all": null
+      },
+      "context_coverage": 1.0,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 52,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [
+        {
+          "code": "selected_context_not_packed",
+          "ids": [
+            "clause-74-90"
+          ]
+        }
+      ],
+      "invalid_checks": [
+        {
+          "reason": "missing_target",
+          "matching_text": "Theo Điều 19",
+          "forbidden_ids": [],
+          "rejected": true
+        }
+      ],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-74-90",
+              "label": "Điều 2. Giá thuê",
+              "start": 74,
+              "end": 90,
+              "text": "Điều 2. Giá thuê",
+              "relation": "neighbor",
+              "provenance": "clause_map"
+            },
+            "reason": "adjacent_to_primary",
+            "relation": null
+          }
+        ],
+        "omitted": [],
+        "invalid": [
+          {
+            "reason": "missing_target",
+            "clause_id": null,
+            "source_clause_id": "clause-0-73",
+            "matching_text": "Theo Điều 19",
+            "source_start": 60,
+            "source_end": 72,
+            "role": null
+          }
+        ],
+        "references": {
+          "run_id": "missing-01",
+          "document_sha256": "7f9610711ef815c5a43e712d4bb1272ea50bafa3d80907629b294c0064c2e9d9",
+          "clause_ids": []
+        },
+        "budget_bytes": 4000,
+        "used_bytes": 73,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "missing-01",
+          "document_sha256": "7f9610711ef815c5a43e712d4bb1272ea50bafa3d80907629b294c0064c2e9d9",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-19-59"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": []
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 529,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          },
+          {
+            "code": "no_guidance_packed",
+            "ids": []
+          }
+        ]
+      },
+      "violations": [],
+      "errors": []
+    },
+    {
+      "id": "missing-02",
+      "category": "missing",
+      "explanation": "Phụ lục 3 thiếu nhưng Điều 4 có thể truy hồi.",
+      "expected_relevant_ids": [
+        "clause-88-137"
+      ],
+      "rank_metrics": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "precision_returned@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "precision_returned@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "precision_returned@5": 1.0,
+        "precision_returned_all": 1.0
+      },
+      "context_coverage": 1.0,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 115,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [
+        "clause-88-137"
+      ],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [],
+      "invalid_checks": [
+        {
+          "reason": "missing_target",
+          "matching_text": "Xem Phụ lục 3",
+          "forbidden_ids": [],
+          "rejected": true
+        }
+      ],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-88-137",
+              "label": "Điều 4. Chìa khóa",
+              "start": 88,
+              "end": 137,
+              "text": "Điều 4. Chìa khóa\nChìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+            "relation": {
+              "source_clause_id": "clause-0-87",
+              "target_clause_id": "clause-88-137",
+              "relation_type": "article",
+              "matching_text": "Theo Điều 4",
+              "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+              "priority": 1,
+              "source_start": 75,
+              "source_end": 86,
+              "target_start": 88,
+              "target_end": 137,
+              "embedded_heading_span": null
+            }
+          }
+        ],
+        "omitted": [],
+        "invalid": [
+          {
+            "reason": "missing_target",
+            "clause_id": null,
+            "source_clause_id": "clause-0-87",
+            "matching_text": "Xem Phụ lục 3",
+            "source_start": 60,
+            "source_end": 73,
+            "role": null
+          }
+        ],
+        "references": {
+          "run_id": "missing-02",
+          "document_sha256": "77ea995c48ded405fe48758d10fd4c9c8b1ab7f9669f6a49ad624e2c602089e2",
+          "clause_ids": [
+            "clause-88-137"
+          ]
+        },
+        "budget_bytes": 4000,
+        "used_bytes": 115,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "missing-02",
+          "document_sha256": "77ea995c48ded405fe48758d10fd4c9c8b1ab7f9669f6a49ad624e2c602089e2",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-19-59"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            {
+              "clause_id": "clause-88-137",
+              "label": "Điều 4. Chìa khóa",
+              "start": 88,
+              "end": 137,
+              "text": "Điều 4. Chìa khóa\nChìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": [
+            {
+              "heuristic_id": "return_milestones",
+              "entry_version": "1.0.0",
+              "knowledge_version": "1.0.0",
+              "review_status": "draft",
+              "reason": {
+                "matched_codes": [
+                  "B-TRM-06"
+                ],
+                "matched_categories": [
+                  "TRM"
+                ],
+                "matched_triggers": [
+                  [
+                    "trả căn hộ"
+                  ],
+                  [
+                    "chìa khóa"
+                  ]
+                ],
+                "matched_vocabulary": [
+                  "chìa khóa"
+                ],
+                "matched_clause_ids": [
+                  "clause-19-59",
+                  "clause-88-137"
+                ]
+              },
+              "required_context": [
+                "Initial inventory, keys and access cards, meter readings, tender and signature dates"
+              ],
+              "cross_clause_checks": [
+                "Compare return criteria with late fees, rent cutoff and deposit refund triggers"
+              ],
+              "reasoning_checklist": [
+                "Check who can accept handover and how refusal or absence is recorded"
+              ],
+              "expected_behavior": "Identify the documented return event and any disputed timing dependencies."
+            }
+          ]
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 1471,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          }
+        ]
+      },
+      "violations": [],
+      "errors": []
+    },
+    {
+      "id": "appendix-01",
+      "category": "appendix",
+      "explanation": "Phụ lục 1 có mục riêng và mô tả giao chìa khóa.",
+      "expected_relevant_ids": [
+        "clause-110-162"
+      ],
+      "rank_metrics": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "precision_returned@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "precision_returned@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "precision_returned@5": 1.0,
+        "precision_returned_all": 1.0
+      },
+      "context_coverage": 1.0,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 122,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [
+        "clause-110-162"
+      ],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [
+        {
+          "code": "selected_context_not_packed",
+          "ids": [
+            "clause-75-91"
+          ]
+        }
+      ],
+      "invalid_checks": [],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-110-162",
+              "label": "Phụ lục 1. Hướng dẫn",
+              "start": 110,
+              "end": 162,
+              "text": "Phụ lục 1. Hướng dẫn\nChìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+            "relation": {
+              "source_clause_id": "clause-0-74",
+              "target_clause_id": "clause-110-162",
+              "relation_type": "appendix",
+              "matching_text": "Xem Phụ lục 1",
+              "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+              "priority": 1,
+              "source_start": 60,
+              "source_end": 73,
+              "target_start": 110,
+              "target_end": 162,
+              "embedded_heading_span": null
+            }
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-75-91",
+              "label": "Điều 2. Thú cưng",
+              "start": 75,
+              "end": 91,
+              "text": "Điều 2. Thú cưng",
+              "relation": "neighbor",
+              "provenance": "clause_map"
+            },
+            "reason": "adjacent_to_primary",
+            "relation": null
+          }
+        ],
+        "omitted": [],
+        "invalid": [],
+        "references": {
+          "run_id": "appendix-01",
+          "document_sha256": "d7279ae65d38d36e1b625dec18401fd8ecf581f20705439f4ad290b1bc6e560a",
+          "clause_ids": [
+            "clause-110-162"
+          ]
+        },
+        "budget_bytes": 4000,
+        "used_bytes": 143,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "appendix-01",
+          "document_sha256": "d7279ae65d38d36e1b625dec18401fd8ecf581f20705439f4ad290b1bc6e560a",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-19-59"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            {
+              "clause_id": "clause-110-162",
+              "label": "Phụ lục 1. Hướng dẫn",
+              "start": 110,
+              "end": 162,
+              "text": "Phụ lục 1. Hướng dẫn\nChìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": [
+            {
+              "heuristic_id": "return_milestones",
+              "entry_version": "1.0.0",
+              "knowledge_version": "1.0.0",
+              "review_status": "draft",
+              "reason": {
+                "matched_codes": [
+                  "B-TRM-06"
+                ],
+                "matched_categories": [
+                  "TRM"
+                ],
+                "matched_triggers": [
+                  [
+                    "trả căn hộ"
+                  ],
+                  [
+                    "chìa khóa"
+                  ]
+                ],
+                "matched_vocabulary": [
+                  "chìa khóa"
+                ],
+                "matched_clause_ids": [
+                  "clause-19-59",
+                  "clause-110-162"
+                ]
+              },
+              "required_context": [
+                "Initial inventory, keys and access cards, meter readings, tender and signature dates"
+              ],
+              "cross_clause_checks": [
+                "Compare return criteria with late fees, rent cutoff and deposit refund triggers"
+              ],
+              "reasoning_checklist": [
+                "Check who can accept handover and how refusal or absence is recorded"
+              ],
+              "expected_behavior": "Identify the documented return event and any disputed timing dependencies."
+            }
+          ]
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 1489,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          }
+        ]
+      },
+      "violations": [],
+      "errors": []
+    },
+    {
+      "id": "appendix-02",
+      "category": "appendix",
+      "explanation": "Số II và 2 là cùng định danh phụ lục.",
+      "expected_relevant_ids": [
+        "clause-96-124"
+      ],
+      "rank_metrics": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "precision_returned@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "precision_returned@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "precision_returned@5": 1.0,
+        "precision_returned_all": 1.0
+      },
+      "context_coverage": 1.0,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 52,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [
+        {
+          "code": "selected_context_not_packed",
+          "ids": [
+            "clause-79-95",
+            "clause-96-124"
+          ]
+        }
+      ],
+      "invalid_checks": [],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-96-124",
+              "label": "Phụ lục 2. Danh mục bàn giao",
+              "start": 96,
+              "end": 124,
+              "text": "Phụ lục 2. Danh mục bàn giao",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+            "relation": {
+              "source_clause_id": "clause-0-78",
+              "target_clause_id": "clause-96-124",
+              "relation_type": "appendix",
+              "matching_text": "Xem Phụ lục số II",
+              "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+              "priority": 1,
+              "source_start": 60,
+              "source_end": 77,
+              "target_start": 96,
+              "target_end": 124,
+              "embedded_heading_span": null
+            }
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-79-95",
+              "label": "Điều 2. Vật nuôi",
+              "start": 79,
+              "end": 95,
+              "text": "Điều 2. Vật nuôi",
+              "relation": "neighbor",
+              "provenance": "clause_map"
+            },
+            "reason": "adjacent_to_primary",
+            "relation": null
+          }
+        ],
+        "omitted": [],
+        "invalid": [],
+        "references": {
+          "run_id": "appendix-02",
+          "document_sha256": "ebae77c374dc3f46fd44e36c00d4e2dcb3a8d8bba398d37a351bb001f7c32f57",
+          "clause_ids": [
+            "clause-96-124"
+          ]
+        },
+        "budget_bytes": 4000,
+        "used_bytes": 109,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "appendix-02",
+          "document_sha256": "ebae77c374dc3f46fd44e36c00d4e2dcb3a8d8bba398d37a351bb001f7c32f57",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-19-59"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": []
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 530,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          },
+          {
+            "code": "no_guidance_packed",
+            "ids": []
+          }
+        ]
+      },
+      "violations": [],
+      "errors": [
+        "relevant_context_not_in_packet (clause-96-124)"
+      ]
+    },
+    {
+      "id": "appendix-03",
+      "category": "appendix",
+      "explanation": "Biểu mẫu nằm bên trong mục Điều 3. Nhãn kỳ vọng lấy ID của mục chứa biểu mẫu để ghi nhận giới hạn P1.",
+      "expected_relevant_ids": [
+        "clause-75-119"
+      ],
+      "rank_metrics": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "precision_returned@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "precision_returned@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "precision_returned@5": 1.0,
+        "precision_returned_all": 1.0
+      },
+      "context_coverage": 1.0,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 52,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [
+        {
+          "code": "selected_context_not_packed",
+          "ids": [
+            "clause-75-119"
+          ]
+        }
+      ],
+      "invalid_checks": [],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-75-119",
+              "label": "Điều 3. Nội quy",
+              "start": 75,
+              "end": 119,
+              "text": "Điều 3. Nội quy\nPhụ lục 1: Biểu mẫu bàn giao",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với tiêu đề Phụ lục duy nhất trong điều khoản đích.",
+            "relation": {
+              "source_clause_id": "clause-0-74",
+              "target_clause_id": "clause-75-119",
+              "relation_type": "appendix",
+              "matching_text": "Xem Phụ lục 1",
+              "reason": "Dẫn chiếu khớp với tiêu đề Phụ lục duy nhất trong điều khoản đích.",
+              "priority": 1,
+              "source_start": 60,
+              "source_end": 73,
+              "target_start": 75,
+              "target_end": 119,
+              "embedded_heading_span": [
+                91,
+                119
+              ]
+            }
+          }
+        ],
+        "omitted": [],
+        "invalid": [],
+        "references": {
+          "run_id": "appendix-03",
+          "document_sha256": "c48526cbf2977c4143cee1f4a015c90bb93e0a66d43441051dcf89966dec67ad",
+          "clause_ids": [
+            "clause-75-119"
+          ]
+        },
+        "budget_bytes": 4000,
+        "used_bytes": 110,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "appendix-03",
+          "document_sha256": "c48526cbf2977c4143cee1f4a015c90bb93e0a66d43441051dcf89966dec67ad",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-19-59"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": []
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 530,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          },
+          {
+            "code": "no_guidance_packed",
+            "ids": []
+          }
+        ]
+      },
+      "violations": [],
+      "errors": [
+        "relevant_context_not_in_packet (clause-75-119)"
+      ]
+    },
+    {
+      "id": "budget-01",
+      "category": "tight_budget",
+      "explanation": "Ngân sách chỉ đủ cho câu bằng chứng chính.",
+      "expected_relevant_ids": [
+        "clause-137-156",
+        "clause-88-136"
+      ],
+      "rank_metrics": {
+        "recall@1": 0.0,
+        "precision@1": 0.0,
+        "precision_returned@1": null,
+        "recall@3": 0.0,
+        "precision@3": 0.0,
+        "precision_returned@3": null,
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "precision_returned@5": null,
+        "precision_returned_all": null
+      },
+      "context_coverage": 0.3333333333333333,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 52,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [],
+      "invalid_checks": [],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          }
+        ],
+        "omitted": [
+          {
+            "reason": "over_budget",
+            "clause_id": "clause-88-136",
+            "source_clause_id": "clause-0-87",
+            "matching_text": "Theo Điều 4",
+            "source_start": 60,
+            "source_end": 71,
+            "role": "reference"
+          },
+          {
+            "reason": "over_budget",
+            "clause_id": "clause-137-156",
+            "source_clause_id": "clause-0-87",
+            "matching_text": "Xem Phụ lục 1",
+            "source_start": 73,
+            "source_end": 86,
+            "role": "reference"
+          }
+        ],
+        "invalid": [],
+        "references": {
+          "run_id": "budget-01",
+          "document_sha256": "8ef4112d4172acf65fba0ac12870348b4d45ed5d66201b750fe1ade0c35fdb79",
+          "clause_ids": []
+        },
+        "budget_bytes": 52,
+        "used_bytes": 52,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "budget-01",
+          "document_sha256": "8ef4112d4172acf65fba0ac12870348b4d45ed5d66201b750fe1ade0c35fdb79",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-19-59"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": []
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 528,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          },
+          {
+            "code": "no_guidance_packed",
+            "ids": []
+          }
+        ]
+      },
+      "violations": [],
+      "errors": [
+        "missing_relevant_references (clause-137-156, clause-88-136)",
+        "relevant_context_not_in_packet (clause-137-156, clause-88-136)"
+      ]
+    },
+    {
+      "id": "budget-02",
+      "category": "tight_budget",
+      "explanation": "Đích đầu quá dài, đích thứ hai ngắn và vừa ngân sách.",
+      "expected_relevant_ids": [
+        "clause-271-287",
+        "clause-85-270"
+      ],
+      "rank_metrics": {
+        "recall@1": 0.5,
+        "precision@1": 1.0,
+        "precision_returned@1": 1.0,
+        "recall@3": 0.5,
+        "precision@3": 0.3333333333333333,
+        "precision_returned@3": 1.0,
+        "recall@5": 0.5,
+        "precision@5": 0.2,
+        "precision_returned@5": 1.0,
+        "precision_returned_all": 1.0
+      },
+      "context_coverage": 0.6666666666666666,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 52,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [
+        {
+          "code": "selected_context_not_packed",
+          "ids": [
+            "clause-271-287"
+          ]
+        }
+      ],
+      "invalid_checks": [],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-271-287",
+              "label": "Điều 4. Xác nhận",
+              "start": 271,
+              "end": 287,
+              "text": "Điều 4. Xác nhận",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+            "relation": {
+              "source_clause_id": "clause-0-84",
+              "target_clause_id": "clause-271-287",
+              "relation_type": "article",
+              "matching_text": "Xem Điều 4",
+              "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+              "priority": 1,
+              "source_start": 73,
+              "source_end": 83,
+              "target_start": 271,
+              "target_end": 287,
+              "embedded_heading_span": null
+            }
+          }
+        ],
+        "omitted": [
+          {
+            "reason": "over_budget",
+            "clause_id": "clause-85-270",
+            "source_clause_id": "clause-0-84",
+            "matching_text": "Theo Điều 3",
+            "source_start": 60,
+            "source_end": 71,
+            "role": "reference"
+          }
+        ],
+        "invalid": [],
+        "references": {
+          "run_id": "budget-02",
+          "document_sha256": "433d92ba2dd31eb4d409ad6cc006fbca5836965ab3940e48aa0f48b863b4849a",
+          "clause_ids": [
+            "clause-271-287"
+          ]
+        },
+        "budget_bytes": 90,
+        "used_bytes": 74,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "budget-02",
+          "document_sha256": "433d92ba2dd31eb4d409ad6cc006fbca5836965ab3940e48aa0f48b863b4849a",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-19-59"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": []
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 528,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          },
+          {
+            "code": "no_guidance_packed",
+            "ids": []
+          }
+        ]
+      },
+      "violations": [],
+      "errors": [
+        "missing_relevant_references (clause-85-270)",
+        "relevant_context_not_in_packet (clause-271-287, clause-85-270)"
+      ]
+    },
+    {
+      "id": "budget-03",
+      "category": "tight_budget",
+      "explanation": "Tràn bằng chứng chính phải dừng trước Builder.",
+      "expected_relevant_ids": [
+        "clause-73-121"
+      ],
+      "rank_metrics": {
+        "recall@1": 0.0,
+        "precision@1": 0.0,
+        "precision_returned@1": null,
+        "recall@3": 0.0,
+        "precision@3": 0.0,
+        "precision_returned@3": null,
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "precision_returned@5": null,
+        "precision_returned_all": null
+      },
+      "context_coverage": 0.0,
+      "mandatory_in_selection": false,
+      "mandatory_in_packet": false,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 0,
+      "packet_allowance": 12000,
+      "packet_status": "not_built",
+      "packet_relevant_ids": [],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [],
+      "invalid_checks": [],
+      "selection": {
+        "status": "mandatory_over_budget",
+        "selected": [],
+        "omitted": [
+          {
+            "reason": "mandatory_over_budget",
+            "clause_id": "clause-19-59",
+            "source_clause_id": null,
+            "matching_text": null,
+            "source_start": null,
+            "source_end": null,
+            "role": "anchor"
+          },
+          {
+            "reason": "blocked_by_mandatory_budget",
+            "clause_id": "clause-73-121",
+            "source_clause_id": "clause-0-72",
+            "matching_text": "Theo Điều 4",
+            "source_start": 60,
+            "source_end": 71,
+            "role": "reference"
+          }
+        ],
+        "invalid": [],
+        "references": {
+          "run_id": "budget-03",
+          "document_sha256": "1996e7dd0153217d92013fb823c9cb1aa7fc6a2ca1ed98f077e7eadd0ce14529",
+          "clause_ids": []
+        },
+        "budget_bytes": 8,
+        "used_bytes": 0,
+        "mandatory_bytes": 52
+      },
+      "packet": null,
+      "violations": [],
+      "errors": [
+        "missing_relevant_references (clause-73-121)",
+        "relevant_context_not_in_packet (clause-73-121)"
+      ]
+    },
+    {
+      "id": "budget-04",
+      "category": "tight_budget",
+      "explanation": "Ngân sách văn bản đủ nhưng gói JSON lõi vượt hạn mức của Builder.",
+      "expected_relevant_ids": [
+        "clause-73-121"
+      ],
+      "rank_metrics": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "precision_returned@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "precision_returned@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "precision_returned@5": 1.0,
+        "precision_returned_all": 1.0
+      },
+      "context_coverage": 1.0,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": false,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 0,
+      "packet_allowance": 64,
+      "packet_status": "core_over_budget",
+      "packet_relevant_ids": [],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [
+        {
+          "code": "selected_context_not_packed",
+          "ids": [
+            "clause-19-59",
+            "clause-73-121"
+          ]
+        }
+      ],
+      "invalid_checks": [],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-73-121",
+              "label": "Điều 4. Bàn giao",
+              "start": 73,
+              "end": 121,
+              "text": "Điều 4. Bàn giao\nChìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+            "relation": {
+              "source_clause_id": "clause-0-72",
+              "target_clause_id": "clause-73-121",
+              "relation_type": "article",
+              "matching_text": "Theo Điều 4",
+              "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+              "priority": 1,
+              "source_start": 60,
+              "source_end": 71,
+              "target_start": 73,
+              "target_end": 121,
+              "embedded_heading_span": null
+            }
+          }
+        ],
+        "omitted": [],
+        "invalid": [],
+        "references": {
+          "run_id": "budget-04",
+          "document_sha256": "1996e7dd0153217d92013fb823c9cb1aa7fc6a2ca1ed98f077e7eadd0ce14529",
+          "clause_ids": [
+            "clause-73-121"
+          ]
+        },
+        "budget_bytes": 4000,
+        "used_bytes": 113,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": null,
+        "status": "core_over_budget",
+        "estimated_prompt_tokens": 528,
+        "diagnostics": [
+          {
+            "code": "core_over_budget",
+            "ids": []
+          }
+        ]
+      },
+      "violations": [],
+      "errors": [
+        "relevant_context_not_in_packet (clause-73-121)"
+      ]
+    },
+    {
+      "id": "none-01",
+      "category": "no_related",
+      "explanation": "Không có dẫn chiếu hoặc đích liên quan được gán nhãn.",
+      "expected_relevant_ids": [],
+      "rank_metrics": {
+        "recall@1": null,
+        "precision@1": 0.0,
+        "precision_returned@1": null,
+        "recall@3": null,
+        "precision@3": 0.0,
+        "precision_returned@3": null,
+        "recall@5": null,
+        "precision@5": 0.0,
+        "precision_returned@5": null,
+        "precision_returned_all": null
+      },
+      "context_coverage": 1.0,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 52,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [
+        {
+          "code": "selected_context_not_packed",
+          "ids": [
+            "clause-86-102"
+          ]
+        }
+      ],
+      "invalid_checks": [],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-86-102",
+              "label": "Điều 2. Giá điện",
+              "start": 86,
+              "end": 102,
+              "text": "Điều 2. Giá điện",
+              "relation": "neighbor",
+              "provenance": "clause_map"
+            },
+            "reason": "adjacent_to_primary",
+            "relation": null
+          }
+        ],
+        "omitted": [],
+        "invalid": [],
+        "references": {
+          "run_id": "none-01",
+          "document_sha256": "75f40e21a89620dde23f3be9ca1daa144cddb6216e599e6ff2ac5cdaf6744185",
+          "clause_ids": []
+        },
+        "budget_bytes": 4000,
+        "used_bytes": 75,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "none-01",
+          "document_sha256": "75f40e21a89620dde23f3be9ca1daa144cddb6216e599e6ff2ac5cdaf6744185",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-19-59"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": []
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 526,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          },
+          {
+            "code": "no_guidance_packed",
+            "ids": []
+          }
+        ]
+      },
+      "violations": [],
+      "errors": []
+    },
+    {
+      "id": "none-02",
+      "category": "no_related",
+      "explanation": "Điều 1 tự dẫn chiếu, không có đích khác.",
+      "expected_relevant_ids": [],
+      "rank_metrics": {
+        "recall@1": null,
+        "precision@1": 0.0,
+        "precision_returned@1": null,
+        "recall@3": null,
+        "precision@3": 0.0,
+        "precision_returned@3": null,
+        "recall@5": null,
+        "precision@5": 0.0,
+        "precision_returned@5": null,
+        "precision_returned_all": null
+      },
+      "context_coverage": 1.0,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 52,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [
+        {
+          "code": "selected_context_not_packed",
+          "ids": [
+            "clause-73-88"
+          ]
+        }
+      ],
+      "invalid_checks": [
+        {
+          "reason": "self_reference",
+          "matching_text": "Theo Điều 1",
+          "forbidden_ids": [],
+          "rejected": true
+        }
+      ],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-73-88",
+              "label": "Điều 2. Vệ sinh",
+              "start": 73,
+              "end": 88,
+              "text": "Điều 2. Vệ sinh",
+              "relation": "neighbor",
+              "provenance": "clause_map"
+            },
+            "reason": "adjacent_to_primary",
+            "relation": null
+          }
+        ],
+        "omitted": [],
+        "invalid": [
+          {
+            "reason": "self_reference",
+            "clause_id": null,
+            "source_clause_id": "clause-0-72",
+            "matching_text": "Theo Điều 1",
+            "source_start": 60,
+            "source_end": 71,
+            "role": null
+          }
+        ],
+        "references": {
+          "run_id": "none-02",
+          "document_sha256": "9536df67dc40353bf6c1aed019eb14355c722998717925cf473e600afc5337a6",
+          "clause_ids": []
+        },
+        "budget_bytes": 4000,
+        "used_bytes": 72,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "none-02",
+          "document_sha256": "9536df67dc40353bf6c1aed019eb14355c722998717925cf473e600afc5337a6",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-19-59"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": []
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 526,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          },
+          {
+            "code": "no_guidance_packed",
+            "ids": []
+          }
+        ]
+      },
+      "violations": [],
+      "errors": []
+    },
+    {
+      "id": "none-03",
+      "category": "no_related",
+      "explanation": "Dẫn chiếu luật bên ngoài không trỏ vào Điều 5 của hợp đồng.",
+      "expected_relevant_ids": [],
+      "rank_metrics": {
+        "recall@1": null,
+        "precision@1": 0.0,
+        "precision_returned@1": null,
+        "recall@3": null,
+        "precision@3": 0.0,
+        "precision_returned@3": null,
+        "recall@5": null,
+        "precision@5": 0.0,
+        "precision_returned@5": null,
+        "precision_returned_all": null
+      },
+      "context_coverage": 1.0,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 52,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [
+        {
+          "code": "selected_context_not_packed",
+          "ids": [
+            "clause-96-112"
+          ]
+        }
+      ],
+      "invalid_checks": [
+        {
+          "reason": "unsupported_reference",
+          "matching_text": "theo Điều 5",
+          "forbidden_ids": [
+            "clause-96-112"
+          ],
+          "rejected": true
+        }
+      ],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-96-112",
+              "label": "Điều 5. Vật nuôi",
+              "start": 96,
+              "end": 112,
+              "text": "Điều 5. Vật nuôi",
+              "relation": "neighbor",
+              "provenance": "clause_map"
+            },
+            "reason": "adjacent_to_primary",
+            "relation": null
+          }
+        ],
+        "omitted": [],
+        "invalid": [
+          {
+            "reason": "unsupported_reference",
+            "clause_id": null,
+            "source_clause_id": "clause-0-95",
+            "matching_text": "theo Điều 5",
+            "source_start": 68,
+            "source_end": 79,
+            "role": null
+          }
+        ],
+        "references": {
+          "run_id": "none-03",
+          "document_sha256": "b4ecbcd452e2e1e185f75510eec8596876c0a6d5eefd539c66d23dc9f765435c",
+          "clause_ids": []
+        },
+        "budget_bytes": 4000,
+        "used_bytes": 74,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "none-03",
+          "document_sha256": "b4ecbcd452e2e1e185f75510eec8596876c0a6d5eefd539c66d23dc9f765435c",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-19-59"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": []
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 526,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          },
+          {
+            "code": "no_guidance_packed",
+            "ids": []
+          }
+        ]
+      },
+      "violations": [],
+      "errors": []
+    },
+    {
+      "id": "format-01",
+      "category": "direct",
+      "explanation": "Dẫn chiếu bị xuống dòng do định dạng văn bản. Đích vẫn kỳ vọng về mặt đọc hiểu.",
+      "expected_relevant_ids": [
+        "clause-83-131"
+      ],
+      "rank_metrics": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "precision_returned@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "precision_returned@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "precision_returned@5": 1.0,
+        "precision_returned_all": 1.0
+      },
+      "context_coverage": 1.0,
+      "mandatory_in_selection": true,
+      "mandatory_in_packet": true,
+      "contract_budget_compliant": true,
+      "packet_budget_compliant": true,
+      "strict_packet_text_budget_compliant": true,
+      "packet_text_bytes": 113,
+      "packet_allowance": 12000,
+      "packet_status": "ready",
+      "packet_relevant_ids": [
+        "clause-83-131"
+      ],
+      "packet_only_clause_ids": [],
+      "packing_diagnostics": [],
+      "invalid_checks": [],
+      "selection": {
+        "status": "ready",
+        "selected": [
+          {
+            "excerpt": {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            "reason": "grounded_evidence",
+            "relation": null
+          },
+          {
+            "excerpt": {
+              "clause_id": "clause-83-131",
+              "label": "Điều 5. Bàn giao",
+              "start": 83,
+              "end": 131,
+              "text": "Điều 5. Bàn giao\nChìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            },
+            "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+            "relation": {
+              "source_clause_id": "clause-0-82",
+              "target_clause_id": "clause-83-131",
+              "relation_type": "article",
+              "matching_text": "theo\nĐiều 5",
+              "reason": "Dẫn chiếu khớp với một tiêu đề được lập chỉ mục.",
+              "priority": 1,
+              "source_start": 70,
+              "source_end": 81,
+              "target_start": 83,
+              "target_end": 131,
+              "embedded_heading_span": null
+            }
+          }
+        ],
+        "omitted": [],
+        "invalid": [],
+        "references": {
+          "run_id": "format-01",
+          "document_sha256": "87847f9594a7a433c9c950217c3dd523b5f70f422fa31c2ba718a15fbe142079",
+          "clause_ids": [
+            "clause-83-131"
+          ]
+        },
+        "budget_bytes": 4000,
+        "used_bytes": 113,
+        "mandatory_bytes": 52
+      },
+      "packet": {
+        "data": {
+          "schema_version": 1,
+          "run_id": "format-01",
+          "document_sha256": "87847f9594a7a433c9c950217c3dd523b5f70f422fa31c2ba718a15fbe142079",
+          "domain": "vn_residential_rental",
+          "risks": [
+            {
+              "code": "B-TRM-06",
+              "kind": "present",
+              "issue": "Cần làm rõ thủ tục trả nhà.",
+              "evidence_id": "clause-19-59"
+            }
+          ],
+          "contract": [
+            {
+              "clause_id": "clause-19-59",
+              "label": "Điều 1. Trả căn hộ",
+              "start": 19,
+              "end": 59,
+              "text": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+              "relation": "anchor",
+              "provenance": "grounded_span"
+            },
+            {
+              "clause_id": "clause-83-131",
+              "label": "Điều 5. Bàn giao",
+              "start": 83,
+              "end": 131,
+              "text": "Điều 5. Bàn giao\nChìa khóa được giao cho lễ tân.",
+              "relation": "reference",
+              "provenance": "clause_map"
+            }
+          ],
+          "legal_passages": [],
+          "guidance": [
+            {
+              "heuristic_id": "return_milestones",
+              "entry_version": "1.0.0",
+              "knowledge_version": "1.0.0",
+              "review_status": "draft",
+              "reason": {
+                "matched_codes": [
+                  "B-TRM-06"
+                ],
+                "matched_categories": [
+                  "TRM"
+                ],
+                "matched_triggers": [
+                  [
+                    "bàn giao",
+                    "trả căn hộ"
+                  ],
+                  [
+                    "chìa khóa"
+                  ]
+                ],
+                "matched_vocabulary": [
+                  "bàn giao",
+                  "chìa khóa"
+                ],
+                "matched_clause_ids": [
+                  "clause-19-59",
+                  "clause-83-131"
+                ]
+              },
+              "required_context": [
+                "Initial inventory, keys and access cards, meter readings, tender and signature dates"
+              ],
+              "cross_clause_checks": [
+                "Compare return criteria with late fees, rent cutoff and deposit refund triggers"
+              ],
+              "reasoning_checklist": [
+                "Check who can accept handover and how refusal or absence is recorded"
+              ],
+              "expected_behavior": "Identify the documented return event and any disputed timing dependencies."
+            }
+          ]
+        },
+        "status": "ready",
+        "estimated_prompt_tokens": 1490,
+        "diagnostics": [
+          {
+            "code": "missing_legal_evidence",
+            "ids": [
+              "B-TRM-06"
+            ]
+          }
+        ]
+      },
+      "violations": [],
+      "errors": []
+    }
+  ]
+}

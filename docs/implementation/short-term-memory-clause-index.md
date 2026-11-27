@@ -39,7 +39,7 @@ with RunClauseIndex(scope, document) as index:
 
 Mỗi chỉ mục giữ một tham chiếu tới chuỗi văn bản bất biến và metadata tỷ lệ với số điều khoản. Văn bản của mỗi điều khoản được cắt khi tra cứu. Bên gọi sở hữu chỉ mục và các kết quả đã lấy ra. Giải phóng chỉ mục không thu hồi các kết quả bên gọi đang giữ. Chỉ mục hoạt động trong tiến trình, không tạo tệp hoặc cache toàn cục.
 
-P0 cung cấp vị trí trên văn bản đã làm sạch. Ánh xạ sang tệp gốc, tự tìm quan hệ liên điều khoản và chèn chỉ mục vào pipeline thuộc các bước sau. Cặp ID và hash kiểm tra khớp dữ liệu trong tiến trình. Quyền truy cập lượt chạy thuộc về bên điều phối. Bên gọi dùng cùng bản đồ điều khoản từ ingestion khi tạo chỉ mục và khi build gói.
+P0 cung cấp vị trí trên văn bản đã làm sạch. [P1 truy hồi dẫn chiếu liên điều khoản](short-term-memory-cross-clause.md) dùng chỉ mục này qua API độc lập. Ánh xạ sang tệp gốc và tích hợp vào pipeline thuộc các bước sau. Cặp ID và hash kiểm tra khớp dữ liệu trong tiến trình. Quyền truy cập lượt chạy thuộc về bên điều phối. Bên gọi dùng cùng bản đồ điều khoản từ ingestion khi tạo chỉ mục và khi build gói.
 
 ## Kiểm thử
 

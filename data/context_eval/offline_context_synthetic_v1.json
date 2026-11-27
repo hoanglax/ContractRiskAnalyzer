@@ -1,0 +1,521 @@
+{
+  "dataset_kind": "synthetic",
+  "default_contract_budget_bytes": 4000,
+  "default_packet_context_window": 12000,
+  "cases": [
+    {
+      "id": "direct-01",
+      "category": "direct",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Thực hiện theo Điều 2.",
+        "Điều 2. Giao chìa khóa\nChìa khóa được giao cho lễ tân."
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-82",
+      "expected_relevant_ids": [
+        "clause-83-137"
+      ],
+      "explanation": "Điều 2 nêu nơi giao chìa khóa cho lần trả căn hộ."
+    },
+    {
+      "id": "direct-02",
+      "category": "direct",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Việc kiểm kê quy định tại Điều 3.",
+        "Điều 3. Kiểm kê\nHai bên đối chiếu danh mục đồ đạc."
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-93",
+      "expected_relevant_ids": [
+        "clause-94-144"
+      ],
+      "explanation": "Điều 3 bổ sung thủ tục kiểm kê khi trả nhà."
+    },
+    {
+      "id": "direct-03",
+      "category": "direct",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Xem ĐIỀU IV.",
+        "ĐIỀU 4. Nhận chìa khóa\nChìa khóa được giao cho lễ tân."
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-72",
+      "expected_relevant_ids": [
+        "clause-73-127"
+      ],
+      "explanation": "Số La Mã IV trỏ tới Điều 4 ghi bằng số Ả Rập."
+    },
+    {
+      "id": "direct-04",
+      "category": "direct",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Bàn giao theo Điều 005.",
+        "Điều 5. Giao chìa khóa\nChìa khóa được giao cho lễ tân."
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-83",
+      "expected_relevant_ids": [
+        "clause-84-138"
+      ],
+      "explanation": "Dẫn chiếu có số 0 ở đầu và đích dùng số chuẩn."
+    },
+    {
+      "id": "distant-01",
+      "category": "distant",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Quy trình nhận lại nhà quy định tại Điều 12.",
+        "Điều 2. Điện",
+        "Điều 3. Nước",
+        "Điều 4. Giờ yên tĩnh",
+        "Điều 12. Bàn giao\nChìa khóa được giao cho lễ tân."
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-104",
+      "expected_relevant_ids": [
+        "clause-152-201"
+      ],
+      "explanation": "Điều 12 là đích duy nhất dù có ba Điều xen giữa."
+    },
+    {
+      "id": "distant-02",
+      "category": "distant",
+      "sections": [
+        "Điều 8. Bàn giao\nChìa khóa được giao cho lễ tân.",
+        "Điều 9. Nuôi thú cưng",
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Thực hiện theo Điều 8.",
+        "Điều 10. Sử dụng bếp"
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-71-153",
+      "expected_relevant_ids": [
+        "clause-0-48"
+      ],
+      "explanation": "Điều 8 nằm trước điều khoản nguồn hai mục."
+    },
+    {
+      "id": "distant-03",
+      "category": "distant",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Quy định tại Điều 20.",
+        "Điều 2. Chi phí",
+        "Điều 4. Lối đi",
+        "Điều 5. Điện",
+        "Điều 20. Xác nhận\nChìa khóa được giao cho lễ tân."
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-81",
+      "expected_relevant_ids": [
+        "clause-126-175"
+      ],
+      "explanation": "Khoảng cách lớn không làm mất liên kết tới Điều 20."
+    },
+    {
+      "id": "multiple-01",
+      "category": "multiple",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Đọc theo Điều 6. Xem Phụ lục 2.",
+        "Điều 2. Giờ vào",
+        "Điều 6. Chìa khóa\nChìa khóa được giao cho lễ tân.",
+        "Phụ lục 2. Danh sách tài sản"
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-91",
+      "expected_relevant_ids": [
+        "clause-108-157",
+        "clause-158-186"
+      ],
+      "explanation": "Điều 6 và Phụ lục 2 giải thích hai phần của bàn giao."
+    },
+    {
+      "id": "multiple-02",
+      "category": "multiple",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Theo Điều 4. Quy định tại Điều 4. Xem Điều 9.",
+        "Điều 4. Chìa khóa\nChìa khóa được giao cho lễ tân.",
+        "Điều 9. Biên bản"
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-105",
+      "expected_relevant_ids": [
+        "clause-106-155",
+        "clause-156-172"
+      ],
+      "explanation": "Hai lần nhắc Điều 4 chỉ tạo một đích."
+    },
+    {
+      "id": "multiple-03",
+      "category": "multiple",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Xem Điều 3. Xem Điều 4. Xem Điều 5. Xem Điều 6. Xem Điều 7. Xem Điều 8.",
+        "Điều 3. Thời điểm bàn giao",
+        "Điều 4. Người chứng kiến",
+        "Điều 5. Biên bản",
+        "Điều 6. Ảnh hiện trạng",
+        "Điều 7. Chìa khóa\nChìa khóa được giao cho lễ tân.",
+        "Điều 8. Hoàn tất bàn giao"
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-131",
+      "expected_relevant_ids": [
+        "clause-132-158",
+        "clause-159-183",
+        "clause-184-200",
+        "clause-201-223",
+        "clause-224-273",
+        "clause-274-299"
+      ],
+      "explanation": "Sáu đích hợp lệ phân biệt Recall@1, @3 và @5."
+    },
+    {
+      "id": "paragraph-01",
+      "category": "direct",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Tham chiếu Khoản 2 Điều 7.",
+        "Điều 7. Bàn giao\n1. Chụp ảnh.\n2. Chìa khóa được giao cho lễ tân."
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-86",
+      "expected_relevant_ids": [
+        "clause-87-151"
+      ],
+      "explanation": "Điều 7 chứa đúng một dấu Khoản 2."
+    },
+    {
+      "id": "paragraph-02",
+      "category": "multiple",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Xem Điều 5. Tham chiếu Khoản 2 Điều 7.",
+        "Điều 5. Biên bản",
+        "Điều 7. Bàn giao\n7.2. Chìa khóa được giao cho lễ tân."
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-98",
+      "expected_relevant_ids": [
+        "clause-99-115",
+        "clause-116-169"
+      ],
+      "explanation": "Khoản 2 được xác minh nên đứng trước dẫn chiếu Điều 5."
+    },
+    {
+      "id": "paragraph-03",
+      "category": "missing",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Tham chiếu Khoản 3 Điều 7.",
+        "Điều 7. Bàn giao\n2. Chìa khóa được giao cho lễ tân."
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-86",
+      "expected_relevant_ids": [],
+      "explanation": "Điều 7 có Khoản 2 còn Khoản 3 bị thiếu.",
+      "expected_invalid": [
+        {
+          "reason": "missing_or_ambiguous_paragraph",
+          "matching_text": "Tham chiếu Khoản 3 Điều 7",
+          "forbidden_ids": [
+            "clause-87-138"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ambiguous-01",
+      "category": "ambiguous",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Theo Điều 5.",
+        "Điều 5. Xác nhận",
+        "Điều 5. Trả chìa khóa"
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-72",
+      "expected_relevant_ids": [],
+      "explanation": "Hai Điều 5 cùng hợp lệ về hình thức và không đủ căn cứ chọn một.",
+      "expected_invalid": [
+        {
+          "reason": "ambiguous_target",
+          "matching_text": "Theo Điều 5",
+          "forbidden_ids": [
+            "clause-73-89",
+            "clause-90-111"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ambiguous-02",
+      "category": "ambiguous",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Tham chiếu Khoản 2 Điều 7.",
+        "Điều 7. Bàn giao\n2. Chìa khóa được giao cho lễ tân.",
+        "Điều 7. Thời hạn"
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-86",
+      "expected_relevant_ids": [],
+      "explanation": "Điều 7 lặp số nên cần thêm thông tin để xác định đúng văn bản đích.",
+      "expected_invalid": [
+        {
+          "reason": "ambiguous_target",
+          "matching_text": "Tham chiếu Khoản 2 Điều 7",
+          "forbidden_ids": [
+            "clause-87-138",
+            "clause-139-155"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ambiguous-03",
+      "category": "ambiguous",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Theo Điều 5. Xem Điều 8.",
+        "Điều 5. Biên bản",
+        "Điều 5. Thời điểm",
+        "Điều 8. Chìa khóa\nChìa khóa được giao cho lễ tân."
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-84",
+      "expected_relevant_ids": [
+        "clause-120-169"
+      ],
+      "explanation": "Điều 5 mơ hồ còn Điều 8 có đích duy nhất.",
+      "expected_invalid": [
+        {
+          "reason": "ambiguous_target",
+          "matching_text": "Theo Điều 5",
+          "forbidden_ids": [
+            "clause-85-101",
+            "clause-102-119"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "missing-01",
+      "category": "missing",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Theo Điều 19.",
+        "Điều 2. Giá thuê",
+        "Điều 7. Vệ sinh"
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-73",
+      "expected_relevant_ids": [],
+      "explanation": "Bản đồ không có Điều 19.",
+      "expected_invalid": [
+        {
+          "reason": "missing_target",
+          "matching_text": "Theo Điều 19",
+          "forbidden_ids": []
+        }
+      ]
+    },
+    {
+      "id": "missing-02",
+      "category": "missing",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Xem Phụ lục 3. Theo Điều 4.",
+        "Điều 4. Chìa khóa\nChìa khóa được giao cho lễ tân.",
+        "Phụ lục 2. Kiểm kê"
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-87",
+      "expected_relevant_ids": [
+        "clause-88-137"
+      ],
+      "explanation": "Phụ lục 3 thiếu nhưng Điều 4 có thể truy hồi.",
+      "expected_invalid": [
+        {
+          "reason": "missing_target",
+          "matching_text": "Xem Phụ lục 3",
+          "forbidden_ids": []
+        }
+      ]
+    },
+    {
+      "id": "appendix-01",
+      "category": "appendix",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Xem Phụ lục 1.",
+        "Điều 2. Thú cưng",
+        "Điều 6. Tiền thuê",
+        "Phụ lục 1. Hướng dẫn\nChìa khóa được giao cho lễ tân."
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-74",
+      "expected_relevant_ids": [
+        "clause-110-162"
+      ],
+      "explanation": "Phụ lục 1 có mục riêng và mô tả giao chìa khóa."
+    },
+    {
+      "id": "appendix-02",
+      "category": "appendix",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Xem Phụ lục số II.",
+        "Điều 2. Vật nuôi",
+        "Phụ lục 2. Danh mục bàn giao"
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-78",
+      "expected_relevant_ids": [
+        "clause-96-124"
+      ],
+      "explanation": "Số II và 2 là cùng định danh phụ lục."
+    },
+    {
+      "id": "appendix-03",
+      "category": "appendix",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Xem Phụ lục 1.",
+        "Điều 3. Nội quy\nPhụ lục 1: Biểu mẫu bàn giao"
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-74",
+      "expected_relevant_ids": [
+        "clause-75-119"
+      ],
+      "explanation": "Biểu mẫu nằm bên trong mục Điều 3. Nhãn kỳ vọng lấy ID của mục chứa biểu mẫu để ghi nhận giới hạn P1.",
+      "expected_invalid": [
+        {
+          "reason": "missing_target",
+          "matching_text": "Xem Phụ lục 1",
+          "forbidden_ids": []
+        }
+      ]
+    },
+    {
+      "id": "budget-01",
+      "category": "tight_budget",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Theo Điều 4. Xem Phụ lục 1.",
+        "Điều 4. Bàn giao\nChìa khóa được giao cho lễ tân.",
+        "Phụ lục 1. Danh mục"
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-87",
+      "expected_relevant_ids": [
+        "clause-88-136",
+        "clause-137-156"
+      ],
+      "explanation": "Ngân sách chỉ đủ cho câu bằng chứng chính.",
+      "contract_budget_bytes": 52
+    },
+    {
+      "id": "budget-02",
+      "category": "tight_budget",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Theo Điều 3. Xem Điều 4.",
+        "Điều 3. Biên bản\nNội dung biên bản bàn giao. Nội dung biên bản bàn giao. Nội dung biên bản bàn giao. Nội dung biên bản bàn giao. Nội dung biên bản bàn giao. Nội dung biên bản bàn giao. ",
+        "Điều 4. Xác nhận"
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-84",
+      "expected_relevant_ids": [
+        "clause-85-270",
+        "clause-271-287"
+      ],
+      "explanation": "Đích đầu quá dài, đích thứ hai ngắn và vừa ngân sách.",
+      "contract_budget_bytes": 90
+    },
+    {
+      "id": "budget-03",
+      "category": "tight_budget",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Theo Điều 4.",
+        "Điều 4. Bàn giao\nChìa khóa được giao cho lễ tân."
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-72",
+      "expected_relevant_ids": [
+        "clause-73-121"
+      ],
+      "explanation": "Tràn bằng chứng chính phải dừng trước Builder.",
+      "contract_budget_bytes": 8,
+      "expected_selection_status": "mandatory_over_budget",
+      "expected_packet_status": "not_built"
+    },
+    {
+      "id": "budget-04",
+      "category": "tight_budget",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Theo Điều 4.",
+        "Điều 4. Bàn giao\nChìa khóa được giao cho lễ tân."
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-72",
+      "expected_relevant_ids": [
+        "clause-73-121"
+      ],
+      "explanation": "Ngân sách văn bản đủ nhưng gói JSON lõi vượt hạn mức của Builder.",
+      "packet_context_window": 64,
+      "expected_packet_status": "core_over_budget"
+    },
+    {
+      "id": "none-01",
+      "category": "no_related",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Hai bên ký vào cùng ngày.",
+        "Điều 2. Giá điện",
+        "Điều 3. Nội quy"
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-85",
+      "expected_relevant_ids": [],
+      "explanation": "Không có dẫn chiếu hoặc đích liên quan được gán nhãn."
+    },
+    {
+      "id": "none-02",
+      "category": "no_related",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Theo Điều 1.",
+        "Điều 2. Vệ sinh"
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-72",
+      "expected_relevant_ids": [],
+      "explanation": "Điều 1 tự dẫn chiếu, không có đích khác.",
+      "expected_invalid": [
+        {
+          "reason": "self_reference",
+          "matching_text": "Theo Điều 1",
+          "forbidden_ids": []
+        }
+      ]
+    },
+    {
+      "id": "none-03",
+      "category": "no_related",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Áp dụng theo Điều 5 của Luật Nhà ở.",
+        "Điều 5. Vật nuôi"
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-95",
+      "expected_relevant_ids": [],
+      "explanation": "Dẫn chiếu luật bên ngoài không trỏ vào Điều 5 của hợp đồng.",
+      "expected_invalid": [
+        {
+          "reason": "unsupported_reference",
+          "matching_text": "theo Điều 5",
+          "forbidden_ids": [
+            "clause-96-112"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "format-01",
+      "category": "direct",
+      "sections": [
+        "Điều 1. Trả căn hộ\nBên thuê trả căn hộ vào ngày cuối tháng. Thực hiện theo\nĐiều 5.",
+        "Điều 5. Bàn giao\nChìa khóa được giao cho lễ tân."
+      ],
+      "quote": "Bên thuê trả căn hộ vào ngày cuối tháng.",
+      "source_clause_id": "clause-0-82",
+      "expected_relevant_ids": [
+        "clause-83-131"
+      ],
+      "explanation": "Dẫn chiếu bị xuống dòng do định dạng văn bản. Đích vẫn kỳ vọng về mặt đọc hiểu."
+    }
+  ]
+}

@@ -6,7 +6,9 @@ from tempfile import TemporaryDirectory
 import pytest
 
 from application.modules.heuristic_memory import load
-from evaluate_heuristic_explanation import DATASET, evaluate, fixture_snapshot, main, markdown
+from application.modules.context_packet import builder
+from application.modules.explain import explain, packet_context
+from evaluate_heuristic_explanation import DATASET, digest, evaluate, fixture_snapshot, main, markdown
 
 
 def test_fixture_approval_is_ephemeral_and_explicit():
@@ -46,7 +48,11 @@ def test_reports_reproduce_and_detect_wrong_expectation():
     result = evaluate()
     assert result == evaluate()
     saved = DATASET.parent / "explanation_ab_results_v1.json"
-    assert result == json.loads(saved.read_bytes())
+    expected = json.loads(saved.read_bytes())
+    # The frozen replay checks legacy outcomes across Builder and runtime changes.
+    for module in (builder, explain, packet_context):
+        expected["input_digests_lf"][module.__name__.rsplit(".", 1)[-1]] = digest(module.__file__)
+    assert result == expected
     assert markdown(result) == saved.with_suffix(".md").read_text(encoding="utf-8")
     dataset = json.loads(DATASET.read_bytes())
     dataset["cases"] = dataset["cases"][:1]

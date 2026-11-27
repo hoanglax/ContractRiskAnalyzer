@@ -32,6 +32,7 @@ class ContextRequest:
     references: ClauseReferences | None = None
     selection_policy: Literal["legacy", "strict"] = "legacy"
     selected_neighbors: ClauseReferences | None = None
+    pack_selected_contract: bool = False
 
 
 @dataclass(frozen=True)

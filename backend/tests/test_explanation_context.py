@@ -14,7 +14,7 @@ from application.modules.explain import packet_context
 from application.modules.context_packet import ContextPacketBuilder
 from application.modules.heuristic_memory import HeuristicRetriever, load
 from application.modules.heuristic_memory.knowledge import KnowledgeBase
-from application.modules.ingestion.ingest import Document
+from application.modules.ingestion.ingest import Clause, Document, Structure
 from application.modules.legal_basis.basis import LegalBasis
 from application.modules.taxonomy import taxonomy
 
@@ -27,6 +27,7 @@ PASSAGE = LegalBasis("synthetic_fixture", None, "", "Synthetic passage for citat
 
 @pytest.fixture
 def case(monkeypatch):
+    monkeypatch.delenv(packet_context.SHORT_TERM_FLAG, raising=False)
     doc = Document(text=QUOTE, source={})
     tax = taxonomy.load()
     findings, rejected = ground([Finding("present", "Cần rõ mốc hoàn cọc.", CODE, QUOTE)],
@@ -68,7 +69,8 @@ def runs_directory(monkeypatch):
         yield
 
 
-def test_flag_off_and_flag_on_without_approved_entries(case, monkeypatch, runs_directory):
+@pytest.mark.parametrize("short_flag", [False, True])
+def test_flag_off_and_flag_on_without_approved_entries(case, monkeypatch, runs_directory, short_flag):
     doc, findings, bases, tax, calls = case
     monkeypatch.setattr(run, "ingest", lambda *_: doc)
     monkeypatch.setattr(run.detection, "run", lambda *_: {
@@ -76,6 +78,8 @@ def test_flag_off_and_flag_on_without_approved_entries(case, monkeypatch, runs_d
     })
     monkeypatch.setattr(run.m4, "attach", lambda *_: {"items": bases, "warnings": []})
     monkeypatch.delenv(packet_context.FLAG, raising=False)
+    if short_flag:
+        monkeypatch.setenv(packet_context.SHORT_TERM_FLAG, "1")
     calls_to_loader = []
 
     def draft_snapshot(**options):
@@ -91,6 +95,7 @@ def test_flag_off_and_flag_on_without_approved_entries(case, monkeypatch, runs_d
     assert disabled["calls"]["explain"] == baseline["attempts"]
     assert disabled["items"][0]["explanation"]["summary"] == baseline["items"][0].explanation.summary
 
+    monkeypatch.delenv(packet_context.SHORT_TERM_FLAG, raising=False)
     monkeypatch.setenv(packet_context.FLAG, "1")
     enabled = run.analyze(run.create(b"fixture", "fixture.txt"))
     assert enabled["status"] == "done"
@@ -269,3 +274,157 @@ def test_unapproved_packet_is_rejected_at_explanation_boundary(case, monkeypatch
     assert [m["role"] for m in calls[0]] == ["user"]
     assert not out["attempts"][0]["context_packet"]["guidance"]
     assert any("context packet unavailable" in warning for warning in out["items"][0].warnings)
+
+
+@pytest.fixture
+def short_term_case(case, monkeypatch):
+    doc, _, bases, tax, calls = case
+    monkeypatch.setenv(packet_context.FLAG, "1")
+    monkeypatch.setenv(packet_context.SHORT_TERM_FLAG, "1")
+    monkeypatch.delenv(packet_context.CONTRACT_BUDGET, raising=False)
+
+    def make(run_id="runtime", labels=("Điều 1", "Điều 2", "Điều 3", "Điều 4"),
+             target="Điều 4", suffix=""):
+        quote = f"{QUOTE} Xem {target}."
+        body = [quote, "Nearby context.", "Unrelated context.", f"Referenced context {suffix}."]
+        parts = [f"{labels[i]}. {part}" if i < len(labels) else part for i, part in enumerate(body)]
+        text = "\n".join(parts)
+        clauses = [Clause(label, "", text.index(part), text.index(part) + len(part))
+                   for label, part in zip(labels, parts)]
+        scoped_doc = replace(doc, text=text, structure=Structure(clauses=clauses))
+        findings, rejected = ground([Finding("present", "Synthetic risk.", CODE, quote)],
+                                    scoped_doc, from_taxonomy(tax))
+        assert not rejected
+        traces = []
+        out = ex.explain(scoped_doc, findings, bases, tax=tax, context_run_id=run_id, context_traces=traces)
+        return scoped_doc, out, traces[0] if traces else None
+
+    return make, calls, bases
+
+
+def test_short_term_packs_strict_context_without_approved_guidance(short_term_case, monkeypatch):
+    make, calls, bases = short_term_case
+    bases[0]["basis"].insert(0, replace(PASSAGE, chunk_id=72, text="oversized " * 2000))
+    _, baseline, _ = make()
+    limit = sum(len(text.encode("utf-8")) for text in (f"{QUOTE} Xem Điều 4.", "Điều 4. Referenced context ."))
+    monkeypatch.setenv(packet_context.CONTRACT_BUDGET, str(limit))
+    doc, out, trace = make()
+    payload = json.loads(calls[-1][1]["content"])
+    assert trace["packet"] == calls[-1][1]["content"]
+    assert trace["packet_sent"] and trace["packet_policy"] == "strict"
+    assert trace["full_prompt_bytes"] <= trace["prompt_allowance"]
+    assert not payload["guidance"]
+    assert [p["relation"] for p in payload["contract"]] == ["anchor", "reference"]
+    for part in payload["contract"]:
+        assert part["text"] == doc.text[part["start"]:part["end"]]
+    assert payload["contract"][0]["text"] == f"{QUOTE} Xem Điều 4."
+    assert trace["selected"][1]["relation"]["matching_text"] == "Xem Điều 4"
+    assert {d["reason"] for d in trace["omitted"]} == {"over_budget"}
+    assert [(p["citation_id"], p["chunk_id"]) for p in payload["legal_passages"]] == [("L1", 71)]
+    assert out["items"][0].explanation == baseline["items"][0].explanation
+
+
+def test_short_term_rejects_citation_to_omitted_legal_passage(short_term_case, monkeypatch):
+    make, _, bases = short_term_case
+    bases[0]["basis"].append(replace(PASSAGE, chunk_id=72, text="oversized " * 2000))
+    reply = LLMResult(json.dumps({"summary": "Synthetic [L2].", "recommendation": "Ask."}),
+                      "stop", {}, "fixture", "fixture")
+    monkeypatch.setattr(ex.llm, "chat", lambda *_, **__: reply)
+    _, out, trace = make()
+    assert trace["packet_sent"]
+    assert out["attempts"][0]["context_packet"]["citation_chunks"] == {"L1": 71}
+    assert out["items"][0].basis == bases[0]["basis"]
+    assert out["items"][0].explanation is None
+    assert any("cites [L2]" in warning for warning in out["items"][0].warnings)
+
+
+@pytest.mark.parametrize(("labels", "reason"), [
+    (("Điều 1", "Điều 2", "Điều 3", "Điều 5"), "missing_target"),
+    (("Điều 1", "Điều 2", "Điều 4", "Điều 4"), "ambiguous_target"),
+    ((), "missing_or_invalid_clause_map"),
+])
+def test_short_term_missing_or_ambiguous_structure(short_term_case, labels, reason):
+    make, _, _ = short_term_case
+    _, out, trace = make(labels=labels)
+    assert all(entry["role"] != "reference" for entry in trace["selected"])
+    assert any(reason in warning for warning in out["items"][0].warnings)
+    assert out["items"][0].explanation.cited == [PASSAGE.label]
+
+
+def test_short_term_does_not_share_references_between_runs(short_term_case):
+    make, _, _ = short_term_case
+    _, _, first = make(run_id="first", suffix="first only")
+    _, _, second = make(run_id="second", suffix="second only")
+    first_data, second_data = (json.loads(trace["packet"]) for trace in (first, second))
+    assert first_data["run_id"] == "first" and second_data["run_id"] == "second"
+    assert first_data["document_sha256"] != second_data["document_sha256"]
+    assert "first only" not in second["packet"] and "second only" not in first["packet"]
+
+
+@pytest.mark.parametrize("failure", ["mandatory_over_budget", "invalid_contract_budget", "short_term_context_error"])
+def test_short_term_fallback_matches_existing_packet(short_term_case, approved, monkeypatch, failure):
+    from application.modules import context_selection
+
+    make, calls, _ = short_term_case
+    with monkeypatch.context() as settings:
+        settings.delenv(packet_context.SHORT_TERM_FLAG)
+        _, control, trace = make()
+        assert trace is None
+    legacy_packet = calls[-1]
+    if failure == "short_term_context_error":
+        def unavailable(*args, **kwargs):
+            raise RuntimeError("sensitive contents")
+
+        monkeypatch.setattr(context_selection, "retrieve_cross_clause", unavailable)
+    else:
+        monkeypatch.setenv(packet_context.CONTRACT_BUDGET, "0" if failure == "mandatory_over_budget" else "bad")
+    _, out, trace = make()
+    assert calls[-1] == legacy_packet
+    assert trace["fallback_reason"] == failure and trace["packet_policy"] == "legacy"
+    assert out["items"][0].explanation == control["items"][0].explanation
+    assert "sensitive contents" not in str(trace)
+
+
+def test_short_term_full_message_budget(short_term_case, monkeypatch):
+    make, calls, _ = short_term_case
+    _, _, first = make()
+    monkeypatch.setenv(packet_context.WINDOW, str(first["full_prompt_bytes"] - 1 + 400 + packet_context.SAFETY_MARGIN))
+    _, out, trace = make()
+    assert [m["role"] for m in calls[-1]] == ["user"]
+    assert trace["fallback_reason"] == "full_prompt_over_budget"
+    assert not trace["packet_sent"] and trace["packet"]
+    assert trace["full_prompt_bytes"] > trace["prompt_allowance"]
+    assert out["items"][0].explanation.cited == [PASSAGE.label]
+
+
+def test_short_term_requires_configured_context_packet(short_term_case, monkeypatch):
+    make, calls, _ = short_term_case
+    monkeypatch.delenv(packet_context.WINDOW)
+
+    def unexpected(*args, **kwargs):
+        pytest.fail("Short-term selection ran without a configured packet path")
+
+    monkeypatch.setattr(packet_context, "build_offline_context", unexpected)
+    _, out, trace = make()
+    assert [m["role"] for m in calls[-1]] == ["user"]
+    assert trace["fallback_reason"] == "invalid_packet_configuration"
+    assert out["items"][0].explanation.cited == [PASSAGE.label]
+
+
+def test_short_term_trace_is_saved_outside_run_response(short_term_case, monkeypatch, runs_directory):
+    make, calls, bases = short_term_case
+    doc, _, _ = make()
+    risk = Finding("present", "Synthetic risk.", CODE, f"{QUOTE} Xem Điều 4.")
+    findings, rejected = ground([risk], doc, from_taxonomy(taxonomy.load()))
+    assert not rejected
+    monkeypatch.setattr(run, "ingest", lambda *_: doc)
+    monkeypatch.setattr(run.detection, "run", lambda *_: {
+        "attempts": [], "warnings": [], "error": None, "findings": findings,
+    })
+    monkeypatch.setattr(run.m4, "attach", lambda *_: {"items": bases, "warnings": []})
+    rid = run.create(b"fixture", "fixture.txt")
+    assert run.analyze(rid)["status"] == "done"
+    trace, = json.loads((run.RUNS_DIR / f"{rid}.short-term-context.json").read_text(encoding="utf-8"))
+    assert trace["packet"] == calls[-1][1]["content"]
+    assert trace["packet_sent"]
+    assert "packet" not in run.load(rid)["calls"]["explain"][0]["context_packet"]

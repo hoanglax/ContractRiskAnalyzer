@@ -125,6 +125,8 @@ class ContextPacketBuilder:
         return builder
 
     def build(self, request: ContextRequest, budget: PromptBudget) -> ContextPacket:
+        if request.selection_policy not in ("legacy", "strict"):
+            raise ValueError("Unknown context selection policy")
         if not request.run_id.strip() or not request.risks:
             raise ValueError("Expected a run ID and at least one grounded finding")
         risks, anchors = _grounded_evidence(request, self._tax)
@@ -194,6 +196,25 @@ class ContextPacketBuilder:
                 diagnostics.append(Diagnostic("clause_reference_limit", (identifier,)))
             else:
                 references.append(replace(by_id[identifier], relation="reference"))
+
+        if request.selection_policy == "strict":
+            neighbors = request.selected_neighbors
+            if neighbors is not None:
+                if (neighbors.run_id, neighbors.document_sha256) != (data.run_id, data.document_sha256):
+                    diagnostics.append(Diagnostic("stale_selected_neighbors"))
+                else:
+                    # A clause capped as a reference cannot re-enter under a different role.
+                    for identifier in dict.fromkeys(neighbors.clause_ids):
+                        if identifier not in by_id:
+                            diagnostics.append(Diagnostic("unresolved_selected_neighbor", (identifier,)))
+                        elif identifier not in reference_ids:
+                            references.append(by_id[identifier])
+            for anchor in data.contract:
+                for part in references:
+                    if max(anchor.start, part.start) >= min(anchor.end, part.end):
+                        yield tuple(sorted((anchor, part), key=lambda excerpt: excerpt.start))
+                yield (anchor,)
+            return
 
         for anchor in data.contract:
             indices = [

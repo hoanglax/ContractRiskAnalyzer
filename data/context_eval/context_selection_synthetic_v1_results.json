@@ -1,0 +1,139 @@
+{
+  "dataset": "context_selection_synthetic_v1.json",
+  "synthetic": true,
+  "k": 3,
+  "case_count": 5,
+  "recall_case_count": 3,
+  "macro_recall_at_k": 0.5,
+  "macro_context_coverage": 0.7333333333333333,
+  "omitted_reference_count": 2,
+  "budget_compliant_cases": 5,
+  "cases": [
+    {
+      "id": "distant",
+      "status": "ready",
+      "expected_status": "ready",
+      "selected_clause_ids": [
+        "clause-0-52",
+        "clause-73-89",
+        "clause-53-72"
+      ],
+      "selected_reference_ids": [
+        "clause-73-89"
+      ],
+      "recall_at_k": 1.0,
+      "context_coverage": 1.0,
+      "omitted_references": [],
+      "invalid_references": [],
+      "used_bytes": 119,
+      "budget_bytes": 1000,
+      "budget_compliant": true
+    },
+    {
+      "id": "competing",
+      "status": "ready",
+      "expected_status": "ready",
+      "selected_clause_ids": [
+        "clause-0-58",
+        "clause-79-113"
+      ],
+      "selected_reference_ids": [
+        "clause-79-113"
+      ],
+      "recall_at_k": 0.5,
+      "context_coverage": 0.6666666666666666,
+      "omitted_references": [
+        {
+          "reason": "over_budget",
+          "clause_id": "clause-114-141",
+          "source_clause_id": "clause-0-58",
+          "matching_text": "Xem Ph\u1ee5 l\u1ee5c 1",
+          "source_start": 17,
+          "source_end": 30,
+          "role": "reference"
+        }
+      ],
+      "invalid_references": [],
+      "used_bytes": 115,
+      "budget_bytes": 115,
+      "budget_compliant": true
+    },
+    {
+      "id": "ambiguous-and-missing",
+      "status": "ready",
+      "expected_status": "ready",
+      "selected_clause_ids": [
+        "clause-0-44",
+        "clause-45-60"
+      ],
+      "selected_reference_ids": [],
+      "recall_at_k": null,
+      "context_coverage": 1.0,
+      "omitted_references": [],
+      "invalid_references": [
+        {
+          "reason": "ambiguous_target",
+          "clause_id": null,
+          "source_clause_id": "clause-0-44",
+          "matching_text": "Theo \u0110i\u1ec1u 5",
+          "source_start": 18,
+          "source_end": 29,
+          "role": null
+        },
+        {
+          "reason": "missing_target",
+          "clause_id": null,
+          "source_clause_id": "clause-0-44",
+          "matching_text": "Theo \u0110i\u1ec1u 12",
+          "source_start": 31,
+          "source_end": 43,
+          "role": null
+        }
+      ],
+      "used_bytes": 79,
+      "budget_bytes": 1000,
+      "budget_compliant": true
+    },
+    {
+      "id": "no-explicit-reference",
+      "status": "ready",
+      "expected_status": "ready",
+      "selected_clause_ids": [
+        "clause-0-16",
+        "clause-17-34"
+      ],
+      "selected_reference_ids": [],
+      "recall_at_k": null,
+      "context_coverage": 1.0,
+      "omitted_references": [],
+      "invalid_references": [],
+      "used_bytes": 46,
+      "budget_bytes": 1000,
+      "budget_compliant": true
+    },
+    {
+      "id": "mandatory-overflow",
+      "status": "mandatory_over_budget",
+      "expected_status": "mandatory_over_budget",
+      "selected_clause_ids": [],
+      "selected_reference_ids": [],
+      "recall_at_k": 0.0,
+      "context_coverage": 0.0,
+      "omitted_references": [
+        {
+          "reason": "blocked_by_mandatory_budget",
+          "clause_id": "clause-30-46",
+          "source_clause_id": "clause-0-29",
+          "matching_text": "Theo \u0110i\u1ec1u 5",
+          "source_start": 17,
+          "source_end": 28,
+          "role": "reference"
+        }
+      ],
+      "invalid_references": [],
+      "used_bytes": 0,
+      "budget_bytes": 1,
+      "budget_compliant": true
+    }
+  ]
+}

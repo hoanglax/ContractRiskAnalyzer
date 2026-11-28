@@ -78,6 +78,12 @@ def _primary_evidence(index, scope, text, primary_clause_ids, findings, invalid)
     for finding in findings:
         start, end = finding.char_start, finding.char_end
         if (
+            finding.kind == "missing" and start is None and end is None
+            and finding.quote is None and finding.clause is None and not finding.elided
+        ):
+            invalid.append(SelectionDiagnostic("missing_primary_evidence"))
+            continue
+        if (
             finding.kind != "present" or type(start) is not int or type(end) is not int
             or not 0 <= start < end <= len(text) or not finding.quote
             or locate(text, finding.quote) != (start, end, finding.elided)

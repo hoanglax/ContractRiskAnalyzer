@@ -385,6 +385,28 @@ def test_short_term_fallback_matches_existing_packet(short_term_case, approved, 
     assert "sensitive contents" not in str(trace)
 
 
+def test_short_term_missing_finding_has_no_primary_evidence(case, monkeypatch):
+    doc, _, bases, tax, calls = case
+    doc = replace(doc, structure=Structure(clauses=[Clause("1", "", 0, len(doc.text))]))
+    findings, rejected = ground([Finding("missing", "Synthetic missing term.", CODE)],
+                                doc, from_taxonomy(tax))
+    assert not rejected
+    monkeypatch.setenv(packet_context.FLAG, "1")
+    baseline = ex.explain(doc, findings, bases, tax=tax, context_run_id="runtime")
+    monkeypatch.setenv(packet_context.SHORT_TERM_FLAG, "1")
+
+    traces = []
+    result = ex.explain(doc, findings, bases, tax=tax, context_run_id="runtime", context_traces=traces)
+
+    trace, = traces
+    assert trace["selection_status"] == trace["fallback_reason"] == "invalid_primary"
+    assert [entry["reason"] for entry in trace["selection_diagnostics"]] == ["missing_primary_evidence"]
+    assert trace["selected"] == []
+    assert trace["mode"] == "legacy" and not trace["packet_sent"]
+    assert calls[0] == calls[1]
+    assert result["items"][0].explanation == baseline["items"][0].explanation
+
+
 def test_short_term_full_message_budget(short_term_case, monkeypatch):
     make, calls, _ = short_term_case
     _, _, first = make()

@@ -28,6 +28,7 @@ AutoTokenizer.from_pretrained(m); AutoModel.from_pretrained(m)"
 COPY data/legal_corpus /app/data/legal_corpus
 COPY data/legal_vectors /app/data/legal_vectors
 COPY data/taxonomy /app/data/taxonomy
+COPY data/heuristics /app/data/heuristics
 COPY backend/application application
 
 # Legal KB (SQLite) -> committed vectors into embedded Qdrant. A few seconds: nothing is embedded here. Fails if the

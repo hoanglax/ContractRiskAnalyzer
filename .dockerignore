@@ -6,4 +6,5 @@
 !data/legal_corpus/*.txt
 !data/legal_vectors
 !data/taxonomy
+!data/heuristics
 **/__pycache__
